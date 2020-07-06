@@ -1,0 +1,3 @@
+
+class InvalidPositionException(Exception):
+    pass
