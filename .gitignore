@@ -1,3 +1,4 @@
 /pyenv-3.8.2-pyfpdf/
 .DS_Store
 .idea/
+*.pdf

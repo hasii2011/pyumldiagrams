@@ -28,11 +28,10 @@
             "propagate": "False"
         },
         "pdfdiagrams": {
-            "level":     "WARNING",
+            "level":     "INFO",
             "handlers":  ["consoleHandler"],
             "propagate": "False"
         },
-
         "tests": {
             "level": "INFO",
             "handlers": ["consoleHandler"],

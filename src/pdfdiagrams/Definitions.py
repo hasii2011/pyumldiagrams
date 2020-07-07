@@ -15,10 +15,14 @@ class Position:
     y: int = 0
 
 
+class SeparatorPosition(Position):
+    pass
+
+
 class DefinitionType(Enum):
-    Public    = 'public'
-    Private   = 'private'
-    Protected = 'protected'
+    Public    = '+'
+    Private   = '-'
+    Protected = '#'
 
 
 @dataclass
@@ -48,5 +52,6 @@ class MethodDefinition(BaseDefinition):
 Methods = List[MethodDefinition]
 
 
+@dataclass
 class ClassDefinition(BaseDefinition):
-    methods: Methods
+    methods: Methods = field(default_factory=list)

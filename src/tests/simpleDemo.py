@@ -22,7 +22,7 @@ def drawLines():
 
 
 def drawShapes():
-    pdf = FPDF(orientation='L', unit='pt', format='legal')
+    pdf = FPDF(orientation='L', unit='pt', format=(1000, 2000))
 
     pdf.set_left_margin(10.0)
 
@@ -42,15 +42,15 @@ def drawShapes():
 
     pdf.set_font("Mono", size=10)
     pdf.rect(40, 40, 100, 50)
-    pdf.text(x=40, y=40, txt='A Rectangle1')
+    pdf.text(x=45, y=50, txt='Mono Text')
 
     pdf.set_font("FuturistFixed", size=10)
     pdf.rect(x=220, y=40, w=100, h=50, style='D')
-    pdf.text(x=220, y=40, txt='Rectangle2')
+    pdf.text(x=225, y=50, txt='FFixed')
 
     pdf.set_font("Vera", size=10)
     pdf.rect(40, 140, 100, 50, 'D')
-    pdf.text(x=40, y=140, txt='Rectangle3')
+    pdf.text(x=45, y=150, txt='Vera Text')
 
     pdf.set_font("Vera", size=8)
 
