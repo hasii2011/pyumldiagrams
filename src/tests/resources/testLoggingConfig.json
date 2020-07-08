@@ -32,7 +32,7 @@
             "handlers":  ["consoleHandler"],
             "propagate": "False"
         },
-        "tests": {
+        "TestDiagram": {
             "level": "INFO",
             "handlers": ["consoleHandler"],
             "propagate": "False"

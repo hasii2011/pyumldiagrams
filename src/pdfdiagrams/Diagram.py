@@ -43,17 +43,22 @@ class Diagram:
     DEFAULT_PAGE_WIDTH:  int = 3000     # points
     DEFAULT_PAGE_HEIGHT: int = 1500     # points
 
-    MAX_X_POSITION:         int = 14
-    MAX_Y_POSITION:         int = 9
     LEFT_MARGIN:            int = 8
     TOP_MARGIN:             int = 8
 
     X_NUDGE_FACTOR: int = 4
     Y_NUDGE_FACTOR: int = 4
 
-    def __init__(self, fileName: str):
+    def __init__(self, fileName: str, dpi: int):
+        """
 
-        self._fileName = fileName
+        Args:
+            fileName:   Fully qualified file name
+            dpi: dots per inch for the display we are mapping from
+        """
+
+        self._fileName: str = fileName
+        self._dpi:      int = dpi
         self.logger: Logger = getLogger(__name__)
 
         pdf = FPDF(orientation='L', unit='pt', format=(Diagram.DEFAULT_PAGE_HEIGHT, Diagram.DEFAULT_PAGE_WIDTH))
@@ -135,15 +140,8 @@ class Diagram:
 
     def drawClass(self, classDefinition: ClassDefinition, position: Position):
 
-        if position.x > Diagram.MAX_X_POSITION or position.y > Diagram.MAX_Y_POSITION:
-            raise InvalidPositionException(f'Either x or y position is greater than max x: {Diagram.MAX_X_POSITION} y: {Diagram.MAX_Y_POSITION}')
-
-        x: int = (self._cellWidth  * position.x) + Diagram.LEFT_MARGIN + (self._verticalGap * position.x)
-
-        self.logger.debug(f'{self._cellHeight} * {position.y} = {self._cellHeight  * position.y}')
-        self.logger.debug(f'Diagram.TOP_MARGIN: {Diagram.TOP_MARGIN} - self._horizontalGap: {self._horizontalGap}')
-
-        y: int = (self._cellHeight * position.y) + Diagram.TOP_MARGIN  + (self._horizontalGap * position.y)
+        x: int = self._toPdfPoints(position.x) + Diagram.LEFT_MARGIN + self._verticalGap
+        y: int = self._toPdfPoints(position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
         self.logger.info(f'x,y: ({x},{y})')
 
         self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
@@ -228,3 +226,18 @@ class Diagram:
             pdf.text(x=movingX, y=y, txt=')')
 
             y = y + self._fontSize + 2
+
+    def _toPdfPoints(self, pixelNumber: int) -> int:
+        """
+
+        points = pixels * 72 / DPI
+
+        Args:
+            pixelNumber:  From the display
+
+        Returns:  A pdf point value to use to position on generated document
+
+        """
+        points: int = (pixelNumber * 72) // self._dpi
+
+        return points

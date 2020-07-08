@@ -11,6 +11,10 @@ ClassName = str
 
 @dataclass
 class Position:
+    """
+    The x and y coordinates are in screen/display resolution.  This module converts
+    to points for use in this system
+    """
     x: int = 0
     y: int = 0
 

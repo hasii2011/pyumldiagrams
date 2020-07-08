@@ -12,7 +12,6 @@ from pdfdiagrams.Definitions import ParameterDefinition
 
 from pdfdiagrams.Diagram import Diagram
 from pdfdiagrams.Diagram import Position
-from pdfdiagrams.InvalidPositionException import InvalidPositionException
 
 from tests.TestBase import TestBase
 
@@ -31,8 +30,10 @@ class TestDiagram(TestBase):
     TEST_FILE_NAME:       str = 'TestFileName'
     BASE_TEST_CLASS_NAME: str = 'TestClassName'
 
-    TEST_LAST_X_POSITION: int = Diagram.MAX_X_POSITION
-    TEST_LAST_Y_POSITION: int = Diagram.MAX_Y_POSITION
+    TEST_LAST_X_POSITION: int = 9
+    TEST_LAST_Y_POSITION: int = 6
+
+    TEST_DPI: int = 72
 
     clsLogger: Logger = None
 
@@ -49,69 +50,40 @@ class TestDiagram(TestBase):
 
     def testConstruction(self):
 
-        diagram: Diagram = Diagram(fileName=TestDiagram.TEST_FILE_NAME)
+        diagram: Diagram = Diagram(fileName=TestDiagram.TEST_FILE_NAME, dpi=TestDiagram.TEST_DPI)
         self.assertIsNotNone(diagram, 'Construction failed')
 
         self.assertEqual(Diagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
 
-    def testNameBadXPosition(self):
-
-        diagram: Diagram = Diagram(fileName=TestDiagram.TEST_FILE_NAME)
-
-        self.assertRaises(InvalidPositionException, lambda: self._failOnBadX(diagram))
-
-    def testNameBadYPosition(self):
-
-        diagram: Diagram = Diagram(fileName=TestDiagram.TEST_FILE_NAME)
-
-        self.assertRaises(InvalidPositionException, lambda: self._failOnBadY(diagram))
-
     def testBasicDiagramDraw(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Basic{TestDiagram.TEST_SUFFIX}')
+        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Basic{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
         classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
 
-        diagram.drawClass(classDef, Position(x=1, y=0))
-        diagram.write()
-
-    def testLastXPosition(self):
-
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-lastX{TestDiagram.TEST_SUFFIX}')
-        classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
-
-        diagram.drawClass(classDef, Position(x=TestDiagram.TEST_LAST_X_POSITION, y=0))
-        diagram.write()
-
-    def testLastYPosition(self):
-
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-lastY{TestDiagram.TEST_SUFFIX}')
-        classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
-
-        diagram.drawClass(classDef, Position(x=0, y=TestDiagram.TEST_LAST_Y_POSITION))
-        diagram.write()
-
-    def testLastXYPosition(self):
-
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-lastXY{TestDiagram.TEST_SUFFIX}')
-        classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
-
-        diagram.drawClass(classDef, Position(x=TestDiagram.TEST_LAST_X_POSITION, y=TestDiagram.TEST_LAST_Y_POSITION))
+        diagram.drawClass(classDef, Position(x=108, y=30))
         diagram.write()
 
     def testFillPage(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Full{TestDiagram.TEST_SUFFIX}')
+        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Full{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+
+        widthInterval:  int = Diagram.DEFAULT_CELL_WIDTH // 10
+        heightInterval: int = Diagram.DEFAULT_CELL_HEIGHT // 10
 
         for x in range(0, TestDiagram.TEST_LAST_X_POSITION):
+            scrX: int = (x * Diagram.DEFAULT_CELL_WIDTH) + (widthInterval * x)
+
             for y in range(0, TestDiagram.TEST_LAST_Y_POSITION):
+
+                scrY: int = (y * Diagram.DEFAULT_CELL_HEIGHT) + (y * heightInterval)
                 classDef: ClassDefinition = ClassDefinition(f'{TestDiagram.BASE_TEST_CLASS_NAME}{x}{y}')
-                diagram.drawClass(classDef, Position(x=x, y=y))
+                diagram.drawClass(classDef, Position(x=scrX, y=scrY))
 
         diagram.write()
 
     def testBasicMethods(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-BasicMethods{TestDiagram.TEST_SUFFIX}')
+        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-BasicMethods{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
 
         classDef: ClassDefinition = ClassDefinition(f'Car')
 
@@ -134,19 +106,9 @@ class TestDiagram(TestBase):
 
         classDef.methods = [initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef]
 
-        diagram.drawClass(classDef, Position(x=6, y=4))
+        diagram.drawClass(classDef, Position(x=108, y=30))
 
         diagram.write()
-
-    def _failOnBadX(self, diagram: Diagram):
-
-        classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
-        diagram.drawClass(classDef, Position(x=Diagram.MAX_X_POSITION + 1, y=0))
-
-    def _failOnBadY(self, diagram: Diagram):
-
-        classDef: ClassDefinition = ClassDefinition('TestClassName')
-        diagram.drawClass(classDef, Position(x=0, y=Diagram.MAX_Y_POSITION + 1))
 
 
 def suite() -> TestSuite:
