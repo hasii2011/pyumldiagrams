@@ -19,7 +19,15 @@ status=$?
 
 cd -  > /dev/null 2>&1
 
-./scripts/cleanup.sh
+
+while getopts c option
+    do
+        case "${option}"
+        in
+        c) ./scripts/cleanup.sh;;
+    esac
+done
+
 
 echo "Exit with status: ${status}"
 exit ${status}

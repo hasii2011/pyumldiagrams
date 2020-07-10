@@ -142,7 +142,7 @@ class Diagram:
 
         x: int = self._toPdfPoints(position.x) + Diagram.LEFT_MARGIN + self._verticalGap
         y: int = self._toPdfPoints(position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
-        self.logger.info(f'x,y: ({x},{y})')
+        self.logger.debug(f'x,y: ({x},{y})')
 
         self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
