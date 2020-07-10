@@ -5,7 +5,6 @@ from logging import Logger
 from logging import getLogger
 
 from sys import path as sysPath
-from sys import argv as sysArgv
 
 from importlib import import_module
 
@@ -17,12 +16,16 @@ from unittest.suite import TestSuite
 
 from HtmlTestRunner import HTMLTestRunner
 
+from argparse import ArgumentParser
+from argparse import Namespace
+
 
 class TestAll:
     """
     The class that can run our unit tests in various formats
     """
-    NOT_TESTS: List[str] = ['TestAll', 'TestTemplate', 'TestBase']
+    REPORT_NAME: str = 'PDFDiagramming'
+    NOT_TESTS:   List[str] = ['TestAll', 'TestTemplate', 'TestBase']
 
     VERBOSITY_QUIET:   int = 0  # Print the total numbers of tests executed and the global result
     VERBOSITY_DEFAULT: int = 1  # VERBOSITY_QUIET plus a dot for every successful test or a F for every failure
@@ -48,7 +51,7 @@ class TestAll:
 
     def runHtmlTestRunner(self) -> int:
 
-        runner = HTMLTestRunner(report_name='PyutTestResults', combine_reports=True, add_timestamp=True)
+        runner = HTMLTestRunner(report_name=f'{TestAll.REPORT_NAME}', combine_reports=True, add_timestamp=True)
         status = runner.run(self._testSuite)
         if len(status.failures) != 0:
             return 1
@@ -102,15 +105,26 @@ def main():
     if ".." not in sysPath:
         sysPath.append("..")  # access to the classes to test
 
+    cliParser: ArgumentParser = ArgumentParser(description='Run all unit tests')
+
+    # Add the arguments
+    cliParser.add_argument('-p',
+                           '--produce-html-results',
+                           action='store_true',
+                           help='Produce HTML Test')
+    cliParser.add_argument('-c',
+                           '--cleanup',
+                           action='store_true',
+                           help='Clean up generated tests')
+
     testAll: TestAll = TestAll()
-    status: int = 0
-    if len(sysArgv) < 2:
-        status: int = testAll.runTextTestRunner()
+
+    args: Namespace = cliParser.parse_args()
+
+    if args.produce_html_results:
+        status: int = testAll.runHtmlTestRunner()
     else:
-        for param in sysArgv[1:]:
-            if param[:22] == "--produce-html-results":
-                print(f'Running HTML Tests')
-                status: int = testAll.runHtmlTestRunner()
+        status: int = testAll.runTextTestRunner()
 
     return status
 
