@@ -58,4 +58,8 @@ Methods = List[MethodDefinition]
 
 @dataclass
 class ClassDefinition(BaseDefinition):
-    methods: Methods = field(default_factory=list)
+    position: Position = Position(0, 0)
+    methods: Methods   = field(default_factory=list)
+
+
+ClassDefinitions = List[ClassDefinition]

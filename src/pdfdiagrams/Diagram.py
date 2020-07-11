@@ -3,6 +3,7 @@ from logging import Logger
 from logging import getLogger
 
 from os import sep as osSep
+from typing import List
 from typing import cast
 
 from pkg_resources import resource_filename
@@ -16,13 +17,13 @@ from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import SeparatorPosition
 
-from pdfdiagrams.InvalidPositionException import InvalidPositionException
-
 
 class Diagram:
     """
-    Always lays out in portrait mode with 9 x positions and 6 y positions
+    Always lays out in portrait mode
     """
+    MethodsRepr = List[str]
+
     FPDF_DRAW: str = 'D'
 
     RESOURCES_PACKAGE_NAME: str = 'pdfdiagrams.resources'
@@ -138,23 +139,47 @@ class Diagram:
 
         return fqFileName
 
-    def drawClass(self, classDefinition: ClassDefinition, position: Position):
+    def drawClass(self, classDefinition: ClassDefinition):
+        """
+        Draw the class system
+        Args:
+            classDefinition:    The class definition
 
-        x: int = self._toPdfPoints(position.x) + Diagram.LEFT_MARGIN + self._verticalGap
-        y: int = self._toPdfPoints(position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
+        """
+
+        x: int = self._toPdfPoints(classDefinition.position.x) + Diagram.LEFT_MARGIN + self._verticalGap
+        y: int = self._toPdfPoints(classDefinition.position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
         self.logger.debug(f'x,y: ({x},{y})')
 
-        self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=self._cellWidth)
-        self._drawMethods(methods=classDefinition.methods, separatorPosition=separatorPosition)
+        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y, methodReprs=methodReprs)
+
+        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
 
     def write(self):
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int):
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int, methodReprs: MethodsRepr) -> int:
+        """
+        Draws the UML Class symbol.
 
-        self._pdf.rect(x=rectX, y=rectY, w=self._cellWidth, h=self._cellHeight, style=Diagram.FPDF_DRAW)
+        Args:
+            classDefinition:    The class definition
+            rectX:      x position
+            rectY:      y position
+            methodReprs:    The methods string representation;  Used to compute the optimal symbol width.
+
+        Returns:  The computed UML symbol width
+
+        """
+
+        symbolWidth: int = self._computeSymbolWidth(methodReprs)
+        if symbolWidth < Diagram.DEFAULT_CELL_WIDTH:
+            symbolWidth = Diagram.DEFAULT_CELL_WIDTH
+
+        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=self._cellHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: int = rectX + ((self._cellWidth // 2) - (nameWidth // 2))
@@ -162,7 +187,21 @@ class Diagram:
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
+        return symbolWidth
+
     def _drawNameSeparator(self, rectX: int, rectY: int, shapeWidth: int) -> SeparatorPosition:
+        """
+        Draws the UML separator between the class name and the start of the class definition
+        Does the computation to determine where it drew the separator
+
+        Args:
+            rectX: x position of symbol
+            rectY: y position of symbol (
+            shapeWidth: The width of the symbol
+
+        Returns:  Where it drew the separator
+
+        """
 
         separatorX: int = rectX
         separatorY: int = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
@@ -173,59 +212,58 @@ class Diagram:
 
         return SeparatorPosition(separatorX, separatorY)
 
-    def _drawMethods(self, methods: Methods, separatorPosition: SeparatorPosition):
+    def _drawMethods(self, methodReprs: MethodsRepr, separatorPosition: SeparatorPosition):
 
         x: int = separatorPosition.x + Diagram.X_NUDGE_FACTOR
         y: int = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
 
-        pdf: FPDF = self._pdf
+        for methodRepr in methodReprs:
 
-        parenLen: int = pdf.get_string_width('(')
+            self._pdf.text(x=x, y=y, txt=methodRepr)
+            y = y + self._fontSize + 2
+
+    def _buildMethods(self, methods: Methods) -> MethodsRepr:
+
+        methodReprs: Diagram.MethodsRepr = []
+
         for methodDef in methods:
 
-            methodDef = cast(MethodDefinition, methodDef)
+            methodRepr: str = self._buildMethod(methodDef)
+            methodReprs.append(methodRepr)
 
-            movingX: int = x
+        return methodReprs
 
-            methodName: str = f'{methodDef.visibility.value} {methodDef.name}'
-            pdf.text(x=movingX, y=y, txt=methodName)
-            self.logger.info(f'methodName: {methodName}')
+    def _buildMethod(self, methodDef: MethodDefinition) -> str:
 
-            methodNameLen: int = pdf.get_string_width(methodName)
-            movingX += methodNameLen
+        methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
 
-            pdf.text(x=movingX, y=y, txt='(')
-            movingX += parenLen
+        nParams:   int = len(methodDef.parameters)
+        paramNum:  int = 0
+        paramRepr: str = ''
+        for parameterDef in methodDef.parameters:
+            parameterDef = cast(ParameterDefinition, parameterDef)
+            paramNum += 1
 
-            nParams:  int = len(methodDef.parameters)
-            paramNum: int = 0
-            for parameterDef in methodDef.parameters:
+            paramRepr = f'{paramRepr}{parameterDef.name}'
 
-                parameterDef = cast(ParameterDefinition, parameterDef)
-                paramNum += 1
+            if len(parameterDef.parameterType) == 0:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
 
-                paramStr: str = f'{parameterDef.name}'
-                if len(parameterDef.parameterType) == 0:
-                    paramStr = f'{paramStr}'
-                else:
-                    paramStr = f'{paramStr}: {parameterDef.parameterType}'
+            if len(parameterDef.defaultValue) == 0:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
 
-                if len(parameterDef.defaultValue) == 0:
-                    paramStr = f'{paramStr}'
-                else:
-                    paramStr = f'{paramStr}={parameterDef.defaultValue}'
+            if paramNum == nParams:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}, '
 
-                if paramNum == nParams:
-                    paramStr = f'{paramStr}'
-                else:
-                    paramStr = f'{paramStr}, '
+        methodRepr = f'{methodRepr}({paramRepr})'
 
-                pdf.text(x=movingX, y=y, txt=paramStr)
-                movingX = movingX + pdf.get_string_width(paramStr)
-
-            pdf.text(x=movingX, y=y, txt=')')
-
-            y = y + self._fontSize + 2
+        return methodRepr
 
     def _toPdfPoints(self, pixelNumber: int) -> int:
         """
@@ -241,3 +279,14 @@ class Diagram:
         points: int = (pixelNumber * 72) // self._dpi
 
         return points
+
+    def _computeSymbolWidth(self, methodReprs: MethodsRepr) -> int:
+
+        widest: int = 0
+        for methodRepr in methodReprs:
+            currentWidth: int = self._pdf.get_string_width(methodRepr)
+            if currentWidth > widest:
+                widest = currentWidth
+
+        widest += (Diagram.X_NUDGE_FACTOR * 2)
+        return widest
