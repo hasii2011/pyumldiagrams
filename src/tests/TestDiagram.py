@@ -234,7 +234,7 @@ class TestDiagram(TestBase):
         return lineDefinitions
 
     def __buildCatInheritanceDefinition(self) -> LineDefinition:
-        return LineDefinition(lineType=LineType.Inheritance, source=Position(600, 203), destination=Position(600, 94))
+        return LineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 94))
 
 
 def suite() -> TestSuite:
