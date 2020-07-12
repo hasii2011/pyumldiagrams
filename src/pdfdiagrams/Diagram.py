@@ -158,7 +158,7 @@ class Diagram:
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y, methodReprs=methodReprs)
+        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
@@ -189,7 +189,7 @@ class Diagram:
     def write(self):
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int, methodReprs: MethodsRepr) -> int:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int) -> int:
         """
         Draws the UML Class symbol.
 
@@ -197,16 +197,13 @@ class Diagram:
             classDefinition:    The class definition
             rectX:      x position
             rectY:      y position
-            methodReprs:    The methods string representation;  Used to compute the optimal symbol width.
 
         Returns:  The computed UML symbol width
         """
 
-        symbolWidth: int = self._computeSymbolWidth(methodReprs)
-        if symbolWidth < Diagram.DEFAULT_CELL_WIDTH:
-            symbolWidth = Diagram.DEFAULT_CELL_WIDTH
-
-        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=self._cellHeight, style=Diagram.FPDF_DRAW)
+        symbolWidth:  int = classDefinition.size.width
+        symbolHeight: int = classDefinition.size.height
+        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: int = rectX + ((self._cellWidth // 2) - (nameWidth // 2))
@@ -306,17 +303,6 @@ class Diagram:
         points: int = (pixelNumber * 72) // self._dpi
 
         return points
-
-    def _computeSymbolWidth(self, methodReprs: MethodsRepr) -> int:
-
-        widest: int = 0
-        for methodRepr in methodReprs:
-            currentWidth: int = self._pdf.get_string_width(methodRepr)
-            if currentWidth > widest:
-                widest = currentWidth
-
-        widest += (Diagram.X_NUDGE_FACTOR * 2)
-        return widest
 
     def _drawLines(self, lineDefinitions: LineDefinitions):
 

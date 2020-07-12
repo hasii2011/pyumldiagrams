@@ -15,6 +15,7 @@ from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
+from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.Diagram import Diagram
 
@@ -59,7 +60,8 @@ class TestDiagram(TestBase):
     def testBasicDiagramDraw(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Basic{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
-        classDef: ClassDefinition = ClassDefinition(TestDiagram.BASE_TEST_CLASS_NAME)
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagram.BASE_TEST_CLASS_NAME,
+                                                    size=Size(width=Diagram.DEFAULT_CELL_WIDTH, height=Diagram.DEFAULT_CELL_HEIGHT))
 
         diagram.drawClass(classDef)
         diagram.write()
@@ -77,7 +79,9 @@ class TestDiagram(TestBase):
             for y in range(0, TestDiagram.TEST_LAST_Y_POSITION):
 
                 scrY: int = (y * Diagram.DEFAULT_CELL_HEIGHT) + (y * heightInterval)
-                classDef: ClassDefinition = ClassDefinition(f'{TestDiagram.BASE_TEST_CLASS_NAME}{x}{y}', Position(scrX, scrY))
+                classDef: ClassDefinition = ClassDefinition(name=f'{TestDiagram.BASE_TEST_CLASS_NAME}{x}{y}',
+                                                            position=Position(scrX, scrY),
+                                                            size=Size(width=Diagram.DEFAULT_CELL_WIDTH, height=Diagram.DEFAULT_CELL_HEIGHT))
                 diagram.drawClass(classDef)
 
         diagram.write()
@@ -136,7 +140,7 @@ class TestDiagram(TestBase):
 
     def __buildCar(self) -> ClassDefinition:
 
-        car: ClassDefinition = ClassDefinition(name='car', position=Position(110, 30))
+        car: ClassDefinition = ClassDefinition(name='car', position=Position(107, 30), size=Size(width=266, height=100))
 
         initMethodDef:      MethodDefinition = self.__buildInitMethod()
         descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
@@ -156,7 +160,7 @@ class TestDiagram(TestBase):
 
     def __buildCat(self) -> ClassDefinition:
 
-        cat: ClassDefinition = ClassDefinition(name='gato', position=Position(538, 20))
+        cat: ClassDefinition = ClassDefinition(name='gato', position=Position(536, 19), size=Size(height=74, width=113))
 
         initMethod:     MethodDefinition = MethodDefinition('__init')
         sitMethod:      MethodDefinition = MethodDefinition('sit')
@@ -168,7 +172,7 @@ class TestDiagram(TestBase):
 
     def __buildOpie(self) -> ClassDefinition:
 
-        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(460, 209))
+        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
 
         publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=DefinitionType.Public, returnType='bool')
         paramDef: ParameterDefinition  = ParameterDefinition(name='param', parameterType='float', defaultValue='23.0')
@@ -181,7 +185,7 @@ class TestDiagram(TestBase):
 
     def __buildElectricCar(self) -> ClassDefinition:
 
-        electricCar: ClassDefinition = ClassDefinition(name='ElectricCar', position=Position(53, 224))
+        electricCar: ClassDefinition = ClassDefinition(name='ElectricCar', position=Position(52, 224), size=Size(width=173, height=64))
 
         initMethod: MethodDefinition = MethodDefinition(name='__init__')
         descMethod: MethodDefinition = MethodDefinition(name='describeBattery')
@@ -196,7 +200,7 @@ class TestDiagram(TestBase):
 
     def __buildNameTestCase(self) -> ClassDefinition:
 
-        namesTest: ClassDefinition = ClassDefinition(name='NamesTestCase', position=Position(410, 363))
+        namesTest: ClassDefinition = ClassDefinition(name='NamesTestCase', position=Position(409, 362), size=Size(height=65, width=184))
 
         testFirst:    MethodDefinition = MethodDefinition(name='testFirstLasName')
         formattedName: MethodDefinition = MethodDefinition(name='getFormattedName')

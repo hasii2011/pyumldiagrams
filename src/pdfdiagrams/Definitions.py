@@ -19,8 +19,16 @@ class Position:
     y: int = 0
 
 
+@dataclass
 class SeparatorPosition(Position):
     pass
+
+
+@dataclass
+class Size:
+
+    width:  int = 100
+    height: int = 100
 
 
 class DefinitionType(Enum):
@@ -58,6 +66,8 @@ Methods = List[MethodDefinition]
 
 @dataclass
 class ClassDefinition(BaseDefinition):
+
+    size:     Size     = Size()
     position: Position = Position(0, 0)
     methods: Methods   = field(default_factory=list)
 
