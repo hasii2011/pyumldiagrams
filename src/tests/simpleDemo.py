@@ -63,5 +63,31 @@ def drawShapes():
     pdf.output('drawShapes.pdf')
 
 
+def drawTriangle():
+    pdf = FPDF(orientation='L', unit='pt', format='A4')
+
+    pdf.set_left_margin(10.0)
+
+    pdf.add_page()
+
+    pdf.set_fill_color(255, 0, 0)
+    pdf.set_display_mode(zoom='fullwidth', layout='single')
+
+    pdf.set_line_width(0.5)
+    pdf.set_fill_color(0, 255, 0)
+
+    x:       int = 200
+    y:       int = 205
+    xLeft:   int = x - 5
+    xRight:  int = x + 5
+    yBottom: int = y + 6
+
+    pdf.line(x1=x, y1=y, x2=xLeft,  y2=yBottom)
+    pdf.line(x1=x, y1=y, x2=xRight, y2=yBottom)
+    pdf.line(x1=xLeft, y1=yBottom, x2=xRight, y2=yBottom)
+
+    pdf.output('drawTriangle.pdf')
+
+
 if __name__ == '__main__':
-    drawShapes()
+    drawTriangle()

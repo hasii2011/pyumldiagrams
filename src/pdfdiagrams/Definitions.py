@@ -63,3 +63,30 @@ class ClassDefinition(BaseDefinition):
 
 
 ClassDefinitions = List[ClassDefinition]
+
+
+class LineType(Enum):
+    Inheritance  = 0
+    Aggregation  = 1
+    Composition  = 3
+
+
+@dataclass
+class LineDefinition:
+    lineType:    LineType
+    source:      Position
+    destination: Position
+
+
+LineDefinitions = List[LineDefinition]
+
+
+class ArrowAttachmentSide(Enum):
+
+    NORTH = 'North'
+    EAST  = 'East'
+    SOUTH = 'South'
+    WEST  = 'West'
+
+
+

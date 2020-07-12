@@ -9,11 +9,14 @@ from unittest import main as unitTestMain
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import ClassDefinitions
 from pdfdiagrams.Definitions import DefinitionType
+from pdfdiagrams.Definitions import LineDefinition
+from pdfdiagrams.Definitions import LineDefinitions
+from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import ParameterDefinition
+from pdfdiagrams.Definitions import Position
 
 from pdfdiagrams.Diagram import Diagram
-from pdfdiagrams.Diagram import Position
 
 from tests.TestBase import TestBase
 
@@ -104,6 +107,10 @@ class TestDiagram(TestBase):
             classDefinition = cast(ClassDefinition, classDefinition)
             diagram.drawClass(classDefinition=classDefinition)
 
+        lineDefinitions: LineDefinitions = self.__buildSophisticatedLineDefinitions()
+        for lineDefinition in lineDefinitions:
+            diagram.drawLine(lineDefinition=lineDefinition)
+
         diagram.write()
 
     def testBuildMethod(self):
@@ -129,7 +136,7 @@ class TestDiagram(TestBase):
 
     def __buildCar(self) -> ClassDefinition:
 
-        car: ClassDefinition = ClassDefinition(name='car', position=Position(108, 30))
+        car: ClassDefinition = ClassDefinition(name='car', position=Position(110, 30))
 
         initMethodDef:      MethodDefinition = self.__buildInitMethod()
         descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
@@ -149,7 +156,7 @@ class TestDiagram(TestBase):
 
     def __buildCat(self) -> ClassDefinition:
 
-        cat: ClassDefinition = ClassDefinition(name='gato', position=Position(537, 20))
+        cat: ClassDefinition = ClassDefinition(name='gato', position=Position(538, 20))
 
         initMethod:     MethodDefinition = MethodDefinition('__init')
         sitMethod:      MethodDefinition = MethodDefinition('sit')
@@ -161,7 +168,7 @@ class TestDiagram(TestBase):
 
     def __buildOpie(self) -> ClassDefinition:
 
-        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(463, 158))
+        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(460, 209))
 
         publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=DefinitionType.Public, returnType='bool')
         paramDef: ParameterDefinition  = ParameterDefinition(name='param', parameterType='float', defaultValue='23.0')
@@ -189,7 +196,7 @@ class TestDiagram(TestBase):
 
     def __buildNameTestCase(self) -> ClassDefinition:
 
-        namesTest: ClassDefinition = ClassDefinition(name='NamesTestCase', position=Position(359, 335))
+        namesTest: ClassDefinition = ClassDefinition(name='NamesTestCase', position=Position(410, 363))
 
         testFirst:    MethodDefinition = MethodDefinition(name='testFirstLasName')
         formattedName: MethodDefinition = MethodDefinition(name='getFormattedName')
@@ -213,6 +220,17 @@ class TestDiagram(TestBase):
         initMethodDef.parameters = [initParam, modelParam, yearParam]
 
         return initMethodDef
+
+    def __buildSophisticatedLineDefinitions(self) -> LineDefinitions:
+
+        lineDefinitions: LineDefinitions = [
+            self.__buildCatInheritanceDefinition()
+        ]
+
+        return lineDefinitions
+
+    def __buildCatInheritanceDefinition(self) -> LineDefinition:
+        return LineDefinition(lineType=LineType.Inheritance, source=Position(600, 203), destination=Position(600, 94))
 
 
 def suite() -> TestSuite:

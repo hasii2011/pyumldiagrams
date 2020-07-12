@@ -11,11 +11,16 @@ from pkg_resources import resource_filename
 from fpdf import FPDF
 
 from pdfdiagrams.Definitions import ClassDefinition
+from pdfdiagrams.Definitions import LineDefinition
+from pdfdiagrams.Definitions import LineDefinitions
+from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import SeparatorPosition
+
+from pdfdiagrams.UnsupportedException import UnsupportedException
 
 
 class Diagram:
@@ -139,14 +144,14 @@ class Diagram:
 
         return fqFileName
 
-    def drawClass(self, classDefinition: ClassDefinition):
+    def drawClass(self, classDefinition: ClassDefinition, lineDefinitions: LineDefinitions = None):
         """
         Draw the class system
         Args:
             classDefinition:    The class definition
+            lineDefinitions:    The lines that connect the various UML symbols
 
         """
-
         x: int = self._toPdfPoints(classDefinition.position.x) + Diagram.LEFT_MARGIN + self._verticalGap
         y: int = self._toPdfPoints(classDefinition.position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
         self.logger.debug(f'x,y: ({x},{y})')
@@ -157,6 +162,29 @@ class Diagram:
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
+        self._drawLines(lineDefinitions)
+
+    def drawLine(self, lineDefinition: LineDefinition):
+
+        self._pdf.set_draw_color(255, 0, 0)
+
+        source:      Position = lineDefinition.source
+        destination: Position = lineDefinition.destination
+        lineType:    LineType = lineDefinition.lineType
+
+        x1: int = self._toPdfPoints(source.x) + Diagram.LEFT_MARGIN + self._verticalGap
+        y1: int = self._toPdfPoints(source.y) + Diagram.TOP_MARGIN  + self._horizontalGap
+        x2: int = self._toPdfPoints(destination.x) + Diagram.LEFT_MARGIN + self._verticalGap
+        y2: int = self._toPdfPoints(destination.y) + Diagram.TOP_MARGIN  + self._horizontalGap
+
+        if lineType == LineType.Inheritance:
+            self._pdf.line(x1=x1, y1=y1, x2=x2, y2=y2)
+        elif lineType == LineType.Aggregation:
+            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
+        elif lineType == LineType.Composition:
+            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
+        else:
+            raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
     def write(self):
         self._pdf.output(self._fileName)
@@ -172,7 +200,6 @@ class Diagram:
             methodReprs:    The methods string representation;  Used to compute the optimal symbol width.
 
         Returns:  The computed UML symbol width
-
         """
 
         symbolWidth: int = self._computeSymbolWidth(methodReprs)
@@ -290,3 +317,9 @@ class Diagram:
 
         widest += (Diagram.X_NUDGE_FACTOR * 2)
         return widest
+
+    def _drawLines(self, lineDefinitions: LineDefinitions):
+
+        if lineDefinitions is None:
+            return
+        pass
