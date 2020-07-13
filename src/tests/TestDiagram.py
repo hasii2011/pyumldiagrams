@@ -6,6 +6,7 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
+from pdfdiagrams.Definitions import ArrowAttachmentSide
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import ClassDefinitions
 from pdfdiagrams.Definitions import DefinitionType
@@ -18,6 +19,7 @@ from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.Diagram import Diagram
+from pdfdiagrams.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
 
@@ -115,6 +117,12 @@ class TestDiagram(TestBase):
         for lineDefinition in lineDefinitions:
             diagram.drawLine(lineDefinition=lineDefinition)
 
+        diagram.write()
+
+    def testLineDraws(self):
+        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-LineDraws{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+
+        lineDrawer: DiagramLine(pdf=diagram._pdf, )
         diagram.write()
 
     def testBuildMethod(self):
@@ -234,7 +242,8 @@ class TestDiagram(TestBase):
         return lineDefinitions
 
     def __buildCatInheritanceDefinition(self) -> LineDefinition:
-        return LineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 94))
+        return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.SOUTH,
+                              source=Position(600, 208), destination=Position(600, 94))
 
 
 def suite() -> TestSuite:

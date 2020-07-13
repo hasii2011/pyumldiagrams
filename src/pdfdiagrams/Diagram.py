@@ -11,14 +11,16 @@ from pkg_resources import resource_filename
 from fpdf import FPDF
 
 from pdfdiagrams.Definitions import ClassDefinition
+from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import LineDefinition
-from pdfdiagrams.Definitions import LineDefinitions
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import SeparatorPosition
+
+from pdfdiagrams.DiagramCommon import DiagramCommon
 
 from pdfdiagrams.UnsupportedException import UnsupportedException
 
@@ -43,14 +45,9 @@ class Diagram:
     DEFAULT_FONT_SIZE:      int = 10
     DEFAULT_CELL_WIDTH:     int = 150       # points
     DEFAULT_CELL_HEIGHT:    int = 100       # points
-    DEFAULT_HORIZONTAL_GAP: int = 60        # points
-    DEFAULT_VERTICAL_GAP:   int = 60        # points
 
     DEFAULT_PAGE_WIDTH:  int = 3000     # points
     DEFAULT_PAGE_HEIGHT: int = 1500     # points
-
-    LEFT_MARGIN:            int = 8
-    TOP_MARGIN:             int = 8
 
     X_NUDGE_FACTOR: int = 4
     Y_NUDGE_FACTOR: int = 4
@@ -86,8 +83,8 @@ class Diagram:
         self._fontSize:      int  = Diagram.DEFAULT_FONT_SIZE
         self._cellWidth:     int  = Diagram.DEFAULT_CELL_WIDTH
         self._cellHeight:    int  = Diagram.DEFAULT_CELL_HEIGHT
-        self._horizontalGap: int  = Diagram.DEFAULT_HORIZONTAL_GAP
-        self._verticalGap:   int  = Diagram.DEFAULT_VERTICAL_GAP
+
+        self._diagramPadding: DiagramPadding = DiagramPadding()
 
     @property
     def fontSize(self) -> int:
@@ -115,19 +112,19 @@ class Diagram:
 
     @property
     def horizontalGap(self) -> int:
-        return self._horizontalGap
+        return self._diagramPadding.horizontalGap
 
     @horizontalGap.setter
     def horizontalGap(self, newValue: int):
-        self._horizontalGap = newValue
+        self._diagramPadding.horizontalGap = newValue
 
     @property
     def verticalGap(self) -> int:
-        return self._verticalGap
+        return self._diagramPadding.verticalGap
 
     @verticalGap.setter
     def verticalGap(self, newValue):
-        self._verticalGap = newValue
+        self._diagramPadding.verticalGap = newValue
 
     @classmethod
     def retrieveResourcePath(cls, bareFileName: str) -> str:
@@ -144,16 +141,14 @@ class Diagram:
 
         return fqFileName
 
-    def drawClass(self, classDefinition: ClassDefinition, lineDefinitions: LineDefinitions = None):
+    def drawClass(self, classDefinition: ClassDefinition):
         """
         Draw the class system
         Args:
             classDefinition:    The class definition
-            lineDefinitions:    The lines that connect the various UML symbols
-
         """
-        x: int = self._toPdfPoints(classDefinition.position.x) + Diagram.LEFT_MARGIN + self._verticalGap
-        y: int = self._toPdfPoints(classDefinition.position.y) + Diagram.TOP_MARGIN  + self._horizontalGap
+        x: int = DiagramCommon.toPdfPoints(classDefinition.position.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
+        y: int = DiagramCommon.toPdfPoints(classDefinition.position.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
         self.logger.debug(f'x,y: ({x},{y})')
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
@@ -162,7 +157,6 @@ class Diagram:
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
-        self._drawLines(lineDefinitions)
 
     def drawLine(self, lineDefinition: LineDefinition):
 
@@ -172,10 +166,11 @@ class Diagram:
         destination: Position = lineDefinition.destination
         lineType:    LineType = lineDefinition.lineType
 
-        x1: int = self._toPdfPoints(source.x) + Diagram.LEFT_MARGIN + self._verticalGap
-        y1: int = self._toPdfPoints(source.y) + Diagram.TOP_MARGIN  + self._horizontalGap
-        x2: int = self._toPdfPoints(destination.x) + Diagram.LEFT_MARGIN + self._verticalGap
-        y2: int = self._toPdfPoints(destination.y) + Diagram.TOP_MARGIN  + self._horizontalGap
+        x1: int = DiagramCommon.toPdfPoints(source.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
+        y1: int = DiagramCommon.toPdfPoints(source.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
+
+        x2: int = DiagramCommon.toPdfPoints(destination.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
+        y2: int = DiagramCommon.toPdfPoints(destination.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
 
         if lineType == LineType.Inheritance:
             self._pdf.line(x1=x1, y1=y1, x2=x2, y2=y2)
@@ -288,24 +283,3 @@ class Diagram:
         methodRepr = f'{methodRepr}({paramRepr})'
 
         return methodRepr
-
-    def _toPdfPoints(self, pixelNumber: int) -> int:
-        """
-
-        points = pixels * 72 / DPI
-
-        Args:
-            pixelNumber:  From the display
-
-        Returns:  A pdf point value to use to position on generated document
-
-        """
-        points: int = (pixelNumber * 72) // self._dpi
-
-        return points
-
-    def _drawLines(self, lineDefinitions: LineDefinitions):
-
-        if lineDefinitions is None:
-            return
-        pass

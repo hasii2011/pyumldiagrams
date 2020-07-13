@@ -6,6 +6,8 @@ from enum import Enum
 from dataclasses import dataclass
 from dataclasses import field
 
+from pdfdiagrams.DiagramCommon import DiagramCommon
+
 ClassName = str
 
 
@@ -22,6 +24,16 @@ class Position:
 @dataclass
 class SeparatorPosition(Position):
     pass
+
+
+@dataclass
+class DiagramPadding:
+
+    topMargin:  int = DiagramCommon.TOP_MARGIN
+    leftMargin: int = DiagramCommon.LEFT_MARGIN
+
+    horizontalGap: int = DiagramCommon.DEFAULT_HORIZONTAL_GAP
+    verticalGap:   int = DiagramCommon.DEFAULT_VERTICAL_GAP
 
 
 @dataclass
@@ -81,22 +93,24 @@ class LineType(Enum):
     Composition  = 3
 
 
-@dataclass
-class LineDefinition:
-    lineType:    LineType
-    source:      Position
-    destination: Position
-
-
-LineDefinitions = List[LineDefinition]
-
-
 class ArrowAttachmentSide(Enum):
 
     NORTH = 'North'
     EAST  = 'East'
     SOUTH = 'South'
     WEST  = 'West'
+
+
+@dataclass
+class LineDefinition:
+    lineType:            LineType
+    arrowAttachmentSide: ArrowAttachmentSide
+    source:              Position
+    destination:         Position
+
+
+LineDefinitions = List[LineDefinition]
+
 
 
 
