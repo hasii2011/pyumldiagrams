@@ -120,35 +120,37 @@ class TestDiagram(TestBase):
 
         diagram.write()
 
-    LEFT_X:   int = 600
-    RIGHT_X:  int = 750
-    TOP_Y:    int = 94
-    BOTTOM_Y: int = 208
+    V_LEFT_X:   int = 1100
+    V_RIGHT_X:  int = 1250
+    V_TOP_Y:    int = 394
+    V_BOTTOM_Y: int = 508
 
     X_INC: int = 50
     X_DEC: int = 50
 
-    TOP_LINE_LEFT_X:  int = LEFT_X - X_DEC
-    TOP_LINE_RIGHT_X: int = RIGHT_X + X_INC
+    TOP_LINE_LEFT_X:  int = V_LEFT_X  - X_DEC
+    TOP_LINE_RIGHT_X: int = V_RIGHT_X + X_INC
+
+    H_LEFT_X:        int = V_RIGHT_X + 300
+    H_RIGHT_X:       int = H_LEFT_X  + 200
+    H_LEFT_TOP_Y:    int = V_TOP_Y
+    H_LEFT_BOTTOM_Y: int = V_BOTTOM_Y
+
+    Y_INC: int = 50
+    DASH_LINE_SPACE_LENGTH: int = 4
 
     def testLineDraws(self):
         diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-LineDraws{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
 
-        x1: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_LEFT_X, diagram._dpi)  + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        x2: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_RIGHT_X, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        y2: int = DiagramCommon.toPdfPoints(TestDiagram.BOTTOM_Y, diagram._dpi)         + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
-
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=4)
-
-        y2 = DiagramCommon.toPdfPoints(TestDiagram.TOP_Y, diagram._dpi) + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
-
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=4)
+        self.__drawHorizontalBoundaries(diagram)
+        self.__drawVerticalBoundaries(diagram)
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         lineDefinitions: LineDefinitions = [
             self.__buildSouthAttachedInheritanceDefinition(),
-            self.__buildNorthAttachedInheritanceDefinition()
+            self.__buildNorthAttachedInheritanceDefinition(),
+            self.__buildEastAttachedInheritanceDefinition()
         ]
         for lineDefinition in lineDefinitions:
 
@@ -274,11 +276,46 @@ class TestDiagram(TestBase):
 
     def __buildSouthAttachedInheritanceDefinition(self) -> LineDefinition:
         return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.SOUTH,
-                              source=Position(TestDiagram.LEFT_X, TestDiagram.BOTTOM_Y), destination=Position(TestDiagram.LEFT_X, TestDiagram.TOP_Y))
+                              source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y), destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
 
     def __buildNorthAttachedInheritanceDefinition(self) -> LineDefinition:
         return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.NORTH,
-                              destination=Position(TestDiagram.RIGHT_X, TestDiagram.BOTTOM_Y), source=Position(TestDiagram.RIGHT_X, TestDiagram.TOP_Y))
+                              destination=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_BOTTOM_Y), source=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_TOP_Y))
+
+    def __buildEastAttachedInheritanceDefinition(self) -> LineDefinition:
+
+        yTop: int = TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC
+        return LineDefinition(lineType=LineType.Inheritance,
+                              arrowAttachmentSide=ArrowAttachmentSide.EAST,
+                              source=Position(TestDiagram.H_LEFT_X, yTop),
+                              destination=Position(TestDiagram.H_RIGHT_X, yTop)
+                              )
+
+    def __drawHorizontalBoundaries(self, diagram: Diagram):
+
+        x1: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_LEFT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        x2: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_RIGHT_X, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        y2: int = DiagramCommon.toPdfPoints(TestDiagram.V_BOTTOM_Y,       diagram._dpi) + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
+
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
+
+        y2 = DiagramCommon.toPdfPoints(TestDiagram.V_TOP_Y, diagram._dpi) + DiagramCommon.TOP_MARGIN + diagram.verticalGap
+
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
+
+    def __drawVerticalBoundaries(self, diagram: Diagram):
+
+        x1: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        x2: int = x1
+        y1: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_TOP_Y,    diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        y2: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_BOTTOM_Y, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+
+        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
+
+        x1 = DiagramCommon.toPdfPoints(TestDiagram.H_RIGHT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        x2 = x1
+
+        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
 
 
 def suite() -> TestSuite:
