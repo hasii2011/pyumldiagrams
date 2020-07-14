@@ -19,6 +19,7 @@ from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.Diagram import Diagram
+from pdfdiagrams.DiagramCommon import DiagramCommon
 from pdfdiagrams.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
@@ -119,10 +120,40 @@ class TestDiagram(TestBase):
 
         diagram.write()
 
+    LEFT_X:   int = 600
+    RIGHT_X:  int = 750
+    TOP_Y:    int = 94
+    BOTTOM_Y: int = 208
+
+    X_INC: int = 50
+    X_DEC: int = 50
+
+    TOP_LINE_LEFT_X:  int = LEFT_X - X_DEC
+    TOP_LINE_RIGHT_X: int = RIGHT_X + X_INC
+
     def testLineDraws(self):
         diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-LineDraws{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
 
-        lineDrawer: DiagramLine(pdf=diagram._pdf, )
+        x1: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_LEFT_X, diagram._dpi)  + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        x2: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_RIGHT_X, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
+        y2: int = DiagramCommon.toPdfPoints(TestDiagram.BOTTOM_Y, diagram._dpi)         + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
+
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=4)
+
+        y2 = DiagramCommon.toPdfPoints(TestDiagram.TOP_Y, diagram._dpi) + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
+
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=4)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        lineDefinitions: LineDefinitions = [
+            self.__buildSouthAttachedInheritanceDefinition(),
+            self.__buildNorthAttachedInheritanceDefinition()
+        ]
+        for lineDefinition in lineDefinitions:
+
+            lineDrawer.draw(lineDefinition)
+
         diagram.write()
 
     def testBuildMethod(self):
@@ -236,14 +267,18 @@ class TestDiagram(TestBase):
     def __buildSophisticatedLineDefinitions(self) -> LineDefinitions:
 
         lineDefinitions: LineDefinitions = [
-            self.__buildCatInheritanceDefinition()
+            self.__buildSouthAttachedInheritanceDefinition()
         ]
 
         return lineDefinitions
 
-    def __buildCatInheritanceDefinition(self) -> LineDefinition:
+    def __buildSouthAttachedInheritanceDefinition(self) -> LineDefinition:
         return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.SOUTH,
-                              source=Position(600, 208), destination=Position(600, 94))
+                              source=Position(TestDiagram.LEFT_X, TestDiagram.BOTTOM_Y), destination=Position(TestDiagram.LEFT_X, TestDiagram.TOP_Y))
+
+    def __buildNorthAttachedInheritanceDefinition(self) -> LineDefinition:
+        return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.NORTH,
+                              destination=Position(TestDiagram.RIGHT_X, TestDiagram.BOTTOM_Y), source=Position(TestDiagram.RIGHT_X, TestDiagram.TOP_Y))
 
 
 def suite() -> TestSuite:
