@@ -17,13 +17,16 @@ class Position:
     The x and y coordinates are in screen/display resolution.  This module converts
     to points for use in this system
     """
-    x: int = 0
-    y: int = 0
+    x: float = 0.0
+    y: float = 0.0
 
 
 @dataclass
 class SeparatorPosition(Position):
     pass
+
+
+ArrowPoints = List[Position]
 
 
 @dataclass

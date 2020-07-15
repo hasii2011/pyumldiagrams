@@ -1,6 +1,10 @@
 
+from typing import List
 
 from fpdf import FPDF
+
+from pdfdiagrams.Definitions import ArrowPoints
+from pdfdiagrams.Definitions import Position
 
 
 def doHelloWorld():
@@ -89,5 +93,134 @@ def drawTriangle():
     pdf.output('drawTriangle.pdf')
 
 
+ARROW_SIZE: float = 8.0     # in points
+
+
+def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
+
+    """
+    Draw an arrow at the end of the segment uv.
+
+    Args:
+        src:  points of the segment
+        dest:  points of the segment
+
+    Returns:
+        A list of positions that describes a polygon to draw
+    """
+    from math import pi, atan, cos, sin
+
+    x1: float = src.x
+    y1: float = src.y
+    x2: float = dest.x
+    y2: float = dest.y
+
+    deltaX: float = x2 - x1
+    deltaY: float = y2 - y1
+    if abs(deltaX) < 0.01:   # vertical segment
+        if deltaY > 0:
+            alpha = -pi/2
+        else:
+            alpha = pi/2
+    else:
+        if deltaX == 0:
+            alpha = pi/2
+        else:
+            alpha = atan(deltaY/deltaX)
+    if deltaX > 0:
+        alpha += pi
+
+    pi_6: float = pi/6
+
+    alpha1: float = alpha + pi_6
+    alpha2: float = alpha - pi_6
+    size:   float = ARROW_SIZE
+
+    points: ArrowPoints = []
+
+    points.append(Position(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
+    points.append(Position(x2, y2))
+    points.append(Position(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
+
+    return points
+
+
+def getFPDF():
+
+    pdf = FPDF(orientation='L', unit='pt', format='A4')
+
+    pdf.set_left_margin(10.0)
+
+    pdf.add_page()
+
+    pdf.set_fill_color(255, 0, 0)
+    pdf.set_display_mode(zoom='fullwidth', layout='single')
+
+    pdf.set_line_width(0.5)
+    pdf.set_fill_color(0, 255, 0)
+
+    return pdf
+
+
+def drawPolygon(pdf: FPDF, points: ArrowPoints):
+
+    ptNumber: int = 0
+    for point in points:
+
+        x1: float = point.x
+        y1: float = point.y
+
+        if ptNumber == len(points) - 1:
+            nextPoint = points[0]
+            x2: float = nextPoint.x
+            y2: float = nextPoint.y
+            pdf.line(x1, y1, x2, y2)
+            break
+        else:
+            nextPoint = points[ptNumber + 1]
+            x2: float = nextPoint.x
+            y2: float = nextPoint.y
+            pdf.line(x1, y1, x2, y2)
+        ptNumber += 1
+
+
+def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
+
+    x1: float = src.x
+    y1: float = src.y
+    x2: float = dest.x
+    y2: float = dest.y
+
+    pdf.line(x1=x1, y1=y1, x2=x2,  y2=y2)
+
+    points = getArrowPoints(src, dest)
+    drawPolygon(pdf, points)
+
+
+def drawArrows():
+
+    LINE_LENGTH: float = 100
+
+    CENTER_X: float = 400.0
+    CENTER_Y: float = 200.0
+    pdf: FPDF = getFPDF()
+
+    src:  Position = Position(CENTER_X, CENTER_Y)
+
+    northDest: Position = Position(CENTER_X, CENTER_Y - LINE_LENGTH)
+    southDest: Position = Position(CENTER_X, CENTER_Y + LINE_LENGTH)
+
+    eastDest:  Position = Position(CENTER_X + LINE_LENGTH, CENTER_Y)
+    westDest:  Position = Position(CENTER_X - LINE_LENGTH, CENTER_Y)
+    destPositions: List[Position] = [
+        northDest, eastDest, southDest, westDest
+    ]
+
+    for destPos in destPositions:
+        drawInheritanceArrow(pdf=pdf, src=src, dest=destPos)
+
+    pdf.output('drawArrows.pdf')
+
+
 if __name__ == '__main__':
-    drawTriangle()
+    drawArrows()
