@@ -136,6 +136,7 @@ def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
     alpha2: float = alpha - pi_6
     size:   float = ARROW_SIZE
 
+    # noinspection PyListCreation
     points: ArrowPoints = []
 
     points.append(Position(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
@@ -207,13 +208,20 @@ def drawArrows():
 
     src:  Position = Position(CENTER_X, CENTER_Y)
 
-    northDest: Position = Position(CENTER_X, CENTER_Y - LINE_LENGTH)
-    southDest: Position = Position(CENTER_X, CENTER_Y + LINE_LENGTH)
+    north: Position = Position(CENTER_X, CENTER_Y - LINE_LENGTH)
+    south: Position = Position(CENTER_X, CENTER_Y + LINE_LENGTH)
 
-    eastDest:  Position = Position(CENTER_X + LINE_LENGTH, CENTER_Y)
-    westDest:  Position = Position(CENTER_X - LINE_LENGTH, CENTER_Y)
+    east:  Position = Position(CENTER_X + LINE_LENGTH, CENTER_Y)
+    west:  Position = Position(CENTER_X - LINE_LENGTH, CENTER_Y)
+
+    northEast: Position = Position(CENTER_X + LINE_LENGTH, CENTER_Y-LINE_LENGTH)
+    southEast: Position = Position(CENTER_X + LINE_LENGTH, CENTER_Y+LINE_LENGTH)
+
+    northWest: Position = Position(CENTER_X - LINE_LENGTH, CENTER_Y-LINE_LENGTH)
+    southWest: Position = Position(CENTER_X - LINE_LENGTH, CENTER_Y+LINE_LENGTH)
     destPositions: List[Position] = [
-        northDest, eastDest, southDest, westDest
+        north, east, south, west,
+        northEast, southEast, northWest, southWest
     ]
 
     for destPos in destPositions:
