@@ -18,26 +18,20 @@ from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.Diagram import Diagram
-from pdfdiagrams.DiagramCommon import DiagramCommon
-from pdfdiagrams.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
+from tests.TestConstants import TestConstants
 
 
 class TestDiagram(TestBase):
     """
     The following all test with the default horizontal/vertical gaps and the default top/left margins
-
     """
 
-    TEST_SUFFIX:          str = f'.pdf'
-    TEST_FILE_NAME:       str = 'Test'
     BASE_TEST_CLASS_NAME: str = 'TestClassName'
 
     TEST_LAST_X_POSITION: int = 9
     TEST_LAST_Y_POSITION: int = 6
-
-    TEST_DPI: int = 72
 
     clsLogger: Logger = None
 
@@ -54,14 +48,14 @@ class TestDiagram(TestBase):
 
     def testConstruction(self):
 
-        diagram: Diagram = Diagram(fileName=TestDiagram.TEST_FILE_NAME, dpi=TestDiagram.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=TestConstants.TEST_FILE_NAME, dpi=TestConstants.TEST_DPI)
         self.assertIsNotNone(diagram, 'Construction failed')
 
         self.assertEqual(Diagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
 
     def testBasicDiagramDraw(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Basic{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         classDef: ClassDefinition = ClassDefinition(name=TestDiagram.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=Diagram.DEFAULT_CELL_WIDTH, height=Diagram.DEFAULT_CELL_HEIGHT))
 
@@ -70,7 +64,7 @@ class TestDiagram(TestBase):
 
     def testFillPage(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-Full{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         widthInterval:  int = Diagram.DEFAULT_CELL_WIDTH // 10
         heightInterval: int = Diagram.DEFAULT_CELL_HEIGHT // 10
@@ -90,7 +84,7 @@ class TestDiagram(TestBase):
 
     def testBasicMethods(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-BasicMethods{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         classDef: ClassDefinition = self.__buildCar()
 
@@ -100,7 +94,7 @@ class TestDiagram(TestBase):
 
     def testSophisticatedLayout(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-SophisticatedLayout{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = [
             self.__buildCar(),
@@ -116,59 +110,6 @@ class TestDiagram(TestBase):
         lineDefinitions: LineDefinitions = self.__buildSophisticatedLineDefinitions()
         for lineDefinition in lineDefinitions:
             diagram.drawLine(lineDefinition=lineDefinition)
-
-        diagram.write()
-
-    V_LEFT_X:   int = 1100
-    V_RIGHT_X:  int = 1250
-    V_TOP_Y:    int = 394
-    V_BOTTOM_Y: int = 508
-
-    X_INC: int = 50
-    X_DEC: int = 50
-
-    TOP_LINE_LEFT_X:  int = V_LEFT_X  - X_DEC
-    TOP_LINE_RIGHT_X: int = V_RIGHT_X + X_INC
-
-    H_LEFT_X:         int = V_RIGHT_X + 300
-    H_RIGHT_X:        int = H_LEFT_X  + 200
-    H_LEFT_TOP_Y:     int = V_TOP_Y
-    H_LEFT_BOTTOM_Y:  int = V_BOTTOM_Y
-    H_RIGHT_BOTTOM_Y: int = H_LEFT_BOTTOM_Y
-
-    Y_INC: int = 50
-    DASH_LINE_SPACE_LENGTH: int = 4
-
-    def testLineDraws(self):
-        diagram: Diagram = Diagram(fileName=f'{TestDiagram.TEST_FILE_NAME}-LineDraws{TestDiagram.TEST_SUFFIX}', dpi=TestDiagram.TEST_DPI)
-
-        self.__drawHorizontalBoundaries(diagram)
-        self.__drawVerticalBoundaries(diagram)
-
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
-
-        north: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                               destination=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_BOTTOM_Y),
-                                               source=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_TOP_Y))
-
-        south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                               source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
-                                               destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
-
-        east: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                              source=Position(TestDiagram.H_LEFT_X, TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC),
-                                              destination=Position(TestDiagram.H_RIGHT_X, TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC))
-
-        west: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                              source=Position(TestDiagram.H_RIGHT_X,   TestDiagram.H_RIGHT_BOTTOM_Y),
-                                              destination=Position(TestDiagram.H_LEFT_X, TestDiagram.H_LEFT_BOTTOM_Y)
-                                              )
-        lineDefinitions: LineDefinitions = [
-            north, south, east, west
-        ]
-        for lineDefinition in lineDefinitions:
-
-            lineDrawer.draw(lineDefinition)
 
         diagram.write()
 
@@ -280,6 +221,11 @@ class TestDiagram(TestBase):
 
         return initMethodDef
 
+    V_LEFT_X:   int = 1100
+    V_RIGHT_X:  int = 1250
+    V_TOP_Y:    int = 394
+    V_BOTTOM_Y: int = 508
+
     def __buildSophisticatedLineDefinitions(self) -> LineDefinitions:
 
         south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
@@ -291,32 +237,6 @@ class TestDiagram(TestBase):
         ]
 
         return lineDefinitions
-
-    def __drawHorizontalBoundaries(self, diagram: Diagram):
-
-        x1: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_LEFT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        x2: int = DiagramCommon.toPdfPoints(TestDiagram.TOP_LINE_RIGHT_X, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        y2: int = DiagramCommon.toPdfPoints(TestDiagram.V_BOTTOM_Y,       diagram._dpi) + DiagramCommon.TOP_MARGIN  + diagram.verticalGap
-
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
-
-        y2 = DiagramCommon.toPdfPoints(TestDiagram.V_TOP_Y, diagram._dpi) + DiagramCommon.TOP_MARGIN + diagram.verticalGap
-
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
-
-    def __drawVerticalBoundaries(self, diagram: Diagram):
-
-        x1: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        x2: int = x1
-        y1: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_TOP_Y,    diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        y2: int = DiagramCommon.toPdfPoints(TestDiagram.H_LEFT_BOTTOM_Y, diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
-
-        x1 = DiagramCommon.toPdfPoints(TestDiagram.H_RIGHT_X,  diagram._dpi) + DiagramCommon.LEFT_MARGIN + diagram.verticalGap
-        x2 = x1
-
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagram.DASH_LINE_SPACE_LENGTH)
 
 
 def suite() -> TestSuite:
