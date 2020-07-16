@@ -42,6 +42,17 @@ class DiagramLine:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
     def _drawInheritanceArrow(self, src: Position, dest: Position):
+        """
+        Must account for the margins and gaps between drawn shapes
+        Must convert to points from screen coordinates
+        Draw the arrow first
+        Compute the mid point of the bottom line of the arrow
+        That is where the line ends
+
+        Args:
+            src: start of line
+            dest: end line line;  Arrow positioned here
+        """
 
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
@@ -54,14 +65,14 @@ class DiagramLine:
 
         convertedSrc:  Position = Position(x1, y1)
         convertedDest: Position = Position(x2, y2)
-        points = self.__getArrowPoints(convertedSrc, convertedDest)
+        points = self.__computeTheArrowVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
-        newEndPoint: Position = self.__getBottomLineMidPoint(points[0], points[2])
+        newEndPoint: Position = self.__computeMidPointOfBottomLine(points[0], points[2])
 
         self._pdf.line(x1=x1, y1=y1, x2=newEndPoint.x, y2=newEndPoint.y)
 
-    def __getArrowPoints(self, src: Position, dest: Position)  -> ArrowPoints:
+    def __computeTheArrowVertices(self, src: Position, dest: Position)  -> ArrowPoints:
         """
         Draw an arrow at the end of the line source-dest.
 
@@ -99,7 +110,6 @@ class DiagramLine:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = DiagramLine.INHERITANCE_ARROW_HEIGHT
-
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
@@ -135,7 +145,7 @@ class DiagramLine:
 
             ptNumber += 1
 
-    def __getBottomLineMidPoint(self, startPos: Position, endPos: Position):
+    def __computeMidPointOfBottomLine(self, startPos: Position, endPos: Position):
         """
         These two coordinates are the two end-points of the bottom leg of the inheritance arrow
         midPoint = (x1+x2/2, y1+y2/2)
