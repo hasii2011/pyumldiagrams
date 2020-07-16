@@ -97,9 +97,8 @@ ARROW_SIZE: float = 8.0     # in points
 
 
 def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
-
     """
-    Draw an arrow at the end of the segment uv.
+    Draw an arrow at the end of the line source-dest.
 
     Args:
         src:  points of the segment
@@ -185,17 +184,42 @@ def drawPolygon(pdf: FPDF, points: ArrowPoints):
         ptNumber += 1
 
 
+def getBottomLineMidPoint(startPos: Position, endPos: Position):
+    """
+    These two coordinates are the two end-points of the bottom leg of the inheritance arrow
+    midPoint = (x1+x2/2, y1+y2/2)
+
+    Args:
+        startPos: start of line
+        endPos:   end of line
+
+    Returns:  Midpoint between startPos - endPos
+
+    """
+    x1: float = startPos.x
+    y1: float = startPos.y
+    x2: float = endPos.x
+    y2: float = endPos.y
+
+    midX: float = (x1 + x2) / 2
+    midY: float = (y1 + y2) / 2
+
+    return Position(midX, midY)
+
+
 def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
 
     x1: float = src.x
     y1: float = src.y
-    x2: float = dest.x
-    y2: float = dest.y
-
-    pdf.line(x1=x1, y1=y1, x2=x2,  y2=y2)
+    # x2: float = dest.x
+    # y2: float = dest.y
 
     points = getArrowPoints(src, dest)
     drawPolygon(pdf, points)
+
+    newEndPoint: Position = getBottomLineMidPoint(points[0], points[2])
+
+    pdf.line(x1=x1, y1=y1, x2=newEndPoint.x,  y2=newEndPoint.y)
 
 
 def drawArrows():

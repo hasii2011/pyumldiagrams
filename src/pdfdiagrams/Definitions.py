@@ -107,7 +107,6 @@ class ArrowAttachmentSide(Enum):
 @dataclass
 class LineDefinition:
     lineType:            LineType
-    arrowAttachmentSide: ArrowAttachmentSide
     source:              Position
     destination:         Position
 

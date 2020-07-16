@@ -6,7 +6,6 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pdfdiagrams.Definitions import ArrowAttachmentSide
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import ClassDefinitions
 from pdfdiagrams.Definitions import DefinitionType
@@ -131,10 +130,11 @@ class TestDiagram(TestBase):
     TOP_LINE_LEFT_X:  int = V_LEFT_X  - X_DEC
     TOP_LINE_RIGHT_X: int = V_RIGHT_X + X_INC
 
-    H_LEFT_X:        int = V_RIGHT_X + 300
-    H_RIGHT_X:       int = H_LEFT_X  + 200
-    H_LEFT_TOP_Y:    int = V_TOP_Y
-    H_LEFT_BOTTOM_Y: int = V_BOTTOM_Y
+    H_LEFT_X:         int = V_RIGHT_X + 300
+    H_RIGHT_X:        int = H_LEFT_X  + 200
+    H_LEFT_TOP_Y:     int = V_TOP_Y
+    H_LEFT_BOTTOM_Y:  int = V_BOTTOM_Y
+    H_RIGHT_BOTTOM_Y: int = H_LEFT_BOTTOM_Y
 
     Y_INC: int = 50
     DASH_LINE_SPACE_LENGTH: int = 4
@@ -147,10 +147,24 @@ class TestDiagram(TestBase):
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
+        north: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
+                                               destination=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_BOTTOM_Y),
+                                               source=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_TOP_Y))
+
+        south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
+                                               source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
+                                               destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
+
+        east: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
+                                              source=Position(TestDiagram.H_LEFT_X, TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC),
+                                              destination=Position(TestDiagram.H_RIGHT_X, TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC))
+
+        west: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
+                                              source=Position(TestDiagram.H_RIGHT_X,   TestDiagram.H_RIGHT_BOTTOM_Y),
+                                              destination=Position(TestDiagram.H_LEFT_X, TestDiagram.H_LEFT_BOTTOM_Y)
+                                              )
         lineDefinitions: LineDefinitions = [
-            self.__buildSouthAttachedInheritanceDefinition(),
-            self.__buildNorthAttachedInheritanceDefinition(),
-            self.__buildEastAttachedInheritanceDefinition()
+            north, south, east, west
         ]
         for lineDefinition in lineDefinitions:
 
@@ -268,28 +282,15 @@ class TestDiagram(TestBase):
 
     def __buildSophisticatedLineDefinitions(self) -> LineDefinitions:
 
+        south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
+                                               source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
+                                               destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
+
         lineDefinitions: LineDefinitions = [
-            self.__buildSouthAttachedInheritanceDefinition()
+            south
         ]
 
         return lineDefinitions
-
-    def __buildSouthAttachedInheritanceDefinition(self) -> LineDefinition:
-        return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.SOUTH,
-                              source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y), destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
-
-    def __buildNorthAttachedInheritanceDefinition(self) -> LineDefinition:
-        return LineDefinition(lineType=LineType.Inheritance, arrowAttachmentSide=ArrowAttachmentSide.NORTH,
-                              destination=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_BOTTOM_Y), source=Position(TestDiagram.V_RIGHT_X, TestDiagram.V_TOP_Y))
-
-    def __buildEastAttachedInheritanceDefinition(self) -> LineDefinition:
-
-        yTop: int = TestDiagram.H_LEFT_TOP_Y + TestDiagram.Y_INC
-        return LineDefinition(lineType=LineType.Inheritance,
-                              arrowAttachmentSide=ArrowAttachmentSide.EAST,
-                              source=Position(TestDiagram.H_LEFT_X, yTop),
-                              destination=Position(TestDiagram.H_RIGHT_X, yTop)
-                              )
 
     def __drawHorizontalBoundaries(self, diagram: Diagram):
 

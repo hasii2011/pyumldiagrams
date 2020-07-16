@@ -11,7 +11,7 @@ class DiagramCommon:
     DEFAULT_VERTICAL_GAP:   int = 60
 
     @classmethod
-    def toPdfPoints(cls, pixelNumber: int, dpi: int) -> int:
+    def toPdfPoints(cls, pixelNumber: float, dpi: int) -> int:
         """
 
         points = pixels * 72 / DPI
@@ -23,6 +23,6 @@ class DiagramCommon:
         Returns:  A pdf point value to use to position on a generated document
 
         """
-        points: int = (pixelNumber * 72) // dpi
+        points: int = int((pixelNumber * 72)) // dpi
 
         return points
