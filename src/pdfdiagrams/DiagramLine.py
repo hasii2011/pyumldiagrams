@@ -105,7 +105,7 @@ class DiagramLine:
         if deltaX > 0:
             alpha += pi
 
-        pi_6: float = pi/6
+        pi_6: float = pi/6      # radians for 30 degree angle
 
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6

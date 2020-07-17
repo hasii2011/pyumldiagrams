@@ -4,6 +4,7 @@ from logging import getLogger
 
 from os import sep as osSep
 from typing import List
+from typing import Tuple
 from typing import cast
 
 from pkg_resources import resource_filename
@@ -12,13 +13,16 @@ from fpdf import FPDF
 
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import DiagramPadding
+from pdfdiagrams.Definitions import EllipseDefinition
 from pdfdiagrams.Definitions import LineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
+from pdfdiagrams.Definitions import RectangleDefinition
 from pdfdiagrams.Definitions import SeparatorPosition
+from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.DiagramCommon import DiagramCommon
 
@@ -159,7 +163,12 @@ class Diagram:
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
 
     def drawLine(self, lineDefinition: LineDefinition):
+        """
+        TODO:  rename this to drawUmlLine
 
+        Args:
+            lineDefinition:   A UML Line definition
+        """
         self._pdf.set_draw_color(255, 0, 0)
 
         source:      Position = lineDefinition.source
@@ -180,6 +189,21 @@ class Diagram:
             self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
+
+    def drawEllipse(self, definition: EllipseDefinition):
+
+        x, y, width, height = self.__convertDefinition(definition)
+        self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+
+    def drawRectangle(self, definition: RectangleDefinition):
+
+        x, y, width, height = self.__convertDefinition(definition)
+        self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+
+    def drawText(self, position: Position, text: str):
+
+        x, y = self.__convertPosition(position)
+        self._pdf.text(x=x, y=y, txt=text)
 
     def write(self):
         self._pdf.output(self._fileName)
@@ -233,8 +257,8 @@ class Diagram:
 
     def _drawMethods(self, methodReprs: MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: int = separatorPosition.x + Diagram.X_NUDGE_FACTOR
-        y: int = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
+        x: float = separatorPosition.x + Diagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
 
         for methodRepr in methodReprs:
 
@@ -283,3 +307,31 @@ class Diagram:
         methodRepr = f'{methodRepr}({paramRepr})'
 
         return methodRepr
+
+    def __convertPosition(self, pos: Position) -> Tuple[float, float]:
+
+        x: float = DiagramCommon.toPdfPoints(pos.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self.verticalGap
+        y: float = DiagramCommon.toPdfPoints(pos.y, self._dpi) + DiagramCommon.LEFT_MARGIN + self.verticalGap
+
+        return x, y
+
+    def __convertSize(self, size: Size) -> Tuple[float, float]:
+
+        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
+        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
+
+        return width, height
+
+    def __convertDefinition(self, definition: RectangleDefinition) -> Tuple[float, float, float, float]:
+        """
+
+        Args:
+            definition:
+
+        Returns: a tuple of x, y, width height
+        """
+        x, y = self.__convertPosition(definition.position)
+        width, height = self.__convertSize(definition.size)
+
+        return x, y, width, height
+

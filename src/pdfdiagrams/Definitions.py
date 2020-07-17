@@ -96,23 +96,41 @@ class LineType(Enum):
     Composition  = 3
 
 
-class ArrowAttachmentSide(Enum):
-
-    NORTH = 'North'
-    EAST  = 'East'
-    SOUTH = 'South'
-    WEST  = 'West'
-
-
 @dataclass
-class LineDefinition:
-    lineType:            LineType
+class BasicLineDefinition:
+    """
+    TODO: rename this to LineDefinition
+    """
     source:              Position
     destination:         Position
 
 
-LineDefinitions = List[LineDefinition]
+@dataclass
+class LineDefinition(BasicLineDefinition):
+    """
+    TODO: rename this to UmlLineDefinition
+    """
+    lineType:            LineType
 
 
+LineDefinitions = List[LineDefinition]      # TODO rename this to UmlLineDefinitions = List[UmlLineDefinition]
 
 
+class RenderStyle(Enum):
+
+    Draw     = 'D'
+    Fill     = 'F'
+    DrawFill = 'DF'
+
+
+@dataclass
+class RectangleDefinition:
+
+    renderStyle: RenderStyle = RenderStyle.Draw
+    position:    Position    = Position(0, 0)
+    size:        Size        = Size(0, 0)
+
+
+@dataclass
+class EllipseDefinition(RectangleDefinition):
+    pass

@@ -5,10 +5,12 @@ from logging import getLogger
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
+from pdfdiagrams.Definitions import EllipseDefinition
 from pdfdiagrams.Definitions import LineDefinition
 from pdfdiagrams.Definitions import LineDefinitions
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
+from pdfdiagrams.Definitions import Size
 from pdfdiagrams.Diagram import Diagram
 from pdfdiagrams.DiagramCommon import DiagramCommon
 from pdfdiagrams.DiagramLine import DiagramLine
@@ -19,10 +21,10 @@ from tests.TestConstants import TestConstants
 
 class TestDiagramLine(TestBase):
 
-    V_LEFT_X:   int = 1100
-    V_RIGHT_X:  int = 1250
-    V_TOP_Y:    int = 394
-    V_BOTTOM_Y: int = 508
+    V_LEFT_X:   int = 900
+    V_RIGHT_X:  int = 1050
+    V_TOP_Y:    int = 294
+    V_BOTTOM_Y: int = 408
 
     X_INC: int = 50
     X_DEC: int = 50
@@ -49,14 +51,13 @@ class TestDiagramLine(TestBase):
     def setUp(self):
 
         self.logger: Logger = TestDiagramLine.clsLogger
-        self._diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-LineDraws{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
     def tearDown(self):
         pass
 
-    def testOrthogonalLineDraws(self):
+    def testOrthogonalInheritanceLines(self):
 
-        diagram: Diagram = self._diagram
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -83,9 +84,43 @@ class TestDiagramLine(TestBase):
             north, south, east, west
         ]
         for lineDefinition in lineDefinitions:
-
             lineDrawer.draw(lineDefinition)
 
+        diagram.write()
+
+    ELLIPSE_X: int = V_LEFT_X
+    ELLIPSE_Y: int = V_TOP_Y
+
+    ELLIPSE_WIDTH:  int = 200
+    ELLIPSE_HEIGHT: int = 200
+
+    ELLIPSE_FILL_STYLE: str = 'D'
+
+    def testDiagonalInheritanceLines(self):
+
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)
+
+        arrowSize: float = TestDiagramLine.ELLIPSE_WIDTH / 2
+
+        center: Position = self.__computeEllipseCenter(pos)
+        neDest: Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
+        seDest: Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
+        nwDest: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
+        swDest: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
+
+        northEast: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=neDest)
+        northWest: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=nwDest)
+        southEast: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=seDest)
+        southWest: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=swDest)
+
+        definitions: LineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
         diagram.write()
 
     def __drawHorizontalBoundaries(self, diagram: Diagram):
@@ -113,6 +148,62 @@ class TestDiagramLine(TestBase):
         x2 = x1
 
         diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
+
+    def __drawEllipseForDiagonalInheritanceLines(self, diagram: Diagram):
+
+        eDef: EllipseDefinition = EllipseDefinition()
+        pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)
+        size: Size              = Size(width=TestDiagramLine.ELLIPSE_WIDTH, height=TestDiagramLine.ELLIPSE_HEIGHT)
+
+        eDef.position = pos
+        eDef.size     = size
+        diagram.drawEllipse(eDef)
+        diagram.drawRectangle(eDef)
+
+        center: Position = self.__computeEllipseCenter(pos)
+
+        diagram.drawText(center, text=f'({int(center.x)},{int(center.y)})')
+
+    def __computeEllipseCenter(self, ellipsePos: Position) -> Position:
+
+        x: float = ellipsePos.x
+        y: float = ellipsePos.y
+
+        centerX: float = x + (TestDiagramLine.ELLIPSE_WIDTH / 2)
+        centerY: float = y + (TestDiagramLine.ELLIPSE_HEIGHT / 2)
+
+        return Position(centerX, centerY)
+
+    def __computeNorthEastDestination(self, center: Position, arrowSize: float) -> Position:
+        from math import pi
+
+        radians: float = (pi / 4) * -1.0    # definition of 45 degree angle
+        return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
+
+    def __computeSouthEastDestination(self, center: Position, arrowSize: float) -> Position:
+        from math import pi
+
+        radians: float = pi / 4
+        return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
+
+    def __computeNorthWestDestination(self, center: Position, arrowSize: float) -> Position:
+        from math import pi
+
+        radians: float = (pi * 0.75) * -1.0
+        return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
+
+    def __computeSouthWestDestination(self, center: Position, arrowSize: float) -> Position:
+        from math import pi
+
+        radians: float = pi * 0.75
+        return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
+
+    def __computeDestination(self, center: Position, arrowSize: float, radians: float,) -> Position:
+
+        from math import cos
+        from math import sin
+
+        return Position(center.x + arrowSize * cos(radians), center.y + arrowSize * sin(radians))
 
 
 def suite() -> TestSuite:
