@@ -25,6 +25,7 @@ while getopts c option
         case "${option}"
         in
         c) ./scripts/cleanup.sh;;
+        p) echo;;
     esac
 done
 
