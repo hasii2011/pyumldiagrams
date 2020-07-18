@@ -1,10 +1,17 @@
 from logging import Logger
 from logging import getLogger
 
+from math import pi
+from math import sin
+from math import atan
+from math import cos
+from typing import Tuple
+
 from fpdf import FPDF
 
 from pdfdiagrams.Definitions import ArrowPoints
 from pdfdiagrams.Definitions import DiagramPadding
+from pdfdiagrams.Definitions import PdfPosition
 from pdfdiagrams.Definitions import UmlLineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
@@ -17,6 +24,7 @@ from pdfdiagrams.UnsupportedException import UnsupportedException
 class DiagramLine:
 
     INHERITANCE_ARROW_HEIGHT: int = 8
+    DIAMOND_HEIGHT: int = 8
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -58,19 +66,19 @@ class DiagramLine:
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1, y1 = DiagramCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x1, y1 = DiagramCommon.convertPosition(pos=src,  dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         x2, y2 = DiagramCommon.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
-        convertedSrc:  Position = Position(x1, y1)
-        convertedDest: Position = Position(x2, y2)
-        points = self.__computeTheArrowVertices(convertedSrc, convertedDest)
+        convertedSrc:  PdfPosition = PdfPosition(x1, y1)
+        convertedDest: PdfPosition = PdfPosition(x2, y2)
+        points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
-        newEndPoint: Position = self.__computeMidPointOfBottomLine(points[0], points[2])
+        newEndPoint: PdfPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
         self._pdf.line(x1=x1, y1=y1, x2=newEndPoint.x, y2=newEndPoint.y)
 
-    def __computeTheArrowVertices(self, src: Position, dest: Position)  -> ArrowPoints:
+    def __computeTheArrowVertices(self, src: PdfPosition, dest: PdfPosition)  -> ArrowPoints:
         """
         Draw an arrow at the end of the line source-dest.
 
@@ -81,15 +89,14 @@ class DiagramLine:
         Returns:
             A list of positions that describes a polygon to draw
         """
-        from math import pi, atan, cos, sin
-
-        x1: float = src.x
-        y1: float = src.y
-        x2: float = dest.x
-        y2: float = dest.y
-
-        deltaX: float = x2 - x1
-        deltaY: float = y2 - y1
+        # x1: float = src.x
+        # y1: float = src.y
+        # x2: float = dest.x
+        # y2: float = dest.y
+        #
+        # deltaX: float = x2 - x1
+        # deltaY: float = y2 - y1
+        deltaX, deltaY = self.__computeDeltaXDeltaY(src, dest)
         if abs(deltaX) < 0.01:   # vertical segment
             if deltaY > 0:
                 alpha = -pi/2
@@ -108,17 +115,75 @@ class DiagramLine:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = DiagramLine.INHERITANCE_ARROW_HEIGHT
+        x2: float = dest.x
+        y2: float = dest.y
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
         #
-        arrowTip:   Position = Position(x2, y2)
-        rightPoint: Position = Position(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-        leftPoint:  Position = Position(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+        arrowTip:   PdfPosition = PdfPosition(x2, y2)
+        rightPoint: PdfPosition = PdfPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
+        leftPoint:  PdfPosition = PdfPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
 
         points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 
         return points
+
+    def _drawDiamond(self, src: PdfPosition, dest: PdfPosition):     # , filled: bool = False):
+        """
+        Draw an diamond at the beginning of the line.
+
+        Args:
+            src:
+            dest:
+            # filled:     True if the diamond must be filled, False otherwise
+        """
+
+        pi_6 = pi/6     # radians for 30 degree angle
+
+        # x1 = src.x
+        # y1 = src.y
+        x2 = dest.x
+        y2 = dest.y
+
+        # deltaX = x2 - x1
+        # deltaY = y2 - y1
+        deltaX, deltaY = self.__computeDeltaXDeltaY(src, dest)
+
+        if abs(deltaX) < 0.01:  # vertical segment
+            if deltaY > 0:
+                alpha = -pi/2
+            else:
+                alpha = pi/2
+        else:
+            if deltaX == 0:
+                if deltaY > 0:
+                    alpha = pi/2
+                else:
+                    alpha = 3 * pi / 2
+            else:
+                alpha = atan(deltaY/deltaX)
+        if deltaX > 0:
+            alpha += pi
+        alpha1 = alpha + pi_6
+        alpha2 = alpha - pi_6
+        size = DiagramLine.DIAMOND_HEIGHT
+
+        # noinspection PyListCreation
+        points = []
+
+        points.append((x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
+        points.append((x2, y2))
+        points.append((x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
+        points.append((x2 + 2*size * cos(alpha),  y2 + 2*size * sin(alpha)))
+
+        # dc.SetPen(BLACK_PEN)
+        # if filled:
+        #     dc.SetBrush(BLACK_BRUSH)
+        # else:
+        #     dc.SetBrush(WHITE_BRUSH)
+        # dc.DrawPolygon(points)
+        # dc.SetBrush(WHITE_BRUSH)
 
     def __drawPolygon(self, points: ArrowPoints):
 
@@ -143,7 +208,7 @@ class DiagramLine:
 
             ptNumber += 1
 
-    def __computeMidPointOfBottomLine(self, startPos: Position, endPos: Position):
+    def __computeMidPointOfBottomLine(self, startPos: PdfPosition, endPos: PdfPosition) -> PdfPosition:
         """
         These two coordinates are the two end-points of the bottom leg of the inheritance arrow
         midPoint = (x1+x2/2, y1+y2/2)
@@ -163,4 +228,16 @@ class DiagramLine:
         midX: float = (x1 + x2) / 2
         midY: float = (y1 + y2) / 2
 
-        return Position(midX, midY)
+        return PdfPosition(midX, midY)
+
+    def __computeDeltaXDeltaY(self, src: PdfPosition, dest: PdfPosition) -> Tuple[float, float]:
+
+        x1: float = src.x
+        y1: float = src.y
+        x2: float = dest.x
+        y2: float = dest.y
+
+        deltaX: float = x2 - x1
+        deltaY: float = y2 - y1
+
+        return deltaX, deltaY

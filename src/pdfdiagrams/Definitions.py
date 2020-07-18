@@ -19,17 +19,28 @@ class Position:
     """
     The x and y coordinates are in screen/display resolution.  This module converts
     to points for use in this system
+
     """
     x: float = 0.0
     y: float = 0.0
 
 
 @dataclass
-class SeparatorPosition(Position):
+class PdfPosition:
+    """
+    The x and y coordinates are in pdf points.
+    """
+    x: float = 0.0
+    y: float = 0.0
+
+
+@dataclass
+class SeparatorPosition(PdfPosition):
     pass
 
 
-ArrowPoints = List[Position]
+ArrowPoints   = List[PdfPosition]
+DiamondPoints = List[PdfPosition]
 
 
 @dataclass
