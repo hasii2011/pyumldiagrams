@@ -9,9 +9,10 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pdfdiagrams.Definitions import ArrowPoints
+from pdfdiagrams.Internal import ArrowPoints
+from pdfdiagrams.Internal import PdfPosition
+
 from pdfdiagrams.Definitions import DiagramPadding
-from pdfdiagrams.Definitions import PdfPosition
 from pdfdiagrams.Definitions import UmlLineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position

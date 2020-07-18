@@ -21,10 +21,12 @@ from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import RectangleDefinition
-from pdfdiagrams.Definitions import SeparatorPosition
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.DiagramCommon import DiagramCommon
+
+from pdfdiagrams.Internal import SeparatorPosition
+
 from pdfdiagrams.DiagramLine import DiagramLine
 
 from pdfdiagrams.UnsupportedException import UnsupportedException
@@ -48,8 +50,6 @@ class Diagram:
     # FONT_NAME:              str = 'Mono'
 
     DEFAULT_FONT_SIZE:      int = 10
-    DEFAULT_CELL_WIDTH:     int = 150       # points
-    DEFAULT_CELL_HEIGHT:    int = 100       # points
 
     DEFAULT_PAGE_WIDTH:  int = 3000     # points
     DEFAULT_PAGE_HEIGHT: int = 1500     # points
@@ -71,8 +71,6 @@ class Diagram:
 
         pdf = FPDF(orientation='L', unit='pt', format=(Diagram.DEFAULT_PAGE_HEIGHT, Diagram.DEFAULT_PAGE_WIDTH))
         pdf.add_page()
-        # pdf.set_fill_color(255, 0, 0)
-        # pdf.set_draw_color(255, 0, 0)
 
         pdf.set_display_mode(zoom='default', layout='single')
 
@@ -86,10 +84,8 @@ class Diagram:
         pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
         pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
 
-        self._pdf:           FPDF = pdf
-        self._fontSize:      int  = Diagram.DEFAULT_FONT_SIZE
-        self._cellWidth:     int  = Diagram.DEFAULT_CELL_WIDTH
-        self._cellHeight:    int  = Diagram.DEFAULT_CELL_HEIGHT
+        self._pdf:      FPDF = pdf
+        self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
         self._lineDrawer: DiagramLine    = DiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
@@ -103,22 +99,6 @@ class Diagram:
     @fontSize.setter
     def fontSize(self, newSize: int):
         self._fontSize = newSize
-
-    @property
-    def cellWidth(self) -> int:
-        return self._cellWidth
-
-    @cellWidth.setter
-    def cellWidth(self, newValue: int):
-        self._cellWidth = newValue
-
-    @property
-    def cellHeight(self) -> int:
-        return self._cellHeight
-
-    @cellHeight.setter
-    def cellHeight(self, newValue: int):
-        self._cellHeight = newValue
 
     @property
     def horizontalGap(self) -> int:
@@ -226,7 +206,7 @@ class Diagram:
         self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
-        textX: float = rectX + ((self._cellWidth / 2) - (nameWidth / 2))
+        textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
         textY: float = rectY + self._fontSize
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
