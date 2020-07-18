@@ -228,12 +228,10 @@ class TestDiagram(TestBase):
 
     def __buildSophisticatedLineDefinitions(self) -> UmlLineDefinitions:
 
-        south: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
-                                                     source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
-                                                     destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
-
+        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
+        eCarToCar: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(190, 224), destination=Position(190, 129))
         lineDefinitions: UmlLineDefinitions = [
-            south
+            opieToCat, eCarToCar
         ]
 
         return lineDefinitions

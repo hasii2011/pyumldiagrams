@@ -25,6 +25,7 @@ from pdfdiagrams.Definitions import SeparatorPosition
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.DiagramCommon import DiagramCommon
+from pdfdiagrams.DiagramLine import DiagramLine
 
 from pdfdiagrams.UnsupportedException import UnsupportedException
 
@@ -70,11 +71,13 @@ class Diagram:
 
         pdf = FPDF(orientation='L', unit='pt', format=(Diagram.DEFAULT_PAGE_HEIGHT, Diagram.DEFAULT_PAGE_WIDTH))
         pdf.add_page()
-        pdf.set_fill_color(255, 0, 0)
+        # pdf.set_fill_color(255, 0, 0)
+        # pdf.set_draw_color(255, 0, 0)
+
         pdf.set_display_mode(zoom='default', layout='single')
 
         pdf.set_line_width(0.5)
-        pdf.set_fill_color(0, 255, 0)
+
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
@@ -88,7 +91,10 @@ class Diagram:
         self._cellWidth:     int  = Diagram.DEFAULT_CELL_WIDTH
         self._cellHeight:    int  = Diagram.DEFAULT_CELL_HEIGHT
 
-        self._diagramPadding: DiagramPadding = DiagramPadding()
+        diagramPadding:   DiagramPadding = DiagramPadding()
+        self._lineDrawer: DiagramLine    = DiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+
+        self._diagramPadding: DiagramPadding = diagramPadding
 
     @property
     def fontSize(self) -> int:
@@ -168,20 +174,12 @@ class Diagram:
         Args:
             lineDefinition:   A UML Line definition
         """
-        self._pdf.set_draw_color(255, 0, 0)
-
         source:      Position = lineDefinition.source
         destination: Position = lineDefinition.destination
         lineType:    LineType = lineDefinition.lineType
 
-        x1: int = DiagramCommon.toPdfPoints(source.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
-        y1: int = DiagramCommon.toPdfPoints(source.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
-
-        x2: int = DiagramCommon.toPdfPoints(destination.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
-        y2: int = DiagramCommon.toPdfPoints(destination.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
-
         if lineType == LineType.Inheritance:
-            self._pdf.line(x1=x1, y1=y1, x2=x2, y2=y2)
+            self._lineDrawer.draw(lineDefinition=lineDefinition)
         elif lineType == LineType.Aggregation:
             self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
         elif lineType == LineType.Composition:
@@ -333,4 +331,3 @@ class Diagram:
         width, height = self.__convertSize(definition.size)
 
         return x, y, width, height
-
