@@ -99,21 +99,20 @@ class LineType(Enum):
 @dataclass
 class BasicLineDefinition:
     """
-    TODO: rename this to LineDefinition
+    TODO: rename this to UmlLineDefinition
     """
     source:              Position
     destination:         Position
 
 
 @dataclass
-class LineDefinition(BasicLineDefinition):
+class UmlLineDefinition(BasicLineDefinition):
     """
-    TODO: rename this to UmlLineDefinition
     """
     lineType:            LineType
 
 
-LineDefinitions = List[LineDefinition]      # TODO rename this to UmlLineDefinitions = List[UmlLineDefinition]
+UmlLineDefinitions = List[UmlLineDefinition]
 
 
 class RenderStyle(Enum):

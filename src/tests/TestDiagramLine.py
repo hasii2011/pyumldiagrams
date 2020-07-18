@@ -6,8 +6,8 @@ from unittest import TestSuite
 from unittest import main as unitTestMain
 
 from pdfdiagrams.Definitions import EllipseDefinition
-from pdfdiagrams.Definitions import LineDefinition
-from pdfdiagrams.Definitions import LineDefinitions
+from pdfdiagrams.Definitions import UmlLineDefinition
+from pdfdiagrams.Definitions import UmlLineDefinitions
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Definitions import Size
@@ -64,23 +64,23 @@ class TestDiagramLine(TestBase):
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
-        north: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                               destination=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_BOTTOM_Y),
-                                               source=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_TOP_Y))
+        north: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
+                                                     destination=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_BOTTOM_Y),
+                                                     source=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_TOP_Y))
 
-        south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                               source=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_BOTTOM_Y),
-                                               destination=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_TOP_Y))
+        south: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
+                                                     source=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_BOTTOM_Y),
+                                                     destination=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_TOP_Y))
 
-        east: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                              source=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC),
-                                              destination=Position(TestDiagramLine.H_RIGHT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC))
+        east: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
+                                                    source=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC),
+                                                    destination=Position(TestDiagramLine.H_RIGHT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC))
 
-        west: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                              source=Position(TestDiagramLine.H_RIGHT_X,   TestDiagramLine.H_RIGHT_BOTTOM_Y),
-                                              destination=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_BOTTOM_Y)
-                                              )
-        lineDefinitions: LineDefinitions = [
+        west: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
+                                                    source=Position(TestDiagramLine.H_RIGHT_X,   TestDiagramLine.H_RIGHT_BOTTOM_Y),
+                                                    destination=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_BOTTOM_Y)
+                                                    )
+        lineDefinitions: UmlLineDefinitions = [
             north, south, east, west
         ]
         for lineDefinition in lineDefinitions:
@@ -113,12 +113,12 @@ class TestDiagramLine(TestBase):
         nwDest: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
         swDest: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        northEast: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=neDest)
-        northWest: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=nwDest)
-        southEast: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=seDest)
-        southWest: LineDefinition = LineDefinition(lineType=LineType.Inheritance, source=center, destination=swDest)
+        northEast: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=neDest)
+        northWest: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=nwDest)
+        southEast: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=seDest)
+        southWest: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=swDest)
 
-        definitions: LineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()

@@ -9,8 +9,8 @@ from unittest import main as unitTestMain
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import ClassDefinitions
 from pdfdiagrams.Definitions import DefinitionType
-from pdfdiagrams.Definitions import LineDefinition
-from pdfdiagrams.Definitions import LineDefinitions
+from pdfdiagrams.Definitions import UmlLineDefinition
+from pdfdiagrams.Definitions import UmlLineDefinitions
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import ParameterDefinition
@@ -107,9 +107,9 @@ class TestDiagram(TestBase):
             classDefinition = cast(ClassDefinition, classDefinition)
             diagram.drawClass(classDefinition=classDefinition)
 
-        lineDefinitions: LineDefinitions = self.__buildSophisticatedLineDefinitions()
+        lineDefinitions: UmlLineDefinitions = self.__buildSophisticatedLineDefinitions()
         for lineDefinition in lineDefinitions:
-            diagram.drawLine(lineDefinition=lineDefinition)
+            diagram.drawUmlLine(lineDefinition=lineDefinition)
 
         diagram.write()
 
@@ -226,13 +226,13 @@ class TestDiagram(TestBase):
     V_TOP_Y:    int = 394
     V_BOTTOM_Y: int = 508
 
-    def __buildSophisticatedLineDefinitions(self) -> LineDefinitions:
+    def __buildSophisticatedLineDefinitions(self) -> UmlLineDefinitions:
 
-        south: LineDefinition = LineDefinition(lineType=LineType.Inheritance,
-                                               source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
-                                               destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
+        south: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
+                                                     source=Position(TestDiagram.V_LEFT_X, TestDiagram.V_BOTTOM_Y),
+                                                     destination=Position(TestDiagram.V_LEFT_X, TestDiagram.V_TOP_Y))
 
-        lineDefinitions: LineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = [
             south
         ]
 

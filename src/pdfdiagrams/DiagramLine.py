@@ -5,7 +5,7 @@ from fpdf import FPDF
 
 from pdfdiagrams.Definitions import ArrowPoints
 from pdfdiagrams.Definitions import DiagramPadding
-from pdfdiagrams.Definitions import LineDefinition
+from pdfdiagrams.Definitions import UmlLineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
 from pdfdiagrams.DiagramCommon import DiagramCommon
@@ -26,7 +26,7 @@ class DiagramLine:
 
         self._dpi:           int  = dpi
 
-    def draw(self, lineDefinition: LineDefinition):
+    def draw(self, lineDefinition: UmlLineDefinition):
 
         source:      Position = lineDefinition.source
         destination: Position = lineDefinition.destination

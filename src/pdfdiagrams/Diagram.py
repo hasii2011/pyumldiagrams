@@ -14,7 +14,7 @@ from fpdf import FPDF
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import EllipseDefinition
-from pdfdiagrams.Definitions import LineDefinition
+from pdfdiagrams.Definitions import UmlLineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
@@ -162,9 +162,8 @@ class Diagram:
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
 
-    def drawLine(self, lineDefinition: LineDefinition):
+    def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
-        TODO:  rename this to drawUmlLine
 
         Args:
             lineDefinition:   A UML Line definition
