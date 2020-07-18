@@ -3,11 +3,15 @@ from logging import getLogger
 
 from fpdf import FPDF
 
+from pdfdiagrams.Defaults import LEFT_MARGIN
+from pdfdiagrams.Defaults import TOP_MARGIN
+
 from pdfdiagrams.Definitions import ArrowPoints
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import UmlLineDefinition
 from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
+
 from pdfdiagrams.DiagramCommon import DiagramCommon
 
 from pdfdiagrams.UnsupportedException import UnsupportedException
@@ -57,11 +61,11 @@ class DiagramLine:
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1: float = DiagramCommon.toPdfPoints(src.x, self._dpi) + DiagramCommon.LEFT_MARGIN + verticalGap
-        y1: float = DiagramCommon.toPdfPoints(src.y, self._dpi) + DiagramCommon.TOP_MARGIN  + horizontalGap
+        x1: float = DiagramCommon.toPdfPoints(src.x, self._dpi) + LEFT_MARGIN + verticalGap
+        y1: float = DiagramCommon.toPdfPoints(src.y, self._dpi) + TOP_MARGIN  + horizontalGap
 
-        x2: float = DiagramCommon.toPdfPoints(dest.x, self._dpi) + DiagramCommon.LEFT_MARGIN + verticalGap
-        y2: float = DiagramCommon.toPdfPoints(dest.y, self._dpi) + DiagramCommon.TOP_MARGIN  + horizontalGap
+        x2: float = DiagramCommon.toPdfPoints(dest.x, self._dpi) + LEFT_MARGIN + verticalGap
+        y2: float = DiagramCommon.toPdfPoints(dest.y, self._dpi) + TOP_MARGIN  + horizontalGap
 
         convertedSrc:  Position = Position(x1, y1)
         convertedDest: Position = Position(x2, y2)

@@ -157,8 +157,12 @@ class Diagram:
         Args:
             classDefinition:    The class definition
         """
-        x: int = DiagramCommon.toPdfPoints(classDefinition.position.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
-        y: int = DiagramCommon.toPdfPoints(classDefinition.position.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
+        # x: int = DiagramCommon.toPdfPoints(classDefinition.position.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
+        # y: int = DiagramCommon.toPdfPoints(classDefinition.position.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
+        position:      Position = classDefinition.position
+        verticalGap:   float = self._diagramPadding.verticalGap
+        horizontalGap: float = self._diagramPadding.horizontalGap
+        x, y = DiagramCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
@@ -199,13 +203,13 @@ class Diagram:
 
     def drawText(self, position: Position, text: str):
 
-        x, y = self.__convertPosition(position)
+        x, y = DiagramCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         self._pdf.text(x=x, y=y, txt=text)
 
     def write(self):
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int) -> int:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -> int:
         """
         Draws the UML Class symbol.
 
@@ -222,14 +226,14 @@ class Diagram:
         self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
-        textX: int = rectX + ((self._cellWidth // 2) - (nameWidth // 2))
-        textY: int = rectY + self._fontSize
+        textX: float = rectX + ((self._cellWidth / 2) - (nameWidth / 2))
+        textY: float = rectY + self._fontSize
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
         return symbolWidth
 
-    def _drawNameSeparator(self, rectX: int, rectY: int, shapeWidth: int) -> SeparatorPosition:
+    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: int) -> SeparatorPosition:
         """
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -243,10 +247,10 @@ class Diagram:
 
         """
 
-        separatorX: int = rectX
-        separatorY: int = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
+        separatorX: float = rectX
+        separatorY: float = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
 
-        endX: int = rectX + shapeWidth
+        endX: float = rectX + shapeWidth
 
         self._pdf.line(x1=separatorX, y1=separatorY, x2=endX, y2=separatorY)
 
@@ -305,13 +309,6 @@ class Diagram:
 
         return methodRepr
 
-    def __convertPosition(self, pos: Position) -> Tuple[float, float]:
-
-        x: float = DiagramCommon.toPdfPoints(pos.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self.verticalGap
-        y: float = DiagramCommon.toPdfPoints(pos.y, self._dpi) + DiagramCommon.LEFT_MARGIN + self.verticalGap
-
-        return x, y
-
     def __convertSize(self, size: Size) -> Tuple[float, float]:
 
         width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
@@ -327,7 +324,7 @@ class Diagram:
 
         Returns: a tuple of x, y, width height
         """
-        x, y = self.__convertPosition(definition.position)
+        x, y = DiagramCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         width, height = self.__convertSize(definition.size)
 
         return x, y, width, height

@@ -6,7 +6,10 @@ from enum import Enum
 from dataclasses import dataclass
 from dataclasses import field
 
-from pdfdiagrams.DiagramCommon import DiagramCommon
+from pdfdiagrams.Defaults import TOP_MARGIN
+from pdfdiagrams.Defaults import LEFT_MARGIN
+from pdfdiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
+from pdfdiagrams.Defaults import DEFAULT_VERTICAL_GAP
 
 ClassName = str
 
@@ -32,11 +35,11 @@ ArrowPoints = List[Position]
 @dataclass
 class DiagramPadding:
 
-    topMargin:  int = DiagramCommon.TOP_MARGIN
-    leftMargin: int = DiagramCommon.LEFT_MARGIN
+    topMargin:  int = TOP_MARGIN
+    leftMargin: int = LEFT_MARGIN
 
-    horizontalGap: int = DiagramCommon.DEFAULT_HORIZONTAL_GAP
-    verticalGap:   int = DiagramCommon.DEFAULT_VERTICAL_GAP
+    horizontalGap: int = DEFAULT_HORIZONTAL_GAP
+    verticalGap:   int = DEFAULT_VERTICAL_GAP
 
 
 @dataclass
