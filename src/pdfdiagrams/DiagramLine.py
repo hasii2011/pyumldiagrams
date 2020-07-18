@@ -3,9 +3,6 @@ from logging import getLogger
 
 from fpdf import FPDF
 
-from pdfdiagrams.Defaults import LEFT_MARGIN
-from pdfdiagrams.Defaults import TOP_MARGIN
-
 from pdfdiagrams.Definitions import ArrowPoints
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import UmlLineDefinition
@@ -61,11 +58,8 @@ class DiagramLine:
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1: float = DiagramCommon.toPdfPoints(src.x, self._dpi) + LEFT_MARGIN + verticalGap
-        y1: float = DiagramCommon.toPdfPoints(src.y, self._dpi) + TOP_MARGIN  + horizontalGap
-
-        x2: float = DiagramCommon.toPdfPoints(dest.x, self._dpi) + LEFT_MARGIN + verticalGap
-        y2: float = DiagramCommon.toPdfPoints(dest.y, self._dpi) + TOP_MARGIN  + horizontalGap
+        x1, y1 = DiagramCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x2, y2 = DiagramCommon.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         convertedSrc:  Position = Position(x1, y1)
         convertedDest: Position = Position(x2, y2)
