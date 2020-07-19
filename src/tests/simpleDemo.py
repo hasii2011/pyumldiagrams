@@ -3,7 +3,9 @@ from typing import List
 
 from fpdf import FPDF
 
-from pdfdiagrams.Definitions import ArrowPoints
+from pdfdiagrams.Internal import ArrowPoints
+from pdfdiagrams.Internal import PdfPosition
+
 from pdfdiagrams.Definitions import Position
 
 
@@ -138,9 +140,9 @@ def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
     # noinspection PyListCreation
     points: ArrowPoints = []
 
-    points.append(Position(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
-    points.append(Position(x2, y2))
-    points.append(Position(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
+    points.append(PdfPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
+    points.append(PdfPosition(x2, y2))
+    points.append(PdfPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
 
     return points
 
@@ -184,7 +186,7 @@ def drawPolygon(pdf: FPDF, points: ArrowPoints):
         ptNumber += 1
 
 
-def getBottomLineMidPoint(startPos: Position, endPos: Position):
+def getBottomLineMidPoint(startPos: PdfPosition, endPos: PdfPosition):
     """
     These two coordinates are the two end-points of the bottom leg of the inheritance arrow
     midPoint = (x1+x2/2, y1+y2/2)
@@ -204,7 +206,7 @@ def getBottomLineMidPoint(startPos: Position, endPos: Position):
     midX: float = (x1 + x2) / 2
     midY: float = (y1 + y2) / 2
 
-    return Position(midX, midY)
+    return PdfPosition(midX, midY)
 
 
 def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
@@ -217,7 +219,7 @@ def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
     points = getArrowPoints(src, dest)
     drawPolygon(pdf, points)
 
-    newEndPoint: Position = getBottomLineMidPoint(points[0], points[2])
+    newEndPoint: PdfPosition = getBottomLineMidPoint(points[0], points[2])
 
     pdf.line(x1=x1, y1=y1, x2=newEndPoint.x,  y2=newEndPoint.y)
 
@@ -254,5 +256,30 @@ def drawArrows():
     pdf.output('drawArrows.pdf')
 
 
+def drawPoints():
+
+    pdf = FPDF(orientation='L', unit='pt', format='A4')
+
+    pdf.set_left_margin(10.0)
+
+    pdf.add_page()
+
+    pdf.set_fill_color(255, 0, 0)
+    pdf.set_display_mode(zoom='fullwidth', layout='single')
+
+    pdf.set_line_width(0.5)
+    pdf.set_fill_color(0, 255, 0)
+
+    startX: int = 200
+    lastX:  int = 400
+    incX:   int = 2
+    y:      int = 205
+
+    for x in range(startX, lastX, incX):
+        pdf.line(x1=x, y1=y, x2=x, y2=y)
+
+    pdf.output('drawPoints.pdf')
+
+
 if __name__ == '__main__':
-    drawArrows()
+    drawPoints()
