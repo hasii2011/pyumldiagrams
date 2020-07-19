@@ -200,13 +200,6 @@ class DiagramLine:
         points.append(PdfPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
 
         return points
-        # dc.SetPen(BLACK_PEN)
-        # if filled:
-        #     dc.SetBrush(BLACK_BRUSH)
-        # else:
-        #     dc.SetBrush(WHITE_BRUSH)
-        # dc.DrawPolygon(points)
-        # dc.SetBrush(WHITE_BRUSH)
 
     def __drawPolygon(self, points: ArrowPoints):
 
