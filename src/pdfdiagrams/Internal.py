@@ -1,6 +1,7 @@
 
 from dataclasses import dataclass
 from typing import List
+from typing import Union
 
 
 @dataclass
@@ -19,3 +20,4 @@ class SeparatorPosition(PdfPosition):
 
 ArrowPoints   = List[PdfPosition]
 DiamondPoints = List[PdfPosition]
+PolygonPoints = Union[ArrowPoints, DiamondPoints]

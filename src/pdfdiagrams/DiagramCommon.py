@@ -5,6 +5,9 @@ from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Defaults import LEFT_MARGIN
 from pdfdiagrams.Defaults import TOP_MARGIN
 
+from pdfdiagrams.Internal import PdfPosition
+from pdfdiagrams.Internal import PolygonPoints
+
 
 class DiagramCommon:
 
@@ -32,3 +35,43 @@ class DiagramCommon:
         y: float = DiagramCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN  + horizontalGap
 
         return x, y
+
+    @classmethod
+    def pointInsidePolygon(cls, pos: PdfPosition, polygon: PolygonPoints) -> bool:
+        """
+        Based on this: http://www.ariel.com.au/a/python-point-int-poly.html
+
+        Args:
+            pos: The position to check
+            polygon: The polygon
+
+        Returns: True if it is, else False
+        """
+        x: float = pos.x
+        y: float = pos.y
+        n: int   = len(polygon)
+
+        inside: bool = False
+
+        p1: PdfPosition = polygon[0]
+        p1x: float = p1.x
+        p1y: float = p1.y
+
+        for i in range(n + 1):
+            p2: PdfPosition = polygon[i % n]
+            p2x: float = p2.x
+            p2y: float = p2.y
+
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        xIntersection: float = 0
+                        if p1y != p2y:
+                            xIntersection: float = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        if p1x == p2x or x <= xIntersection:
+                            inside = not inside
+
+            p1x = p2x
+            p1y = p2y
+
+        return inside

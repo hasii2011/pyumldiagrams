@@ -11,6 +11,7 @@ from fpdf import FPDF
 
 from pdfdiagrams.Internal import ArrowPoints
 from pdfdiagrams.Internal import DiamondPoints
+from pdfdiagrams.Internal import PolygonPoints
 from pdfdiagrams.Internal import PdfPosition
 
 from pdfdiagrams.Definitions import DiagramPadding
@@ -117,7 +118,7 @@ class DiagramLine:
             dest:  points of the segment
 
         Returns:
-            A list of positions that describes a polygon to draw
+            A list of positions that describes a diamond to draw
         """
         # x1: float = src.x
         # y1: float = src.y
@@ -201,7 +202,7 @@ class DiagramLine:
 
         return points
 
-    def __drawPolygon(self, points: ArrowPoints):
+    def __drawPolygon(self, points: PolygonPoints):
 
         pdf: FPDF = self._pdf
         ptNumber: int = 0
