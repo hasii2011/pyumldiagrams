@@ -10,6 +10,7 @@ from typing import Tuple
 from fpdf import FPDF
 
 from pdfdiagrams.Internal import ArrowPoints
+from pdfdiagrams.Internal import DiamondPoints
 from pdfdiagrams.Internal import PdfPosition
 
 from pdfdiagrams.Definitions import DiagramPadding
@@ -44,10 +45,10 @@ class DiagramLine:
 
         if lineType == LineType.Inheritance:
             self._drawInheritanceArrow(src=source, dest=destination)
-        elif lineType == LineType.Aggregation:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
         elif lineType == LineType.Composition:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
+            self._drawCompositionSolidDiamond(src=source, dest=destination)
+        elif lineType == LineType.Aggregation:
+            self._drawAggregationDiamond(src=source, dest=destination)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
@@ -63,6 +64,38 @@ class DiagramLine:
             src: start of line
             dest: end line line;  Arrow positioned here
         """
+        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+
+        points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
+        self.__drawPolygon(points)
+
+        newEndPoint: PdfPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
+
+        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+
+    def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
+
+        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
+        #
+        # TODO:  Need to fill the diamond
+        self.__drawPolygon(points)
+
+        newEndPoint: PdfPosition = points[3]
+
+        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+
+    def _drawAggregationDiamond(self, src: Position, dest: Position):
+
+        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
+        self.__drawPolygon(points)
+
+        newEndPoint: PdfPosition = points[3]
+
+        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+
+    def __convertEndPoints(self, src: Position, dest: Position) -> Tuple[PdfPosition, PdfPosition]:
 
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
@@ -72,12 +105,8 @@ class DiagramLine:
 
         convertedSrc:  PdfPosition = PdfPosition(x1, y1)
         convertedDest: PdfPosition = PdfPosition(x2, y2)
-        points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
-        self.__drawPolygon(points)
 
-        newEndPoint: PdfPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
-
-        self._pdf.line(x1=x1, y1=y1, x2=newEndPoint.x, y2=newEndPoint.y)
+        return convertedSrc, convertedDest
 
     def __computeTheArrowVertices(self, src: PdfPosition, dest: PdfPosition)  -> ArrowPoints:
         """
@@ -130,25 +159,16 @@ class DiagramLine:
 
         return points
 
-    def _drawDiamond(self, src: PdfPosition, dest: PdfPosition):     # , filled: bool = False):
+    def __computeDiamondVertices(self, src: PdfPosition, dest: PdfPosition) -> DiamondPoints:
         """
-        Draw an diamond at the beginning of the line.
-
         Args:
             src:
             dest:
-            # filled:     True if the diamond must be filled, False otherwise
         """
+        pi_6: float = pi/6     # radians for 30 degree angle
+        x2:   float = dest.x
+        y2:   float = dest.y
 
-        pi_6 = pi/6     # radians for 30 degree angle
-
-        # x1 = src.x
-        # y1 = src.y
-        x2 = dest.x
-        y2 = dest.y
-
-        # deltaX = x2 - x1
-        # deltaY = y2 - y1
         deltaX, deltaY = self.__computeDeltaXDeltaY(src, dest)
 
         if abs(deltaX) < 0.01:  # vertical segment
@@ -166,18 +186,20 @@ class DiagramLine:
                 alpha = atan(deltaY/deltaX)
         if deltaX > 0:
             alpha += pi
-        alpha1 = alpha + pi_6
-        alpha2 = alpha - pi_6
-        size = DiagramLine.DIAMOND_HEIGHT
+
+        alpha1: float = alpha + pi_6
+        alpha2: float = alpha - pi_6
+        size:   int   = DiagramLine.DIAMOND_HEIGHT
 
         # noinspection PyListCreation
-        points = []
+        points: DiamondPoints = []
 
-        points.append((x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
-        points.append((x2, y2))
-        points.append((x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-        points.append((x2 + 2*size * cos(alpha),  y2 + 2*size * sin(alpha)))
+        points.append((PdfPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+        points.append(PdfPosition(x2, y2))
+        points.append(PdfPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
+        points.append(PdfPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
 
+        return points
         # dc.SetPen(BLACK_PEN)
         # if filled:
         #     dc.SetBrush(BLACK_BRUSH)

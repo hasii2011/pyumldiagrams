@@ -1,6 +1,7 @@
 
 from logging import Logger
 from logging import getLogger
+from typing import Tuple
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
@@ -68,22 +69,26 @@ class TestDiagramLine(TestBase):
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
-        north: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
-                                                     destination=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_BOTTOM_Y),
-                                                     source=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_TOP_Y))
+        north, south, east, west = self.__createOrthogonalLines(LineType.Inheritance)
+        lineDefinitions: UmlLineDefinitions = [
+            north, south, east, west
+        ]
+        for lineDefinition in lineDefinitions:
+            lineDrawer.draw(lineDefinition)
 
-        south: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
-                                                     source=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_BOTTOM_Y),
-                                                     destination=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_TOP_Y))
+        diagram.write()
 
-        east: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
-                                                    source=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC),
-                                                    destination=Position(TestDiagramLine.H_RIGHT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC))
+    def testOrthogonalCompositionLines(self):
 
-        west: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance,
-                                                    source=Position(TestDiagramLine.H_RIGHT_X,   TestDiagramLine.H_RIGHT_BOTTOM_Y),
-                                                    destination=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_BOTTOM_Y)
-                                                    )
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+
+        self.__drawHorizontalBoundaries(diagram)
+        self.__drawVerticalBoundaries(diagram)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        north, south, east, west = self.__createOrthogonalLines(LineType.Composition)
+
         lineDefinitions: UmlLineDefinitions = [
             north, south, east, west
         ]
@@ -107,6 +112,47 @@ class TestDiagramLine(TestBase):
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
+        diagram.write()
+
+    def testDiagonalCompositionLines(self):
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Composition)
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
+        diagram.write()
+
+    def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
+
+        north: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
+                                                     destination=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_BOTTOM_Y),
+                                                     source=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_TOP_Y))
+
+        south: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
+                                                     source=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_BOTTOM_Y),
+                                                     destination=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_TOP_Y))
+
+        east: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
+                                                    source=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC),
+                                                    destination=Position(TestDiagramLine.H_RIGHT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC))
+
+        west: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
+                                                    source=Position(TestDiagramLine.H_RIGHT_X,   TestDiagramLine.H_RIGHT_BOTTOM_Y),
+                                                    destination=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_BOTTOM_Y)
+                                                    )
+
+        return north, south, east, west
+
+    def __createDiagonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
+
         pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)
 
         arrowSize: float = TestDiagramLine.ELLIPSE_WIDTH / 2
@@ -117,15 +163,12 @@ class TestDiagramLine(TestBase):
         nwDest: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
         swDest: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        northEast: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=neDest)
-        northWest: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=nwDest)
-        southEast: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=seDest)
-        southWest: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=center, destination=swDest)
+        northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, source=center, destination=neDest)
+        northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, source=center, destination=nwDest)
+        southEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, source=center, destination=seDest)
+        southWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, source=center, destination=swDest)
 
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
-        for definition in definitions:
-            lineDrawer.draw(definition)
-        diagram.write()
+        return northEast, northWest, southEast, southWest
 
     def __drawHorizontalBoundaries(self, diagram: Diagram):
 
