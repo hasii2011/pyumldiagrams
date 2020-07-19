@@ -107,7 +107,7 @@ def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
         dest:  points of the segment
 
     Returns:
-        A list of positions that describes a polygon to draw
+        A list of positions that describes a diamond to draw
     """
     from math import pi, atan, cos, sin
 
