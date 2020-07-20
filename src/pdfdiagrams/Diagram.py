@@ -29,6 +29,8 @@ from pdfdiagrams.Internal import SeparatorPosition
 
 from pdfdiagrams.DiagramLine import DiagramLine
 
+from pdfdiagrams.Defaults import DEFAULT_LINE_WIDTH
+
 from pdfdiagrams.UnsupportedException import UnsupportedException
 
 
@@ -74,7 +76,7 @@ class Diagram:
 
         pdf.set_display_mode(zoom='default', layout='single')
 
-        pdf.set_line_width(0.5)
+        pdf.set_line_width(DEFAULT_LINE_WIDTH)
 
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')

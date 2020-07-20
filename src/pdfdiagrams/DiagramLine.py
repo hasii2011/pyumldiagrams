@@ -34,10 +34,10 @@ class DiagramLine:
 
         self.logger: Logger = getLogger(__name__)
 
-        self._pdf:            FPDF = pdf
-        self._diagramPadding: diagramPadding  = diagramPadding
+        self._pdf: FPDF = pdf
+        self._dpi: int  = dpi
 
-        self._dpi:           int  = dpi
+        self._diagramPadding: diagramPadding  = diagramPadding
 
     def draw(self, lineDefinition: UmlLineDefinition):
 
@@ -79,27 +79,11 @@ class DiagramLine:
 
         convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
         points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
-        #
-        # TODO:  Need to fill the diamond
+
         self.__drawPolygon(points)
-
-        scanPoints: ScanPoints = DiagramCommon.buildScanPoints(points)
-        startX: float = scanPoints.startScan.x
-        startY: float = scanPoints.startScan.y
-        endX:   float = scanPoints.endScan.x
-        endY:   float = scanPoints.endScan.y
-
-        x = startX
-        while x <= endX:
-            y = startY
-            while y <= endY:
-                if DiagramCommon.pointInsidePolygon(pos=PdfPosition(x, y), polygon=points):
-                    self._pdf.line(x1=x, y1=y, x2=x, y2=y)
-                y += 1
-            x += 1
+        self.__FillInDiamond(points)
 
         newEndPoint: PdfPosition = points[3]
-
         self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
     def _drawAggregationDiamond(self, src: Position, dest: Position):
@@ -274,3 +258,27 @@ class DiagramLine:
         deltaY: float = y2 - y1
 
         return deltaX, deltaY
+
+    def __FillInDiamond(self, points: DiamondPoints):
+        """
+
+        Args:
+            points:  The polygon that defines the composition diamond
+
+        """
+        scanPoints: ScanPoints = DiagramCommon.buildScanPoints(points)
+
+        startX: float = scanPoints.startScan.x
+        startY: float = scanPoints.startScan.y
+
+        endX: float = scanPoints.endScan.x
+        endY: float = scanPoints.endScan.y
+
+        x = startX
+        while x <= endX:
+            y = startY
+            while y <= endY:
+                if DiagramCommon.pointInsidePolygon(pos=PdfPosition(x, y), polygon=points):
+                    self._pdf.line(x1=x, y1=y, x2=x, y2=y)
+                y += 1
+            x += 1
