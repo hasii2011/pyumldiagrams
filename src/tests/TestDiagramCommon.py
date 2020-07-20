@@ -76,10 +76,10 @@ class TestDiagramCommon(TestBase):
 
     def testInCenterOfDiamond(self):
 
-        inPolygon: PdfPosition = PdfPosition(1118.0, 469.0717)
+        inPolygon: PdfPosition = PdfPosition(1118.0, 470.0)
         actualAns: bool = DiagramCommon.pointInsidePolygon(pos=inPolygon, polygon=self.diamond)
 
-        self.assertTrue(actualAns, 'Diamond check is bad')
+        self.assertTrue(actualAns, 'Diamond check in center of diamond is bad')
 
     def testPointRightOfDiamond(self):
 
