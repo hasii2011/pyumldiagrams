@@ -7,6 +7,7 @@ from pdfdiagrams.Defaults import TOP_MARGIN
 
 from pdfdiagrams.Internal import PdfPosition
 from pdfdiagrams.Internal import PolygonPoints
+from pdfdiagrams.Internal import ScanPoints
 
 
 class DiagramCommon:
@@ -75,3 +76,31 @@ class DiagramCommon:
             p1y = p2y
 
         return inside
+
+    @classmethod
+    def buildScanPoints(cls, points: PolygonPoints) -> ScanPoints:
+
+        minX: float = points[0].x
+        maxX: float = points[0].y
+        minY: float = points[0].x
+        maxY: float = points[0].y
+
+        for point in points:
+            currX: float = point.x
+            currY: float = point.y
+            if currX < minX:
+                minX = currX
+            if currX > maxX:
+                maxX = currX
+
+            if currY < minY:
+                minY = currY
+            if currY > maxY:
+                maxY = currY
+
+        scanPoints: ScanPoints = ScanPoints()
+
+        scanPoints.startScan = PdfPosition(minX, minY)
+        scanPoints.endScan   = PdfPosition(maxX, maxY)
+
+        return scanPoints

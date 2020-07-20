@@ -21,3 +21,10 @@ class SeparatorPosition(PdfPosition):
 ArrowPoints   = List[PdfPosition]
 DiamondPoints = List[PdfPosition]
 PolygonPoints = Union[ArrowPoints, DiamondPoints]
+
+
+@dataclass
+class ScanPoints:
+
+    startScan: PdfPosition = PdfPosition(0, 0)
+    endScan:   PdfPosition = PdfPosition(0, 0)
