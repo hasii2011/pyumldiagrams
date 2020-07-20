@@ -15,4 +15,4 @@ rm -rf html
 
 cd src > /dev/null 2>&1
 
-pdoc3 --force --html --output-dir docs pdfdiagrams/
+pdoc3 --force --html --output-dir ../docs pdfdiagrams/
