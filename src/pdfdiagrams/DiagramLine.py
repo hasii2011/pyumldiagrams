@@ -20,6 +20,7 @@ from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import Position
 
 from pdfdiagrams.DiagramCommon import DiagramCommon
+from pdfdiagrams.Internal import ScanPoints
 
 from pdfdiagrams.UnsupportedException import UnsupportedException
 
@@ -77,10 +78,25 @@ class DiagramLine:
     def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
 
         convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
-        points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
+        points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
         #
         # TODO:  Need to fill the diamond
         self.__drawPolygon(points)
+
+        scanPoints: ScanPoints = DiagramCommon.buildScanPoints(points)
+        startX: float = scanPoints.startScan.x
+        startY: float = scanPoints.startScan.y
+        endX:   float = scanPoints.endScan.x
+        endY:   float = scanPoints.endScan.y
+
+        x = startX
+        while x <= endX:
+            y = startY
+            while y <= endY:
+                if DiagramCommon.pointInsidePolygon(pos=PdfPosition(x, y), polygon=points):
+                    self._pdf.line(x1=x, y1=y, x2=x, y2=y)
+                y += 1
+            x += 1
 
         newEndPoint: PdfPosition = points[3]
 

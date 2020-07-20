@@ -130,6 +130,36 @@ class TestDiagramLine(TestBase):
             lineDrawer.draw(definition)
         diagram.write()
 
+    def testOrthogonalAggregationLines(self):
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+
+        self.__drawHorizontalBoundaries(diagram)
+        self.__drawVerticalBoundaries(diagram)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        north, south, east, west = self.__createOrthogonalLines(LineType.Aggregation)
+        lineDefinitions: UmlLineDefinitions = [
+            north, south, east, west
+        ]
+        for lineDefinition in lineDefinitions:
+            lineDrawer.draw(lineDefinition)
+
+        diagram.write()
+
+    def testDiagonalAggregationLines(self):
+
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+
+        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Aggregation)
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
+        diagram.write()
+
     def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
         north: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
