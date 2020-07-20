@@ -36,7 +36,12 @@ from pdfdiagrams.UnsupportedException import UnsupportedException
 
 class Diagram:
     """
-    Always lays out in portrait mode
+
+    Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
+    inheritance, composition, and aggregation lines.
+
+    You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
+    specify text font size
     """
     MethodsRepr = List[str]
 
@@ -135,12 +140,12 @@ class Diagram:
 
     def drawClass(self, classDefinition: ClassDefinition):
         """
-        Draw the class system
+        Draw the class diagram defined by the input
+
         Args:
             classDefinition:    The class definition
         """
-        # x: int = DiagramCommon.toPdfPoints(classDefinition.position.x, self._dpi) + DiagramCommon.LEFT_MARGIN + self._diagramPadding.verticalGap
-        # y: int = DiagramCommon.toPdfPoints(classDefinition.position.y, self._dpi) + DiagramCommon.TOP_MARGIN  + self._diagramPadding.horizontalGap
+
         position:      Position = classDefinition.position
         verticalGap:   float = self._diagramPadding.verticalGap
         horizontalGap: float = self._diagramPadding.horizontalGap
@@ -156,6 +161,8 @@ class Diagram:
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
+        Draw the inheritance, aggregation, or composition lines that describe the relationships
+        between the UML classes
 
         Args:
             lineDefinition:   A UML Line definition
@@ -174,21 +181,44 @@ class Diagram:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
     def drawEllipse(self, definition: EllipseDefinition):
+        """
+        Draw a general purpose ellipse
+
+        Args:
+            definition:     It's definition
+        """
 
         x, y, width, height = self.__convertDefinition(definition)
         self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle)
 
     def drawRectangle(self, definition: RectangleDefinition):
+        """
+        Draw a general purpose rectangle
+
+        Args:
+            definition:  The rectangle definition
+
+        """
 
         x, y, width, height = self.__convertDefinition(definition)
         self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle)
 
     def drawText(self, position: Position, text: str):
+        """
+        Draw text at the input position.  The method will appropriately convert it to PDF points
+
+        Args:
+            position:  The display's x, y position
+            text:   The text to display
+        """
 
         x, y = DiagramCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         self._pdf.text(x=x, y=y, txt=text)
 
     def write(self):
+        """
+        Call this method when you are done with placing the diagram onto a PDF document.
+        """
         self._pdf.output(self._fileName)
 
     def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -> int:
