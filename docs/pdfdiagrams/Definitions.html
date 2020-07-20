@@ -80,6 +80,9 @@ class BaseDefinition:
 
     __slots__ = [&#39;name&#39;]
     name: str
+    &#34;&#34;&#34;
+    The name associated with the definition.
+    &#34;&#34;&#34;
 
 
 @dataclass
@@ -120,16 +123,16 @@ class LineType(Enum):
 
 
 @dataclass
-class BasicLineDefinition:
+class LineDefinition:
     &#34;&#34;&#34;
-    TODO: rename this to UmlLineDefinition
+    Defines just a line between two points
     &#34;&#34;&#34;
     source:              Position
     destination:         Position
 
 
 @dataclass
-class UmlLineDefinition(BasicLineDefinition):
+class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
     &#34;&#34;&#34;
     lineType:            LineType
@@ -180,7 +183,10 @@ class EllipseDefinition(RectangleDefinition):
 <pre><code class="python">class BaseDefinition:
 
     __slots__ = [&#39;name&#39;]
-    name: str</code></pre>
+    name: str
+    &#34;&#34;&#34;
+    The name associated with the definition.
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -192,31 +198,9 @@ class EllipseDefinition(RectangleDefinition):
 <dl>
 <dt id="pdfdiagrams.Definitions.BaseDefinition.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
-<div class="desc"><p>Return an attribute of instance, which is of type owner.</p></div>
+<div class="desc"><p>The name associated with the definition.</p></div>
 </dd>
 </dl>
-</dd>
-<dt id="pdfdiagrams.Definitions.BasicLineDefinition"><code class="flex name class">
-<span>class <span class="ident">BasicLineDefinition</span></span>
-<span>(</span><span>source: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>, destination: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>TODO: rename this to UmlLineDefinition</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class BasicLineDefinition:
-    &#34;&#34;&#34;
-    TODO: rename this to UmlLineDefinition
-    &#34;&#34;&#34;
-    source:              Position
-    destination:         Position</code></pre>
-</details>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="pdfdiagrams.Definitions.UmlLineDefinition" href="#pdfdiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a></li>
-</ul>
 </dd>
 <dt id="pdfdiagrams.Definitions.ClassDefinition"><code class="flex name class">
 <span>class <span class="ident">ClassDefinition</span></span>
@@ -347,6 +331,28 @@ class EllipseDefinition(RectangleDefinition):
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="pdfdiagrams.Definitions.RectangleDefinition" href="#pdfdiagrams.Definitions.RectangleDefinition">RectangleDefinition</a></li>
+</ul>
+</dd>
+<dt id="pdfdiagrams.Definitions.LineDefinition"><code class="flex name class">
+<span>class <span class="ident">LineDefinition</span></span>
+<span>(</span><span>source: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>, destination: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines just a line between two points</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LineDefinition:
+    &#34;&#34;&#34;
+    Defines just a line between two points
+    &#34;&#34;&#34;
+    source:              Position
+    destination:         Position</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pdfdiagrams.Definitions.UmlLineDefinition" href="#pdfdiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a></li>
 </ul>
 </dd>
 <dt id="pdfdiagrams.Definitions.LineType"><code class="flex name class">
@@ -604,14 +610,14 @@ to points for use in this system</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class UmlLineDefinition(BasicLineDefinition):
+<pre><code class="python">class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
     &#34;&#34;&#34;
     lineType:            LineType</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="pdfdiagrams.Definitions.BasicLineDefinition" href="#pdfdiagrams.Definitions.BasicLineDefinition">BasicLineDefinition</a></li>
+<li><a title="pdfdiagrams.Definitions.LineDefinition" href="#pdfdiagrams.Definitions.LineDefinition">LineDefinition</a></li>
 </ul>
 </dd>
 </dl>
@@ -635,9 +641,6 @@ to points for use in this system</p></div>
 <ul class="">
 <li><code><a title="pdfdiagrams.Definitions.BaseDefinition.name" href="#pdfdiagrams.Definitions.BaseDefinition.name">name</a></code></li>
 </ul>
-</li>
-<li>
-<h4><code><a title="pdfdiagrams.Definitions.BasicLineDefinition" href="#pdfdiagrams.Definitions.BasicLineDefinition">BasicLineDefinition</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pdfdiagrams.Definitions.ClassDefinition" href="#pdfdiagrams.Definitions.ClassDefinition">ClassDefinition</a></code></h4>
@@ -665,6 +668,9 @@ to points for use in this system</p></div>
 </li>
 <li>
 <h4><code><a title="pdfdiagrams.Definitions.EllipseDefinition" href="#pdfdiagrams.Definitions.EllipseDefinition">EllipseDefinition</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pdfdiagrams.Definitions.LineDefinition" href="#pdfdiagrams.Definitions.LineDefinition">LineDefinition</a></code></h4>
 </li>
 <li>
 <h4><code><a title="pdfdiagrams.Definitions.LineType" href="#pdfdiagrams.Definitions.LineType">LineType</a></code></h4>
