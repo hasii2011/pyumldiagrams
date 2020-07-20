@@ -41,7 +41,7 @@ class Diagram:
     inheritance, composition, and aggregation lines.
 
     You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
-    specify text font size
+    specify the text font size
     """
     MethodsRepr = List[str]
 
@@ -205,7 +205,8 @@ class Diagram:
 
     def drawText(self, position: Position, text: str):
         """
-        Draw text at the input position.  The method will appropriately convert it to PDF points
+        Draw text at the input position.  The method will appropriately convert the
+        position to PDF points
 
         Args:
             position:  The display's x, y position

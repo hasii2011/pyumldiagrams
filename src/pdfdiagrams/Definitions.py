@@ -53,6 +53,9 @@ class BaseDefinition:
 
     __slots__ = ['name']
     name: str
+    """
+    The name associated with the definition.
+    """
 
 
 @dataclass
@@ -93,16 +96,16 @@ class LineType(Enum):
 
 
 @dataclass
-class BasicLineDefinition:
+class LineDefinition:
     """
-    TODO: rename this to UmlLineDefinition
+    Defines just a line between two points
     """
     source:              Position
     destination:         Position
 
 
 @dataclass
-class UmlLineDefinition(BasicLineDefinition):
+class UmlLineDefinition(LineDefinition):
     """
     """
     lineType:            LineType
