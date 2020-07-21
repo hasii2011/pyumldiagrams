@@ -37,12 +37,17 @@ class DiagramPadding:
 
 @dataclass
 class Size:
-
+    """
+    Defines the size of the input UML definitions;
+    """
     width:  int = 100
     height: int = 100
 
 
 class DefinitionType(Enum):
+    """
+    Defines the visibility of either methods or fields
+    """
     Public    = '+'
     Private   = '-'
     Protected = '#'
@@ -60,6 +65,9 @@ class BaseDefinition:
 
 @dataclass
 class ParameterDefinition(BaseDefinition):
+    """
+    Defines a single parameter for a method
+    """
     parameterType: str = ''
     defaultValue:  str = ''
 
@@ -69,6 +77,9 @@ Parameters = List[ParameterDefinition]
 
 @dataclass
 class MethodDefinition(BaseDefinition):
+    """
+    Defines a single method in a UML class
+    """
 
     visibility: DefinitionType = DefinitionType.Public
     returnType: str            = ''
@@ -80,6 +91,9 @@ Methods = List[MethodDefinition]
 
 @dataclass
 class ClassDefinition(BaseDefinition):
+    """
+    The class definition.  Currently, does not supports instance properties.
+    """
 
     size:     Size     = Size()
     position: Position = Position(0, 0)
@@ -90,6 +104,9 @@ ClassDefinitions = List[ClassDefinition]
 
 
 class LineType(Enum):
+    """
+    The type of line you wish to draw.  Currently, straight assoications are not supported.
+    """
     Inheritance  = 0
     Aggregation  = 1
     Composition  = 3
@@ -107,6 +124,7 @@ class LineDefinition:
 @dataclass
 class UmlLineDefinition(LineDefinition):
     """
+    A UML Line definition includes its' type
     """
     lineType:            LineType
 

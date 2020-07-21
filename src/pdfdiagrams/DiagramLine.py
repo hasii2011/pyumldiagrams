@@ -26,7 +26,11 @@ from pdfdiagrams.UnsupportedException import UnsupportedException
 
 
 class DiagramLine:
-
+    """
+    This class takes responsibility for drawing the various types of lines within the
+    described UML classes.  End users generally do not directly use this class.
+    It is split off as part of the separation of responsibility principle.
+    """
     INHERITANCE_ARROW_HEIGHT: int = 8
     DIAMOND_HEIGHT: int = 8
 
@@ -40,6 +44,11 @@ class DiagramLine:
         self._diagramPadding: diagramPadding  = diagramPadding
 
     def draw(self, lineDefinition: UmlLineDefinition):
+        """
+        Draw the line described by the input parameter
+        Args:
+            lineDefinition:  Describes the line to draw
+        """
 
         source:      Position = lineDefinition.source
         destination: Position = lineDefinition.destination
