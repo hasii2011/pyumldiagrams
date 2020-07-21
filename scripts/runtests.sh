@@ -14,9 +14,6 @@ changeToProjectRoot
 python3 -m tests.TestAll $*
 status=$?
 
-cd -  > /dev/null 2>&1
-
-
 while getopts c option
     do
         case "${option}"
