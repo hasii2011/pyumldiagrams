@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 function changeToProjectRoot {
 
@@ -10,5 +10,6 @@ function changeToProjectRoot {
 
 changeToProjectRoot
 
-find . -type d -name UNKNOWN.egg-info -exec rm -rf {} \; -print
+find . -type d -name PDFDiagramming.egg-info -exec rm -rf {} \; -print
 find . -type f -name "*.pdf" -delete
+rm -rf build dist
