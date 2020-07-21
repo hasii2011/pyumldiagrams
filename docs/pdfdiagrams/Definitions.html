@@ -64,12 +64,17 @@ class DiagramPadding:
 
 @dataclass
 class Size:
-
+    &#34;&#34;&#34;
+    Defines the size of the input UML definitions;
+    &#34;&#34;&#34;
     width:  int = 100
     height: int = 100
 
 
 class DefinitionType(Enum):
+    &#34;&#34;&#34;
+    Defines the visibility of either methods or fields
+    &#34;&#34;&#34;
     Public    = &#39;+&#39;
     Private   = &#39;-&#39;
     Protected = &#39;#&#39;
@@ -87,6 +92,9 @@ class BaseDefinition:
 
 @dataclass
 class ParameterDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    Defines a single parameter for a method
+    &#34;&#34;&#34;
     parameterType: str = &#39;&#39;
     defaultValue:  str = &#39;&#39;
 
@@ -96,6 +104,9 @@ Parameters = List[ParameterDefinition]
 
 @dataclass
 class MethodDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    Defines a single method in a UML class
+    &#34;&#34;&#34;
 
     visibility: DefinitionType = DefinitionType.Public
     returnType: str            = &#39;&#39;
@@ -107,6 +118,9 @@ Methods = List[MethodDefinition]
 
 @dataclass
 class ClassDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    The class definition.  Currently, does not supports instance properties.
+    &#34;&#34;&#34;
 
     size:     Size     = Size()
     position: Position = Position(0, 0)
@@ -117,6 +131,9 @@ ClassDefinitions = List[ClassDefinition]
 
 
 class LineType(Enum):
+    &#34;&#34;&#34;
+    The type of line you wish to draw.  Currently, straight assoications are not supported.
+    &#34;&#34;&#34;
     Inheritance  = 0
     Aggregation  = 1
     Composition  = 3
@@ -134,6 +151,7 @@ class LineDefinition:
 @dataclass
 class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
+    A UML Line definition includes its&#39; type
     &#34;&#34;&#34;
     lineType:            LineType
 
@@ -207,12 +225,16 @@ class EllipseDefinition(RectangleDefinition):
 <span>(</span><span>name: str, size: <a title="pdfdiagrams.Definitions.Size" href="#pdfdiagrams.Definitions.Size">Size</a> = Size(width=100, height=100), position: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), methods: List[<a title="pdfdiagrams.Definitions.MethodDefinition" href="#pdfdiagrams.Definitions.MethodDefinition">MethodDefinition</a>] = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>ClassDefinition(name: str, size: pdfdiagrams.Definitions.Size = Size(width=100, height=100), position: pdfdiagrams.Definitions.Position = Position(x=0, y=0), methods: List[pdfdiagrams.Definitions.MethodDefinition] = <factory>)</p></div>
+<div class="desc"><p>The class definition.
+Currently, does not supports instance properties.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ClassDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    The class definition.  Currently, does not supports instance properties.
+    &#34;&#34;&#34;
 
     size:     Size     = Size()
     position: Position = Position(0, 0)
@@ -247,12 +269,15 @@ class EllipseDefinition(RectangleDefinition):
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An enumeration.</p></div>
+<div class="desc"><p>Defines the visibility of either methods or fields</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DefinitionType(Enum):
+    &#34;&#34;&#34;
+    Defines the visibility of either methods or fields
+    &#34;&#34;&#34;
     Public    = &#39;+&#39;
     Private   = &#39;-&#39;
     Protected = &#39;#&#39;</code></pre>
@@ -360,12 +385,16 @@ class EllipseDefinition(RectangleDefinition):
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An enumeration.</p></div>
+<div class="desc"><p>The type of line you wish to draw.
+Currently, straight assoications are not supported.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LineType(Enum):
+    &#34;&#34;&#34;
+    The type of line you wish to draw.  Currently, straight assoications are not supported.
+    &#34;&#34;&#34;
     Inheritance  = 0
     Aggregation  = 1
     Composition  = 3</code></pre>
@@ -395,12 +424,15 @@ class EllipseDefinition(RectangleDefinition):
 <span>(</span><span>name: str, visibility: <a title="pdfdiagrams.Definitions.DefinitionType" href="#pdfdiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public, returnType: str = '', parameters: List[<a title="pdfdiagrams.Definitions.ParameterDefinition" href="#pdfdiagrams.Definitions.ParameterDefinition">ParameterDefinition</a>] = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>MethodDefinition(name: str, visibility: pdfdiagrams.Definitions.DefinitionType = <DefinitionType.Public: '+'>, returnType: str = '', parameters: List[pdfdiagrams.Definitions.ParameterDefinition] = <factory>)</p></div>
+<div class="desc"><p>Defines a single method in a UML class</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class MethodDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    Defines a single method in a UML class
+    &#34;&#34;&#34;
 
     visibility: DefinitionType = DefinitionType.Public
     returnType: str            = &#39;&#39;
@@ -435,12 +467,15 @@ class EllipseDefinition(RectangleDefinition):
 <span>(</span><span>name: str, parameterType: str = '', defaultValue: str = '')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>ParameterDefinition(name: str, parameterType: str = '', defaultValue: str = '')</p></div>
+<div class="desc"><p>Defines a single parameter for a method</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ParameterDefinition(BaseDefinition):
+    &#34;&#34;&#34;
+    Defines a single parameter for a method
+    &#34;&#34;&#34;
     parameterType: str = &#39;&#39;
     defaultValue:  str = &#39;&#39;</code></pre>
 </details>
@@ -578,13 +613,15 @@ to points for use in this system</p></div>
 <span>(</span><span>width: int = 100, height: int = 100)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Size(width: int = 100, height: int = 100)</p></div>
+<div class="desc"><p>Defines the size of the input UML definitions;</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Size:
-
+    &#34;&#34;&#34;
+    Defines the size of the input UML definitions;
+    &#34;&#34;&#34;
     width:  int = 100
     height: int = 100</code></pre>
 </details>
@@ -605,13 +642,14 @@ to points for use in this system</p></div>
 <span>(</span><span>source: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>, destination: <a title="pdfdiagrams.Definitions.Position" href="#pdfdiagrams.Definitions.Position">Position</a>, lineType: <a title="pdfdiagrams.Definitions.LineType" href="#pdfdiagrams.Definitions.LineType">LineType</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A UML Line definition includes its' type</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
+    A UML Line definition includes its&#39; type
     &#34;&#34;&#34;
     lineType:            LineType</code></pre>
 </details>
