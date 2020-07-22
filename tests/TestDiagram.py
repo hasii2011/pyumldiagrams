@@ -85,6 +85,26 @@ class TestDiagram(TestBase):
 
         diagram.write()
 
+    def testBasicMethod(self):
+
+        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+        initMethodDef.parameters = [initParam]
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+
+        diagram.write()
+
     def testBasicMethods(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
