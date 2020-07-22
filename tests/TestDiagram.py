@@ -85,26 +85,6 @@ class TestDiagram(TestBase):
 
         diagram.write()
 
-    def testBasicMethod(self):
-
-        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
-
-        position: Position = Position(107, 30)
-        size:     Size     = Size(width=266, height=100)
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
-
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
-        initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
-
-        diagram.drawClass(car)
-
-        diagram.write()
-
     def testBasicMethods(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
@@ -157,9 +137,44 @@ class TestDiagram(TestBase):
 
         self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
 
+    def testBasicMethod(self):
+
+        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+        initMethodDef.parameters = [initParam]
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+
+        diagram.write()
+
+    def testMinimalInheritance(self):
+
+        diagram: Diagram = Diagram(fileName='MinimalInheritance.pdf', dpi=75)
+
+        cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
+        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
+
+        diagram.drawClass(classDefinition=cat)
+        diagram.drawClass(classDefinition=opie)
+
+        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
+
+        diagram.drawUmlLine(lineDefinition=opieToCat)
+        diagram.write()
+
     def __buildCar(self) -> ClassDefinition:
 
-        car: ClassDefinition = ClassDefinition(name='car', position=Position(107, 30), size=Size(width=266, height=100))
+        car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))
 
         initMethodDef:      MethodDefinition = self.__buildInitMethod()
         descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
