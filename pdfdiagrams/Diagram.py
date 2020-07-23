@@ -17,7 +17,6 @@ from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import EllipseDefinition
 from pdfdiagrams.Definitions import UmlLineDefinition
-from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
@@ -32,8 +31,6 @@ from pdfdiagrams.Internal import SeparatorPosition
 from pdfdiagrams.DiagramLine import DiagramLine
 
 from pdfdiagrams.Defaults import DEFAULT_LINE_WIDTH
-
-from pdfdiagrams.UnsupportedException import UnsupportedException
 
 
 class Diagram:
@@ -53,8 +50,6 @@ class Diagram:
     RESOURCES_PATH:         final = f'pdfdiagrams{osSep}resources'
 
     RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
-    FONT_FILE_NAME:         final = 'Vera.ttf'
-    FONT_NAME:              final = 'Vera'
 
     DEFAULT_FONT_SIZE:      final = 10
 
@@ -86,11 +81,7 @@ class Diagram:
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
-        # fqFontName: str = Diagram.retrieveResourcePath(Diagram.FONT_FILE_NAME)
-        #
-        # pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
-        # pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
-        pdf.set_font('Courier', size=Diagram.DEFAULT_FONT_SIZE)
+        pdf.set_font('Arial', size=Diagram.DEFAULT_FONT_SIZE)
         self._pdf:      FPDF = pdf
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
@@ -154,7 +145,7 @@ class Diagram:
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
@@ -211,7 +202,7 @@ class Diagram:
         """
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -> int:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -> float:
         """
         Draws the UML Class symbol.
 
@@ -225,7 +216,10 @@ class Diagram:
 
         symbolWidth:  float = classDefinition.size.width
         symbolHeight: float = classDefinition.size.height
-        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
+        size: Size = Size(width=symbolWidth, height=symbolHeight)
+
+        convertedWidth, convertedHeight = self.__convertSize(size=size)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -235,7 +229,7 @@ class Diagram:
 
         return symbolWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: int) -> SeparatorPosition:
+    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
         """
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -311,13 +305,6 @@ class Diagram:
 
         return methodRepr
 
-    def __convertSize(self, size: Size) -> Tuple[float, float]:
-
-        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
-        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
-
-        return width, height
-
     def __convertDefinition(self, definition: RectangleDefinition) -> Tuple[float, float, float, float]:
         """
 
@@ -330,3 +317,10 @@ class Diagram:
         width, height = self.__convertSize(definition.size)
 
         return x, y, width, height
+
+    def __convertSize(self, size: Size) -> Tuple[float, float]:
+
+        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
+        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
+
+        return width, height
