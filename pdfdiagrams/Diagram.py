@@ -1,11 +1,13 @@
 
+from typing import List
+from typing import Tuple
+from typing import cast
+from typing import final
+
 from logging import Logger
 from logging import getLogger
 
 from os import sep as osSep
-from typing import List
-from typing import Tuple
-from typing import cast
 
 from pkg_resources import resource_filename
 
@@ -45,24 +47,22 @@ class Diagram:
     """
     MethodsRepr = List[str]
 
-    FPDF_DRAW: str = 'D'
+    FPDF_DRAW: final = 'D'
 
-    RESOURCES_PACKAGE_NAME: str = 'pdfdiagrams.resources'
-    RESOURCES_PATH:         str = f'pdfdiagrams{osSep}resources'
+    RESOURCES_PACKAGE_NAME: final = 'pdfdiagrams.resources'
+    RESOURCES_PATH:         final = f'pdfdiagrams{osSep}resources'
 
-    RESOURCE_ENV_VAR:       str = 'RESOURCEPATH'
-    FONT_FILE_NAME:         str = 'Vera.ttf'
-    FONT_NAME:              str = 'Vera'
-    # FONT_FILE_NAME:         str = 'MonoFonto.ttf'
-    # FONT_NAME:              str = 'Mono'
+    RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
+    FONT_FILE_NAME:         final = 'Vera.ttf'
+    FONT_NAME:              final = 'Vera'
 
-    DEFAULT_FONT_SIZE:      int = 10
+    DEFAULT_FONT_SIZE:      final = 10
 
-    DEFAULT_PAGE_WIDTH:  int = 3000     # points
-    DEFAULT_PAGE_HEIGHT: int = 1500     # points
+    DEFAULT_PAGE_WIDTH:  final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: final = 1500     # points
 
-    X_NUDGE_FACTOR: int = 4
-    Y_NUDGE_FACTOR: int = 4
+    X_NUDGE_FACTOR: final = 4
+    Y_NUDGE_FACTOR: final = 4
 
     def __init__(self, fileName: str, dpi: int):
         """
@@ -86,11 +86,11 @@ class Diagram:
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
-        fqFontName: str = Diagram.retrieveResourcePath(Diagram.FONT_FILE_NAME)
-
-        pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
-        pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
-
+        # fqFontName: str = Diagram.retrieveResourcePath(Diagram.FONT_FILE_NAME)
+        #
+        # pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
+        # pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
+        pdf.set_font('Courier', size=Diagram.DEFAULT_FONT_SIZE)
         self._pdf:      FPDF = pdf
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
@@ -167,18 +167,7 @@ class Diagram:
         Args:
             lineDefinition:   A UML Line definition
         """
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
-
-        if lineType == LineType.Inheritance:
-            self._lineDrawer.draw(lineDefinition=lineDefinition)
-        elif lineType == LineType.Aggregation:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        elif lineType == LineType.Composition:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        else:
-            raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
+        self._lineDrawer.draw(lineDefinition=lineDefinition)
 
     def drawEllipse(self, definition: EllipseDefinition):
         """
@@ -234,8 +223,8 @@ class Diagram:
         Returns:  The computed UML symbol width
         """
 
-        symbolWidth:  int = classDefinition.size.width
-        symbolHeight: int = classDefinition.size.height
+        symbolWidth:  float = classDefinition.size.width
+        symbolHeight: float = classDefinition.size.height
         self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)

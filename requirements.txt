@@ -1,1 +1,4 @@
 pdoc3==0.8.4
+fpdf2==2.0.5
+
+setuptools~=41.2.0

@@ -10,11 +10,12 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="PDFDiagramming",
-    version="1.0.0",
+    version="1.0.2",
     description="Draw UML diagrams in PDF format",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/hasii2011/pdfdiagrams",
     packages=find_packages(),
-    include_package_data=True
+    include_package_data=True,
+    install_requires=["fpdf2"]
 )

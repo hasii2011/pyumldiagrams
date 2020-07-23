@@ -40,8 +40,8 @@ class Size:
     """
     Defines the size of the input UML definitions;
     """
-    width:  int = 100
-    height: int = 100
+    width:  float = 100
+    height: float = 100
 
 
 class DefinitionType(Enum):
@@ -110,6 +110,7 @@ class LineType(Enum):
     Inheritance  = 0
     Aggregation  = 1
     Composition  = 3
+    Association  = 7
 
 
 @dataclass
