@@ -227,7 +227,7 @@ class Diagram:
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
-        return symbolWidth
+        return convertedWidth
 
     def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
         """
