@@ -26,7 +26,9 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from logging import Logger
+<pre><code class="python">from typing import final
+
+from logging import Logger
 from logging import getLogger
 
 from math import pi
@@ -59,8 +61,8 @@ class DiagramLine:
     described UML classes.  End users generally do not directly use this class.
     It is split off as part of the separation of responsibility principle.
     &#34;&#34;&#34;
-    INHERITANCE_ARROW_HEIGHT: int = 8
-    DIAMOND_HEIGHT: int = 8
+    INHERITANCE_ARROW_HEIGHT: final = 10
+    DIAMOND_HEIGHT:           final = 8
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -349,8 +351,8 @@ It is split off as part of the separation of responsibility principle.</p></div>
     described UML classes.  End users generally do not directly use this class.
     It is split off as part of the separation of responsibility principle.
     &#34;&#34;&#34;
-    INHERITANCE_ARROW_HEIGHT: int = 8
-    DIAMOND_HEIGHT: int = 8
+    INHERITANCE_ARROW_HEIGHT: final = 10
+    DIAMOND_HEIGHT:           final = 8
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -612,11 +614,11 @@ It is split off as part of the separation of responsibility principle.</p></div>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pdfdiagrams.DiagramLine.DiagramLine.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : int</code></dt>
+<dt id="pdfdiagrams.DiagramLine.DiagramLine.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.DiagramLine.DiagramLine.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : int</code></dt>
+<dt id="pdfdiagrams.DiagramLine.DiagramLine.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

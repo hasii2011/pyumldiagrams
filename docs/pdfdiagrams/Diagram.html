@@ -26,13 +26,15 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from logging import Logger
+<pre><code class="python">from typing import List
+from typing import Tuple
+from typing import cast
+from typing import final
+
+from logging import Logger
 from logging import getLogger
 
 from os import sep as osSep
-from typing import List
-from typing import Tuple
-from typing import cast
 
 from pkg_resources import resource_filename
 
@@ -42,7 +44,6 @@ from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import EllipseDefinition
 from pdfdiagrams.Definitions import UmlLineDefinition
-from pdfdiagrams.Definitions import LineType
 from pdfdiagrams.Definitions import MethodDefinition
 from pdfdiagrams.Definitions import Methods
 from pdfdiagrams.Definitions import ParameterDefinition
@@ -58,8 +59,6 @@ from pdfdiagrams.DiagramLine import DiagramLine
 
 from pdfdiagrams.Defaults import DEFAULT_LINE_WIDTH
 
-from pdfdiagrams.UnsupportedException import UnsupportedException
-
 
 class Diagram:
     &#34;&#34;&#34;
@@ -72,24 +71,20 @@ class Diagram:
     &#34;&#34;&#34;
     MethodsRepr = List[str]
 
-    FPDF_DRAW: str = &#39;D&#39;
+    FPDF_DRAW: final = &#39;D&#39;
 
-    RESOURCES_PACKAGE_NAME: str = &#39;pdfdiagrams.resources&#39;
-    RESOURCES_PATH:         str = f&#39;pdfdiagrams{osSep}resources&#39;
+    RESOURCES_PACKAGE_NAME: final = &#39;pdfdiagrams.resources&#39;
+    RESOURCES_PATH:         final = f&#39;pdfdiagrams{osSep}resources&#39;
 
-    RESOURCE_ENV_VAR:       str = &#39;RESOURCEPATH&#39;
-    FONT_FILE_NAME:         str = &#39;Vera.ttf&#39;
-    FONT_NAME:              str = &#39;Vera&#39;
-    # FONT_FILE_NAME:         str = &#39;MonoFonto.ttf&#39;
-    # FONT_NAME:              str = &#39;Mono&#39;
+    RESOURCE_ENV_VAR:       final = &#39;RESOURCEPATH&#39;
 
-    DEFAULT_FONT_SIZE:      int = 10
+    DEFAULT_FONT_SIZE:      final = 10
 
-    DEFAULT_PAGE_WIDTH:  int = 3000     # points
-    DEFAULT_PAGE_HEIGHT: int = 1500     # points
+    DEFAULT_PAGE_WIDTH:  final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: final = 1500     # points
 
-    X_NUDGE_FACTOR: int = 4
-    Y_NUDGE_FACTOR: int = 4
+    X_NUDGE_FACTOR: final = 4
+    Y_NUDGE_FACTOR: final = 4
 
     def __init__(self, fileName: str, dpi: int):
         &#34;&#34;&#34;
@@ -113,11 +108,7 @@ class Diagram:
         pdf.set_creator(&#39;Humberto A. Sanchez II - The Great&#39;)
         pdf.set_author(&#39;Humberto A. Sanchez II - The Great&#39;)
 
-        fqFontName: str = Diagram.retrieveResourcePath(Diagram.FONT_FILE_NAME)
-
-        pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
-        pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
-
+        pdf.set_font(&#39;Arial&#39;, size=Diagram.DEFAULT_FONT_SIZE)
         self._pdf:      FPDF = pdf
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
@@ -181,7 +172,7 @@ class Diagram:
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
@@ -194,18 +185,7 @@ class Diagram:
         Args:
             lineDefinition:   A UML Line definition
         &#34;&#34;&#34;
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
-
-        if lineType == LineType.Inheritance:
-            self._lineDrawer.draw(lineDefinition=lineDefinition)
-        elif lineType == LineType.Aggregation:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        elif lineType == LineType.Composition:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        else:
-            raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
+        self._lineDrawer.draw(lineDefinition=lineDefinition)
 
     def drawEllipse(self, definition: EllipseDefinition):
         &#34;&#34;&#34;
@@ -249,7 +229,7 @@ class Diagram:
         &#34;&#34;&#34;
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; int:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; float:
         &#34;&#34;&#34;
         Draws the UML Class symbol.
 
@@ -261,9 +241,12 @@ class Diagram:
         Returns:  The computed UML symbol width
         &#34;&#34;&#34;
 
-        symbolWidth:  int = classDefinition.size.width
-        symbolHeight: int = classDefinition.size.height
-        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
+        symbolWidth:  float = classDefinition.size.width
+        symbolHeight: float = classDefinition.size.height
+        size: Size = Size(width=symbolWidth, height=symbolHeight)
+
+        convertedWidth, convertedHeight = self.__convertSize(size=size)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -271,9 +254,9 @@ class Diagram:
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
-        return symbolWidth
+        return convertedWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: int) -&gt; SeparatorPosition:
+    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -330,12 +313,12 @@ class Diagram:
 
             paramRepr = f&#39;{paramRepr}{parameterDef.name}&#39;
 
-            if len(parameterDef.parameterType) == 0:
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
                 paramRepr = f&#39;{paramRepr}&#39;
             else:
                 paramRepr = f&#39;{paramRepr}: {parameterDef.parameterType}&#39;
 
-            if len(parameterDef.defaultValue) == 0:
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
                 paramRepr = f&#39;{paramRepr}&#39;
             else:
                 paramRepr = f&#39;{paramRepr}={parameterDef.defaultValue}&#39;
@@ -349,13 +332,6 @@ class Diagram:
 
         return methodRepr
 
-    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
-
-        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
-        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
-
-        return width, height
-
     def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
         &#34;&#34;&#34;
 
@@ -367,7 +343,14 @@ class Diagram:
         x, y = DiagramCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         width, height = self.__convertSize(definition.size)
 
-        return x, y, width, height</code></pre>
+        return x, y, width, height
+
+    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
+
+        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
+        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
+
+        return width, height</code></pre>
 </details>
 </section>
 <section>
@@ -413,24 +396,20 @@ specify the text font size</p>
     &#34;&#34;&#34;
     MethodsRepr = List[str]
 
-    FPDF_DRAW: str = &#39;D&#39;
+    FPDF_DRAW: final = &#39;D&#39;
 
-    RESOURCES_PACKAGE_NAME: str = &#39;pdfdiagrams.resources&#39;
-    RESOURCES_PATH:         str = f&#39;pdfdiagrams{osSep}resources&#39;
+    RESOURCES_PACKAGE_NAME: final = &#39;pdfdiagrams.resources&#39;
+    RESOURCES_PATH:         final = f&#39;pdfdiagrams{osSep}resources&#39;
 
-    RESOURCE_ENV_VAR:       str = &#39;RESOURCEPATH&#39;
-    FONT_FILE_NAME:         str = &#39;Vera.ttf&#39;
-    FONT_NAME:              str = &#39;Vera&#39;
-    # FONT_FILE_NAME:         str = &#39;MonoFonto.ttf&#39;
-    # FONT_NAME:              str = &#39;Mono&#39;
+    RESOURCE_ENV_VAR:       final = &#39;RESOURCEPATH&#39;
 
-    DEFAULT_FONT_SIZE:      int = 10
+    DEFAULT_FONT_SIZE:      final = 10
 
-    DEFAULT_PAGE_WIDTH:  int = 3000     # points
-    DEFAULT_PAGE_HEIGHT: int = 1500     # points
+    DEFAULT_PAGE_WIDTH:  final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: final = 1500     # points
 
-    X_NUDGE_FACTOR: int = 4
-    Y_NUDGE_FACTOR: int = 4
+    X_NUDGE_FACTOR: final = 4
+    Y_NUDGE_FACTOR: final = 4
 
     def __init__(self, fileName: str, dpi: int):
         &#34;&#34;&#34;
@@ -454,11 +433,7 @@ specify the text font size</p>
         pdf.set_creator(&#39;Humberto A. Sanchez II - The Great&#39;)
         pdf.set_author(&#39;Humberto A. Sanchez II - The Great&#39;)
 
-        fqFontName: str = Diagram.retrieveResourcePath(Diagram.FONT_FILE_NAME)
-
-        pdf.add_font(family=Diagram.FONT_NAME, fname=fqFontName, uni=True)
-        pdf.set_font(Diagram.FONT_NAME, size=Diagram.DEFAULT_FONT_SIZE)
-
+        pdf.set_font(&#39;Arial&#39;, size=Diagram.DEFAULT_FONT_SIZE)
         self._pdf:      FPDF = pdf
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
@@ -522,7 +497,7 @@ specify the text font size</p>
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
@@ -535,18 +510,7 @@ specify the text font size</p>
         Args:
             lineDefinition:   A UML Line definition
         &#34;&#34;&#34;
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
-
-        if lineType == LineType.Inheritance:
-            self._lineDrawer.draw(lineDefinition=lineDefinition)
-        elif lineType == LineType.Aggregation:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        elif lineType == LineType.Composition:
-            self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-        else:
-            raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
+        self._lineDrawer.draw(lineDefinition=lineDefinition)
 
     def drawEllipse(self, definition: EllipseDefinition):
         &#34;&#34;&#34;
@@ -590,7 +554,7 @@ specify the text font size</p>
         &#34;&#34;&#34;
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; int:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; float:
         &#34;&#34;&#34;
         Draws the UML Class symbol.
 
@@ -602,9 +566,12 @@ specify the text font size</p>
         Returns:  The computed UML symbol width
         &#34;&#34;&#34;
 
-        symbolWidth:  int = classDefinition.size.width
-        symbolHeight: int = classDefinition.size.height
-        self._pdf.rect(x=rectX, y=rectY, w=symbolWidth, h=symbolHeight, style=Diagram.FPDF_DRAW)
+        symbolWidth:  float = classDefinition.size.width
+        symbolHeight: float = classDefinition.size.height
+        size: Size = Size(width=symbolWidth, height=symbolHeight)
+
+        convertedWidth, convertedHeight = self.__convertSize(size=size)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -612,9 +579,9 @@ specify the text font size</p>
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
-        return symbolWidth
+        return convertedWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: int) -&gt; SeparatorPosition:
+    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -671,12 +638,12 @@ specify the text font size</p>
 
             paramRepr = f&#39;{paramRepr}{parameterDef.name}&#39;
 
-            if len(parameterDef.parameterType) == 0:
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
                 paramRepr = f&#39;{paramRepr}&#39;
             else:
                 paramRepr = f&#39;{paramRepr}: {parameterDef.parameterType}&#39;
 
-            if len(parameterDef.defaultValue) == 0:
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
                 paramRepr = f&#39;{paramRepr}&#39;
             else:
                 paramRepr = f&#39;{paramRepr}={parameterDef.defaultValue}&#39;
@@ -690,13 +657,6 @@ specify the text font size</p>
 
         return methodRepr
 
-    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
-
-        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
-        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
-
-        return width, height
-
     def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
         &#34;&#34;&#34;
 
@@ -708,31 +668,30 @@ specify the text font size</p>
         x, y = DiagramCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         width, height = self.__convertSize(definition.size)
 
-        return x, y, width, height</code></pre>
+        return x, y, width, height
+
+    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
+
+        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
+        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
+
+        return width, height</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : int</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_PAGE_HEIGHT</span> : int</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_PAGE_HEIGHT</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_PAGE_WIDTH</span> : int</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_PAGE_WIDTH</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.FONT_FILE_NAME"><code class="name">var <span class="ident">FONT_FILE_NAME</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pdfdiagrams.Diagram.Diagram.FONT_NAME"><code class="name">var <span class="ident">FONT_NAME</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pdfdiagrams.Diagram.Diagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : str</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -740,23 +699,23 @@ specify the text font size</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : str</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : str</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : str</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : int</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pdfdiagrams.Diagram.Diagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : int</code></dt>
+<dt id="pdfdiagrams.Diagram.Diagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x109860790></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -860,7 +819,7 @@ def verticalGap(self) -&gt; int:
 
     methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-    symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+    symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
     separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
     self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)</code></pre>
@@ -976,18 +935,7 @@ between the UML classes</p>
     Args:
         lineDefinition:   A UML Line definition
     &#34;&#34;&#34;
-    source:      Position = lineDefinition.source
-    destination: Position = lineDefinition.destination
-    lineType:    LineType = lineDefinition.lineType
-
-    if lineType == LineType.Inheritance:
-        self._lineDrawer.draw(lineDefinition=lineDefinition)
-    elif lineType == LineType.Aggregation:
-        self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-    elif lineType == LineType.Composition:
-        self._pdf.line(x1=source.x, y1=source.y, x2=destination.x, y2=destination.y)
-    else:
-        raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)</code></pre>
+    self._lineDrawer.draw(lineDefinition=lineDefinition)</code></pre>
 </details>
 </dd>
 <dt id="pdfdiagrams.Diagram.Diagram.write"><code class="name flex">
@@ -1030,8 +978,6 @@ between the UML classes</p>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.DEFAULT_FONT_SIZE" href="#pdfdiagrams.Diagram.Diagram.DEFAULT_FONT_SIZE">DEFAULT_FONT_SIZE</a></code></li>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_HEIGHT" href="#pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_HEIGHT">DEFAULT_PAGE_HEIGHT</a></code></li>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_WIDTH" href="#pdfdiagrams.Diagram.Diagram.DEFAULT_PAGE_WIDTH">DEFAULT_PAGE_WIDTH</a></code></li>
-<li><code><a title="pdfdiagrams.Diagram.Diagram.FONT_FILE_NAME" href="#pdfdiagrams.Diagram.Diagram.FONT_FILE_NAME">FONT_FILE_NAME</a></code></li>
-<li><code><a title="pdfdiagrams.Diagram.Diagram.FONT_NAME" href="#pdfdiagrams.Diagram.Diagram.FONT_NAME">FONT_NAME</a></code></li>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.FPDF_DRAW" href="#pdfdiagrams.Diagram.Diagram.FPDF_DRAW">FPDF_DRAW</a></code></li>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.MethodsRepr" href="#pdfdiagrams.Diagram.Diagram.MethodsRepr">MethodsRepr</a></code></li>
 <li><code><a title="pdfdiagrams.Diagram.Diagram.RESOURCES_PACKAGE_NAME" href="#pdfdiagrams.Diagram.Diagram.RESOURCES_PACKAGE_NAME">RESOURCES_PACKAGE_NAME</a></code></li>
