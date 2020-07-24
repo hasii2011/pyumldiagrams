@@ -34,7 +34,7 @@ class DiagramLine:
     described UML classes.  End users generally do not directly use this class.
     It is split off as part of the separation of responsibility principle.
     """
-    INHERITANCE_ARROW_HEIGHT: final = 8
+    INHERITANCE_ARROW_HEIGHT: final = 9
     DIAMOND_HEIGHT:           final = 8
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
