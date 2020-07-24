@@ -286,12 +286,12 @@ class Diagram:
 
             paramRepr = f'{paramRepr}{parameterDef.name}'
 
-            if len(parameterDef.parameterType) == 0:
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
                 paramRepr = f'{paramRepr}'
             else:
                 paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
 
-            if len(parameterDef.defaultValue) == 0:
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
                 paramRepr = f'{paramRepr}'
             else:
                 paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
