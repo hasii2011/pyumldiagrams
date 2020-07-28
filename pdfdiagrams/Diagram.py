@@ -11,8 +11,6 @@ from os import sep as osSep
 
 from pkg_resources import resource_filename
 
-from fpdf import FPDF
-
 from pdfdiagrams.Definitions import ClassDefinition
 from pdfdiagrams.Definitions import DiagramPadding
 from pdfdiagrams.Definitions import EllipseDefinition
@@ -25,6 +23,7 @@ from pdfdiagrams.Definitions import RectangleDefinition
 from pdfdiagrams.Definitions import Size
 
 from pdfdiagrams.DiagramCommon import DiagramCommon
+from pdfdiagrams.FPDFExtended import FPDFExtended
 
 from pdfdiagrams.Internal import SeparatorPosition
 
@@ -53,13 +52,10 @@ class Diagram:
 
     DEFAULT_FONT_SIZE:      final = 10
 
-    DEFAULT_PAGE_WIDTH:  final = 3000     # points
-    DEFAULT_PAGE_HEIGHT: final = 1500     # points
-
     X_NUDGE_FACTOR: final = 4
     Y_NUDGE_FACTOR: final = 4
 
-    def __init__(self, fileName: str, dpi: int):
+    def __init__(self, fileName: str, dpi: int, headerText: str = ''):
         """
 
         Args:
@@ -71,7 +67,7 @@ class Diagram:
         self._dpi:      int = dpi
         self.logger: Logger = getLogger(__name__)
 
-        pdf = FPDF(orientation='L', unit='pt', format=(Diagram.DEFAULT_PAGE_HEIGHT, Diagram.DEFAULT_PAGE_WIDTH))
+        pdf = FPDFExtended(headerText=headerText)
         pdf.add_page()
 
         pdf.set_display_mode(zoom='default', layout='single')
@@ -82,7 +78,10 @@ class Diagram:
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
         pdf.set_font('Arial', size=Diagram.DEFAULT_FONT_SIZE)
-        self._pdf:      FPDF = pdf
+        # self._pdf:      FPDF = pdf
+        self._pdf: FPDFExtended = pdf
+        self._pdf.headerText = 'Pyut Diagram Export'
+
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
@@ -113,6 +112,14 @@ class Diagram:
     @verticalGap.setter
     def verticalGap(self, newValue):
         self._diagramPadding.verticalGap = newValue
+
+    @property
+    def headerText(self) -> str:
+        return self._pdf._headerText
+
+    @headerText.setter
+    def headerText(self, newValue: str):
+        self._pdf._headerText = newValue
 
     @classmethod
     def retrieveResourcePath(cls, bareFileName: str) -> str:

@@ -20,6 +20,7 @@ from pdfdiagrams.Definitions import Size
 from pdfdiagrams.Diagram import Diagram
 
 from tests.TestBase import TestBase
+
 from tests.TestConstants import TestConstants
 
 
@@ -33,7 +34,7 @@ class TestDiagram(TestBase):
     TEST_LAST_X_POSITION: int = 9
     TEST_LAST_Y_POSITION: int = 6
 
-    CELL_WIDTH: int = 150  # points
+    CELL_WIDTH:  int = 150  # points
     CELL_HEIGHT: int = 100  # points
 
     clsLogger: Logger = None
@@ -89,6 +90,32 @@ class TestDiagram(TestBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
+        classDef: ClassDefinition = self.__buildCar()
+
+        diagram.drawClass(classDef)
+
+        diagram.write()
+
+    def testBasicHeader(self):
+
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
+                                   dpi=TestConstants.TEST_DPI,
+                                   headerText='Unit Test Header')
+        classDef: ClassDefinition = self.__buildCar()
+
+        diagram.drawClass(classDef)
+
+        diagram.write()
+
+    def testSophisticatedHeader(self):
+        from time import gmtime
+        from time import strftime
+
+        today = strftime("%d %b %Y %H:%M:%S", gmtime())
+
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
+                                   dpi=TestConstants.TEST_DPI,
+                                   headerText=f'Pyut Export Version 6.0 - {today}')
         classDef: ClassDefinition = self.__buildCar()
 
         diagram.drawClass(classDef)
