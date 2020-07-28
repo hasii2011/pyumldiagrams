@@ -78,9 +78,8 @@ class Diagram:
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
         pdf.set_font('Arial', size=Diagram.DEFAULT_FONT_SIZE)
-        # self._pdf:      FPDF = pdf
         self._pdf: FPDFExtended = pdf
-        self._pdf.headerText = 'Pyut Diagram Export'
+        self._pdf.headerText = headerText
 
         self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
 

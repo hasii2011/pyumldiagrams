@@ -1,7 +1,9 @@
 
+from typing import cast
+
+
 from logging import Logger
 from logging import getLogger
-from typing import cast
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
@@ -108,10 +110,11 @@ class TestDiagram(TestBase):
         diagram.write()
 
     def testSophisticatedHeader(self):
-        from time import gmtime
+        from time import localtime
+
         from time import strftime
 
-        today = strftime("%d %b %Y %H:%M:%S", gmtime())
+        today = strftime("%d %b %Y %H:%M:%S", localtime())
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
                                    dpi=TestConstants.TEST_DPI,
