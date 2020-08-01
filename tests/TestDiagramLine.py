@@ -46,6 +46,14 @@ class TestDiagramLine(TestBase):
     Y_INC: int = 50
     DASH_LINE_SPACE_LENGTH: int = 4
 
+    ELLIPSE_X: int = V_LEFT_X
+    ELLIPSE_Y: int = V_TOP_Y
+
+    ELLIPSE_WIDTH:  int = 200
+    ELLIPSE_HEIGHT: int = 200
+
+    ELLIPSE_FILL_STYLE: str = 'D'
+
     clsLogger: Logger = None
 
     @classmethod
@@ -96,14 +104,6 @@ class TestDiagramLine(TestBase):
             lineDrawer.draw(lineDefinition)
 
         diagram.write()
-
-    ELLIPSE_X: int = V_LEFT_X
-    ELLIPSE_Y: int = V_TOP_Y
-
-    ELLIPSE_WIDTH:  int = 200
-    ELLIPSE_HEIGHT: int = 200
-
-    ELLIPSE_FILL_STYLE: str = 'D'
 
     def testDiagonalInheritanceLines(self):
 

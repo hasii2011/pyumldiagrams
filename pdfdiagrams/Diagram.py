@@ -61,6 +61,7 @@ class Diagram:
         Args:
             fileName:   Fully qualified file name
             dpi: dots per inch for the display we are mapping from
+            headerText:  The header to place on the page
         """
 
         self._fileName: str = fileName
