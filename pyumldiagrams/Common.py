@@ -10,7 +10,7 @@ from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import ScanPoints
 
 
-class DiagramCommon:
+class Common:
 
     @classmethod
     def toPdfPoints(cls, pixelNumber: float, dpi: int) -> int:
@@ -32,8 +32,8 @@ class DiagramCommon:
     @classmethod
     def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -> Tuple[float, float]:
 
-        x: float = DiagramCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-        y: float = DiagramCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN  + horizontalGap
+        x: float = Common.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+        y: float = Common.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
         return x, y
 

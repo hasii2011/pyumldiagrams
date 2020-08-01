@@ -8,7 +8,7 @@ from unittest import main as unitTestMain
 
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
-from pyumldiagrams.Common import DiagramCommon
+from pyumldiagrams.Common import Common
 
 from pyumldiagrams.pdf.Definitions import EllipseDefinition
 from pyumldiagrams.pdf.Definitions import UmlLineDefinition
@@ -202,26 +202,26 @@ class TestDiagramLine(TestBase):
 
     def __drawHorizontalBoundaries(self, diagram: Diagram):
 
-        x1: int = DiagramCommon.toPdfPoints(TestDiagramLine.TOP_LINE_LEFT_X,  diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
-        x2: int = DiagramCommon.toPdfPoints(TestDiagramLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
-        y2: int = DiagramCommon.toPdfPoints(TestDiagramLine.V_BOTTOM_Y,       diagram._dpi) + TOP_MARGIN  + diagram.horizontalGap
+        x1: int = Common.toPdfPoints(TestDiagramLine.TOP_LINE_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x2: int = Common.toPdfPoints(TestDiagramLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        y2: int = Common.toPdfPoints(TestDiagramLine.V_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
         diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-        y2 = DiagramCommon.toPdfPoints(TestDiagramLine.V_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y2 = Common.toPdfPoints(TestDiagramLine.V_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
         diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
 
     def __drawVerticalBoundaries(self, diagram: Diagram):
 
-        x1: int = DiagramCommon.toPdfPoints(TestDiagramLine.H_LEFT_X,  diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x1: int = Common.toPdfPoints(TestDiagramLine.H_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2: int = x1
-        y1: int = DiagramCommon.toPdfPoints(TestDiagramLine.H_LEFT_TOP_Y,    diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
-        y2: int = DiagramCommon.toPdfPoints(TestDiagramLine.H_LEFT_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y1: int = Common.toPdfPoints(TestDiagramLine.H_LEFT_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y2: int = Common.toPdfPoints(TestDiagramLine.H_LEFT_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
         diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-        x1 = DiagramCommon.toPdfPoints(TestDiagramLine.H_RIGHT_X,  diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x1 = Common.toPdfPoints(TestDiagramLine.H_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2 = x1
 
         diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)

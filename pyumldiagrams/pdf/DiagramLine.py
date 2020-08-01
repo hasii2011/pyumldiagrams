@@ -12,7 +12,7 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pyumldiagrams.Common import DiagramCommon
+from pyumldiagrams.Common import Common
 
 from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
@@ -114,8 +114,8 @@ class DiagramLine:
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1, y1 = DiagramCommon.convertPosition(pos=src,  dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-        x2, y2 = DiagramCommon.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x1, y1 = Common.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x2, y2 = Common.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         convertedSrc:  InternalPosition = InternalPosition(x1, y1)
         convertedDest: InternalPosition = InternalPosition(x2, y2)
@@ -279,7 +279,7 @@ class DiagramLine:
             points:  The polygon that defines the composition diamond
 
         """
-        scanPoints: ScanPoints = DiagramCommon.buildScanPoints(points)
+        scanPoints: ScanPoints = Common.buildScanPoints(points)
 
         startX: float = scanPoints.startScan.x
         startY: float = scanPoints.startScan.y
@@ -291,7 +291,7 @@ class DiagramLine:
         while x <= endX:
             y = startY
             while y <= endY:
-                if DiagramCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
+                if Common.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
                     self._pdf.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
             x += 1

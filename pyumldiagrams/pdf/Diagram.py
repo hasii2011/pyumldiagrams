@@ -13,7 +13,7 @@ from pkg_resources import resource_filename
 
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
 from pyumldiagrams.Internal import SeparatorPosition
-from pyumldiagrams.Common import DiagramCommon
+from pyumldiagrams.Common import Common
 
 from pyumldiagrams.pdf.Definitions import ClassDefinition
 from pyumldiagrams.pdf.Definitions import DiagramPadding
@@ -145,7 +145,7 @@ class Diagram:
         position:      Position = classDefinition.position
         verticalGap:   float = self._diagramPadding.verticalGap
         horizontalGap: float = self._diagramPadding.horizontalGap
-        x, y = DiagramCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x, y = Common.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
@@ -198,7 +198,7 @@ class Diagram:
             text:   The text to display
         """
 
-        x, y = DiagramCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        x, y = Common.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         self._pdf.text(x=x, y=y, txt=text)
 
     def write(self):
@@ -318,14 +318,14 @@ class Diagram:
 
         Returns: a tuple of x, y, width height
         """
-        x, y = DiagramCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        x, y = Common.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         width, height = self.__convertSize(definition.size)
 
         return x, y, width, height
 
     def __convertSize(self, size: Size) -> Tuple[float, float]:
 
-        width:  float = DiagramCommon.toPdfPoints(size.width, self._dpi)
-        height: float = DiagramCommon.toPdfPoints(size.height, self._dpi)
+        width:  float = Common.toPdfPoints(size.width, self._dpi)
+        height: float = Common.toPdfPoints(size.height, self._dpi)
 
         return width, height
