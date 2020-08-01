@@ -11,25 +11,22 @@ from os import sep as osSep
 
 from pkg_resources import resource_filename
 
-from pdf.Definitions import ClassDefinition
-from pdf.Definitions import DiagramPadding
-from pdf.Definitions import EllipseDefinition
-from pdf.Definitions import UmlLineDefinition
-from pdf.Definitions import MethodDefinition
-from pdf.Definitions import Methods
-from pdf.Definitions import ParameterDefinition
-from pdf.Definitions import Position
-from pdf.Definitions import RectangleDefinition
-from pdf.Definitions import Size
+from pyumldiagrams.pdf.Definitions import ClassDefinition
+from pyumldiagrams.pdf.Definitions import DiagramPadding
+from pyumldiagrams.pdf.Definitions import EllipseDefinition
+from pyumldiagrams.pdf.Definitions import UmlLineDefinition
+from pyumldiagrams.pdf.Definitions import MethodDefinition
+from pyumldiagrams.pdf.Definitions import Methods
+from pyumldiagrams.pdf.Definitions import ParameterDefinition
+from pyumldiagrams.pdf.Definitions import Position
+from pyumldiagrams.pdf.Definitions import RectangleDefinition
+from pyumldiagrams.pdf.Definitions import Size
 
-from pdf.DiagramCommon import DiagramCommon
-from pdf.FPDFExtended import FPDFExtended
-
-from pdf.Internal import SeparatorPosition
-
-from pdf.DiagramLine import DiagramLine
-
-from pdf.Defaults import DEFAULT_LINE_WIDTH
+from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
+from pyumldiagrams.pdf.DiagramLine import DiagramLine
+from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
+from pyumldiagrams.pdf.Internal import SeparatorPosition
+from pyumldiagrams.pdf.Defaults import DEFAULT_LINE_WIDTH
 
 
 class Diagram:

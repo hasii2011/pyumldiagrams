@@ -6,19 +6,19 @@ from typing import Tuple
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pdf.Defaults import LEFT_MARGIN
-from pdf.Defaults import TOP_MARGIN
+from pyumldiagrams.pdf.Defaults import LEFT_MARGIN
+from pyumldiagrams.pdf.Defaults import TOP_MARGIN
 
-from pdf.Definitions import EllipseDefinition
-from pdf.Definitions import UmlLineDefinition
-from pdf.Definitions import UmlLineDefinitions
-from pdf.Definitions import LineType
-from pdf.Definitions import Position
-from pdf.Definitions import Size
+from pyumldiagrams.pdf.Definitions import EllipseDefinition
+from pyumldiagrams.pdf.Definitions import UmlLineDefinition
+from pyumldiagrams.pdf.Definitions import UmlLineDefinitions
+from pyumldiagrams.pdf.Definitions import LineType
+from pyumldiagrams.pdf.Definitions import Position
+from pyumldiagrams.pdf.Definitions import Size
 
-from pdf.Diagram import Diagram
-from pdf.DiagramCommon import DiagramCommon
-from pdf.DiagramLine import DiagramLine
+from pyumldiagrams.pdf.Diagram import Diagram
+from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
+from pyumldiagrams.pdf.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
