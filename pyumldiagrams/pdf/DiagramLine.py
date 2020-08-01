@@ -20,10 +20,10 @@ from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import ScanPoints
 
-from pyumldiagrams.pdf.Definitions import DiagramPadding
-from pyumldiagrams.pdf.Definitions import UmlLineDefinition
-from pyumldiagrams.pdf.Definitions import LineType
-from pyumldiagrams.pdf.Definitions import Position
+from pyumldiagrams.Definitions import DiagramPadding
+from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import LineType
+from pyumldiagrams.Definitions import Position
 
 
 from pyumldiagrams.pdf.UnsupportedException import UnsupportedException

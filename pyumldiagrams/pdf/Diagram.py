@@ -15,16 +15,16 @@ from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
 from pyumldiagrams.Internal import SeparatorPosition
 from pyumldiagrams.Common import Common
 
-from pyumldiagrams.pdf.Definitions import ClassDefinition
-from pyumldiagrams.pdf.Definitions import DiagramPadding
-from pyumldiagrams.pdf.Definitions import EllipseDefinition
-from pyumldiagrams.pdf.Definitions import UmlLineDefinition
-from pyumldiagrams.pdf.Definitions import MethodDefinition
-from pyumldiagrams.pdf.Definitions import Methods
-from pyumldiagrams.pdf.Definitions import ParameterDefinition
-from pyumldiagrams.pdf.Definitions import Position
-from pyumldiagrams.pdf.Definitions import RectangleDefinition
-from pyumldiagrams.pdf.Definitions import Size
+from pyumldiagrams.Definitions import ClassDefinition
+from pyumldiagrams.Definitions import DiagramPadding
+from pyumldiagrams.Definitions import EllipseDefinition
+from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import Position
+from pyumldiagrams.Definitions import RectangleDefinition
+from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended

@@ -10,12 +10,12 @@ from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Common import Common
 
-from pyumldiagrams.pdf.Definitions import EllipseDefinition
-from pyumldiagrams.pdf.Definitions import UmlLineDefinition
-from pyumldiagrams.pdf.Definitions import UmlLineDefinitions
-from pyumldiagrams.pdf.Definitions import LineType
-from pyumldiagrams.pdf.Definitions import Position
-from pyumldiagrams.pdf.Definitions import Size
+from pyumldiagrams.Definitions import EllipseDefinition
+from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import LineType
+from pyumldiagrams.Definitions import Position
+from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.Diagram import Diagram
 from pyumldiagrams.pdf.DiagramLine import DiagramLine

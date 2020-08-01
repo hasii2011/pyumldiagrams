@@ -8,16 +8,16 @@ from logging import getLogger
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyumldiagrams.pdf.Definitions import ClassDefinition
-from pyumldiagrams.pdf.Definitions import ClassDefinitions
-from pyumldiagrams.pdf.Definitions import DefinitionType
-from pyumldiagrams.pdf.Definitions import UmlLineDefinition
-from pyumldiagrams.pdf.Definitions import UmlLineDefinitions
-from pyumldiagrams.pdf.Definitions import LineType
-from pyumldiagrams.pdf.Definitions import MethodDefinition
-from pyumldiagrams.pdf.Definitions import ParameterDefinition
-from pyumldiagrams.pdf.Definitions import Position
-from pyumldiagrams.pdf.Definitions import Size
+from pyumldiagrams.Definitions import ClassDefinition
+from pyumldiagrams.Definitions import ClassDefinitions
+from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import LineType
+from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import Position
+from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.Diagram import Diagram
 
