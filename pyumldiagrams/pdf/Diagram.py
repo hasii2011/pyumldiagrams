@@ -13,7 +13,7 @@ from pkg_resources import resource_filename
 
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
 from pyumldiagrams.Internal import SeparatorPosition
-from pyumldiagrams.DiagramCommon import DiagramCommon
+from pyumldiagrams.Common import DiagramCommon
 
 from pyumldiagrams.pdf.Definitions import ClassDefinition
 from pyumldiagrams.pdf.Definitions import DiagramPadding

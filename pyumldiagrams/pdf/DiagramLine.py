@@ -12,7 +12,7 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pyumldiagrams.DiagramCommon import DiagramCommon
+from pyumldiagrams.Common import DiagramCommon
 
 from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
