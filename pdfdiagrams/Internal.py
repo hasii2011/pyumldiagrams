@@ -5,7 +5,7 @@ from typing import Union
 
 
 @dataclass
-class PdfPosition:
+class InternalPosition:
     """
     The x and y coordinates are in pdf points.
     """
@@ -14,17 +14,17 @@ class PdfPosition:
 
 
 @dataclass
-class SeparatorPosition(PdfPosition):
+class SeparatorPosition(InternalPosition):
     pass
 
 
-ArrowPoints   = List[PdfPosition]
-DiamondPoints = List[PdfPosition]
+ArrowPoints   = List[InternalPosition]
+DiamondPoints = List[InternalPosition]
 PolygonPoints = Union[ArrowPoints, DiamondPoints]
 
 
 @dataclass
 class ScanPoints:
 
-    startScan: PdfPosition = PdfPosition(0, 0)
-    endScan:   PdfPosition = PdfPosition(0, 0)
+    startScan: InternalPosition = InternalPosition(0, 0)
+    endScan:   InternalPosition = InternalPosition(0, 0)

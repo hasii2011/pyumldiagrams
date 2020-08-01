@@ -5,7 +5,7 @@ from pdfdiagrams.Definitions import Position
 from pdfdiagrams.Defaults import LEFT_MARGIN
 from pdfdiagrams.Defaults import TOP_MARGIN
 
-from pdfdiagrams.Internal import PdfPosition
+from pdfdiagrams.Internal import InternalPosition
 from pdfdiagrams.Internal import PolygonPoints
 from pdfdiagrams.Internal import ScanPoints
 
@@ -38,7 +38,7 @@ class DiagramCommon:
         return x, y
 
     @classmethod
-    def pointInsidePolygon(cls, pos: PdfPosition, polygon: PolygonPoints) -> bool:
+    def pointInsidePolygon(cls, pos: InternalPosition, polygon: PolygonPoints) -> bool:
         """
         Based on this: http://www.ariel.com.au/a/python-point-int-poly.html
 
@@ -54,12 +54,12 @@ class DiagramCommon:
 
         inside: bool = False
 
-        p1: PdfPosition = polygon[0]
+        p1: InternalPosition = polygon[0]
         p1x: float = p1.x
         p1y: float = p1.y
 
         for i in range(n + 1):
-            p2: PdfPosition = polygon[i % n]
+            p2: InternalPosition = polygon[i % n]
             p2x: float = p2.x
             p2y: float = p2.y
 
@@ -100,7 +100,7 @@ class DiagramCommon:
 
         scanPoints: ScanPoints = ScanPoints()
 
-        scanPoints.startScan = PdfPosition(minX, minY)
-        scanPoints.endScan   = PdfPosition(maxX, maxY)
+        scanPoints.startScan = InternalPosition(minX, minY)
+        scanPoints.endScan   = InternalPosition(maxX, maxY)
 
         return scanPoints

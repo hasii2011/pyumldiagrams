@@ -4,7 +4,7 @@ from typing import List
 from fpdf import FPDF
 
 from pdfdiagrams.Internal import ArrowPoints
-from pdfdiagrams.Internal import PdfPosition
+from pdfdiagrams.Internal import InternalPosition
 
 from pdfdiagrams.Definitions import Position
 
@@ -140,9 +140,9 @@ def getArrowPoints(src: Position, dest: Position)  -> ArrowPoints:
     # noinspection PyListCreation
     points: ArrowPoints = []
 
-    points.append(PdfPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
-    points.append(PdfPosition(x2, y2))
-    points.append(PdfPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
+    points.append(InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))
+    points.append(InternalPosition(x2, y2))
+    points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
 
     return points
 
@@ -186,7 +186,7 @@ def drawPolygon(pdf: FPDF, points: ArrowPoints):
         ptNumber += 1
 
 
-def getBottomLineMidPoint(startPos: PdfPosition, endPos: PdfPosition):
+def getBottomLineMidPoint(startPos: InternalPosition, endPos: InternalPosition):
     """
     These two coordinates are the two end-points of the bottom leg of the inheritance arrow
     midPoint = (x1+x2/2, y1+y2/2)
@@ -206,7 +206,7 @@ def getBottomLineMidPoint(startPos: PdfPosition, endPos: PdfPosition):
     midX: float = (x1 + x2) / 2
     midY: float = (y1 + y2) / 2
 
-    return PdfPosition(midX, midY)
+    return InternalPosition(midX, midY)
 
 
 def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
@@ -219,7 +219,7 @@ def drawInheritanceArrow(pdf: FPDF, src: Position, dest: Position):
     points = getArrowPoints(src, dest)
     drawPolygon(pdf, points)
 
-    newEndPoint: PdfPosition = getBottomLineMidPoint(points[0], points[2])
+    newEndPoint: InternalPosition = getBottomLineMidPoint(points[0], points[2])
 
     pdf.line(x1=x1, y1=y1, x2=newEndPoint.x,  y2=newEndPoint.y)
 
