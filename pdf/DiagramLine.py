@@ -12,20 +12,20 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pdfdiagrams.Internal import ArrowPoints
-from pdfdiagrams.Internal import DiamondPoints
-from pdfdiagrams.Internal import PolygonPoints
-from pdfdiagrams.Internal import InternalPosition
+from pdf.Internal import ArrowPoints
+from pdf.Internal import DiamondPoints
+from pdf.Internal import PolygonPoints
+from pdf.Internal import InternalPosition
 
-from pdfdiagrams.Definitions import DiagramPadding
-from pdfdiagrams.Definitions import UmlLineDefinition
-from pdfdiagrams.Definitions import LineType
-from pdfdiagrams.Definitions import Position
+from pdf.Definitions import DiagramPadding
+from pdf.Definitions import UmlLineDefinition
+from pdf.Definitions import LineType
+from pdf.Definitions import Position
 
-from pdfdiagrams.DiagramCommon import DiagramCommon
-from pdfdiagrams.Internal import ScanPoints
+from pdf.DiagramCommon import DiagramCommon
+from pdf.Internal import ScanPoints
 
-from pdfdiagrams.UnsupportedException import UnsupportedException
+from pdf.UnsupportedException import UnsupportedException
 
 
 class DiagramLine:

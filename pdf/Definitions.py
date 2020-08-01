@@ -6,10 +6,10 @@ from enum import Enum
 from dataclasses import dataclass
 from dataclasses import field
 
-from pdfdiagrams.Defaults import TOP_MARGIN
-from pdfdiagrams.Defaults import LEFT_MARGIN
-from pdfdiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
-from pdfdiagrams.Defaults import DEFAULT_VERTICAL_GAP
+from pdf.Defaults import TOP_MARGIN
+from pdf.Defaults import LEFT_MARGIN
+from pdf.Defaults import DEFAULT_HORIZONTAL_GAP
+from pdf.Defaults import DEFAULT_VERTICAL_GAP
 
 ClassName = str
 

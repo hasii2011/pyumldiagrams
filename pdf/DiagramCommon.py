@@ -1,13 +1,13 @@
 from typing import Tuple
 
-from pdfdiagrams.Definitions import Position
+from pdf.Definitions import Position
 
-from pdfdiagrams.Defaults import LEFT_MARGIN
-from pdfdiagrams.Defaults import TOP_MARGIN
+from pdf.Defaults import LEFT_MARGIN
+from pdf.Defaults import TOP_MARGIN
 
-from pdfdiagrams.Internal import InternalPosition
-from pdfdiagrams.Internal import PolygonPoints
-from pdfdiagrams.Internal import ScanPoints
+from pdf.Internal import InternalPosition
+from pdf.Internal import PolygonPoints
+from pdf.Internal import ScanPoints
 
 
 class DiagramCommon:

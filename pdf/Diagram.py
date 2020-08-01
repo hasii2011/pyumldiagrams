@@ -11,25 +11,25 @@ from os import sep as osSep
 
 from pkg_resources import resource_filename
 
-from pdfdiagrams.Definitions import ClassDefinition
-from pdfdiagrams.Definitions import DiagramPadding
-from pdfdiagrams.Definitions import EllipseDefinition
-from pdfdiagrams.Definitions import UmlLineDefinition
-from pdfdiagrams.Definitions import MethodDefinition
-from pdfdiagrams.Definitions import Methods
-from pdfdiagrams.Definitions import ParameterDefinition
-from pdfdiagrams.Definitions import Position
-from pdfdiagrams.Definitions import RectangleDefinition
-from pdfdiagrams.Definitions import Size
+from pdf.Definitions import ClassDefinition
+from pdf.Definitions import DiagramPadding
+from pdf.Definitions import EllipseDefinition
+from pdf.Definitions import UmlLineDefinition
+from pdf.Definitions import MethodDefinition
+from pdf.Definitions import Methods
+from pdf.Definitions import ParameterDefinition
+from pdf.Definitions import Position
+from pdf.Definitions import RectangleDefinition
+from pdf.Definitions import Size
 
-from pdfdiagrams.DiagramCommon import DiagramCommon
-from pdfdiagrams.FPDFExtended import FPDFExtended
+from pdf.DiagramCommon import DiagramCommon
+from pdf.FPDFExtended import FPDFExtended
 
-from pdfdiagrams.Internal import SeparatorPosition
+from pdf.Internal import SeparatorPosition
 
-from pdfdiagrams.DiagramLine import DiagramLine
+from pdf.DiagramLine import DiagramLine
 
-from pdfdiagrams.Defaults import DEFAULT_LINE_WIDTH
+from pdf.Defaults import DEFAULT_LINE_WIDTH
 
 
 class Diagram:
@@ -45,8 +45,8 @@ class Diagram:
 
     FPDF_DRAW: final = 'D'
 
-    RESOURCES_PACKAGE_NAME: final = 'pdfdiagrams.resources'
-    RESOURCES_PATH:         final = f'pdfdiagrams{osSep}resources'
+    RESOURCES_PACKAGE_NAME: final = 'pdf.resources'
+    RESOURCES_PATH:         final = f'pdf{osSep}resources'
 
     RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
 
