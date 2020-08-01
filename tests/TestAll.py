@@ -87,17 +87,32 @@ class TestAll:
         """
         Removes modules that are not unit tests
 
+        Assumes the "tests" package is visible from the current directory
+
         Returns:
             A list of module names that we can find in this package
         """
-
         fModules = glob("tests/Test*.py")
         # remove .py extension
-        modules = list(map(lambda x: x[:-3], fModules))
-        for doNotTest in TestAll.NOT_TESTS:
-            modules.remove(f'tests/{doNotTest}')
+        baseModules = list(map(lambda x: x[:-3], fModules))
+        baseModules = self.__removeNotTests(baseModules)
 
-        return modules
+        fModules = glob("tests/pdf/Test*.py")
+        pdfModules = list(map(lambda x: x[:-3], fModules))
+        pdfModules = self.__removeNotTests(pdfModules)
+
+        testModules = baseModules + pdfModules
+
+        return testModules
+
+    def __removeNotTests(self, testModules):
+
+        for doNotTest in TestAll.NOT_TESTS:
+            try:
+                testModules.remove(f'tests/{doNotTest}')
+            except ValueError:
+                pass     # don't care
+        return testModules
 
 
 def main():
