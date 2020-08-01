@@ -6,8 +6,8 @@ from typing import Tuple
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyumldiagrams.pdf.Defaults import LEFT_MARGIN
-from pyumldiagrams.pdf.Defaults import TOP_MARGIN
+from pyumldiagrams.Defaults import LEFT_MARGIN
+from pyumldiagrams.Defaults import TOP_MARGIN
 
 from pyumldiagrams.pdf.Definitions import EllipseDefinition
 from pyumldiagrams.pdf.Definitions import UmlLineDefinition

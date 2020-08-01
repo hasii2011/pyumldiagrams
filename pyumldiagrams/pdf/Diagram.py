@@ -11,6 +11,8 @@ from os import sep as osSep
 
 from pkg_resources import resource_filename
 
+from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
+
 from pyumldiagrams.pdf.Definitions import ClassDefinition
 from pyumldiagrams.pdf.Definitions import DiagramPadding
 from pyumldiagrams.pdf.Definitions import EllipseDefinition
@@ -26,7 +28,6 @@ from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 from pyumldiagrams.pdf.Internal import SeparatorPosition
-from pyumldiagrams.pdf.Defaults import DEFAULT_LINE_WIDTH
 
 
 class Diagram:

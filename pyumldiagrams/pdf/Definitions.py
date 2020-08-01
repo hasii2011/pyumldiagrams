@@ -6,10 +6,10 @@ from enum import Enum
 from dataclasses import dataclass
 from dataclasses import field
 
-from pyumldiagrams.pdf.Defaults import TOP_MARGIN
-from pyumldiagrams.pdf.Defaults import LEFT_MARGIN
-from pyumldiagrams.pdf.Defaults import DEFAULT_HORIZONTAL_GAP
-from pyumldiagrams.pdf.Defaults import DEFAULT_VERTICAL_GAP
+from pyumldiagrams.Defaults import TOP_MARGIN
+from pyumldiagrams.Defaults import LEFT_MARGIN
+from pyumldiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
+from pyumldiagrams.Defaults import DEFAULT_VERTICAL_GAP
 
 ClassName = str
 

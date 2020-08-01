@@ -2,8 +2,8 @@ from typing import Tuple
 
 from pyumldiagrams.pdf.Definitions import Position
 
-from pyumldiagrams.pdf.Defaults import LEFT_MARGIN
-from pyumldiagrams.pdf.Defaults import TOP_MARGIN
+from pyumldiagrams.Defaults import LEFT_MARGIN
+from pyumldiagrams.Defaults import TOP_MARGIN
 
 from pyumldiagrams.pdf.Internal import InternalPosition
 from pyumldiagrams.pdf.Internal import PolygonPoints
