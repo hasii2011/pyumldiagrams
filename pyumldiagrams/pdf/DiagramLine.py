@@ -12,18 +12,19 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pyumldiagrams.pdf.Internal import ArrowPoints
-from pyumldiagrams.pdf.Internal import DiamondPoints
-from pyumldiagrams.pdf.Internal import PolygonPoints
-from pyumldiagrams.pdf.Internal import InternalPosition
-from pyumldiagrams.pdf.Internal import ScanPoints
+from pyumldiagrams.DiagramCommon import DiagramCommon
+
+from pyumldiagrams.Internal import ArrowPoints
+from pyumldiagrams.Internal import DiamondPoints
+from pyumldiagrams.Internal import PolygonPoints
+from pyumldiagrams.Internal import InternalPosition
+from pyumldiagrams.Internal import ScanPoints
 
 from pyumldiagrams.pdf.Definitions import DiagramPadding
 from pyumldiagrams.pdf.Definitions import UmlLineDefinition
 from pyumldiagrams.pdf.Definitions import LineType
 from pyumldiagrams.pdf.Definitions import Position
 
-from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
 
 from pyumldiagrams.pdf.UnsupportedException import UnsupportedException
 

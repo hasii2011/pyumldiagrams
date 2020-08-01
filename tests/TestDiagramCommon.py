@@ -5,11 +5,11 @@ from logging import getLogger
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyumldiagrams.pdf.Internal import InternalPosition
-from pyumldiagrams.pdf.Internal import PolygonPoints
-from pyumldiagrams.pdf.Internal import ScanPoints
+from pyumldiagrams.Internal import InternalPosition
+from pyumldiagrams.Internal import PolygonPoints
+from pyumldiagrams.Internal import ScanPoints
 
-from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
+from pyumldiagrams.DiagramCommon import DiagramCommon
 
 from tests.TestBase import TestBase
 

@@ -8,6 +8,7 @@ from unittest import main as unitTestMain
 
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
+from pyumldiagrams.DiagramCommon import DiagramCommon
 
 from pyumldiagrams.pdf.Definitions import EllipseDefinition
 from pyumldiagrams.pdf.Definitions import UmlLineDefinition
@@ -17,7 +18,6 @@ from pyumldiagrams.pdf.Definitions import Position
 from pyumldiagrams.pdf.Definitions import Size
 
 from pyumldiagrams.pdf.Diagram import Diagram
-from pyumldiagrams.pdf.DiagramCommon import DiagramCommon
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase

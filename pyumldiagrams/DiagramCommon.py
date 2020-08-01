@@ -5,9 +5,9 @@ from pyumldiagrams.pdf.Definitions import Position
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
 
-from pyumldiagrams.pdf.Internal import InternalPosition
-from pyumldiagrams.pdf.Internal import PolygonPoints
-from pyumldiagrams.pdf.Internal import ScanPoints
+from pyumldiagrams.Internal import InternalPosition
+from pyumldiagrams.Internal import PolygonPoints
+from pyumldiagrams.Internal import ScanPoints
 
 
 class DiagramCommon:
