@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from pyumldiagrams.Common import Common
 from pyumldiagrams.Definitions import Position
 
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -10,7 +11,7 @@ from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import ScanPoints
 
 
-class Common:
+class PdfCommon(Common):
 
     @classmethod
     def toPdfPoints(cls, pixelNumber: float, dpi: int) -> int:
@@ -32,8 +33,8 @@ class Common:
     @classmethod
     def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -> Tuple[float, float]:
 
-        x: float = Common.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-        y: float = Common.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
+        x: float = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+        y: float = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
         return x, y
 

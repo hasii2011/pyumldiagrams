@@ -12,7 +12,7 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pyumldiagrams.pdf.Common import Common
+from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
 from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
@@ -26,7 +26,7 @@ from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
 
 
-from pyumldiagrams.pdf.UnsupportedException import UnsupportedException
+from pyumldiagrams.UnsupportedException import UnsupportedException
 
 
 class DiagramLine:
@@ -114,8 +114,8 @@ class DiagramLine:
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1, y1 = Common.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-        x2, y2 = Common.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x1, y1 = PdfCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x2, y2 = PdfCommon.convertPosition(pos=dest, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         convertedSrc:  InternalPosition = InternalPosition(x1, y1)
         convertedDest: InternalPosition = InternalPosition(x2, y2)
@@ -279,7 +279,7 @@ class DiagramLine:
             points:  The polygon that defines the composition diamond
 
         """
-        scanPoints: ScanPoints = Common.buildScanPoints(points)
+        scanPoints: ScanPoints = PdfCommon.buildScanPoints(points)
 
         startX: float = scanPoints.startScan.x
         startY: float = scanPoints.startScan.y
@@ -291,7 +291,7 @@ class DiagramLine:
         while x <= endX:
             y = startY
             while y <= endY:
-                if Common.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
+                if PdfCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
                     self._pdf.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
             x += 1

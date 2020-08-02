@@ -23,7 +23,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
-from pyumldiagrams.pdf.Common import Common
+from pyumldiagrams.pdf.PdfCommon import PdfCommon
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
@@ -115,7 +115,7 @@ class Diagram(BaseDiagram):
         position:      Position = classDefinition.position
         verticalGap:   float = self._diagramPadding.verticalGap
         horizontalGap: float = self._diagramPadding.horizontalGap
-        x, y = Common.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
         methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
@@ -168,7 +168,7 @@ class Diagram(BaseDiagram):
             text:   The text to display
         """
 
-        x, y = Common.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        x, y = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         self._pdf.text(x=x, y=y, txt=text)
 
     def write(self):
@@ -245,14 +245,14 @@ class Diagram(BaseDiagram):
 
         Returns: a tuple of x, y, width height
         """
-        x, y = Common.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        x, y = PdfCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
         width, height = self.__convertSize(definition.size)
 
         return x, y, width, height
 
     def __convertSize(self, size: Size) -> Tuple[float, float]:
 
-        width:  float = Common.toPdfPoints(size.width, self._dpi)
-        height: float = Common.toPdfPoints(size.height, self._dpi)
+        width:  float = PdfCommon.toPdfPoints(size.width, self._dpi)
+        height: float = PdfCommon.toPdfPoints(size.height, self._dpi)
 
         return width, height
