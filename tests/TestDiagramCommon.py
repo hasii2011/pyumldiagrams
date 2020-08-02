@@ -9,7 +9,7 @@ from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import ScanPoints
 
-from pyumldiagrams.Common import Common
+from pyumldiagrams.pdf.Common import Common
 
 from tests.TestBase import TestBase
 

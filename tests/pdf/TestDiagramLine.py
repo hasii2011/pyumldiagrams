@@ -8,7 +8,8 @@ from unittest import main as unitTestMain
 
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
-from pyumldiagrams.Common import Common
+
+from pyumldiagrams.pdf.Common import Common
 
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition

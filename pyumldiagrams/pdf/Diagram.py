@@ -13,7 +13,6 @@ from pkg_resources import resource_filename
 from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
 from pyumldiagrams.Internal import SeparatorPosition
-from pyumldiagrams.Common import Common
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
@@ -24,6 +23,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
+from pyumldiagrams.pdf.Common import Common
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
