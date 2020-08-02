@@ -40,8 +40,6 @@ class ImageDiagram(BaseDiagram):
     RESOURCES_PACKAGE_NAME: final = 'pyumldiagrams.image.resources'
     RESOURCES_PATH:         final = f'pyumldiagrams{osSep}image{osSep}resources'
 
-    RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
-
     DEFAULT_IMAGE_WIDTH:  final = 1280    # pixels
     DEFAULT_IMAGE_HEIGHT: final = 1024    # pixels
 
@@ -94,7 +92,7 @@ class ImageDiagram(BaseDiagram):
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f'{ImageDiagram.RESOURCE_ENV_VAR}')
+            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
             fqFileName:      str = f'{pathToResources}/{ImageDiagram.RESOURCES_PATH}/{bareFileName}'
 
         return fqFileName

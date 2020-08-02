@@ -37,14 +37,10 @@ class Diagram(BaseDiagram):
     You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
     specify the text font size
     """
-    # MethodsRepr = List[str]
-
     FPDF_DRAW: final = 'D'
 
     RESOURCES_PACKAGE_NAME: final = 'pdf.resources'
     RESOURCES_PATH:         final = f'pdf{osSep}resources'
-
-    RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
 
     X_NUDGE_FACTOR: final = 4
     Y_NUDGE_FACTOR: final = 4
@@ -99,7 +95,7 @@ class Diagram(BaseDiagram):
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f'{Diagram.RESOURCE_ENV_VAR}')
+            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
             fqFileName:      str = f'{pathToResources}/{Diagram.RESOURCES_PATH}/{bareFileName}'
 
         return fqFileName
@@ -118,7 +114,7 @@ class Diagram(BaseDiagram):
         x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
-        methodReprs: Diagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
         symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
