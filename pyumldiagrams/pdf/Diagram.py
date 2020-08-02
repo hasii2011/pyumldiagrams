@@ -1,7 +1,6 @@
 
-from typing import List
+
 from typing import Tuple
-from typing import cast
 from typing import final
 
 from logging import Logger
@@ -11,6 +10,7 @@ from os import sep as osSep
 
 from pkg_resources import resource_filename
 
+from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
 from pyumldiagrams.Internal import SeparatorPosition
 from pyumldiagrams.Common import Common
@@ -19,9 +19,7 @@ from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition
-from pyumldiagrams.Definitions import MethodDefinition
-from pyumldiagrams.Definitions import Methods
-from pyumldiagrams.Definitions import ParameterDefinition
+
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
@@ -30,7 +28,7 @@ from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 
-class Diagram:
+class Diagram(BaseDiagram):
     """
 
     Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
@@ -39,7 +37,7 @@ class Diagram:
     You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
     specify the text font size
     """
-    MethodsRepr = List[str]
+    # MethodsRepr = List[str]
 
     FPDF_DRAW: final = 'D'
 
@@ -48,8 +46,6 @@ class Diagram:
 
     RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
 
-    DEFAULT_FONT_SIZE:      final = 10
-
     X_NUDGE_FACTOR: final = 4
     Y_NUDGE_FACTOR: final = 4
 
@@ -57,13 +53,13 @@ class Diagram:
         """
 
         Args:
-            fileName:   Fully qualified file name
-            dpi: dots per inch for the display we are mapping from
+            fileName:    Fully qualified file name
+            dpi:         dots per inch for the display we are mapping from
             headerText:  The header to place on the page
         """
-
-        self._fileName: str = fileName
-        self._dpi:      int = dpi
+        super().__init__(fileName=fileName, dpi=dpi, headerText=headerText)
+        # self._fileName: str = fileName
+        # self._dpi:      int = dpi
         self.logger: Logger = getLogger(__name__)
 
         pdf = FPDFExtended(headerText=headerText)
@@ -87,41 +83,15 @@ class Diagram:
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
-    @property
-    def fontSize(self) -> int:
-        return self._fontSize
+    def retrieveResourcePath(self, bareFileName: str) -> str:
+        """
+        Overrides the empty base implementation
 
-    @fontSize.setter
-    def fontSize(self, newSize: int):
-        self._fontSize = newSize
+        Args:
+            bareFileName:
 
-    @property
-    def horizontalGap(self) -> int:
-        return self._diagramPadding.horizontalGap
-
-    @horizontalGap.setter
-    def horizontalGap(self, newValue: int):
-        self._diagramPadding.horizontalGap = newValue
-
-    @property
-    def verticalGap(self) -> int:
-        return self._diagramPadding.verticalGap
-
-    @verticalGap.setter
-    def verticalGap(self, newValue):
-        self._diagramPadding.verticalGap = newValue
-
-    @property
-    def headerText(self) -> str:
-        return self._pdf._headerText
-
-    @headerText.setter
-    def headerText(self, newValue: str):
-        self._pdf._headerText = newValue
-
-    @classmethod
-    def retrieveResourcePath(cls, bareFileName: str) -> str:
-
+        Returns: a fully qualified name
+        """
         try:
             fqFileName: str = resource_filename(Diagram.RESOURCES_PACKAGE_NAME, bareFileName)
         except (ValueError, Exception):
@@ -257,7 +227,7 @@ class Diagram:
 
         return SeparatorPosition(separatorX, separatorY)
 
-    def _drawMethods(self, methodReprs: MethodsRepr, separatorPosition: SeparatorPosition):
+    def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
         x: float = separatorPosition.x + Diagram.X_NUDGE_FACTOR
         y: float = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
@@ -266,49 +236,6 @@ class Diagram:
 
             self._pdf.text(x=x, y=y, txt=methodRepr)
             y = y + self._fontSize + 2
-
-    def _buildMethods(self, methods: Methods) -> MethodsRepr:
-
-        methodReprs: Diagram.MethodsRepr = []
-
-        for methodDef in methods:
-
-            methodRepr: str = self._buildMethod(methodDef)
-            methodReprs.append(methodRepr)
-
-        return methodReprs
-
-    def _buildMethod(self, methodDef: MethodDefinition) -> str:
-
-        methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
-
-        nParams:   int = len(methodDef.parameters)
-        paramNum:  int = 0
-        paramRepr: str = ''
-        for parameterDef in methodDef.parameters:
-            parameterDef = cast(ParameterDefinition, parameterDef)
-            paramNum += 1
-
-            paramRepr = f'{paramRepr}{parameterDef.name}'
-
-            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
-
-            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
-
-            if paramNum == nParams:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}, '
-
-        methodRepr = f'{methodRepr}({paramRepr})'
-
-        return methodRepr
 
     def __convertDefinition(self, definition: RectangleDefinition) -> Tuple[float, float, float, float]:
         """
