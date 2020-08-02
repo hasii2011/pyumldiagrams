@@ -19,9 +19,10 @@ from pyumldiagrams.image.ImageFormat import ImageFormat
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
+from tests.TestDiagramBase import TestDiagramBase
 
 
-class TestImageDiagram(TestBase):
+class TestImageDiagram(TestDiagramBase):
 
     BASE_TEST_CLASS_NAME: str = 'Car'
 
@@ -98,7 +99,7 @@ class TestImageDiagram(TestBase):
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods.{ImageFormat.PNG.value}')
 
-        classDef: ClassDefinition = self.__buildCar()
+        classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
 
@@ -106,7 +107,7 @@ class TestImageDiagram(TestBase):
 
     def testMinimalInheritance(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName='MinimalInheritance.png')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance.{ImageFormat.PNG.value}')
 
         cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
         opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
@@ -118,38 +119,6 @@ class TestImageDiagram(TestBase):
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
-
-    def __buildCar(self) -> ClassDefinition:
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))
-
-        initMethodDef:      MethodDefinition = self.__buildInitMethod()
-        descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
-        odometerMethodDef:  MethodDefinition = MethodDefinition(name='readOdometer',       visibility=DefinitionType.Public)
-        updateOdoMethodDef: MethodDefinition = MethodDefinition(name='updateOdometer',     visibility=DefinitionType.Public)
-        incrementMethodDef: MethodDefinition = MethodDefinition(name='incrementOdometer',  visibility=DefinitionType.Protected)
-
-        mileageParam: ParameterDefinition = ParameterDefinition(name='mileage', defaultValue='1')
-        updateOdoMethodDef.parameters = [mileageParam]
-
-        milesParam: ParameterDefinition = ParameterDefinition(name='miles', parameterType='int')
-        incrementMethodDef.parameters = [milesParam]
-
-        car.methods = [initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef]
-
-        return car
-
-    def __buildInitMethod(self) -> MethodDefinition:
-
-        initMethodDef:  MethodDefinition    = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam:  ParameterDefinition = ParameterDefinition(name='make',  parameterType='str', defaultValue='')
-        modelParam: ParameterDefinition = ParameterDefinition(name='model', parameterType='str', defaultValue='')
-        yearParam:  ParameterDefinition = ParameterDefinition(name='year',  parameterType='int', defaultValue='1957')
-
-        initMethodDef.parameters = [initParam, modelParam, yearParam]
-
-        return initMethodDef
 
 
 def suite() -> TestSuite:

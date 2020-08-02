@@ -189,7 +189,7 @@ class TestDiagram(TestBase):
 
     def testMinimalInheritance(self):
 
-        diagram: Diagram = Diagram(fileName='MinimalInheritance.pdf', dpi=75)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance{TestConstants.TEST_SUFFIX}', dpi=75)
 
         cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
         opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))

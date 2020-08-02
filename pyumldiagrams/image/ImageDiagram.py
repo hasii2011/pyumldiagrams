@@ -31,6 +31,7 @@ from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import SeparatorPosition
 
 from pyumldiagrams.image.ImageFormat import ImageFormat
+from pyumldiagrams.image.ImageLine import ImageLine
 
 ShapeDefinition = Union[EllipseDefinition, RectangleDefinition]
 
@@ -68,6 +69,7 @@ class ImageDiagram(BaseDiagram):
                                         size=(imageSize.width, imageSize.height),
                                         color=ImageColor.getrgb(ImageDiagram.DEFAULT_BACKGROUND_COLOR))
         self._imgDraw: ImageDraw = ImageDraw.Draw(self._img)
+        self._lineDrawer: ImageLine    = ImageLine(docWriter=self._imgDraw, diagramPadding=self._diagramPadding)
 
         fqPath:     str       = self.retrieveResourcePath('MonoFonto.ttf')
         self._font: ImageFont = ImageFont.truetype(fqPath)
@@ -128,7 +130,7 @@ class ImageDiagram(BaseDiagram):
         Args:
             lineDefinition:   A UML Line definition
         """
-        pass
+        self._lineDrawer.draw(lineDefinition=lineDefinition)
 
     def drawEllipse(self, definition: EllipseDefinition):
         """
