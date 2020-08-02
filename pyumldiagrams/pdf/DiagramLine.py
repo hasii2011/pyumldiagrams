@@ -12,7 +12,8 @@ from typing import Tuple
 
 from fpdf import FPDF
 
-from pyumldiagrams.pdf.PdfCommon import PdfCommon
+from pyumldiagrams.IDiagramLine import IDiagramLine
+from pyumldiagrams.UnsupportedException import UnsupportedException
 
 from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
@@ -25,11 +26,10 @@ from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
 
+from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
-from pyumldiagrams.UnsupportedException import UnsupportedException
 
-
-class DiagramLine:
+class DiagramLine(IDiagramLine):
     """
     This class takes responsibility for drawing the various types of lines within the
     described UML classes.  End users generally do not directly use this class.
@@ -40,12 +40,12 @@ class DiagramLine:
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
+        super().__init__(docMaker=pdf, diagramPadding=diagramPadding, dpi=dpi)
         self.logger: Logger = getLogger(__name__)
 
-        self._pdf: FPDF = pdf
-        self._dpi: int  = dpi
-
-        self._diagramPadding: diagramPadding  = diagramPadding
+        # self._pdf: FPDF = pdf
+        # self._dpi: int  = dpi
+        # self._diagramPadding: diagramPadding  = diagramPadding
 
     def draw(self, lineDefinition: UmlLineDefinition):
         """
@@ -86,7 +86,7 @@ class DiagramLine:
 
         newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
-        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
     def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
 
@@ -97,7 +97,7 @@ class DiagramLine:
         self.__FillInDiamond(points)
 
         newEndPoint: InternalPosition = points[3]
-        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
     def _drawAggregationDiamond(self, src: Position, dest: Position):
 
@@ -107,7 +107,7 @@ class DiagramLine:
 
         newEndPoint: InternalPosition = points[3]
 
-        self._pdf.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
     def __convertEndPoints(self, src: Position, dest: Position) -> Tuple[InternalPosition, InternalPosition]:
 
@@ -217,7 +217,7 @@ class DiagramLine:
 
     def __drawPolygon(self, points: PolygonPoints):
 
-        pdf: FPDF = self._pdf
+        pdf: FPDF = self._docMaker
         ptNumber: int = 0
         for point in points:
 
@@ -292,6 +292,6 @@ class DiagramLine:
             y = startY
             while y <= endY:
                 if PdfCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
-                    self._pdf.line(x1=x, y1=y, x2=x, y2=y)
+                    self._docMaker.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
             x += 1
