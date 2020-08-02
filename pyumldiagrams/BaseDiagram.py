@@ -45,16 +45,13 @@ class BaseDiagram:
             headerText:  The header to place on the page
         """
 
-        self._fileName:  str = fileName
-        self._dpi:       int = dpi
+        self._fileName:   str = fileName
+        self._dpi:        int = dpi
         self._headerText: str = headerText
-        self._fontSize: int  = BaseDiagram.DEFAULT_FONT_SIZE
+        self._fontSize:   int  = BaseDiagram.DEFAULT_FONT_SIZE
 
-        diagramPadding:   DiagramPadding = DiagramPadding()
-
-        self.clsLogger.info(f'{headerText=}')
-
-        self._diagramPadding: DiagramPadding = diagramPadding
+        self._softwareNameVersion: str = ''
+        self._diagramPadding:      DiagramPadding = DiagramPadding()
 
     @property
     def fontSize(self) -> int:
@@ -87,6 +84,14 @@ class BaseDiagram:
     @headerText.setter
     def headerText(self, newValue: str):
         self._headerText = newValue
+
+    @property
+    def softwareNameVersion(self) -> str:
+        return self._softwareNameVersion
+
+    @softwareNameVersion.setter
+    def softwareNameVersion(self, newValue: str):
+        self._softwareNameVersion = newValue
 
     def retrieveResourcePath(self, bareFileName: str) -> str:
         """
