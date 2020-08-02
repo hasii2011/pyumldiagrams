@@ -109,8 +109,7 @@ class TestDiagram(TestDiagramBase):
 
     def testBasicMethod(self):
 
-        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
+        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         position: Position = Position(107, 30)
         size:     Size     = Size(width=266, height=100)
