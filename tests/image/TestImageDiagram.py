@@ -1,11 +1,13 @@
 
 from logging import Logger
 from logging import getLogger
+from typing import cast
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
 from pyumldiagrams.Definitions import ClassDefinition
+from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
@@ -13,6 +15,7 @@ from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import UmlLineDefinitions
 
 from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
@@ -127,6 +130,27 @@ class TestImageDiagram(TestDiagramBase):
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
+
+        diagram.write()
+
+    def testSophisticatedLayout(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout.{ImageFormat.PNG.value}')
+
+        classDefinitions: ClassDefinitions = [
+            self._buildCar(),
+            self._buildCat(),
+            self._buildOpie(),
+            self._buildNameTestCase(),
+            self._buildElectricCar()
+        ]
+        for classDefinition in classDefinitions:
+            classDefinition = cast(ClassDefinition, classDefinition)
+            diagram.drawClass(classDefinition=classDefinition)
+
+        lineDefinitions: UmlLineDefinitions = self._buildSophisticatedLineDefinitions()
+        for lineDefinition in lineDefinitions:
+            diagram.drawUmlLine(lineDefinition=lineDefinition)
 
         diagram.write()
 

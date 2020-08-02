@@ -131,16 +131,16 @@ class TestDiagram(TestDiagramBase):
 
         classDefinitions: ClassDefinitions = [
             self._buildCar(),
-            self.__buildCat(),
-            self.__buildOpie(),
-            self.__buildNameTestCase(),
-            self.__buildElectricCar()
+            self._buildCat(),
+            self._buildOpie(),
+            self._buildNameTestCase(),
+            self._buildElectricCar()
         ]
         for classDefinition in classDefinitions:
             classDefinition = cast(ClassDefinition, classDefinition)
             diagram.drawClass(classDefinition=classDefinition)
 
-        lineDefinitions: UmlLineDefinitions = self.__buildSophisticatedLineDefinitions()
+        lineDefinitions: UmlLineDefinitions = self._buildSophisticatedLineDefinitions()
         for lineDefinition in lineDefinitions:
             diagram.drawUmlLine(lineDefinition=lineDefinition)
 
@@ -150,7 +150,7 @@ class TestDiagram(TestDiagramBase):
 
         diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
 
-        initMethodDef: MethodDefinition = self.__buildInitMethod()
+        initMethodDef: MethodDefinition = self._buildInitMethod()
 
         actualRepr:    str = diagram._buildMethod(initMethodDef)
         expectedRepr:  str = '+ __init__(make: str, model: str, year: int=1957)'
@@ -202,87 +202,10 @@ class TestDiagram(TestDiagramBase):
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
 
-    def __buildCat(self) -> ClassDefinition:
-
-        cat: ClassDefinition = ClassDefinition(name='gato', position=Position(536, 19), size=Size(height=74, width=113))
-
-        initMethod:     MethodDefinition = MethodDefinition('__init')
-        sitMethod:      MethodDefinition = MethodDefinition('sit')
-        rollOverMethod: MethodDefinition = MethodDefinition('rollOver')
-
-        cat.methods = [initMethod, sitMethod, rollOverMethod]
-
-        return cat
-
-    def __buildOpie(self) -> ClassDefinition:
-
-        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
-
-        publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=DefinitionType.Public, returnType='bool')
-        paramDef: ParameterDefinition  = ParameterDefinition(name='param', parameterType='float', defaultValue='23.0')
-
-        publicMethod.parameters = [paramDef]
-
-        opie.methods = [publicMethod]
-
-        return opie
-
-    def __buildElectricCar(self) -> ClassDefinition:
-
-        electricCar: ClassDefinition = ClassDefinition(name='ElectricCar', position=Position(52, 224), size=Size(width=173, height=64))
-
-        initMethod: MethodDefinition = MethodDefinition(name='__init__')
-        descMethod: MethodDefinition = MethodDefinition(name='describeBattery')
-
-        makeParameter:  ParameterDefinition = ParameterDefinition(name='make')
-        modelParameter: ParameterDefinition = ParameterDefinition(name='model')
-        yearParameter:  ParameterDefinition = ParameterDefinition(name='year')
-
-        initMethod.parameters = [makeParameter, modelParameter, yearParameter]
-        electricCar.methods = [initMethod, descMethod]
-        return electricCar
-
-    def __buildNameTestCase(self) -> ClassDefinition:
-
-        namesTest: ClassDefinition = ClassDefinition(name='NamesTestCase', position=Position(409, 362), size=Size(height=65, width=184))
-
-        testFirst:    MethodDefinition = MethodDefinition(name='testFirstLasName')
-        formattedName: MethodDefinition = MethodDefinition(name='getFormattedName')
-
-        firstParam:  ParameterDefinition = ParameterDefinition(name='first')
-        lastParam:  ParameterDefinition = ParameterDefinition(name='last')
-
-        formattedName.parameters = [firstParam, lastParam]
-        namesTest.methods = [testFirst, formattedName]
-
-        return namesTest
-
-    def __buildInitMethod(self) -> MethodDefinition:
-
-        initMethodDef:  MethodDefinition    = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam:  ParameterDefinition = ParameterDefinition(name='make',  parameterType='str', defaultValue='')
-        modelParam: ParameterDefinition = ParameterDefinition(name='model', parameterType='str', defaultValue='')
-        yearParam:  ParameterDefinition = ParameterDefinition(name='year',  parameterType='int', defaultValue='1957')
-
-        initMethodDef.parameters = [initParam, modelParam, yearParam]
-
-        return initMethodDef
-
     V_LEFT_X:   int = 1100
     V_RIGHT_X:  int = 1250
     V_TOP_Y:    int = 394
     V_BOTTOM_Y: int = 508
-
-    def __buildSophisticatedLineDefinitions(self) -> UmlLineDefinitions:
-
-        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
-        eCarToCar: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(190, 224), destination=Position(190, 129))
-        lineDefinitions: UmlLineDefinitions = [
-            opieToCat, eCarToCar
-        ]
-
-        return lineDefinitions
 
 
 def suite() -> TestSuite:
