@@ -31,8 +31,6 @@ class TestDiagram(TestDiagramBase):
     The following all test with the default horizontal/vertical gaps and the default top/left margins
     """
 
-    BASE_TEST_CLASS_NAME: str = 'TestClassName'
-
     TEST_LAST_X_POSITION: int = 9
     TEST_LAST_Y_POSITION: int = 6
 
@@ -59,10 +57,31 @@ class TestDiagram(TestDiagramBase):
 
         self.assertEqual(Diagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
 
+    def testBuildMethod(self):
+
+        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
+
+        initMethodDef: MethodDefinition = self._buildInitMethod()
+
+        actualRepr:    str = diagram._buildMethod(initMethodDef)
+        expectedRepr:  str = '+ __init__(make: str, model: str, year: int=1957)'
+
+        self.assertEqual(expectedRepr, actualRepr, 'Method building is incorrect')
+
+    def testBuildMethods(self):
+
+        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
+
+        car: ClassDefinition = self._buildCar()
+
+        reprs: Diagram.MethodsRepr = diagram._buildMethods(car.methods)
+
+        self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
+
     def testBasicDiagramDraw(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-        classDef: ClassDefinition = ClassDefinition(name=TestDiagram.BASE_TEST_CLASS_NAME,
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagramBase.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
 
         diagram.drawClass(classDef)
@@ -85,6 +104,26 @@ class TestDiagram(TestDiagramBase):
                                                             position=Position(scrX, scrY),
                                                             size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
                 diagram.drawClass(classDef)
+
+        diagram.write()
+
+    def testBasicMethod(self):
+
+        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+        initMethodDef.parameters = [initParam]
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
 
         diagram.write()
 
@@ -146,47 +185,6 @@ class TestDiagram(TestDiagramBase):
 
         diagram.write()
 
-    def testBuildMethod(self):
-
-        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
-
-        initMethodDef: MethodDefinition = self._buildInitMethod()
-
-        actualRepr:    str = diagram._buildMethod(initMethodDef)
-        expectedRepr:  str = '+ __init__(make: str, model: str, year: int=1957)'
-
-        self.assertEqual(expectedRepr, actualRepr, 'Method building is incorrect')
-
-    def testBuildMethods(self):
-
-        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
-
-        car: ClassDefinition = self._buildCar()
-
-        reprs: Diagram.MethodsRepr = diagram._buildMethods(car.methods)
-
-        self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
-
-    def testBasicMethod(self):
-
-        # diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-        diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
-
-        position: Position = Position(107, 30)
-        size:     Size     = Size(width=266, height=100)
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
-
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
-        initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
-
-        diagram.drawClass(car)
-
-        diagram.write()
-
     def testMinimalInheritance(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance{TestConstants.TEST_SUFFIX}', dpi=75)
@@ -201,11 +199,6 @@ class TestDiagram(TestDiagramBase):
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
-
-    V_LEFT_X:   int = 1100
-    V_RIGHT_X:  int = 1250
-    V_TOP_Y:    int = 394
-    V_BOTTOM_Y: int = 508
 
 
 def suite() -> TestSuite:

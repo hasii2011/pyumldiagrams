@@ -18,6 +18,8 @@ class TestDiagramBase(TestBase):
     UNIT_TEST_HEADER:               final = 'Unit Test Header'
     UNIT_TEST_SOPHISTICATED_HEADER: final = 'Pyut Export Version 6.0'
 
+    BASE_TEST_CLASS_NAME: str = 'TestClassName'
+
     def _buildCar(self) -> ClassDefinition:
 
         car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))

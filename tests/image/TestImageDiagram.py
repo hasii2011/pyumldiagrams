@@ -27,8 +27,6 @@ from tests.TestDiagramBase import TestDiagramBase
 
 class TestImageDiagram(TestDiagramBase):
 
-    BASE_TEST_CLASS_NAME: str = 'Car'
-
     CELL_WIDTH:  int = 150  # pixels
     CELL_HEIGHT: int = 100  # pixels
 
@@ -51,7 +49,7 @@ class TestImageDiagram(TestDiagramBase):
     def testBasicDiagramDraw(self):
 
         diagram:  ImageDiagram    = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic.{ImageFormat.PNG.value}')
-        classDef: ClassDefinition = ClassDefinition(name=TestImageDiagram.BASE_TEST_CLASS_NAME,
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagramBase.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=266, height=100),
                                                     position=Position(x=107, y=30)
                                                     )
