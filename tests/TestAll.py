@@ -78,6 +78,8 @@ class TestAll:
             try:
                 fixedName: str = module.replace('/', '.')
                 m = import_module(fixedName)
+                # I do not know how to declare a module that has a specific method/function
+                # noinspection PyUnresolvedReferences
                 fSuite.addTest(m.suite())
             except (ValueError, Exception) as e:
                 self.logger.error(f'Module import problem with: {module}:  {e}')
@@ -102,6 +104,12 @@ class TestAll:
         pdfModules = self.__removeNotTests(pdfModules)
 
         testModules = baseModules + pdfModules
+
+        fModules = glob("tests/image/Test*.py")
+        imgModules = list(map(lambda x: x[:-3], fModules))
+        imgModules = self.__removeNotTests(imgModules)
+
+        testModules = testModules + imgModules
 
         return testModules
 
