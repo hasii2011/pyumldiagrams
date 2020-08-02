@@ -27,8 +27,9 @@ class BaseDiagram:
 
     MethodsRepr = List[str]
 
-    DEFAULT_FONT_SIZE:      final = 10
-    RESOURCE_ENV_VAR:       final = 'RESOURCEPATH'
+    DEFAULT_FONT_SIZE: final = 10
+    HEADER_FONT_SIZE:  final = 14
+    RESOURCE_ENV_VAR:  final = 'RESOURCEPATH'
 
     clsLogger: Logger = getLogger(__name__)
 

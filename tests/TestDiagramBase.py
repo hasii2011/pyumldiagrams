@@ -1,3 +1,4 @@
+from typing import final
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
@@ -10,6 +11,9 @@ from tests.TestBase import TestBase
 
 
 class TestDiagramBase(TestBase):
+
+    UNIT_TEST_HEADER:               final = 'Unit Test Header'
+    UNIT_TEST_SOPHISTICATED_HEADER: final = 'Pyut Export Version 6.0'
 
     def _buildCar(self) -> ClassDefinition:
 

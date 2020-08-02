@@ -105,6 +105,31 @@ class TestImageDiagram(TestDiagramBase):
 
         diagram.write()
 
+    def testBasicHeader(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader.{ImageFormat.PNG.value}',
+                                             headerText=TestDiagramBase.UNIT_TEST_HEADER)
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+
+        diagram.write()
+
+    def testSophisticatedHeader(self):
+        from time import localtime
+
+        from time import strftime
+
+        today = strftime("%d %b %Y %H:%M:%S", localtime())
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader.{ImageFormat.PNG.value}',
+                                             headerText=f'{TestDiagramBase.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+
+        diagram.write()
+
     def testMinimalInheritance(self):
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance.{ImageFormat.PNG.value}')

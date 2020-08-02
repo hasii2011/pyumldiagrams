@@ -22,11 +22,11 @@ from pyumldiagrams.Definitions import Size
 from pyumldiagrams.pdf.Diagram import Diagram
 
 from tests.TestBase import TestBase
-
 from tests.TestConstants import TestConstants
+from tests.TestDiagramBase import TestDiagramBase
 
 
-class TestDiagram(TestBase):
+class TestDiagram(TestDiagramBase):
     """
     The following all test with the default horizontal/vertical gaps and the default top/left margins
     """
@@ -92,7 +92,7 @@ class TestDiagram(TestBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
-        classDef: ClassDefinition = self.__buildCar()
+        classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
 
@@ -102,8 +102,8 @@ class TestDiagram(TestBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
                                    dpi=TestConstants.TEST_DPI,
-                                   headerText='Unit Test Header')
-        classDef: ClassDefinition = self.__buildCar()
+                                   headerText=TestDiagramBase.UNIT_TEST_HEADER)
+        classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
 
@@ -118,8 +118,8 @@ class TestDiagram(TestBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
                                    dpi=TestConstants.TEST_DPI,
-                                   headerText=f'Pyut Export Version 6.0 - {today}')
-        classDef: ClassDefinition = self.__buildCar()
+                                   headerText=f'{TestDiagramBase.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+        classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
 
@@ -130,7 +130,7 @@ class TestDiagram(TestBase):
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = [
-            self.__buildCar(),
+            self._buildCar(),
             self.__buildCat(),
             self.__buildOpie(),
             self.__buildNameTestCase(),
@@ -161,7 +161,7 @@ class TestDiagram(TestBase):
 
         diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
 
-        car: ClassDefinition = self.__buildCar()
+        car: ClassDefinition = self._buildCar()
 
         reprs: Diagram.MethodsRepr = diagram._buildMethods(car.methods)
 
@@ -201,26 +201,6 @@ class TestDiagram(TestBase):
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
-
-    def __buildCar(self) -> ClassDefinition:
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))
-
-        initMethodDef:      MethodDefinition = self.__buildInitMethod()
-        descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
-        odometerMethodDef:  MethodDefinition = MethodDefinition(name='readOdometer',      visibility=DefinitionType.Public)
-        updateOdoMethodDef: MethodDefinition = MethodDefinition(name='updateOdometer',    visibility=DefinitionType.Public)
-        incrementMethodDef: MethodDefinition = MethodDefinition(name='incrementOdometer', visibility=DefinitionType.Protected)
-
-        mileageParam: ParameterDefinition = ParameterDefinition(name='mileage', defaultValue='1')
-        updateOdoMethodDef.parameters = [mileageParam]
-
-        milesParam: ParameterDefinition = ParameterDefinition(name='miles', parameterType='int')
-        incrementMethodDef.parameters = [milesParam]
-
-        car.methods = [initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef]
-
-        return car
 
     def __buildCat(self) -> ClassDefinition:
 

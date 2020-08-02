@@ -18,6 +18,9 @@ from PIL import ImageFont
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 
+from pyumldiagrams.Definitions import TOP_MARGIN
+from pyumldiagrams.Definitions import LEFT_MARGIN
+
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import Position
@@ -68,11 +71,13 @@ class ImageDiagram(BaseDiagram):
         self._img:   Image  = Image.new(mode='RGB',
                                         size=(imageSize.width, imageSize.height),
                                         color=ImageColor.getrgb(ImageDiagram.DEFAULT_BACKGROUND_COLOR))
-        self._imgDraw: ImageDraw = ImageDraw.Draw(self._img)
-        self._lineDrawer: ImageLine    = ImageLine(docWriter=self._imgDraw, diagramPadding=self._diagramPadding)
+
+        self._imgDraw:    ImageDraw = ImageDraw.Draw(self._img)
+        self._lineDrawer: ImageLine = ImageLine(docWriter=self._imgDraw, diagramPadding=self._diagramPadding)
 
         fqPath:     str       = self.retrieveResourcePath('MonoFonto.ttf')
-        self._font: ImageFont = ImageFont.truetype(fqPath)
+        self._font:       ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
+        self._headerFont: ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.HEADER_FONT_SIZE)
         #
         # https://www.exiv2.org/tags.html
         #
@@ -162,6 +167,11 @@ class ImageDiagram(BaseDiagram):
         Call this method when you are done with placing the diagram onto a PDF document.
         I am overriding the empty base definition
         """
+        if self._headerText is not None and self._headerText != '':
+
+            xy = [LEFT_MARGIN, TOP_MARGIN / 2]
+            self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
+
         self._img.save(self._fileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
 
     def _drawClassSymbol(self, classDefinition: ClassDefinition):
