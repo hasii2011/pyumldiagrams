@@ -59,9 +59,11 @@ class ImageDiagram(BaseDiagram):
         """
 
         Args:
-            fileName:
-            headerText:
-            imageSize:
+            fileName:  The output file name.  Include the suffix
+
+            headerText:  The text to display as a header on the diagram
+
+            imageSize:  The diagram size in pixels
         """
 
         super().__init__(fileName=fileName, headerText=headerText)
@@ -130,7 +132,8 @@ class ImageDiagram(BaseDiagram):
         """
         Draw the inheritance, aggregation, or composition lines that describe the relationships
         between the UML classes
-        I am overriding the empty base definition
+
+        Overrides the empty base definition
 
         Args:
             lineDefinition:   A UML Line definition
@@ -141,7 +144,7 @@ class ImageDiagram(BaseDiagram):
         """
         Draw a general purpose ellipse
 
-        I am overriding the empty base definition
+        Overrides the empty base definition
 
         Args:
             definition:     It's definition
@@ -153,7 +156,7 @@ class ImageDiagram(BaseDiagram):
         """
         Draw a general purpose rectangle
 
-        I am overriding the empty base definition
+        Overrides the empty base definition
 
         Args:
             definition:  The rectangle definition
@@ -164,8 +167,9 @@ class ImageDiagram(BaseDiagram):
 
     def write(self):
         """
-        Call this method when you are done with placing the diagram onto a PDF document.
-        I am overriding the empty base definition
+        Call this method when you are done with placing the diagram onto the image document.
+
+        Overrides the empty base definition
         """
         if self._headerText is not None and self._headerText != '':
 
