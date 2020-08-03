@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.4" />
+<title>pyumldiagrams.BaseDiagram API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pyumldiagrams.BaseDiagram</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import List
+from typing import cast
+from typing import final
+
+from logging import Logger
+from logging import getLogger
+
+from pyumldiagrams.Definitions import ClassDefinition
+from pyumldiagrams.Definitions import DiagramPadding
+from pyumldiagrams.Definitions import EllipseDefinition
+from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import RectangleDefinition
+from pyumldiagrams.Definitions import UmlLineDefinition
+
+
+class BaseDiagram:
+    &#34;&#34;&#34;
+    Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
+    inheritance, composition, and aggregation lines.
+
+    You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
+    specify the text font size
+    &#34;&#34;&#34;
+
+    MethodsRepr = List[str]
+
+    DEFAULT_FONT_SIZE: final = 10
+    HEADER_FONT_SIZE:  final = 14
+    RESOURCE_ENV_VAR:  final = &#39;RESOURCEPATH&#39;
+
+    clsLogger: Logger = getLogger(__name__)
+
+    def __init__(self, fileName: str, dpi: int = 0, headerText: str = &#39;&#39;):
+        &#34;&#34;&#34;
+
+        Args:
+            fileName:   Fully qualified file name
+
+            dpi: dots per inch for the display we are mapping from;  Some diagramming methods may not
+            need a value for this since they map directly to display device
+
+            headerText:  The header to place on the page
+        &#34;&#34;&#34;
+
+        self._fileName:   str = fileName
+        self._dpi:        int = dpi
+        self._headerText: str = headerText
+        self._fontSize:   int  = BaseDiagram.DEFAULT_FONT_SIZE
+
+        self._softwareNameVersion: str = &#39;&#39;
+        self._diagramPadding:      DiagramPadding = DiagramPadding()
+
+    @property
+    def fontSize(self) -&gt; int:
+        return self._fontSize
+
+    @fontSize.setter
+    def fontSize(self, newSize: int):
+        self._fontSize = newSize
+
+    @property
+    def horizontalGap(self) -&gt; int:
+        return self._diagramPadding.horizontalGap
+
+    @horizontalGap.setter
+    def horizontalGap(self, newValue: int):
+        self._diagramPadding.horizontalGap = newValue
+
+    @property
+    def verticalGap(self) -&gt; int:
+        return self._diagramPadding.verticalGap
+
+    @verticalGap.setter
+    def verticalGap(self, newValue):
+        self._diagramPadding.verticalGap = newValue
+
+    @property
+    def headerText(self) -&gt; str:
+        return self._headerText
+
+    @headerText.setter
+    def headerText(self, newValue: str):
+        self._headerText = newValue
+
+    @property
+    def softwareNameVersion(self) -&gt; str:
+        return self._softwareNameVersion
+
+    @softwareNameVersion.setter
+    def softwareNameVersion(self, newValue: str):
+        self._softwareNameVersion = newValue
+
+    def retrieveResourcePath(self, bareFileName: str) -&gt; str:
+        &#34;&#34;&#34;
+        Must be overridden by implementors
+
+        Args:
+            bareFileName:
+
+        Returns: a fully qualified name
+        &#34;&#34;&#34;
+        pass
+
+    def drawClass(self, classDefinition: ClassDefinition):
+        &#34;&#34;&#34;
+        Draw the class diagram defined by the input
+        Must be overridden by implementors
+
+        Args:
+            classDefinition:    The class definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawUmlLine(self, lineDefinition: UmlLineDefinition):
+        &#34;&#34;&#34;
+        Draw the inheritance, aggregation, or composition lines that describe the relationships
+        between the UML classes
+
+        Must be overridden by implementors
+
+        Args:
+            lineDefinition:   A UML Line definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawEllipse(self, definition: EllipseDefinition):
+        &#34;&#34;&#34;
+        Draw a general purpose ellipse
+
+        Args:
+            definition:     It&#39;s definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawRectangle(self, definition: RectangleDefinition):
+        &#34;&#34;&#34;
+        Draw a general purpose rectangle
+
+        Args:
+            definition:  The rectangle definition
+        &#34;&#34;&#34;
+        pass
+
+    def write(self):
+        &#34;&#34;&#34;
+        Call this method when you are done with placing the diagram onto a PDF document.
+        Must be overridden by implementors
+        &#34;&#34;&#34;
+        pass
+
+    def _buildMethods(self, methods: Methods) -&gt; MethodsRepr:
+
+        methodReprs: BaseDiagram.MethodsRepr = []
+
+        for methodDef in methods:
+
+            methodRepr: str = self._buildMethod(methodDef)
+            methodReprs.append(methodRepr)
+
+        return methodReprs
+
+    def _buildMethod(self, methodDef: MethodDefinition) -&gt; str:
+
+        methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+
+        nParams:   int = len(methodDef.parameters)
+        paramNum:  int = 0
+        paramRepr: str = &#39;&#39;
+        for parameterDef in methodDef.parameters:
+            parameterDef = cast(ParameterDefinition, parameterDef)
+            paramNum += 1
+
+            paramRepr = f&#39;{paramRepr}{parameterDef.name}&#39;
+
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}: {parameterDef.parameterType}&#39;
+
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}={parameterDef.defaultValue}&#39;
+
+            if paramNum == nParams:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}, &#39;
+
+        methodRepr = f&#39;{methodRepr}({paramRepr})&#39;
+
+        return methodRepr</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram"><code class="flex name class">
+<span>class <span class="ident">BaseDiagram</span></span>
+<span>(</span><span>fileName: str, dpi: int = 0, headerText: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Always lays out in portrait mode.
+Currently only supports UML classes with methods.
+Only supports
+inheritance, composition, and aggregation lines.</p>
+<p>You are allowed to set the gap between UML classes both horizontally and vertically.
+Also, you are allowed to
+specify the text font size</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>fileName</code></strong></dt>
+<dd>Fully qualified file name</dd>
+<dt><strong><code>dpi</code></strong></dt>
+<dd>dots per inch for the display we are mapping from;
+Some diagramming methods may not</dd>
+</dl>
+<p>need a value for this since they map directly to display device</p>
+<dl>
+<dt><strong><code>headerText</code></strong></dt>
+<dd>The header to place on the page</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BaseDiagram:
+    &#34;&#34;&#34;
+    Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
+    inheritance, composition, and aggregation lines.
+
+    You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
+    specify the text font size
+    &#34;&#34;&#34;
+
+    MethodsRepr = List[str]
+
+    DEFAULT_FONT_SIZE: final = 10
+    HEADER_FONT_SIZE:  final = 14
+    RESOURCE_ENV_VAR:  final = &#39;RESOURCEPATH&#39;
+
+    clsLogger: Logger = getLogger(__name__)
+
+    def __init__(self, fileName: str, dpi: int = 0, headerText: str = &#39;&#39;):
+        &#34;&#34;&#34;
+
+        Args:
+            fileName:   Fully qualified file name
+
+            dpi: dots per inch for the display we are mapping from;  Some diagramming methods may not
+            need a value for this since they map directly to display device
+
+            headerText:  The header to place on the page
+        &#34;&#34;&#34;
+
+        self._fileName:   str = fileName
+        self._dpi:        int = dpi
+        self._headerText: str = headerText
+        self._fontSize:   int  = BaseDiagram.DEFAULT_FONT_SIZE
+
+        self._softwareNameVersion: str = &#39;&#39;
+        self._diagramPadding:      DiagramPadding = DiagramPadding()
+
+    @property
+    def fontSize(self) -&gt; int:
+        return self._fontSize
+
+    @fontSize.setter
+    def fontSize(self, newSize: int):
+        self._fontSize = newSize
+
+    @property
+    def horizontalGap(self) -&gt; int:
+        return self._diagramPadding.horizontalGap
+
+    @horizontalGap.setter
+    def horizontalGap(self, newValue: int):
+        self._diagramPadding.horizontalGap = newValue
+
+    @property
+    def verticalGap(self) -&gt; int:
+        return self._diagramPadding.verticalGap
+
+    @verticalGap.setter
+    def verticalGap(self, newValue):
+        self._diagramPadding.verticalGap = newValue
+
+    @property
+    def headerText(self) -&gt; str:
+        return self._headerText
+
+    @headerText.setter
+    def headerText(self, newValue: str):
+        self._headerText = newValue
+
+    @property
+    def softwareNameVersion(self) -&gt; str:
+        return self._softwareNameVersion
+
+    @softwareNameVersion.setter
+    def softwareNameVersion(self, newValue: str):
+        self._softwareNameVersion = newValue
+
+    def retrieveResourcePath(self, bareFileName: str) -&gt; str:
+        &#34;&#34;&#34;
+        Must be overridden by implementors
+
+        Args:
+            bareFileName:
+
+        Returns: a fully qualified name
+        &#34;&#34;&#34;
+        pass
+
+    def drawClass(self, classDefinition: ClassDefinition):
+        &#34;&#34;&#34;
+        Draw the class diagram defined by the input
+        Must be overridden by implementors
+
+        Args:
+            classDefinition:    The class definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawUmlLine(self, lineDefinition: UmlLineDefinition):
+        &#34;&#34;&#34;
+        Draw the inheritance, aggregation, or composition lines that describe the relationships
+        between the UML classes
+
+        Must be overridden by implementors
+
+        Args:
+            lineDefinition:   A UML Line definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawEllipse(self, definition: EllipseDefinition):
+        &#34;&#34;&#34;
+        Draw a general purpose ellipse
+
+        Args:
+            definition:     It&#39;s definition
+        &#34;&#34;&#34;
+        pass
+
+    def drawRectangle(self, definition: RectangleDefinition):
+        &#34;&#34;&#34;
+        Draw a general purpose rectangle
+
+        Args:
+            definition:  The rectangle definition
+        &#34;&#34;&#34;
+        pass
+
+    def write(self):
+        &#34;&#34;&#34;
+        Call this method when you are done with placing the diagram onto a PDF document.
+        Must be overridden by implementors
+        &#34;&#34;&#34;
+        pass
+
+    def _buildMethods(self, methods: Methods) -&gt; MethodsRepr:
+
+        methodReprs: BaseDiagram.MethodsRepr = []
+
+        for methodDef in methods:
+
+            methodRepr: str = self._buildMethod(methodDef)
+            methodReprs.append(methodRepr)
+
+        return methodReprs
+
+    def _buildMethod(self, methodDef: MethodDefinition) -&gt; str:
+
+        methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+
+        nParams:   int = len(methodDef.parameters)
+        paramNum:  int = 0
+        paramRepr: str = &#39;&#39;
+        for parameterDef in methodDef.parameters:
+            parameterDef = cast(ParameterDefinition, parameterDef)
+            paramNum += 1
+
+            paramRepr = f&#39;{paramRepr}{parameterDef.name}&#39;
+
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}: {parameterDef.parameterType}&#39;
+
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}={parameterDef.defaultValue}&#39;
+
+            if paramNum == nParams:
+                paramRepr = f&#39;{paramRepr}&#39;
+            else:
+                paramRepr = f&#39;{paramRepr}, &#39;
+
+        methodRepr = f&#39;{methodRepr}({paramRepr})&#39;
+
+        return methodRepr</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram" href="image/ImageDiagram.html#pyumldiagrams.image.ImageDiagram.ImageDiagram">ImageDiagram</a></li>
+<li><a title="pyumldiagrams.pdf.Diagram.Diagram" href="pdf/Diagram.html#pyumldiagrams.pdf.Diagram.Diagram">Diagram</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x10f043550></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x10f043550></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.MethodsRepr"><code class="name">var <span class="ident">MethodsRepr</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x10f043550></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.clsLogger"><code class="name">var <span class="ident">clsLogger</span> : logging.Logger</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.fontSize"><code class="name">var <span class="ident">fontSize</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def fontSize(self) -&gt; int:
+    return self._fontSize</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.headerText"><code class="name">var <span class="ident">headerText</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def headerText(self) -&gt; str:
+    return self._headerText</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.horizontalGap"><code class="name">var <span class="ident">horizontalGap</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def horizontalGap(self) -&gt; int:
+    return self._diagramPadding.horizontalGap</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.softwareNameVersion"><code class="name">var <span class="ident">softwareNameVersion</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def softwareNameVersion(self) -&gt; str:
+    return self._softwareNameVersion</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.verticalGap"><code class="name">var <span class="ident">verticalGap</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def verticalGap(self) -&gt; int:
+    return self._diagramPadding.verticalGap</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.drawClass"><code class="name flex">
+<span>def <span class="ident">drawClass</span></span>(<span>self, classDefinition: <a title="pyumldiagrams.Definitions.ClassDefinition" href="Definitions.html#pyumldiagrams.Definitions.ClassDefinition">ClassDefinition</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Draw the class diagram defined by the input
+Must be overridden by implementors</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>classDefinition</code></strong></dt>
+<dd>The class definition</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drawClass(self, classDefinition: ClassDefinition):
+    &#34;&#34;&#34;
+    Draw the class diagram defined by the input
+    Must be overridden by implementors
+
+    Args:
+        classDefinition:    The class definition
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.drawEllipse"><code class="name flex">
+<span>def <span class="ident">drawEllipse</span></span>(<span>self, definition: <a title="pyumldiagrams.Definitions.EllipseDefinition" href="Definitions.html#pyumldiagrams.Definitions.EllipseDefinition">EllipseDefinition</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Draw a general purpose ellipse</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>definition</code></strong></dt>
+<dd>
+<p>It's definition</p>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drawEllipse(self, definition: EllipseDefinition):
+    &#34;&#34;&#34;
+    Draw a general purpose ellipse
+
+    Args:
+        definition:     It&#39;s definition
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.drawRectangle"><code class="name flex">
+<span>def <span class="ident">drawRectangle</span></span>(<span>self, definition: <a title="pyumldiagrams.Definitions.RectangleDefinition" href="Definitions.html#pyumldiagrams.Definitions.RectangleDefinition">RectangleDefinition</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Draw a general purpose rectangle</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>definition</code></strong></dt>
+<dd>The rectangle definition</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drawRectangle(self, definition: RectangleDefinition):
+    &#34;&#34;&#34;
+    Draw a general purpose rectangle
+
+    Args:
+        definition:  The rectangle definition
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.drawUmlLine"><code class="name flex">
+<span>def <span class="ident">drawUmlLine</span></span>(<span>self, lineDefinition: <a title="pyumldiagrams.Definitions.UmlLineDefinition" href="Definitions.html#pyumldiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Draw the inheritance, aggregation, or composition lines that describe the relationships
+between the UML classes</p>
+<p>Must be overridden by implementors</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>lineDefinition</code></strong></dt>
+<dd>A UML Line definition</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def drawUmlLine(self, lineDefinition: UmlLineDefinition):
+    &#34;&#34;&#34;
+    Draw the inheritance, aggregation, or composition lines that describe the relationships
+    between the UML classes
+
+    Must be overridden by implementors
+
+    Args:
+        lineDefinition:   A UML Line definition
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.retrieveResourcePath"><code class="name flex">
+<span>def <span class="ident">retrieveResourcePath</span></span>(<span>self, bareFileName: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Must be overridden by implementors</p>
+<h2 id="args">Args</h2>
+<p>bareFileName:
+Returns: a fully qualified name</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retrieveResourcePath(self, bareFileName: str) -&gt; str:
+    &#34;&#34;&#34;
+    Must be overridden by implementors
+
+    Args:
+        bareFileName:
+
+    Returns: a fully qualified name
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.write"><code class="name flex">
+<span>def <span class="ident">write</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Call this method when you are done with placing the diagram onto a PDF document.
+Must be overridden by implementors</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write(self):
+    &#34;&#34;&#34;
+    Call this method when you are done with placing the diagram onto a PDF document.
+    Must be overridden by implementors
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pyumldiagrams" href="index.html">pyumldiagrams</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram" href="#pyumldiagrams.BaseDiagram.BaseDiagram">BaseDiagram</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE" href="#pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE">DEFAULT_FONT_SIZE</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE" href="#pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE">HEADER_FONT_SIZE</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.MethodsRepr" href="#pyumldiagrams.BaseDiagram.BaseDiagram.MethodsRepr">MethodsRepr</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR" href="#pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR">RESOURCE_ENV_VAR</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.clsLogger" href="#pyumldiagrams.BaseDiagram.BaseDiagram.clsLogger">clsLogger</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.drawClass" href="#pyumldiagrams.BaseDiagram.BaseDiagram.drawClass">drawClass</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.drawEllipse" href="#pyumldiagrams.BaseDiagram.BaseDiagram.drawEllipse">drawEllipse</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.drawRectangle" href="#pyumldiagrams.BaseDiagram.BaseDiagram.drawRectangle">drawRectangle</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.drawUmlLine" href="#pyumldiagrams.BaseDiagram.BaseDiagram.drawUmlLine">drawUmlLine</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.fontSize" href="#pyumldiagrams.BaseDiagram.BaseDiagram.fontSize">fontSize</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.headerText" href="#pyumldiagrams.BaseDiagram.BaseDiagram.headerText">headerText</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.horizontalGap" href="#pyumldiagrams.BaseDiagram.BaseDiagram.horizontalGap">horizontalGap</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.retrieveResourcePath" href="#pyumldiagrams.BaseDiagram.BaseDiagram.retrieveResourcePath">retrieveResourcePath</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.softwareNameVersion" href="#pyumldiagrams.BaseDiagram.BaseDiagram.softwareNameVersion">softwareNameVersion</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.verticalGap" href="#pyumldiagrams.BaseDiagram.BaseDiagram.verticalGap">verticalGap</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.write" href="#pyumldiagrams.BaseDiagram.BaseDiagram.write">write</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
+</footer>
+</body>
+</html>

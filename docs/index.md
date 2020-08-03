@@ -1,2 +1,2 @@
-[Click here for documentation](pdfdiagrams/index.html)
+[Click here for documentation](pyumldiagrams/index.html)
 
