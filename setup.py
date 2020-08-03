@@ -9,13 +9,13 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name="PDFDiagramming",
+    name="pyumldiagrams",
     version="1.0.8",
-    description="Draw UML diagrams in PDF format",
+    description="Draw UML diagrams in various format",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/hasii2011/pdfdiagrams",
+    url="https://github.com/hasii2011/pyumldiagrams",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["fpdf2"]
+    install_requires=["fpdf2", "Pillow"]
 )
