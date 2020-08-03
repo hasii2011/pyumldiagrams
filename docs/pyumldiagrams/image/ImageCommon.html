@@ -42,9 +42,11 @@ class ImageCommon(Common):
         Assumes a 1 to 1 relationship between display device and the image we are generating.
 
         Args:
-            position:
-            verticalGap:
-            horizontalGap:
+            position:  The original position
+
+            verticalGap:  Account for the vertical gap on the X-axis
+
+            horizontalGap:  Account for the horizontal gap on the Y-axis
 
         Returns:  The new position adjust for margins and gaps
         &#34;&#34;&#34;
@@ -80,9 +82,11 @@ class ImageCommon(Common):
         Assumes a 1 to 1 relationship between display device and the image we are generating.
 
         Args:
-            position:
-            verticalGap:
-            horizontalGap:
+            position:  The original position
+
+            verticalGap:  Account for the vertical gap on the X-axis
+
+            horizontalGap:  Account for the horizontal gap on the Y-axis
 
         Returns:  The new position adjust for margins and gaps
         &#34;&#34;&#34;
@@ -103,10 +107,15 @@ class ImageCommon(Common):
 <dd>
 <div class="desc"><p>Assumes a 1 to 1 relationship between display device and the image we are generating.</p>
 <h2 id="args">Args</h2>
-<p>position:
-verticalGap:
-horizontalGap:
-Returns:
+<dl>
+<dt><strong><code>position</code></strong></dt>
+<dd>The original position</dd>
+<dt><strong><code>verticalGap</code></strong></dt>
+<dd>Account for the vertical gap on the X-axis</dd>
+<dt><strong><code>horizontalGap</code></strong></dt>
+<dd>Account for the horizontal gap on the Y-axis</dd>
+</dl>
+<p>Returns:
 The new position adjust for margins and gaps</p></div>
 <details class="source">
 <summary>
@@ -118,9 +127,11 @@ def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float
     Assumes a 1 to 1 relationship between display device and the image we are generating.
 
     Args:
-        position:
-        verticalGap:
-        horizontalGap:
+        position:  The original position
+
+        verticalGap:  Account for the vertical gap on the X-axis
+
+        horizontalGap:  Account for the horizontal gap on the Y-axis
 
     Returns:  The new position adjust for margins and gaps
     &#34;&#34;&#34;
