@@ -10,7 +10,6 @@ function changeToProjectRoot {
 
 changeToProjectRoot
 
-find . -type d -name pyumldiagrams.egg-info -exec rm -rf {} \; -print
 find . -type f -name "*.pdf" -delete
 find . -type f -name "*.png" -delete
-rm -rf build dist
+rm -rf build dist pyumldiagrams.egg-info -delete
