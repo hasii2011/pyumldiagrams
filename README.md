@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hasii2011/pyumldiagrams.svg?branch=master)](https://travis-ci.org/hasii2011/pyumldiagrams)
+
 The documentation is [here](https://hasii2011.github.io/pdfdiagrams/pyumldiagrams/index.html).
 
 
