@@ -33,7 +33,6 @@ from enum import Enum
 
 from dataclasses import dataclass
 from dataclasses import field
-from typing import NewType
 
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -135,8 +134,7 @@ class ParameterDefinition(BaseDefinition):
     &#34;&#34;&#34;
 
 
-#  Parameters = List[ParameterDefinition]
-Parameters = NewType(&#39;Parameters&#39;, List[ParameterDefinition])
+Parameters = List[ParameterDefinition]
 &#34;&#34;&#34;
 Syntactic sugar to define a list of parameters.  
 &#34;&#34;&#34;
@@ -286,6 +284,10 @@ class EllipseDefinition(RectangleDefinition):
 <dd>
 <div class="desc"><p>Syntactic sugar to define a list of methods.</p></div>
 </dd>
+<dt id="pyumldiagrams.Definitions.Parameters"><code class="name">var <span class="ident">Parameters</span></code></dt>
+<dd>
+<div class="desc"><p>Syntactic sugar to define a list of parameters.</p></div>
+</dd>
 <dt id="pyumldiagrams.Definitions.UmlLineDefinitions"><code class="name">var <span class="ident">UmlLineDefinitions</span></code></dt>
 <dd>
 <div class="desc"><p>Syntactic sugar to define a list of UML Lines.</p></div>
@@ -293,22 +295,6 @@ class EllipseDefinition(RectangleDefinition):
 </dl>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="pyumldiagrams.Definitions.Parameters"><code class="name flex">
-<span>def <span class="ident">Parameters</span></span>(<span>x)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def new_type(x):
-    return x</code></pre>
-</details>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -603,7 +589,7 @@ Currently, bare associations are not supported.</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.MethodDefinition"><code class="flex name class">
 <span>class <span class="ident">MethodDefinition</span></span>
-<span>(</span><span>name: str, visibility: <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public, returnType: str = '', parameters: <function NewType.<locals>.new_type at 0x10f6803a0> = &lt;factory&gt;)</span>
+<span>(</span><span>name: str, visibility: <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public, returnType: str = '', parameters: List[<a title="pyumldiagrams.Definitions.ParameterDefinition" href="#pyumldiagrams.Definitions.ParameterDefinition">ParameterDefinition</a>] = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Defines a single method in a UML class</p></div>
@@ -899,7 +885,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </section>
 </article>
 <nav id="sidebar">
-<img src="PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
+<img src="https://hasii2011.github.io/pyumldiagrams/pyumldiagrams/PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -913,12 +899,8 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <li><h3><a href="#header-variables">Global variables</a></h3>
 <ul class="">
 <li><code><a title="pyumldiagrams.Definitions.Methods" href="#pyumldiagrams.Definitions.Methods">Methods</a></code></li>
-<li><code><a title="pyumldiagrams.Definitions.UmlLineDefinitions" href="#pyumldiagrams.Definitions.UmlLineDefinitions">UmlLineDefinitions</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
 <li><code><a title="pyumldiagrams.Definitions.Parameters" href="#pyumldiagrams.Definitions.Parameters">Parameters</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.UmlLineDefinitions" href="#pyumldiagrams.Definitions.UmlLineDefinitions">UmlLineDefinitions</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
