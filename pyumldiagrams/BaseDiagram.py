@@ -56,7 +56,7 @@ class BaseDiagram:
     @property
     def fontSize(self) -> int:
         """
-        The font size to use in the generated UML diagram.  If unchanged the value is `BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE`
+        The font size to use in the generated UML diagram.  If unchanged the value is `pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE`
         """
         return self._fontSize
 
