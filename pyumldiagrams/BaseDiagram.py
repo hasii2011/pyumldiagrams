@@ -66,6 +66,10 @@ class BaseDiagram:
 
     @property
     def horizontalGap(self) -> int:
+        """
+        The horizontal gap between UML elements.  If not set then the value is
+        `pyumldiagrams.Defaults.DEFAULT_HORIZONTAL_GAP`
+        """
         return self._diagramPadding.horizontalGap
 
     @horizontalGap.setter
@@ -74,6 +78,10 @@ class BaseDiagram:
 
     @property
     def verticalGap(self) -> int:
+        """
+        The vertical gap between UML elements.  If not set then the value is
+        `pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP`
+        """
         return self._diagramPadding.verticalGap
 
     @verticalGap.setter

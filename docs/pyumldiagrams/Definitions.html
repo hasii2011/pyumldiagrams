@@ -14,6 +14,7 @@
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<b>A Python UML document maker.</b>
 </head>
 <body>
 <main>
@@ -32,6 +33,7 @@ from enum import Enum
 
 from dataclasses import dataclass
 from dataclasses import field
+from typing import NewType
 
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -44,22 +46,44 @@ ClassName = str
 @dataclass
 class Position:
     &#34;&#34;&#34;
-    The x and y coordinates are in screen/display resolution.  This module converts
-    to points for use in this system
-
+    The x and y coordinates are in screen/display resolution.  Diagramming modules may
+    convert these to appropriate positions based on the rendering technology.
     &#34;&#34;&#34;
     x: float = 0.0
+    &#34;&#34;&#34;
+    The x-axis (horizontal) abscissa
+    &#34;&#34;&#34;
     y: float = 0.0
+    &#34;&#34;&#34;
+    The y-axis (vertical) ordinate
+    &#34;&#34;&#34;
 
 
 @dataclass
 class DiagramPadding:
+    &#34;&#34;&#34;
+    todo::  These should move to the Internal package
+    &#34;&#34;&#34;
 
     topMargin:  int = TOP_MARGIN
+    &#34;&#34;&#34;
+    The diagram&#39;s observed top margin.  See `pyumldiagrams.Defaults.TOP_MARGIN`
+    &#34;&#34;&#34;
     leftMargin: int = LEFT_MARGIN
+    &#34;&#34;&#34;
+    The diagram&#39;s observed left margin.  See `pyumldiagrams.Defaults.LEFT_MARGIN`
+    &#34;&#34;&#34;
 
     horizontalGap: int = DEFAULT_HORIZONTAL_GAP
+    &#34;&#34;&#34;
+    The horizontal gap between UML graphics added to the layout in addition to the gap imposed 
+    by the actual graphics positions. See `pyumldiagrams.Defaults.DEFAULT_HORIZONTAL_GAP`
+    &#34;&#34;&#34;
     verticalGap:   int = DEFAULT_VERTICAL_GAP
+    &#34;&#34;&#34;
+    The vertical gap between UML graphics added to the layout in addition to the gap imposed 
+    by the actual graphics positions.  See `pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP`
+    &#34;&#34;&#34;
 
 
 @dataclass
@@ -68,7 +92,13 @@ class Size:
     Defines the size of the input UML definitions;
     &#34;&#34;&#34;
     width:  float = 100
+    &#34;&#34;&#34;
+    The width of a shape
+    &#34;&#34;&#34;
     height: float = 100
+    &#34;&#34;&#34;
+    The height of the shape
+    &#34;&#34;&#34;
 
 
 class DefinitionType(Enum):
@@ -96,10 +126,20 @@ class ParameterDefinition(BaseDefinition):
     Defines a single parameter for a method
     &#34;&#34;&#34;
     parameterType: str = &#39;&#39;
+    &#34;&#34;&#34;
+    A string that describes the parameter type
+    &#34;&#34;&#34;
     defaultValue:  str = &#39;&#39;
+    &#34;&#34;&#34;
+    A string that describes a parameter default value
+    &#34;&#34;&#34;
 
 
-Parameters = List[ParameterDefinition]
+#  Parameters = List[ParameterDefinition]
+Parameters = NewType(&#39;Parameters&#39;, List[ParameterDefinition])
+&#34;&#34;&#34;
+Syntactic sugar to define a list of parameters.  
+&#34;&#34;&#34;
 
 
 @dataclass
@@ -107,24 +147,43 @@ class MethodDefinition(BaseDefinition):
     &#34;&#34;&#34;
     Defines a single method in a UML class
     &#34;&#34;&#34;
-
     visibility: DefinitionType = DefinitionType.Public
-    returnType: str            = &#39;&#39;
-    parameters: Parameters     = field(default_factory=list)
+    &#34;&#34;&#34;
+    Defines the method visibility.  See `DefinitionType`
+    &#34;&#34;&#34;
+    returnType: str = &#39;&#39;
+    &#34;&#34;&#34;
+    Defines the method return type.
+    &#34;&#34;&#34;
+    parameters: Parameters = field(default_factory=list)
+    &#34;&#34;&#34;
+    Define the parameters for a particular method
+    &#34;&#34;&#34;
 
 
 Methods = List[MethodDefinition]
+&#34;&#34;&#34;
+Syntactic sugar to define a list of methods.
+&#34;&#34;&#34;
 
 
 @dataclass
 class ClassDefinition(BaseDefinition):
     &#34;&#34;&#34;
-    The class definition.  Currently, does not supports instance properties.
+    The class definition.  Currently, does not support instance properties.
     &#34;&#34;&#34;
-
     size:     Size     = Size()
+    &#34;&#34;&#34;
+    The size of UML class symbol.  See `Size`
+    &#34;&#34;&#34;
     position: Position = Position(0, 0)
+    &#34;&#34;&#34;
+    The position of the UML class symbol.  See `Position`
+    &#34;&#34;&#34;
     methods: Methods   = field(default_factory=list)
+    &#34;&#34;&#34;
+    The list of methods this class implements.  
+    &#34;&#34;&#34;
 
 
 ClassDefinitions = List[ClassDefinition]
@@ -132,7 +191,7 @@ ClassDefinitions = List[ClassDefinition]
 
 class LineType(Enum):
     &#34;&#34;&#34;
-    The type of line you wish to draw.  Currently, straight assoications are not supported.
+    The type of UML line you wish to draw.  Currently, bare associations are not supported.
     &#34;&#34;&#34;
     Inheritance  = 0
     Aggregation  = 1
@@ -143,10 +202,16 @@ class LineType(Enum):
 @dataclass
 class LineDefinition:
     &#34;&#34;&#34;
-    Defines just a line between two points
+    Defines a line between two points
     &#34;&#34;&#34;
-    source:              Position
-    destination:         Position
+    source: Position
+    &#34;&#34;&#34;
+    The source position.  See `Position`
+    &#34;&#34;&#34;
+    destination: Position
+    &#34;&#34;&#34;
+    The destination position.  See `Position`
+    &#34;&#34;&#34;
 
 
 @dataclass
@@ -154,37 +219,96 @@ class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
     A UML Line definition includes its&#39; type
     &#34;&#34;&#34;
-    lineType:            LineType
+    lineType: LineType
+    &#34;&#34;&#34;
+    The UML line type  See `LineType`.
+    &#34;&#34;&#34;
 
 
 UmlLineDefinitions = List[UmlLineDefinition]
+&#34;&#34;&#34;
+Syntactic sugar to define a list of UML Lines.
+&#34;&#34;&#34;
 
 
 class RenderStyle(Enum):
-
+    &#34;&#34;&#34;
+    An enumeration that determines how to draw various UML and other graphical elements
+    &#34;&#34;&#34;
     Draw     = &#39;D&#39;
+    &#34;&#34;&#34;
+    Just draw the outline
+    &#34;&#34;&#34;
     Fill     = &#39;F&#39;
+    &#34;&#34;&#34;
+    Just fill in the area associated with the shape
+    &#34;&#34;&#34;
     DrawFill = &#39;DF&#39;
+    &#34;&#34;&#34;
+    Do both when drawing the UML shape or figure
+    &#34;&#34;&#34;
 
 
 @dataclass
 class RectangleDefinition:
+    &#34;&#34;&#34;
+    Defines a rectangle
+    &#34;&#34;&#34;
 
     renderStyle: RenderStyle = RenderStyle.Draw
+    &#34;&#34;&#34;
+    How to draw the rectangle.  See `RenderStyle`
+    &#34;&#34;&#34;
     position:    Position    = Position(0, 0)
+    &#34;&#34;&#34;
+    Where to put the rectangle.  See `Position`
+    &#34;&#34;&#34;
     size:        Size        = Size(0, 0)
+    &#34;&#34;&#34;
+    The rectangle size.  See `Size`
+    &#34;&#34;&#34;
 
 
 @dataclass
 class EllipseDefinition(RectangleDefinition):
+    &#34;&#34;&#34;
+    This is just typing syntactical sugar on how to define an Ellipse.
+    &#34;&#34;&#34;
     pass</code></pre>
 </details>
 </section>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="pyumldiagrams.Definitions.Methods"><code class="name">var <span class="ident">Methods</span></code></dt>
+<dd>
+<div class="desc"><p>Syntactic sugar to define a list of methods.</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.UmlLineDefinitions"><code class="name">var <span class="ident">UmlLineDefinitions</span></code></dt>
+<dd>
+<div class="desc"><p>Syntactic sugar to define a list of UML Lines.</p></div>
+</dd>
+</dl>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pyumldiagrams.Definitions.Parameters"><code class="name flex">
+<span>def <span class="ident">Parameters</span></span>(<span>x)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def new_type(x):
+    return x</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -227,19 +351,27 @@ class EllipseDefinition(RectangleDefinition):
 </code></dt>
 <dd>
 <div class="desc"><p>The class definition.
-Currently, does not supports instance properties.</p></div>
+Currently, does not support instance properties.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ClassDefinition(BaseDefinition):
     &#34;&#34;&#34;
-    The class definition.  Currently, does not supports instance properties.
+    The class definition.  Currently, does not support instance properties.
     &#34;&#34;&#34;
-
     size:     Size     = Size()
+    &#34;&#34;&#34;
+    The size of UML class symbol.  See `Size`
+    &#34;&#34;&#34;
     position: Position = Position(0, 0)
-    methods: Methods   = field(default_factory=list)</code></pre>
+    &#34;&#34;&#34;
+    The position of the UML class symbol.  See `Position`
+    &#34;&#34;&#34;
+    methods: Methods   = field(default_factory=list)
+    &#34;&#34;&#34;
+    The list of methods this class implements.  
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -249,11 +381,13 @@ Currently, does not supports instance properties.</p></div>
 <dl>
 <dt id="pyumldiagrams.Definitions.ClassDefinition.position"><code class="name">var <span class="ident">position</span> : <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The position of the UML class symbol.
+See <code><a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.ClassDefinition.size"><code class="name">var <span class="ident">size</span> : <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The size of UML class symbol.
+See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a></code></p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -308,36 +442,59 @@ Currently, does not supports instance properties.</p></div>
 <span>(</span><span>topMargin: int = 8, leftMargin: int = 8, horizontalGap: int = 60, verticalGap: int = 60)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>DiagramPadding(topMargin: int = 8, leftMargin: int = 8, horizontalGap: int = 60, verticalGap: int = 60)</p></div>
+<div class="desc"><p>todo::
+These should move to the Internal package</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class DiagramPadding:
+    &#34;&#34;&#34;
+    todo::  These should move to the Internal package
+    &#34;&#34;&#34;
 
     topMargin:  int = TOP_MARGIN
+    &#34;&#34;&#34;
+    The diagram&#39;s observed top margin.  See `pyumldiagrams.Defaults.TOP_MARGIN`
+    &#34;&#34;&#34;
     leftMargin: int = LEFT_MARGIN
+    &#34;&#34;&#34;
+    The diagram&#39;s observed left margin.  See `pyumldiagrams.Defaults.LEFT_MARGIN`
+    &#34;&#34;&#34;
 
     horizontalGap: int = DEFAULT_HORIZONTAL_GAP
-    verticalGap:   int = DEFAULT_VERTICAL_GAP</code></pre>
+    &#34;&#34;&#34;
+    The horizontal gap between UML graphics added to the layout in addition to the gap imposed 
+    by the actual graphics positions. See `pyumldiagrams.Defaults.DEFAULT_HORIZONTAL_GAP`
+    &#34;&#34;&#34;
+    verticalGap:   int = DEFAULT_VERTICAL_GAP
+    &#34;&#34;&#34;
+    The vertical gap between UML graphics added to the layout in addition to the gap imposed 
+    by the actual graphics positions.  See `pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP`
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="pyumldiagrams.Definitions.DiagramPadding.horizontalGap"><code class="name">var <span class="ident">horizontalGap</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The horizontal gap between UML graphics added to the layout in addition to the gap imposed
+by the actual graphics positions. See <code><a title="pyumldiagrams.Defaults.DEFAULT_HORIZONTAL_GAP" href="Defaults.html#pyumldiagrams.Defaults.DEFAULT_HORIZONTAL_GAP">DEFAULT_HORIZONTAL_GAP</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.DiagramPadding.leftMargin"><code class="name">var <span class="ident">leftMargin</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The diagram's observed left margin.
+See <code><a title="pyumldiagrams.Defaults.LEFT_MARGIN" href="Defaults.html#pyumldiagrams.Defaults.LEFT_MARGIN">LEFT_MARGIN</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.DiagramPadding.topMargin"><code class="name">var <span class="ident">topMargin</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The diagram's observed top margin.
+See <code><a title="pyumldiagrams.Defaults.TOP_MARGIN" href="Defaults.html#pyumldiagrams.Defaults.TOP_MARGIN">TOP_MARGIN</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.DiagramPadding.verticalGap"><code class="name">var <span class="ident">verticalGap</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The vertical gap between UML graphics added to the layout in addition to the gap imposed
+by the actual graphics positions.
+See <code><a title="pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP" href="Defaults.html#pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP">DEFAULT_VERTICAL_GAP</a></code></p></div>
 </dd>
 </dl>
 </dd>
@@ -346,17 +503,30 @@ Currently, does not supports instance properties.</p></div>
 <span>(</span><span>renderStyle: <a title="pyumldiagrams.Definitions.RenderStyle" href="#pyumldiagrams.Definitions.RenderStyle">RenderStyle</a> = RenderStyle.Draw, position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=0, height=0))</span>
 </code></dt>
 <dd>
-<div class="desc"><p>EllipseDefinition(renderStyle: pyumldiagrams.Definitions.RenderStyle = <RenderStyle.Draw: 'D'>, position: pyumldiagrams.Definitions.Position = Position(x=0, y=0), size: pyumldiagrams.Definitions.Size = Size(width=0, height=0))</p></div>
+<div class="desc"><p>This is just typing syntactical sugar on how to define an Ellipse.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class EllipseDefinition(RectangleDefinition):
+    &#34;&#34;&#34;
+    This is just typing syntactical sugar on how to define an Ellipse.
+    &#34;&#34;&#34;
     pass</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="pyumldiagrams.Definitions.RectangleDefinition" href="#pyumldiagrams.Definitions.RectangleDefinition">RectangleDefinition</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pyumldiagrams.Definitions.RectangleDefinition" href="#pyumldiagrams.Definitions.RectangleDefinition">RectangleDefinition</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pyumldiagrams.Definitions.RectangleDefinition.position" href="#pyumldiagrams.Definitions.RectangleDefinition.position">position</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.RectangleDefinition.renderStyle" href="#pyumldiagrams.Definitions.RectangleDefinition.renderStyle">renderStyle</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.RectangleDefinition.size" href="#pyumldiagrams.Definitions.RectangleDefinition.size">size</a></code></li>
+</ul>
+</li>
 </ul>
 </dd>
 <dt id="pyumldiagrams.Definitions.LineDefinition"><code class="flex name class">
@@ -364,17 +534,23 @@ Currently, does not supports instance properties.</p></div>
 <span>(</span><span>source: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>, destination: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Defines just a line between two points</p></div>
+<div class="desc"><p>Defines a line between two points</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LineDefinition:
     &#34;&#34;&#34;
-    Defines just a line between two points
+    Defines a line between two points
     &#34;&#34;&#34;
-    source:              Position
-    destination:         Position</code></pre>
+    source: Position
+    &#34;&#34;&#34;
+    The source position.  See `Position`
+    &#34;&#34;&#34;
+    destination: Position
+    &#34;&#34;&#34;
+    The destination position.  See `Position`
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -386,15 +562,15 @@ Currently, does not supports instance properties.</p></div>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The type of line you wish to draw.
-Currently, straight assoications are not supported.</p></div>
+<div class="desc"><p>The type of UML line you wish to draw.
+Currently, bare associations are not supported.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LineType(Enum):
     &#34;&#34;&#34;
-    The type of line you wish to draw.  Currently, straight assoications are not supported.
+    The type of UML line you wish to draw.  Currently, bare associations are not supported.
     &#34;&#34;&#34;
     Inheritance  = 0
     Aggregation  = 1
@@ -427,7 +603,7 @@ Currently, straight assoications are not supported.</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.MethodDefinition"><code class="flex name class">
 <span>class <span class="ident">MethodDefinition</span></span>
-<span>(</span><span>name: str, visibility: <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public, returnType: str = '', parameters: List[<a title="pyumldiagrams.Definitions.ParameterDefinition" href="#pyumldiagrams.Definitions.ParameterDefinition">ParameterDefinition</a>] = &lt;factory&gt;)</span>
+<span>(</span><span>name: str, visibility: <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public, returnType: str = '', parameters: <function NewType.<locals>.new_type at 0x10f6803a0> = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Defines a single method in a UML class</p></div>
@@ -439,10 +615,18 @@ Currently, straight assoications are not supported.</p></div>
     &#34;&#34;&#34;
     Defines a single method in a UML class
     &#34;&#34;&#34;
-
     visibility: DefinitionType = DefinitionType.Public
-    returnType: str            = &#39;&#39;
-    parameters: Parameters     = field(default_factory=list)</code></pre>
+    &#34;&#34;&#34;
+    Defines the method visibility.  See `DefinitionType`
+    &#34;&#34;&#34;
+    returnType: str = &#39;&#39;
+    &#34;&#34;&#34;
+    Defines the method return type.
+    &#34;&#34;&#34;
+    parameters: Parameters = field(default_factory=list)
+    &#34;&#34;&#34;
+    Define the parameters for a particular method
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -452,11 +636,12 @@ Currently, straight assoications are not supported.</p></div>
 <dl>
 <dt id="pyumldiagrams.Definitions.MethodDefinition.returnType"><code class="name">var <span class="ident">returnType</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Defines the method return type.</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.MethodDefinition.visibility"><code class="name">var <span class="ident">visibility</span> : <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Defines the method visibility.
+See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a></code></p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -483,7 +668,13 @@ Currently, straight assoications are not supported.</p></div>
     Defines a single parameter for a method
     &#34;&#34;&#34;
     parameterType: str = &#39;&#39;
-    defaultValue:  str = &#39;&#39;</code></pre>
+    &#34;&#34;&#34;
+    A string that describes the parameter type
+    &#34;&#34;&#34;
+    defaultValue:  str = &#39;&#39;
+    &#34;&#34;&#34;
+    A string that describes a parameter default value
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -493,11 +684,11 @@ Currently, straight assoications are not supported.</p></div>
 <dl>
 <dt id="pyumldiagrams.Definitions.ParameterDefinition.defaultValue"><code class="name">var <span class="ident">defaultValue</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A string that describes a parameter default value</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.ParameterDefinition.parameterType"><code class="name">var <span class="ident">parameterType</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A string that describes the parameter type</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -515,30 +706,35 @@ Currently, straight assoications are not supported.</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>The x and y coordinates are in screen/display resolution.
-This module converts
-to points for use in this system</p></div>
+Diagramming modules may
+convert these to appropriate positions based on the rendering technology.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Position:
     &#34;&#34;&#34;
-    The x and y coordinates are in screen/display resolution.  This module converts
-    to points for use in this system
-
+    The x and y coordinates are in screen/display resolution.  Diagramming modules may
+    convert these to appropriate positions based on the rendering technology.
     &#34;&#34;&#34;
     x: float = 0.0
-    y: float = 0.0</code></pre>
+    &#34;&#34;&#34;
+    The x-axis (horizontal) abscissa
+    &#34;&#34;&#34;
+    y: float = 0.0
+    &#34;&#34;&#34;
+    The y-axis (vertical) ordinate
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="pyumldiagrams.Definitions.Position.x"><code class="name">var <span class="ident">x</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The x-axis (horizontal) abscissa</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.Position.y"><code class="name">var <span class="ident">y</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The y-axis (vertical) ordinate</p></div>
 </dd>
 </dl>
 </dd>
@@ -547,16 +743,28 @@ to points for use in this system</p></div>
 <span>(</span><span>renderStyle: <a title="pyumldiagrams.Definitions.RenderStyle" href="#pyumldiagrams.Definitions.RenderStyle">RenderStyle</a> = RenderStyle.Draw, position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=0, height=0))</span>
 </code></dt>
 <dd>
-<div class="desc"><p>RectangleDefinition(renderStyle: pyumldiagrams.Definitions.RenderStyle = <RenderStyle.Draw: 'D'>, position: pyumldiagrams.Definitions.Position = Position(x=0, y=0), size: pyumldiagrams.Definitions.Size = Size(width=0, height=0))</p></div>
+<div class="desc"><p>Defines a rectangle</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RectangleDefinition:
+    &#34;&#34;&#34;
+    Defines a rectangle
+    &#34;&#34;&#34;
 
     renderStyle: RenderStyle = RenderStyle.Draw
+    &#34;&#34;&#34;
+    How to draw the rectangle.  See `RenderStyle`
+    &#34;&#34;&#34;
     position:    Position    = Position(0, 0)
-    size:        Size        = Size(0, 0)</code></pre>
+    &#34;&#34;&#34;
+    Where to put the rectangle.  See `Position`
+    &#34;&#34;&#34;
+    size:        Size        = Size(0, 0)
+    &#34;&#34;&#34;
+    The rectangle size.  See `Size`
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -566,15 +774,18 @@ to points for use in this system</p></div>
 <dl>
 <dt id="pyumldiagrams.Definitions.RectangleDefinition.position"><code class="name">var <span class="ident">position</span> : <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Where to put the rectangle.
+See <code><a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.RectangleDefinition.renderStyle"><code class="name">var <span class="ident">renderStyle</span> : <a title="pyumldiagrams.Definitions.RenderStyle" href="#pyumldiagrams.Definitions.RenderStyle">RenderStyle</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>How to draw the rectangle.
+See <code><a title="pyumldiagrams.Definitions.RenderStyle" href="#pyumldiagrams.Definitions.RenderStyle">RenderStyle</a></code></p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.RectangleDefinition.size"><code class="name">var <span class="ident">size</span> : <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The rectangle size.
+See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a></code></p></div>
 </dd>
 </dl>
 </dd>
@@ -583,16 +794,27 @@ to points for use in this system</p></div>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>An enumeration.</p></div>
+<div class="desc"><p>An enumeration that determines how to draw various UML and other graphical elements</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class RenderStyle(Enum):
-
+    &#34;&#34;&#34;
+    An enumeration that determines how to draw various UML and other graphical elements
+    &#34;&#34;&#34;
     Draw     = &#39;D&#39;
+    &#34;&#34;&#34;
+    Just draw the outline
+    &#34;&#34;&#34;
     Fill     = &#39;F&#39;
-    DrawFill = &#39;DF&#39;</code></pre>
+    &#34;&#34;&#34;
+    Just fill in the area associated with the shape
+    &#34;&#34;&#34;
+    DrawFill = &#39;DF&#39;
+    &#34;&#34;&#34;
+    Do both when drawing the UML shape or figure
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -602,15 +824,15 @@ to points for use in this system</p></div>
 <dl>
 <dt id="pyumldiagrams.Definitions.RenderStyle.Draw"><code class="name">var <span class="ident">Draw</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Just draw the outline</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.RenderStyle.DrawFill"><code class="name">var <span class="ident">DrawFill</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Do both when drawing the UML shape or figure</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.RenderStyle.Fill"><code class="name">var <span class="ident">Fill</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Just fill in the area associated with the shape</p></div>
 </dd>
 </dl>
 </dd>
@@ -629,17 +851,23 @@ to points for use in this system</p></div>
     Defines the size of the input UML definitions;
     &#34;&#34;&#34;
     width:  float = 100
-    height: float = 100</code></pre>
+    &#34;&#34;&#34;
+    The width of a shape
+    &#34;&#34;&#34;
+    height: float = 100
+    &#34;&#34;&#34;
+    The height of the shape
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
 <dt id="pyumldiagrams.Definitions.Size.height"><code class="name">var <span class="ident">height</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The height of the shape</p></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.Size.width"><code class="name">var <span class="ident">width</span> : float</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The width of a shape</p></div>
 </dd>
 </dl>
 </dd>
@@ -657,7 +885,10 @@ to points for use in this system</p></div>
     &#34;&#34;&#34;
     A UML Line definition includes its&#39; type
     &#34;&#34;&#34;
-    lineType:            LineType</code></pre>
+    lineType: LineType
+    &#34;&#34;&#34;
+    The UML line type  See `LineType`.
+    &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -668,6 +899,7 @@ to points for use in this system</p></div>
 </section>
 </article>
 <nav id="sidebar">
+<img src="PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -676,6 +908,17 @@ to points for use in this system</p></div>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="pyumldiagrams" href="index.html">pyumldiagrams</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.Methods" href="#pyumldiagrams.Definitions.Methods">Methods</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.UmlLineDefinitions" href="#pyumldiagrams.Definitions.UmlLineDefinitions">UmlLineDefinitions</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.Parameters" href="#pyumldiagrams.Definitions.Parameters">Parameters</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
@@ -778,6 +1021,7 @@ to points for use in this system</p></div>
 </nav>
 </main>
 <footer id="footer">
+By Humberto A. Sanchez II
 <p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
 </footer>
 </body>

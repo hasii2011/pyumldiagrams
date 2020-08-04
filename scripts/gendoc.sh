@@ -13,4 +13,4 @@ changeToProjectRoot
 clear
 rm -rf html
 
-pdoc3 --force --html --output-dir docs pyumldiagrams/
+pdoc3 --template-dir scripts/pdoc3Templates --force --html --output-dir docs pyumldiagrams/

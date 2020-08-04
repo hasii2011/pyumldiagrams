@@ -59,7 +59,7 @@ class ImageDiagram(BaseDiagram):
         """
 
         Args:
-            fileName:  The output file name.  Include the suffix
+            fileName:  The output file name.  Including the suffix
 
             headerText:  The text to display as a header on the diagram
 
@@ -110,7 +110,7 @@ class ImageDiagram(BaseDiagram):
         """
         Draw the class diagram defined by the input
 
-        I am overriding the empty base definition
+        Overrides the empty base definition
 
         Args:
             classDefinition:    The class definition
