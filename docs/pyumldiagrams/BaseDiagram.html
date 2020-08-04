@@ -66,8 +66,8 @@ class BaseDiagram:
         Args:
             fileName:   Fully qualified file name
 
-            dpi: dots per inch for the display we are mapping from;  Some diagramming methods may not
-            need a value for this since they map directly to display device
+            dpi: dots per inch for the display we are mapping from;
+            Some diagramming documents may not need a value for this since they map directly to display device
 
             headerText:  The header to place on the page
         &#34;&#34;&#34;
@@ -82,6 +82,9 @@ class BaseDiagram:
 
     @property
     def fontSize(self) -&gt; int:
+        &#34;&#34;&#34;
+        The font size to use in the generated UML diagram.  If unchanged the value is `DEFAULT_FONT_SIZE`
+        &#34;&#34;&#34;
         return self._fontSize
 
     @fontSize.setter
@@ -106,6 +109,9 @@ class BaseDiagram:
 
     @property
     def headerText(self) -&gt; str:
+        &#34;&#34;&#34;
+        The text to display as the header on the generated document
+        &#34;&#34;&#34;
         return self._headerText
 
     @headerText.setter
@@ -114,6 +120,10 @@ class BaseDiagram:
 
     @property
     def softwareNameVersion(self) -&gt; str:
+        &#34;&#34;&#34;
+        Used to place the software name and version of the application using this library onto the
+        generated image EXIF metadata
+        &#34;&#34;&#34;
         return self._softwareNameVersion
 
     @softwareNameVersion.setter
@@ -173,7 +183,7 @@ class BaseDiagram:
 
     def write(self):
         &#34;&#34;&#34;
-        Call this method when you are done with placing the diagram onto a PDF document.
+        Call this method when you are done with placing the diagram onto a document.
         Must be overridden by implementors
         &#34;&#34;&#34;
         pass
@@ -248,10 +258,9 @@ specify the text font size</p>
 <dt><strong><code>fileName</code></strong></dt>
 <dd>Fully qualified file name</dd>
 <dt><strong><code>dpi</code></strong></dt>
-<dd>dots per inch for the display we are mapping from;
-Some diagramming methods may not</dd>
+<dd>dots per inch for the display we are mapping from;</dd>
 </dl>
-<p>need a value for this since they map directly to display device</p>
+<p>Some diagramming documents may not need a value for this since they map directly to display device</p>
 <dl>
 <dt><strong><code>headerText</code></strong></dt>
 <dd>The header to place on the page</dd>
@@ -283,8 +292,8 @@ Some diagramming methods may not</dd>
         Args:
             fileName:   Fully qualified file name
 
-            dpi: dots per inch for the display we are mapping from;  Some diagramming methods may not
-            need a value for this since they map directly to display device
+            dpi: dots per inch for the display we are mapping from;
+            Some diagramming documents may not need a value for this since they map directly to display device
 
             headerText:  The header to place on the page
         &#34;&#34;&#34;
@@ -299,6 +308,9 @@ Some diagramming methods may not</dd>
 
     @property
     def fontSize(self) -&gt; int:
+        &#34;&#34;&#34;
+        The font size to use in the generated UML diagram.  If unchanged the value is `DEFAULT_FONT_SIZE`
+        &#34;&#34;&#34;
         return self._fontSize
 
     @fontSize.setter
@@ -323,6 +335,9 @@ Some diagramming methods may not</dd>
 
     @property
     def headerText(self) -&gt; str:
+        &#34;&#34;&#34;
+        The text to display as the header on the generated document
+        &#34;&#34;&#34;
         return self._headerText
 
     @headerText.setter
@@ -331,6 +346,10 @@ Some diagramming methods may not</dd>
 
     @property
     def softwareNameVersion(self) -&gt; str:
+        &#34;&#34;&#34;
+        Used to place the software name and version of the application using this library onto the
+        generated image EXIF metadata
+        &#34;&#34;&#34;
         return self._softwareNameVersion
 
     @softwareNameVersion.setter
@@ -390,7 +409,7 @@ Some diagramming methods may not</dd>
 
     def write(self):
         &#34;&#34;&#34;
-        Call this method when you are done with placing the diagram onto a PDF document.
+        Call this method when you are done with placing the diagram onto a document.
         Must be overridden by implementors
         &#34;&#34;&#34;
         pass
@@ -445,11 +464,11 @@ Some diagramming methods may not</dd>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x103be7550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x10ff47550></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x103be7550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x10ff47550></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -457,7 +476,7 @@ Some diagramming methods may not</dd>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x103be7550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x10ff47550></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -470,25 +489,32 @@ Some diagramming methods may not</dd>
 <dl>
 <dt id="pyumldiagrams.BaseDiagram.BaseDiagram.fontSize"><code class="name">var <span class="ident">fontSize</span> : int</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The font size to use in the generated UML diagram.
+If unchanged the value is <code>DEFAULT_FONT_SIZE</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def fontSize(self) -&gt; int:
+    &#34;&#34;&#34;
+    The font size to use in the generated UML diagram.  If unchanged the value is `DEFAULT_FONT_SIZE`
+    &#34;&#34;&#34;
     return self._fontSize</code></pre>
 </details>
 </dd>
 <dt id="pyumldiagrams.BaseDiagram.BaseDiagram.headerText"><code class="name">var <span class="ident">headerText</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The text to display as the header on the generated document</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def headerText(self) -&gt; str:
+    &#34;&#34;&#34;
+    The text to display as the header on the generated document
+    &#34;&#34;&#34;
     return self._headerText</code></pre>
 </details>
 </dd>
@@ -506,13 +532,18 @@ def horizontalGap(self) -&gt; int:
 </dd>
 <dt id="pyumldiagrams.BaseDiagram.BaseDiagram.softwareNameVersion"><code class="name">var <span class="ident">softwareNameVersion</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Used to place the software name and version of the application using this library onto the
+generated image EXIF metadata</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def softwareNameVersion(self) -&gt; str:
+    &#34;&#34;&#34;
+    Used to place the software name and version of the application using this library onto the
+    generated image EXIF metadata
+    &#34;&#34;&#34;
     return self._softwareNameVersion</code></pre>
 </details>
 </dd>
@@ -664,7 +695,7 @@ Returns: a fully qualified name</p></div>
 <span>def <span class="ident">write</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Call this method when you are done with placing the diagram onto a PDF document.
+<div class="desc"><p>Call this method when you are done with placing the diagram onto a document.
 Must be overridden by implementors</p></div>
 <details class="source">
 <summary>
@@ -672,7 +703,7 @@ Must be overridden by implementors</p></div>
 </summary>
 <pre><code class="python">def write(self):
     &#34;&#34;&#34;
-    Call this method when you are done with placing the diagram onto a PDF document.
+    Call this method when you are done with placing the diagram onto a document.
     Must be overridden by implementors
     &#34;&#34;&#34;
     pass</code></pre>

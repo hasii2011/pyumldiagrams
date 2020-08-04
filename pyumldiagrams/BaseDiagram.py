@@ -39,8 +39,8 @@ class BaseDiagram:
         Args:
             fileName:   Fully qualified file name
 
-            dpi: dots per inch for the display we are mapping from;  Some diagramming methods may not
-            need a value for this since they map directly to display device
+            dpi: dots per inch for the display we are mapping from;
+            Some diagramming documents may not need a value for this since they map directly to display device
 
             headerText:  The header to place on the page
         """
@@ -55,6 +55,9 @@ class BaseDiagram:
 
     @property
     def fontSize(self) -> int:
+        """
+        The font size to use in the generated UML diagram.  If unchanged the value is `DEFAULT_FONT_SIZE`
+        """
         return self._fontSize
 
     @fontSize.setter
@@ -79,6 +82,9 @@ class BaseDiagram:
 
     @property
     def headerText(self) -> str:
+        """
+        The text to display as the header on the generated document
+        """
         return self._headerText
 
     @headerText.setter
@@ -87,6 +93,10 @@ class BaseDiagram:
 
     @property
     def softwareNameVersion(self) -> str:
+        """
+        Used to place the software name and version of the application using this library onto the
+        generated image EXIF metadata
+        """
         return self._softwareNameVersion
 
     @softwareNameVersion.setter
@@ -146,7 +156,7 @@ class BaseDiagram:
 
     def write(self):
         """
-        Call this method when you are done with placing the diagram onto a PDF document.
+        Call this method when you are done with placing the diagram onto a document.
         Must be overridden by implementors
         """
         pass
