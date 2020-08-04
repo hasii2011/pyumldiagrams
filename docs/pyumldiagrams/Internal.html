@@ -34,7 +34,9 @@ from typing import Union
 @dataclass
 class InternalPosition:
     &#34;&#34;&#34;
-    The x and y coordinates are in pdf points.
+    The x and y coordinates are relative to the diagramming method.  For pdf
+    documents they are in points.  For images they are in pixels.  In all cases, the position is
+    adjusted for left and right margins plus vertical and horizontal gaps.
     &#34;&#34;&#34;
     x: float = 0.0
     y: float = 0.0
@@ -52,7 +54,11 @@ PolygonPoints = Union[ArrowPoints, DiamondPoints]
 
 @dataclass
 class ScanPoints:
-
+    &#34;&#34;&#34;
+    Used by diagramming methods that cannot fill in a polygon.  In that case, the diagrammer
+    scans these points to determine if they are in the polygon.  If they are then presumably the
+    diagramming method will draw a dot at the specified point to simulate a fill.
+    &#34;&#34;&#34;
     startScan: InternalPosition = InternalPosition(0, 0)
     endScan:   InternalPosition = InternalPosition(0, 0)</code></pre>
 </details>
@@ -71,14 +77,21 @@ class ScanPoints:
 <span>(</span><span>x: float = 0.0, y: float = 0.0)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The x and y coordinates are in pdf points.</p></div>
+<div class="desc"><p>The x and y coordinates are relative to the diagramming method.
+For pdf
+documents they are in points.
+For images they are in pixels.
+In all cases, the position is
+adjusted for left and right margins plus vertical and horizontal gaps.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class InternalPosition:
     &#34;&#34;&#34;
-    The x and y coordinates are in pdf points.
+    The x and y coordinates are relative to the diagramming method.  For pdf
+    documents they are in points.  For images they are in pixels.  In all cases, the position is
+    adjusted for left and right margins plus vertical and horizontal gaps.
     &#34;&#34;&#34;
     x: float = 0.0
     y: float = 0.0</code></pre>
@@ -104,13 +117,21 @@ class ScanPoints:
 <span>(</span><span>startScan: <a title="pyumldiagrams.Internal.InternalPosition" href="#pyumldiagrams.Internal.InternalPosition">InternalPosition</a> = InternalPosition(x=0, y=0), endScan: <a title="pyumldiagrams.Internal.InternalPosition" href="#pyumldiagrams.Internal.InternalPosition">InternalPosition</a> = InternalPosition(x=0, y=0))</span>
 </code></dt>
 <dd>
-<div class="desc"><p>ScanPoints(startScan: pyumldiagrams.Internal.InternalPosition = InternalPosition(x=0, y=0), endScan: pyumldiagrams.Internal.InternalPosition = InternalPosition(x=0, y=0))</p></div>
+<div class="desc"><p>Used by diagramming methods that cannot fill in a polygon.
+In that case, the diagrammer
+scans these points to determine if they are in the polygon.
+If they are then presumably the
+diagramming method will draw a dot at the specified point to simulate a fill.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class ScanPoints:
-
+    &#34;&#34;&#34;
+    Used by diagramming methods that cannot fill in a polygon.  In that case, the diagrammer
+    scans these points to determine if they are in the polygon.  If they are then presumably the
+    diagramming method will draw a dot at the specified point to simulate a fill.
+    &#34;&#34;&#34;
     startScan: InternalPosition = InternalPosition(0, 0)
     endScan:   InternalPosition = InternalPosition(0, 0)</code></pre>
 </details>
