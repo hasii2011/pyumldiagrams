@@ -199,6 +199,26 @@ class TestDiagram(TestDiagramParent):
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
 
+    def testMethodReprRegression(self):
+
+        testFileName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethodRegression{TestConstants.TEST_SUFFIX}'
+        diagram: Diagram = Diagram(fileName=testFileName, dpi=TestConstants.TEST_DPI)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        #
+        # Make visibility None
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=cast(DefinitionType, None))
+
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+
+        diagram.write()
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

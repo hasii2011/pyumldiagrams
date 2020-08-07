@@ -182,7 +182,10 @@ class BaseDiagram:
 
     def _buildMethod(self, methodDef: MethodDefinition) -> str:
 
-        methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
+        if methodDef.visibility is None:
+            methodRepr: str = f'{methodDef.name}'
+        else:
+            methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
 
         nParams:   int = len(methodDef.parameters)
         paramNum:  int = 0
