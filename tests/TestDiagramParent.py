@@ -13,7 +13,7 @@ from pyumldiagrams.Definitions import UmlLineDefinitions
 from tests.TestBase import TestBase
 
 
-class TestDiagramBase(TestBase):
+class TestDiagramParent(TestBase):
 
     UNIT_TEST_HEADER:               final = 'Unit Test Header'
     UNIT_TEST_SOPHISTICATED_HEADER: final = 'Pyut Export Version 6.0'

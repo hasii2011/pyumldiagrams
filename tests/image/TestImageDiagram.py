@@ -22,10 +22,10 @@ from pyumldiagrams.image.ImageFormat import ImageFormat
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
-from tests.TestDiagramBase import TestDiagramBase
+from tests.TestDiagramParent import TestDiagramParent
 
 
-class TestImageDiagram(TestDiagramBase):
+class TestImageDiagram(TestDiagramParent):
 
     CELL_WIDTH:  int = 150  # pixels
     CELL_HEIGHT: int = 100  # pixels
@@ -49,7 +49,7 @@ class TestImageDiagram(TestDiagramBase):
     def testBasicDiagramDraw(self):
 
         diagram:  ImageDiagram    = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic.{ImageFormat.PNG.value}')
-        classDef: ClassDefinition = ClassDefinition(name=TestDiagramBase.BASE_TEST_CLASS_NAME,
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=266, height=100),
                                                     position=Position(x=107, y=30)
                                                     )
@@ -109,7 +109,7 @@ class TestImageDiagram(TestDiagramBase):
     def testBasicHeader(self):
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader.{ImageFormat.PNG.value}',
-                                             headerText=TestDiagramBase.UNIT_TEST_HEADER)
+                                             headerText=TestDiagramParent.UNIT_TEST_HEADER)
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
@@ -124,7 +124,7 @@ class TestImageDiagram(TestDiagramBase):
         today = strftime("%d %b %Y %H:%M:%S", localtime())
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader.{ImageFormat.PNG.value}',
-                                             headerText=f'{TestDiagramBase.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+                                             headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)

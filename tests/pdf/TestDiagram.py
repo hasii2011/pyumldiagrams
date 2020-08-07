@@ -23,10 +23,10 @@ from pyumldiagrams.pdf.Diagram import Diagram
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
-from tests.TestDiagramBase import TestDiagramBase
+from tests.TestDiagramParent import TestDiagramParent
 
 
-class TestDiagram(TestDiagramBase):
+class TestDiagram(TestDiagramParent):
     """
     The following all test with the default horizontal/vertical gaps and the default top/left margins
     """
@@ -81,7 +81,7 @@ class TestDiagram(TestDiagramBase):
     def testBasicDiagramDraw(self):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-        classDef: ClassDefinition = ClassDefinition(name=TestDiagramBase.BASE_TEST_CLASS_NAME,
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
 
         diagram.drawClass(classDef)
@@ -140,7 +140,7 @@ class TestDiagram(TestDiagramBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
                                    dpi=TestConstants.TEST_DPI,
-                                   headerText=TestDiagramBase.UNIT_TEST_HEADER)
+                                   headerText=TestDiagramParent.UNIT_TEST_HEADER)
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
@@ -156,7 +156,7 @@ class TestDiagram(TestDiagramBase):
 
         diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
                                    dpi=TestConstants.TEST_DPI,
-                                   headerText=f'{TestDiagramBase.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+                                   headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
