@@ -19,7 +19,7 @@ from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
-from pyumldiagrams.pdf.PdfDiagram import Diagram
+from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
@@ -52,14 +52,14 @@ class TestDiagram(TestDiagramParent):
 
     def testConstruction(self):
 
-        diagram: Diagram = Diagram(fileName=TestConstants.TEST_FILE_NAME, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=TestConstants.TEST_FILE_NAME, dpi=TestConstants.TEST_DPI)
         self.assertIsNotNone(diagram, 'Construction failed')
 
-        self.assertEqual(Diagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
+        self.assertEqual(PdfDiagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
 
     def testBuildMethod(self):
 
-        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
+        diagram: PdfDiagram = PdfDiagram(fileName=cast(str, None), dpi=cast(int, None))
 
         initMethodDef: MethodDefinition = self._buildInitMethod()
 
@@ -70,17 +70,17 @@ class TestDiagram(TestDiagramParent):
 
     def testBuildMethods(self):
 
-        diagram: Diagram = Diagram(fileName=cast(str, None), dpi=cast(int, None))
+        diagram: PdfDiagram = PdfDiagram(fileName=cast(str, None), dpi=cast(int, None))
 
         car: ClassDefinition = self._buildCar()
 
-        reprs: Diagram.MethodsRepr = diagram._buildMethods(car.methods)
+        reprs: PdfDiagram.MethodsRepr = diagram._buildMethods(car.methods)
 
         self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
 
     def testBasicDiagramDraw(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
 
@@ -89,7 +89,7 @@ class TestDiagram(TestDiagramParent):
 
     def testFillPage(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         widthInterval:  int = TestDiagram.CELL_WIDTH // 10
         heightInterval: int = TestDiagram.CELL_HEIGHT // 10
@@ -109,7 +109,7 @@ class TestDiagram(TestDiagramParent):
 
     def testBasicMethod(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         position: Position = Position(107, 30)
         size:     Size     = Size(width=266, height=100)
@@ -128,7 +128,7 @@ class TestDiagram(TestDiagramParent):
 
     def testBasicMethods(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         classDef: ClassDefinition = self._buildCar()
 
@@ -138,9 +138,9 @@ class TestDiagram(TestDiagramParent):
 
     def testBasicHeader(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
-                                   dpi=TestConstants.TEST_DPI,
-                                   headerText=TestDiagramParent.UNIT_TEST_HEADER)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI,
+                                         headerText=TestDiagramParent.UNIT_TEST_HEADER)
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
@@ -154,9 +154,9 @@ class TestDiagram(TestDiagramParent):
 
         today = strftime("%d %b %Y %H:%M:%S", localtime())
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
-                                   dpi=TestConstants.TEST_DPI,
-                                   headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI,
+                                         headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
@@ -165,7 +165,7 @@ class TestDiagram(TestDiagramParent):
 
     def testSophisticatedLayout(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = [
             self._buildCar(),
@@ -186,7 +186,7 @@ class TestDiagram(TestDiagramParent):
 
     def testMinimalInheritance(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance{TestConstants.TEST_SUFFIX}', dpi=75)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance{TestConstants.TEST_SUFFIX}', dpi=75)
 
         cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
         opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
@@ -202,7 +202,7 @@ class TestDiagram(TestDiagramParent):
     def testMethodReprRegression(self):
 
         testFileName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethodRegression{TestConstants.TEST_SUFFIX}'
-        diagram: Diagram = Diagram(fileName=testFileName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=testFileName, dpi=TestConstants.TEST_DPI)
 
         position: Position = Position(107, 30)
         size:     Size     = Size(width=266, height=100)

@@ -8,7 +8,7 @@ from unittest import main as unitTestMain
 from tests.TestBase import TestBase
 
 # import the class you want to test here
-# from pdf.Diagram import Diagram
+# from pdf.PdfDiagram import PdfDiagram
 
 
 class TestTemplate(TestBase):

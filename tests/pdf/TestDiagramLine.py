@@ -18,7 +18,7 @@ from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
-from pyumldiagrams.pdf.PdfDiagram import Diagram
+from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 from pyumldiagrams.pdf.DiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
@@ -71,7 +71,7 @@ class TestDiagramLine(TestBase):
 
     def testOrthogonalInheritanceLines(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -89,7 +89,7 @@ class TestDiagramLine(TestBase):
 
     def testOrthogonalCompositionLines(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -108,7 +108,7 @@ class TestDiagramLine(TestBase):
 
     def testDiagonalInheritanceLines(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -120,7 +120,7 @@ class TestDiagramLine(TestBase):
         diagram.write()
 
     def testDiagonalCompositionLines(self):
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -132,7 +132,7 @@ class TestDiagramLine(TestBase):
         diagram.write()
 
     def testOrthogonalAggregationLines(self):
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -150,7 +150,7 @@ class TestDiagramLine(TestBase):
 
     def testDiagonalAggregationLines(self):
 
-        diagram: Diagram = Diagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -201,7 +201,7 @@ class TestDiagramLine(TestBase):
 
         return northEast, northWest, southEast, southWest
 
-    def __drawHorizontalBoundaries(self, diagram: Diagram):
+    def __drawHorizontalBoundaries(self, diagram: PdfDiagram):
 
         x1: int = PdfCommon.toPdfPoints(TestDiagramLine.TOP_LINE_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2: int = PdfCommon.toPdfPoints(TestDiagramLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
@@ -213,7 +213,7 @@ class TestDiagramLine(TestBase):
 
         diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-    def __drawVerticalBoundaries(self, diagram: Diagram):
+    def __drawVerticalBoundaries(self, diagram: PdfDiagram):
 
         x1: int = PdfCommon.toPdfPoints(TestDiagramLine.H_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2: int = x1
@@ -227,7 +227,7 @@ class TestDiagramLine(TestBase):
 
         diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-    def __drawEllipseForDiagonalInheritanceLines(self, diagram: Diagram):
+    def __drawEllipseForDiagonalInheritanceLines(self, diagram: PdfDiagram):
 
         eDef: EllipseDefinition = EllipseDefinition()
         pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)

@@ -28,7 +28,7 @@ from pyumldiagrams.pdf.DiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 
-class Diagram(BaseDiagram):
+class PdfDiagram(BaseDiagram):
     """
 
     Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
@@ -68,11 +68,11 @@ class Diagram(BaseDiagram):
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
-        pdf.set_font('Arial', size=Diagram.DEFAULT_FONT_SIZE)
+        pdf.set_font('Arial', size=PdfDiagram.DEFAULT_FONT_SIZE)
         self._pdf: FPDFExtended = pdf
         self._pdf.headerText = headerText
 
-        self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
+        self._fontSize: int  = PdfDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
         self._lineDrawer: DiagramLine    = DiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
@@ -89,14 +89,14 @@ class Diagram(BaseDiagram):
         Returns: a fully qualified name
         """
         try:
-            fqFileName: str = resource_filename(Diagram.RESOURCES_PACKAGE_NAME, bareFileName)
+            fqFileName: str = resource_filename(PdfDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
         except (ValueError, Exception):
             #
             # Maybe we are in an app
             #
             from os import environ
             pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
-            fqFileName:      str = f'{pathToResources}/{Diagram.RESOURCES_PATH}/{bareFileName}'
+            fqFileName:      str = f'{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}'
 
         return fqFileName
 
@@ -190,7 +190,7 @@ class Diagram(BaseDiagram):
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
         convertedWidth, convertedHeight = self.__convertSize(size=size)
-        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -215,7 +215,7 @@ class Diagram(BaseDiagram):
         """
 
         separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
+        separatorY: float = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
 
         endX: float = rectX + shapeWidth
 
@@ -225,8 +225,8 @@ class Diagram(BaseDiagram):
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: float = separatorPosition.x + Diagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for methodRepr in methodReprs:
 
