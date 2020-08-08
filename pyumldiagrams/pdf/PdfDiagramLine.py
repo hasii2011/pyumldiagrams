@@ -29,7 +29,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
 
-class DiagramLine(IDiagramLine):
+class PdfDiagramLine(IDiagramLine):
     """
     This class takes responsibility for drawing the various types of lines within the
     described UML classes.  End users generally do not directly use this class.
@@ -158,7 +158,7 @@ class DiagramLine(IDiagramLine):
 
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
-        size:   float = DiagramLine.INHERITANCE_ARROW_HEIGHT
+        size:   float = PdfDiagramLine.INHERITANCE_ARROW_HEIGHT
         x2: float = dest.x
         y2: float = dest.y
         #
@@ -203,7 +203,7 @@ class DiagramLine(IDiagramLine):
 
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
-        size:   int   = DiagramLine.DIAMOND_HEIGHT
+        size:   int   = PdfDiagramLine.DIAMOND_HEIGHT
 
         # noinspection PyListCreation
         points: DiamondPoints = []

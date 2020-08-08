@@ -19,7 +19,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
-from pyumldiagrams.pdf.PdfDiagramLine import DiagramLine
+from pyumldiagrams.pdf.PdfDiagramLine import PdfDiagramLine
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
@@ -76,7 +76,7 @@ class TestDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Inheritance)
         lineDefinitions: UmlLineDefinitions = [
@@ -94,7 +94,7 @@ class TestDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Composition)
 
@@ -111,7 +111,7 @@ class TestDiagramLine(TestBase):
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
@@ -123,7 +123,7 @@ class TestDiagramLine(TestBase):
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Composition)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
@@ -137,7 +137,7 @@ class TestDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Aggregation)
         lineDefinitions: UmlLineDefinitions = [
@@ -153,7 +153,7 @@ class TestDiagramLine(TestBase):
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: DiagramLine = DiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Aggregation)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
