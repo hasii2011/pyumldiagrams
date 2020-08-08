@@ -24,7 +24,7 @@ from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
-from pyumldiagrams.pdf.DiagramLine import DiagramLine
+from pyumldiagrams.pdf.PdfDiagramLine import DiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 

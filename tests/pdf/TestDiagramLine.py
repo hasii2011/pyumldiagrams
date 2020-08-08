@@ -19,7 +19,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
-from pyumldiagrams.pdf.DiagramLine import DiagramLine
+from pyumldiagrams.pdf.PdfDiagramLine import DiagramLine
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
