@@ -25,7 +25,7 @@ from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
 
 
-class TestDiagramLine(TestBase):
+class TestPdfDiagramLine(TestBase):
 
     V_LEFT_X:   int = 900
     V_RIGHT_X:  int = 1050
@@ -60,11 +60,11 @@ class TestDiagramLine(TestBase):
     @classmethod
     def setUpClass(cls):
         TestBase.setUpLogging()
-        TestDiagramLine.clsLogger = getLogger(__name__)
+        TestPdfDiagramLine.clsLogger = getLogger(__name__)
 
     def setUp(self):
 
-        self.logger: Logger = TestDiagramLine.clsLogger
+        self.logger: Logger = TestPdfDiagramLine.clsLogger
 
     def tearDown(self):
         pass
@@ -164,29 +164,29 @@ class TestDiagramLine(TestBase):
     def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
         north: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
-                                                     destination=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_BOTTOM_Y),
-                                                     source=Position(TestDiagramLine.V_RIGHT_X, TestDiagramLine.V_TOP_Y))
+                                                     destination=Position(TestPdfDiagramLine.V_RIGHT_X, TestPdfDiagramLine.V_BOTTOM_Y),
+                                                     source=Position(TestPdfDiagramLine.V_RIGHT_X, TestPdfDiagramLine.V_TOP_Y))
 
         south: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
-                                                     source=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_BOTTOM_Y),
-                                                     destination=Position(TestDiagramLine.V_LEFT_X, TestDiagramLine.V_TOP_Y))
+                                                     source=Position(TestPdfDiagramLine.V_LEFT_X, TestPdfDiagramLine.V_BOTTOM_Y),
+                                                     destination=Position(TestPdfDiagramLine.V_LEFT_X, TestPdfDiagramLine.V_TOP_Y))
 
         east: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
-                                                    source=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC),
-                                                    destination=Position(TestDiagramLine.H_RIGHT_X, TestDiagramLine.H_LEFT_TOP_Y + TestDiagramLine.Y_INC))
+                                                    source=Position(TestPdfDiagramLine.H_LEFT_X, TestPdfDiagramLine.H_LEFT_TOP_Y + TestPdfDiagramLine.Y_INC),
+                                                    destination=Position(TestPdfDiagramLine.H_RIGHT_X, TestPdfDiagramLine.H_LEFT_TOP_Y + TestPdfDiagramLine.Y_INC))
 
         west: UmlLineDefinition = UmlLineDefinition(lineType=lineType,
-                                                    source=Position(TestDiagramLine.H_RIGHT_X,   TestDiagramLine.H_RIGHT_BOTTOM_Y),
-                                                    destination=Position(TestDiagramLine.H_LEFT_X, TestDiagramLine.H_LEFT_BOTTOM_Y)
+                                                    source=Position(TestPdfDiagramLine.H_RIGHT_X, TestPdfDiagramLine.H_RIGHT_BOTTOM_Y),
+                                                    destination=Position(TestPdfDiagramLine.H_LEFT_X, TestPdfDiagramLine.H_LEFT_BOTTOM_Y)
                                                     )
 
         return north, south, east, west
 
     def __createDiagonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
-        pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)
+        pos:  Position          = Position(TestPdfDiagramLine.ELLIPSE_X, TestPdfDiagramLine.ELLIPSE_Y)
 
-        arrowSize: float = TestDiagramLine.ELLIPSE_WIDTH / 2
+        arrowSize: float = TestPdfDiagramLine.ELLIPSE_WIDTH / 2
 
         center: Position = self.__computeEllipseCenter(pos)
         neDest: Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
@@ -203,35 +203,35 @@ class TestDiagramLine(TestBase):
 
     def __drawHorizontalBoundaries(self, diagram: PdfDiagram):
 
-        x1: int = PdfCommon.toPdfPoints(TestDiagramLine.TOP_LINE_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
-        x2: int = PdfCommon.toPdfPoints(TestDiagramLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
-        y2: int = PdfCommon.toPdfPoints(TestDiagramLine.V_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        x1: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.TOP_LINE_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x2: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        y2: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.V_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-        y2 = PdfCommon.toPdfPoints(TestDiagramLine.V_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y2 = PdfCommon.toPdfPoints(TestPdfDiagramLine.V_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
+        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfDiagramLine.DASH_LINE_SPACE_LENGTH)
 
     def __drawVerticalBoundaries(self, diagram: PdfDiagram):
 
-        x1: int = PdfCommon.toPdfPoints(TestDiagramLine.H_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x1: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.H_LEFT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2: int = x1
-        y1: int = PdfCommon.toPdfPoints(TestDiagramLine.H_LEFT_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
-        y2: int = PdfCommon.toPdfPoints(TestDiagramLine.H_LEFT_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y1: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.H_LEFT_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
+        y2: int = PdfCommon.toPdfPoints(TestPdfDiagramLine.H_LEFT_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
+        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-        x1 = PdfCommon.toPdfPoints(TestDiagramLine.H_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
+        x1 = PdfCommon.toPdfPoints(TestPdfDiagramLine.H_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2 = x1
 
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestDiagramLine.DASH_LINE_SPACE_LENGTH)
+        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfDiagramLine.DASH_LINE_SPACE_LENGTH)
 
     def __drawEllipseForDiagonalInheritanceLines(self, diagram: PdfDiagram):
 
         eDef: EllipseDefinition = EllipseDefinition()
-        pos:  Position          = Position(TestDiagramLine.ELLIPSE_X, TestDiagramLine.ELLIPSE_Y)
-        size: Size              = Size(width=TestDiagramLine.ELLIPSE_WIDTH, height=TestDiagramLine.ELLIPSE_HEIGHT)
+        pos:  Position          = Position(TestPdfDiagramLine.ELLIPSE_X, TestPdfDiagramLine.ELLIPSE_Y)
+        size: Size              = Size(width=TestPdfDiagramLine.ELLIPSE_WIDTH, height=TestPdfDiagramLine.ELLIPSE_HEIGHT)
 
         eDef.position = pos
         eDef.size     = size
@@ -247,8 +247,8 @@ class TestDiagramLine(TestBase):
         x: float = ellipsePos.x
         y: float = ellipsePos.y
 
-        centerX: float = x + (TestDiagramLine.ELLIPSE_WIDTH / 2)
-        centerY: float = y + (TestDiagramLine.ELLIPSE_HEIGHT / 2)
+        centerX: float = x + (TestPdfDiagramLine.ELLIPSE_WIDTH / 2)
+        centerY: float = y + (TestPdfDiagramLine.ELLIPSE_HEIGHT / 2)
 
         return Position(centerX, centerY)
 
@@ -290,7 +290,7 @@ def suite() -> TestSuite:
 
     testSuite: TestSuite = TestSuite()
     # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestDiagramLine))
+    testSuite.addTest(unittest.makeSuite(TestPdfDiagramLine))
 
     return testSuite
 
