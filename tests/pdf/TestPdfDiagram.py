@@ -26,7 +26,7 @@ from tests.TestConstants import TestConstants
 from tests.TestDiagramParent import TestDiagramParent
 
 
-class TestDiagram(TestDiagramParent):
+class TestPdfDiagram(TestDiagramParent):
     """
     The following all test with the default horizontal/vertical gaps and the default top/left margins
     """
@@ -42,10 +42,10 @@ class TestDiagram(TestDiagramParent):
     @classmethod
     def setUpClass(cls):
         TestBase.setUpLogging()
-        TestDiagram.clsLogger = getLogger(__name__)
+        TestPdfDiagram.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestDiagram.clsLogger
+        self.logger: Logger = TestPdfDiagram.clsLogger
 
     def tearDown(self):
         pass
@@ -82,7 +82,7 @@ class TestDiagram(TestDiagramParent):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
         classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
-                                                    size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
+                                                    size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
 
         diagram.drawClass(classDef)
         diagram.write()
@@ -91,18 +91,18 @@ class TestDiagram(TestDiagramParent):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
 
-        widthInterval:  int = TestDiagram.CELL_WIDTH // 10
-        heightInterval: int = TestDiagram.CELL_HEIGHT // 10
+        widthInterval:  int = TestPdfDiagram.CELL_WIDTH // 10
+        heightInterval: int = TestPdfDiagram.CELL_HEIGHT // 10
 
-        for x in range(0, TestDiagram.TEST_LAST_X_POSITION):
-            scrX: int = (x * TestDiagram.CELL_WIDTH) + (widthInterval * x)
+        for x in range(0, TestPdfDiagram.TEST_LAST_X_POSITION):
+            scrX: int = (x * TestPdfDiagram.CELL_WIDTH) + (widthInterval * x)
 
-            for y in range(0, TestDiagram.TEST_LAST_Y_POSITION):
+            for y in range(0, TestPdfDiagram.TEST_LAST_Y_POSITION):
 
-                scrY: int = (y * TestDiagram.CELL_HEIGHT) + (y * heightInterval)
-                classDef: ClassDefinition = ClassDefinition(name=f'{TestDiagram.BASE_TEST_CLASS_NAME}{x}{y}',
+                scrY: int = (y * TestPdfDiagram.CELL_HEIGHT) + (y * heightInterval)
+                classDef: ClassDefinition = ClassDefinition(name=f'{TestPdfDiagram.BASE_TEST_CLASS_NAME}{x}{y}',
                                                             position=Position(scrX, scrY),
-                                                            size=Size(width=TestDiagram.CELL_WIDTH, height=TestDiagram.CELL_HEIGHT))
+                                                            size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
                 diagram.drawClass(classDef)
 
         diagram.write()
@@ -226,7 +226,7 @@ def suite() -> TestSuite:
 
     testSuite: TestSuite = TestSuite()
     # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestDiagram))
+    testSuite.addTest(unittest.makeSuite(TestPdfDiagram))
 
     return testSuite
 
