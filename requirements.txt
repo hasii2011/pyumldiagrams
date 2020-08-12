@@ -1,4 +1,8 @@
-pdoc3==0.8.4
-fpdf2==2.0.5
 
-setuptools~=49.2.0
+fpdf2~=2.0.5
+Pillow~=7.2.0
+html-testRunner~=1.2.1
+pdoc3~=0.8.4
+setuptools~=49.3.1
+twine~=3.2.0
+wheel~=0.34.2
