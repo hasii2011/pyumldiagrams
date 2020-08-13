@@ -9,6 +9,7 @@ from unittest import main as unitTestMain
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
@@ -16,6 +17,8 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
+
+from pyumldiagrams.BaseDiagram import BaseDiagram
 
 from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
@@ -165,6 +168,22 @@ class TestImageDiagram(TestDiagramParent):
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
+        diagram.write()
+
+    def testBasicFields(self):
+
+        fileName:        str             = f'{TestConstants.TEST_FILE_NAME}-BasicFields.{ImageFormat.PNG.value}'
+        diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
+        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
+
+        fieldsTestClass.fields = self._buildFields()
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        fieldsTestClass.methods = [initMethodDef]
+
+        diagram.drawClass(classDefinition=fieldsTestClass)
+
         diagram.write()
 
 

@@ -9,11 +9,13 @@ from logging import getLogger
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import EllipseDefinition
+from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import MethodDefinition
-from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import Fields
+from pyumldiagrams.Definitions import Methods
 
 
 class BaseDiagram:
@@ -26,6 +28,7 @@ class BaseDiagram:
     """
 
     MethodsRepr = List[str]
+    FieldsRepr  = List[str]
 
     DEFAULT_FONT_SIZE: final = 10
     HEADER_FONT_SIZE:  final = 14
@@ -214,3 +217,25 @@ class BaseDiagram:
         methodRepr = f'{methodRepr}({paramRepr})'
 
         return methodRepr
+
+    def _buildFields(self, fields: Fields) -> FieldsRepr:
+
+        fieldsRepr: BaseDiagram.FieldsRepr = []
+
+        for fieldDef in fields:
+            fieldRepr: str = self._buildField(fieldDef)
+            fieldsRepr.append(fieldRepr)
+
+        return fieldsRepr
+
+    def _buildField(self, fieldDef: FieldDefinition) -> str:
+
+        fieldRepr: str = f'{fieldDef.name}'
+
+        if fieldDef.parameterType != '' and fieldDef.parameterType is not None:
+            fieldRepr = f'{fieldRepr}: {fieldDef.parameterType}'
+
+        if fieldDef.defaultValue != '' and fieldDef.defaultValue is not None:
+            fieldRepr = f'{fieldRepr} = {fieldDef.defaultValue}'
+
+        return fieldRepr

@@ -115,11 +115,15 @@ class PdfDiagram(BaseDiagram):
         self.logger.debug(f'x,y: ({x},{y})')
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
         symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
-        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
+        separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+        fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
+
+        methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
@@ -200,7 +204,7 @@ class PdfDiagram(BaseDiagram):
 
         return convertedWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
+    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
         """
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -232,6 +236,19 @@ class PdfDiagram(BaseDiagram):
 
             self._pdf.text(x=x, y=y, txt=methodRepr)
             y = y + self._fontSize + 2
+
+    def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -> SeparatorPosition:
+
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+
+        for fieldRepr in fieldReprs:
+            self._pdf.text(x=x, y=y, txt=fieldRepr)
+            y = y + self._fontSize + 2
+
+        y = y - self._fontSize - 2  # adjust for last addition
+
+        return SeparatorPosition(x=x, y=y)
 
     def __convertDefinition(self, definition: RectangleDefinition) -> Tuple[float, float, float, float]:
         """

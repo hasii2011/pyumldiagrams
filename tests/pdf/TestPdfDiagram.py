@@ -219,6 +219,23 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.write()
 
+    def testBasicFields(self):
+
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BasicFields{TestConstants.TEST_SUFFIX}'
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
+
+        fieldsTestClass.fields = self._buildFields()
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        fieldsTestClass.methods = [initMethodDef]
+
+        diagram.drawClass(classDefinition=fieldsTestClass)
+
+        diagram.write()
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

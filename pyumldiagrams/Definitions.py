@@ -138,6 +138,21 @@ Syntactic sugar to define a list of methods.
 
 
 @dataclass
+class FieldDefinition(ParameterDefinition):
+    """
+    Defines a single instance variable;  Seems funny to inherit from a
+    parameter definition.
+    """
+    visibility: DefinitionType = DefinitionType.Public
+    """
+    Defines the field visibility.  See `DefinitionType`
+    """
+
+
+Fields = List[FieldDefinition]
+
+
+@dataclass
 class ClassDefinition(BaseDefinition):
     """
     The class definition.  Currently, does not support instance properties.
@@ -153,6 +168,10 @@ class ClassDefinition(BaseDefinition):
     methods: Methods   = field(default_factory=list)
     """
     The list of methods this class implements.  
+    """
+    fields: Fields = field(default_factory=list)
+    """
+    The list of instance variables this class defines.
     """
 
 

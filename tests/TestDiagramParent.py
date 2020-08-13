@@ -1,7 +1,9 @@
 from typing import final
 
+from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
@@ -116,3 +118,21 @@ class TestDiagramParent(TestBase):
         ]
 
         return lineDefinitions
+
+    def _buildFields(self) -> BaseDiagram.FieldsRepr:
+
+        fields: BaseDiagram.FieldsRepr = []
+
+        fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             parameterType='int',   defaultValue='1')
+        fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
+        fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', parameterType='',      defaultValue='23')
+
+        fieldFull.visibility     = DefinitionType.Public
+        fieldTypeOnly.visibility = DefinitionType.Private
+        fieldDefaultValueOnly.visibility = DefinitionType.Protected
+
+        fields.append(fieldFull)
+        fields.append(fieldTypeOnly)
+        fields.append(fieldDefaultValueOnly)
+
+        return fields

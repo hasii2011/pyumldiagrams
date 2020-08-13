@@ -121,12 +121,19 @@ class ImageDiagram(BaseDiagram):
         size:     Size     = classDefinition.size
 
         iPos: InternalPosition = ImageCommon.toInternal(position=position, horizontalGap=self.horizontalGap, verticalGap=self.verticalGap)
+
         self._drawClassName(classDefinition=classDefinition, rectX=iPos.x, rectY=iPos.y, symbolWidth=size.width)
-        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=iPos.x, rectY=iPos.y, shapeWidth=size.width)
+
+        separatorPosition: SeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=iPos.y, shapeWidth=size.width)
+
+        fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
+
+        fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
+        methodSeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=fieldSeparatorPosition.y, shapeWidth=size.width)
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
@@ -208,9 +215,9 @@ class ImageDiagram(BaseDiagram):
         self.logger.info(f'ClassName {xy=}')
         imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=classDefinition.name)
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
+    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
         """
-        Draws the UML separator between the class name and the start of the class definition
+        Draws the UML separators between the various part of the UML shape
         Does the computation to determine where it drew the separator
 
         Args:
@@ -232,6 +239,19 @@ class ImageDiagram(BaseDiagram):
         imgDraw.line(xy=xy, fill=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
         return SeparatorPosition(separatorX, separatorY)
+
+    def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -> SeparatorPosition:
+
+        imgDraw: ImageDraw = self._imgDraw
+        x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
+        for fieldRepr in fieldReprs:
+            xy = [x, y]
+            imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=fieldRepr)
+            y = y + self._fontSize + 2
+
+        y = (y - self._fontSize) - 2   # Adjust for last addition
+        return SeparatorPosition(x=x, y=y)
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
