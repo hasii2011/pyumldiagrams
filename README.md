@@ -5,11 +5,11 @@ The documentation is [here](https://hasii2011.github.io/pyumldiagrams/pyumldiagr
 
 
 
-##Sample PDF Snippets
+## Sample PDF Snippets
 
 
 
-###Create a basic class
+### Create a basic class
 
 ```python
 diagram: Diagram = Diagram(fileName='basicClass.pdf', dpi=75)
@@ -21,7 +21,7 @@ diagram.write()
 
 
 
-###Create a class with a method
+### Create a class with a method
 
 ```python
 diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
@@ -43,7 +43,7 @@ diagram.write()
 
 ```
 
-###Create a class with some fields
+### Create a class with some fields
 
 ```python
         fileName: str        = f'Test-BasicFields.pdf'
@@ -63,7 +63,7 @@ diagram.write()
 ```
 
 
-###Create inheritance diagram
+### Create inheritance diagram
 
 
 
@@ -82,12 +82,12 @@ diagram.drawUmlLine(lineDefinition=opieToCat)
 diagram.write()
 ```
 
-##Sample Image Snippets
+## Sample Image Snippets
 
-###Create a basic .png class
+### Create a basic .png class
 
 **TBD**
 
-###Create a basic .jpg class with fields
+### Create a basic .jpg class with fields
 
 **TBD**
