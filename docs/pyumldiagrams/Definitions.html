@@ -166,6 +166,21 @@ Syntactic sugar to define a list of methods.
 
 
 @dataclass
+class FieldDefinition(ParameterDefinition):
+    &#34;&#34;&#34;
+    Defines a single instance variable;  Seems funny to inherit from a
+    parameter definition.
+    &#34;&#34;&#34;
+    visibility: DefinitionType = DefinitionType.Public
+    &#34;&#34;&#34;
+    Defines the field visibility.  See `DefinitionType`
+    &#34;&#34;&#34;
+
+
+Fields = List[FieldDefinition]
+
+
+@dataclass
 class ClassDefinition(BaseDefinition):
     &#34;&#34;&#34;
     The class definition.  Currently, does not support instance properties.
@@ -181,6 +196,10 @@ class ClassDefinition(BaseDefinition):
     methods: Methods   = field(default_factory=list)
     &#34;&#34;&#34;
     The list of methods this class implements.  
+    &#34;&#34;&#34;
+    fields: Fields = field(default_factory=list)
+    &#34;&#34;&#34;
+    The list of instance variables this class defines.
     &#34;&#34;&#34;
 
 
@@ -333,7 +352,7 @@ class EllipseDefinition(RectangleDefinition):
 </dd>
 <dt id="pyumldiagrams.Definitions.ClassDefinition"><code class="flex name class">
 <span>class <span class="ident">ClassDefinition</span></span>
-<span>(</span><span>name: str, size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=100, height=100), position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), methods: List[<a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a>] = &lt;factory&gt;)</span>
+<span>(</span><span>name: str, size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=100, height=100), position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), methods: List[<a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a>] = &lt;factory&gt;, fields: List[<a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a>] = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The class definition.
@@ -357,6 +376,10 @@ Currently, does not support instance properties.</p></div>
     methods: Methods   = field(default_factory=list)
     &#34;&#34;&#34;
     The list of methods this class implements.  
+    &#34;&#34;&#34;
+    fields: Fields = field(default_factory=list)
+    &#34;&#34;&#34;
+    The list of instance variables this class defines.
     &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -515,6 +538,52 @@ See <code><a title="pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP" href="Defaults.
 </li>
 </ul>
 </dd>
+<dt id="pyumldiagrams.Definitions.FieldDefinition"><code class="flex name class">
+<span>class <span class="ident">FieldDefinition</span></span>
+<span>(</span><span>name: str, parameterType: str = '', defaultValue: str = '', visibility: <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a> = DefinitionType.Public)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Defines a single instance variable;
+Seems funny to inherit from a
+parameter definition.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FieldDefinition(ParameterDefinition):
+    &#34;&#34;&#34;
+    Defines a single instance variable;  Seems funny to inherit from a
+    parameter definition.
+    &#34;&#34;&#34;
+    visibility: DefinitionType = DefinitionType.Public
+    &#34;&#34;&#34;
+    Defines the field visibility.  See `DefinitionType`
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pyumldiagrams.Definitions.ParameterDefinition" href="#pyumldiagrams.Definitions.ParameterDefinition">ParameterDefinition</a></li>
+<li><a title="pyumldiagrams.Definitions.BaseDefinition" href="#pyumldiagrams.Definitions.BaseDefinition">BaseDefinition</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.Definitions.FieldDefinition.visibility"><code class="name">var <span class="ident">visibility</span> : <a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a></code></dt>
+<dd>
+<div class="desc"><p>Defines the field visibility.
+See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagrams.Definitions.DefinitionType">DefinitionType</a></code></p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pyumldiagrams.Definitions.ParameterDefinition" href="#pyumldiagrams.Definitions.ParameterDefinition">ParameterDefinition</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pyumldiagrams.Definitions.ParameterDefinition.defaultValue" href="#pyumldiagrams.Definitions.ParameterDefinition.defaultValue">defaultValue</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ParameterDefinition.name" href="#pyumldiagrams.Definitions.BaseDefinition.name">name</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ParameterDefinition.parameterType" href="#pyumldiagrams.Definitions.ParameterDefinition.parameterType">parameterType</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 <dt id="pyumldiagrams.Definitions.LineDefinition"><code class="flex name class">
 <span>class <span class="ident">LineDefinition</span></span>
 <span>(</span><span>source: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>, destination: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>)</span>
@@ -665,6 +734,10 @@ See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagra
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="pyumldiagrams.Definitions.BaseDefinition" href="#pyumldiagrams.Definitions.BaseDefinition">BaseDefinition</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a></li>
 </ul>
 <h3>Class variables</h3>
 <dl>
@@ -885,7 +958,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </section>
 </article>
 <nav id="sidebar">
-<img src="https://hasii2011.github.io/pyumldiagrams/pyumldiagrams/PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
+<img src="PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -937,6 +1010,12 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.EllipseDefinition" href="#pyumldiagrams.Definitions.EllipseDefinition">EllipseDefinition</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.FieldDefinition.visibility" href="#pyumldiagrams.Definitions.FieldDefinition.visibility">visibility</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.LineDefinition" href="#pyumldiagrams.Definitions.LineDefinition">LineDefinition</a></code></h4>

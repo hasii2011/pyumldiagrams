@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.8.4" />
-<title>pyumldiagrams.pdf.Diagram API documentation</title>
+<title>pyumldiagrams.pdf.PdfDiagram API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -20,7 +20,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pyumldiagrams.pdf.Diagram</code></h1>
+<h1 class="title">Module <code>pyumldiagrams.pdf.PdfDiagram</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
@@ -51,11 +51,11 @@ from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
-from pyumldiagrams.pdf.DiagramLine import DiagramLine
+from pyumldiagrams.pdf.PdfDiagramLine import PdfDiagramLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 
-class Diagram(BaseDiagram):
+class PdfDiagram(BaseDiagram):
     &#34;&#34;&#34;
 
     Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
@@ -95,14 +95,14 @@ class Diagram(BaseDiagram):
         pdf.set_creator(&#39;Humberto A. Sanchez II - The Great&#39;)
         pdf.set_author(&#39;Humberto A. Sanchez II - The Great&#39;)
 
-        pdf.set_font(&#39;Arial&#39;, size=Diagram.DEFAULT_FONT_SIZE)
+        pdf.set_font(&#39;Arial&#39;, size=PdfDiagram.DEFAULT_FONT_SIZE)
         self._pdf: FPDFExtended = pdf
         self._pdf.headerText = headerText
 
-        self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
+        self._fontSize: int  = PdfDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: DiagramLine    = DiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfDiagramLine    = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
@@ -116,14 +116,14 @@ class Diagram(BaseDiagram):
         Returns: a fully qualified name
         &#34;&#34;&#34;
         try:
-            fqFileName: str = resource_filename(Diagram.RESOURCES_PACKAGE_NAME, bareFileName)
+            fqFileName: str = resource_filename(PdfDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
         except (ValueError, Exception):
             #
             # Maybe we are in an app
             #
             from os import environ
             pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-            fqFileName:      str = f&#39;{pathToResources}/{Diagram.RESOURCES_PATH}/{bareFileName}&#39;
+            fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
         return fqFileName
 
@@ -142,11 +142,15 @@ class Diagram(BaseDiagram):
         self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
         symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
-        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
+        separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+        fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
+
+        methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         &#34;&#34;&#34;
@@ -217,7 +221,7 @@ class Diagram(BaseDiagram):
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
         convertedWidth, convertedHeight = self.__convertSize(size=size)
-        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -227,7 +231,7 @@ class Diagram(BaseDiagram):
 
         return convertedWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
+    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -242,7 +246,7 @@ class Diagram(BaseDiagram):
         &#34;&#34;&#34;
 
         separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
+        separatorY: float = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
 
         endX: float = rectX + shapeWidth
 
@@ -252,13 +256,26 @@ class Diagram(BaseDiagram):
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: float = separatorPosition.x + Diagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for methodRepr in methodReprs:
 
             self._pdf.text(x=x, y=y, txt=methodRepr)
             y = y + self._fontSize + 2
+
+    def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -&gt; SeparatorPosition:
+
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+
+        for fieldRepr in fieldReprs:
+            self._pdf.text(x=x, y=y, txt=fieldRepr)
+            y = y + self._fontSize + 2
+
+        y = y - self._fontSize - 2  # adjust for last addition
+
+        return SeparatorPosition(x=x, y=y)
 
     def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
         &#34;&#34;&#34;
@@ -290,8 +307,8 @@ class Diagram(BaseDiagram):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram"><code class="flex name class">
-<span>class <span class="ident">Diagram</span></span>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram"><code class="flex name class">
+<span>class <span class="ident">PdfDiagram</span></span>
 <span>(</span><span>fileName: str, dpi: int, headerText: str = '')</span>
 </code></dt>
 <dd>
@@ -318,7 +335,7 @@ specify the text font size</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Diagram(BaseDiagram):
+<pre><code class="python">class PdfDiagram(BaseDiagram):
     &#34;&#34;&#34;
 
     Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
@@ -358,14 +375,14 @@ specify the text font size</p>
         pdf.set_creator(&#39;Humberto A. Sanchez II - The Great&#39;)
         pdf.set_author(&#39;Humberto A. Sanchez II - The Great&#39;)
 
-        pdf.set_font(&#39;Arial&#39;, size=Diagram.DEFAULT_FONT_SIZE)
+        pdf.set_font(&#39;Arial&#39;, size=PdfDiagram.DEFAULT_FONT_SIZE)
         self._pdf: FPDFExtended = pdf
         self._pdf.headerText = headerText
 
-        self._fontSize: int  = Diagram.DEFAULT_FONT_SIZE
+        self._fontSize: int  = PdfDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: DiagramLine    = DiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfDiagramLine    = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
@@ -379,14 +396,14 @@ specify the text font size</p>
         Returns: a fully qualified name
         &#34;&#34;&#34;
         try:
-            fqFileName: str = resource_filename(Diagram.RESOURCES_PACKAGE_NAME, bareFileName)
+            fqFileName: str = resource_filename(PdfDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
         except (ValueError, Exception):
             #
             # Maybe we are in an app
             #
             from os import environ
             pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-            fqFileName:      str = f&#39;{pathToResources}/{Diagram.RESOURCES_PATH}/{bareFileName}&#39;
+            fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
         return fqFileName
 
@@ -405,11 +422,15 @@ specify the text font size</p>
         self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
         symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
-        separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)
+        separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+        fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
+
+        methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         &#34;&#34;&#34;
@@ -480,7 +501,7 @@ specify the text font size</p>
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
         convertedWidth, convertedHeight = self.__convertSize(size=size)
-        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=Diagram.FPDF_DRAW)
+        self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
@@ -490,7 +511,7 @@ specify the text font size</p>
 
         return convertedWidth
 
-    def _drawNameSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
+    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
@@ -505,7 +526,7 @@ specify the text font size</p>
         &#34;&#34;&#34;
 
         separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + Diagram.Y_NUDGE_FACTOR
+        separatorY: float = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
 
         endX: float = rectX + shapeWidth
 
@@ -515,13 +536,26 @@ specify the text font size</p>
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: float = separatorPosition.x + Diagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + Diagram.Y_NUDGE_FACTOR + 8
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for methodRepr in methodReprs:
 
             self._pdf.text(x=x, y=y, txt=methodRepr)
             y = y + self._fontSize + 2
+
+    def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -&gt; SeparatorPosition:
+
+        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+
+        for fieldRepr in fieldReprs:
+            self._pdf.text(x=x, y=y, txt=fieldRepr)
+            y = y + self._fontSize + 2
+
+        y = y - self._fontSize - 2  # adjust for last addition
+
+        return SeparatorPosition(x=x, y=y)
 
     def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
         &#34;&#34;&#34;
@@ -549,30 +583,30 @@ specify the text font size</p>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.drawClass"><code class="name flex">
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawClass"><code class="name flex">
 <span>def <span class="ident">drawClass</span></span>(<span>self, classDefinition: <a title="pyumldiagrams.Definitions.ClassDefinition" href="../Definitions.html#pyumldiagrams.Definitions.ClassDefinition">ClassDefinition</a>)</span>
 </code></dt>
 <dd>
@@ -601,14 +635,18 @@ specify the text font size</p>
     self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
     methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+    fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
     symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
-    separatorPosition: SeparatorPosition = self._drawNameSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
-    self._drawMethods(methodReprs=methodReprs, separatorPosition=separatorPosition)</code></pre>
+    separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+    fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
+
+    methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
+    self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)</code></pre>
 </details>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.drawText"><code class="name flex">
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawText"><code class="name flex">
 <span>def <span class="ident">drawText</span></span>(<span>self, position: <a title="pyumldiagrams.Definitions.Position" href="../Definitions.html#pyumldiagrams.Definitions.Position">Position</a>, text: str)</span>
 </code></dt>
 <dd>
@@ -640,7 +678,7 @@ position to PDF points</p>
     self._pdf.text(x=x, y=y, txt=text)</code></pre>
 </details>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.drawUmlLine"><code class="name flex">
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawUmlLine"><code class="name flex">
 <span>def <span class="ident">drawUmlLine</span></span>(<span>self, lineDefinition: <a title="pyumldiagrams.Definitions.UmlLineDefinition" href="../Definitions.html#pyumldiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a>)</span>
 </code></dt>
 <dd>
@@ -666,7 +704,7 @@ between the UML classes</p>
     self._lineDrawer.draw(lineDefinition=lineDefinition)</code></pre>
 </details>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.retrieveResourcePath"><code class="name flex">
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.retrieveResourcePath"><code class="name flex">
 <span>def <span class="ident">retrieveResourcePath</span></span>(<span>self, bareFileName: str) ‑> str</span>
 </code></dt>
 <dd>
@@ -688,19 +726,19 @@ Returns: a fully qualified name</p></div>
     Returns: a fully qualified name
     &#34;&#34;&#34;
     try:
-        fqFileName: str = resource_filename(Diagram.RESOURCES_PACKAGE_NAME, bareFileName)
+        fqFileName: str = resource_filename(PdfDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
     except (ValueError, Exception):
         #
         # Maybe we are in an app
         #
         from os import environ
         pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-        fqFileName:      str = f&#39;{pathToResources}/{Diagram.RESOURCES_PATH}/{bareFileName}&#39;
+        fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
     return fqFileName</code></pre>
 </details>
 </dd>
-<dt id="pyumldiagrams.pdf.Diagram.Diagram.write"><code class="name flex">
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.write"><code class="name flex">
 <span>def <span class="ident">write</span></span>(<span>self)</span>
 </code></dt>
 <dd>
@@ -736,7 +774,7 @@ Returns: a fully qualified name</p></div>
 </section>
 </article>
 <nav id="sidebar">
-<img src="https://hasii2011.github.io/pyumldiagrams/pyumldiagrams/PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
+<img src="PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -750,18 +788,18 @@ Returns: a fully qualified name</p></div>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pyumldiagrams.pdf.Diagram.Diagram" href="#pyumldiagrams.pdf.Diagram.Diagram">Diagram</a></code></h4>
+<h4><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram">PdfDiagram</a></code></h4>
 <ul class="">
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.FPDF_DRAW" href="#pyumldiagrams.pdf.Diagram.Diagram.FPDF_DRAW">FPDF_DRAW</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PACKAGE_NAME" href="#pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PACKAGE_NAME">RESOURCES_PACKAGE_NAME</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PATH" href="#pyumldiagrams.pdf.Diagram.Diagram.RESOURCES_PATH">RESOURCES_PATH</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.X_NUDGE_FACTOR" href="#pyumldiagrams.pdf.Diagram.Diagram.X_NUDGE_FACTOR">X_NUDGE_FACTOR</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.Y_NUDGE_FACTOR" href="#pyumldiagrams.pdf.Diagram.Diagram.Y_NUDGE_FACTOR">Y_NUDGE_FACTOR</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.drawClass" href="#pyumldiagrams.pdf.Diagram.Diagram.drawClass">drawClass</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.drawText" href="#pyumldiagrams.pdf.Diagram.Diagram.drawText">drawText</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.drawUmlLine" href="#pyumldiagrams.pdf.Diagram.Diagram.drawUmlLine">drawUmlLine</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.retrieveResourcePath" href="#pyumldiagrams.pdf.Diagram.Diagram.retrieveResourcePath">retrieveResourcePath</a></code></li>
-<li><code><a title="pyumldiagrams.pdf.Diagram.Diagram.write" href="#pyumldiagrams.pdf.Diagram.Diagram.write">write</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FPDF_DRAW" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FPDF_DRAW">FPDF_DRAW</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME">RESOURCES_PACKAGE_NAME</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH">RESOURCES_PATH</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR">X_NUDGE_FACTOR</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR">Y_NUDGE_FACTOR</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawClass" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawClass">drawClass</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawText" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawText">drawText</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawUmlLine" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawUmlLine">drawUmlLine</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.retrieveResourcePath" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.retrieveResourcePath">retrieveResourcePath</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.write" href="#pyumldiagrams.pdf.PdfDiagram.PdfDiagram.write">write</a></code></li>
 </ul>
 </li>
 </ul>

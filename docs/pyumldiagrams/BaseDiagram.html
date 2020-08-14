@@ -37,11 +37,13 @@ from logging import getLogger
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import EllipseDefinition
+from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import MethodDefinition
-from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import Fields
+from pyumldiagrams.Definitions import Methods
 
 
 class BaseDiagram:
@@ -54,6 +56,7 @@ class BaseDiagram:
     &#34;&#34;&#34;
 
     MethodsRepr = List[str]
+    FieldsRepr  = List[str]
 
     DEFAULT_FONT_SIZE: final = 10
     HEADER_FONT_SIZE:  final = 14
@@ -210,7 +213,10 @@ class BaseDiagram:
 
     def _buildMethod(self, methodDef: MethodDefinition) -&gt; str:
 
-        methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+        if methodDef.visibility is None:
+            methodRepr: str = f&#39;{methodDef.name}&#39;
+        else:
+            methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
 
         nParams:   int = len(methodDef.parameters)
         paramNum:  int = 0
@@ -238,7 +244,29 @@ class BaseDiagram:
 
         methodRepr = f&#39;{methodRepr}({paramRepr})&#39;
 
-        return methodRepr</code></pre>
+        return methodRepr
+
+    def _buildFields(self, fields: Fields) -&gt; FieldsRepr:
+
+        fieldsRepr: BaseDiagram.FieldsRepr = []
+
+        for fieldDef in fields:
+            fieldRepr: str = self._buildField(fieldDef)
+            fieldsRepr.append(fieldRepr)
+
+        return fieldsRepr
+
+    def _buildField(self, fieldDef: FieldDefinition) -&gt; str:
+
+        fieldRepr: str = f&#39;{fieldDef.name}&#39;
+
+        if fieldDef.parameterType != &#39;&#39; and fieldDef.parameterType is not None:
+            fieldRepr = f&#39;{fieldRepr}: {fieldDef.parameterType}&#39;
+
+        if fieldDef.defaultValue != &#39;&#39; and fieldDef.defaultValue is not None:
+            fieldRepr = f&#39;{fieldRepr} = {fieldDef.defaultValue}&#39;
+
+        return fieldRepr</code></pre>
 </details>
 </section>
 <section>
@@ -288,6 +316,7 @@ specify the text font size</p>
     &#34;&#34;&#34;
 
     MethodsRepr = List[str]
+    FieldsRepr  = List[str]
 
     DEFAULT_FONT_SIZE: final = 10
     HEADER_FONT_SIZE:  final = 14
@@ -444,7 +473,10 @@ specify the text font size</p>
 
     def _buildMethod(self, methodDef: MethodDefinition) -&gt; str:
 
-        methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+        if methodDef.visibility is None:
+            methodRepr: str = f&#39;{methodDef.name}&#39;
+        else:
+            methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
 
         nParams:   int = len(methodDef.parameters)
         paramNum:  int = 0
@@ -472,20 +504,46 @@ specify the text font size</p>
 
         methodRepr = f&#39;{methodRepr}({paramRepr})&#39;
 
-        return methodRepr</code></pre>
+        return methodRepr
+
+    def _buildFields(self, fields: Fields) -&gt; FieldsRepr:
+
+        fieldsRepr: BaseDiagram.FieldsRepr = []
+
+        for fieldDef in fields:
+            fieldRepr: str = self._buildField(fieldDef)
+            fieldsRepr.append(fieldRepr)
+
+        return fieldsRepr
+
+    def _buildField(self, fieldDef: FieldDefinition) -&gt; str:
+
+        fieldRepr: str = f&#39;{fieldDef.name}&#39;
+
+        if fieldDef.parameterType != &#39;&#39; and fieldDef.parameterType is not None:
+            fieldRepr = f&#39;{fieldRepr}: {fieldDef.parameterType}&#39;
+
+        if fieldDef.defaultValue != &#39;&#39; and fieldDef.defaultValue is not None:
+            fieldRepr = f&#39;{fieldRepr} = {fieldDef.defaultValue}&#39;
+
+        return fieldRepr</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram" href="image/ImageDiagram.html#pyumldiagrams.image.ImageDiagram.ImageDiagram">ImageDiagram</a></li>
-<li><a title="pyumldiagrams.pdf.Diagram.Diagram" href="pdf/Diagram.html#pyumldiagrams.pdf.Diagram.Diagram">Diagram</a></li>
+<li><a title="pyumldiagrams.pdf.PdfDiagram.PdfDiagram" href="pdf/PdfDiagram.html#pyumldiagrams.pdf.PdfDiagram.PdfDiagram">PdfDiagram</a></li>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.FieldsRepr"><code class="name">var <span class="ident">FieldsRepr</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -493,7 +551,7 @@ specify the text font size</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x1043c3550></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x10b8d35e0></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -744,7 +802,7 @@ Must be overridden by implementors</p></div>
 </section>
 </article>
 <nav id="sidebar">
-<img src="https://hasii2011.github.io/pyumldiagrams/pyumldiagrams/PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
+<img src="PyumlDiagrammerLogo.png" alt="Pyuml Diagrammer Logo" width="268" height="158">
 <h1>Index</h1>
 <div class="toc">
 <ul></ul>
@@ -761,6 +819,7 @@ Must be overridden by implementors</p></div>
 <h4><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram" href="#pyumldiagrams.BaseDiagram.BaseDiagram">BaseDiagram</a></code></h4>
 <ul class="">
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE" href="#pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE">DEFAULT_FONT_SIZE</a></code></li>
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.FieldsRepr" href="#pyumldiagrams.BaseDiagram.BaseDiagram.FieldsRepr">FieldsRepr</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE" href="#pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE">HEADER_FONT_SIZE</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.MethodsRepr" href="#pyumldiagrams.BaseDiagram.BaseDiagram.MethodsRepr">MethodsRepr</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR" href="#pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR">RESOURCE_ENV_VAR</a></code></li>
