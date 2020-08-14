@@ -5,7 +5,7 @@ The documentation is [here](https://hasii2011.github.io/pyumldiagrams/pyumldiagr
 
 
 
-## Sample PDF Snippets
+## Sample PDF Generation Snippets
 
 
 
