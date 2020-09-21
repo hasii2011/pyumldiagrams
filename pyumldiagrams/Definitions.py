@@ -188,19 +188,16 @@ class LineType(Enum):
     Association  = 7
 
 
+LinePositions = List[Position]
+
+
 @dataclass
 class LineDefinition:
     """
-    Defines a line between two points
+    Defines a line between many points;  Index 0 the start of the line;  That last point
+    is the end of the line
     """
-    source: Position
-    """
-    The source position.  See `Position`
-    """
-    destination: Position
-    """
-    The destination position.  See `Position`
-    """
+    linePositions: LinePositions
 
 
 @dataclass

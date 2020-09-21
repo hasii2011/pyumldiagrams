@@ -10,6 +10,8 @@ function changeToProjectRoot {
 
 changeToProjectRoot
 
-find . -type f -name "*.pdf" -delete
-find . -type f -name "*.png" -delete
+
+find . -maxdepth 1 -type f -name '*'.pdf -delete
+find . -maxdepth 1 -type f -name '*'.png -delete
+
 rm -rf build dist pyumldiagrams.egg-info -delete

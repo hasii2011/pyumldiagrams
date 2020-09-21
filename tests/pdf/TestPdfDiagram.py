@@ -11,6 +11,7 @@ from unittest import main as unitTestMain
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.Definitions import LineType
@@ -194,7 +195,8 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.drawClass(classDefinition=cat)
         diagram.drawClass(classDefinition=opie)
 
-        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
+        linePositions: LinePositions = [Position(600, 208), Position(600, 93)]
+        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()

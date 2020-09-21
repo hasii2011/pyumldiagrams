@@ -4,7 +4,7 @@ from typing import List
 from typing import Union
 
 
-@dataclass
+@dataclass(eq=True)
 class InternalPosition:
     """
     The x and y coordinates are relative to the diagramming method.  For pdf

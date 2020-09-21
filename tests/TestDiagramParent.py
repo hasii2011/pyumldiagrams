@@ -4,6 +4,7 @@ from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import FieldDefinition
+from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
@@ -111,8 +112,17 @@ class TestDiagramParent(TestBase):
 
     def _buildSophisticatedLineDefinitions(self) -> UmlLineDefinitions:
 
-        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
-        eCarToCar: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(190, 224), destination=Position(190, 130))
+        startPosition: Position = Position(600, 208)
+        endPosition:   Position = Position(600, 93)
+        opieToCatLinePositions: LinePositions = [startPosition, endPosition]
+
+        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=opieToCatLinePositions)
+
+        startPosition2: Position = Position(190, 224)
+        endPosition2:   Position = Position(190, 130)
+
+        eCarToCarLinePositions: LinePositions = [startPosition2, endPosition2]
+        eCarToCar: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=eCarToCarLinePositions)
         lineDefinitions: UmlLineDefinitions = [
             opieToCat, eCarToCar
         ]

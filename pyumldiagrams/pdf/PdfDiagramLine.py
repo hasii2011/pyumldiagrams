@@ -21,6 +21,7 @@ from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import ScanPoints
 
+from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
@@ -54,20 +55,19 @@ class PdfDiagramLine(IDiagramLine):
             lineDefinition:  Describes the line to draw
         """
 
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
+        linePositions: LinePositions = lineDefinition.linePositions
+        lineType:      LineType      = lineDefinition.lineType
 
         if lineType == LineType.Inheritance:
-            self._drawInheritanceArrow(src=source, dest=destination)
+            self._drawInheritanceArrow(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositionSolidDiamond(src=source, dest=destination)
+            self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
-            self._drawAggregationDiamond(src=source, dest=destination)
+            self._drawAggregationDiamond(linePositions=linePositions)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
-    def _drawInheritanceArrow(self, src: Position, dest: Position):
+    def _drawInheritanceArrow(self, linePositions: LinePositions):
         """
         Must account for the margins and gaps between drawn shapes
         Must convert to points from screen coordinates
@@ -76,38 +76,51 @@ class PdfDiagramLine(IDiagramLine):
         That is where the line ends
 
         Args:
-            src: start of line
-            dest: end line line;  Arrow positioned here
+            linePositions - The points that describe the line
         """
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:   int = len(linePositions) - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
 
         points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-    def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
+    def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:   int = len(linePositions) - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
-
         self.__drawPolygon(points)
-        self.__FillInDiamond(points)
+        self.__fillInDiamond(points)
 
         newEndPoint: InternalPosition = points[3]
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
-    def _drawAggregationDiamond(self, src: Position, dest: Position):
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+    def _drawAggregationDiamond(self, linePositions: LinePositions):
+
+        lastIdx:   int = len(linePositions) - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = points[3]
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
     def __convertEndPoints(self, src: Position, dest: Position) -> Tuple[InternalPosition, InternalPosition]:
 
@@ -272,7 +285,7 @@ class PdfDiagramLine(IDiagramLine):
 
         return deltaX, deltaY
 
-    def __FillInDiamond(self, points: DiamondPoints):
+    def __fillInDiamond(self, points: DiamondPoints):
         """
 
         Args:
@@ -295,3 +308,24 @@ class PdfDiagramLine(IDiagramLine):
                     self._docMaker.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
             x += 1
+
+    def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
+
+        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
+
+        verticalGap:   int  = self._diagramPadding.verticalGap
+        horizontalGap: int  = self._diagramPadding.horizontalGap
+        docMaker:      FPDF = self._docMaker
+        #
+        #
+        #
+        if len(linePositionsCopy) == 1:
+            srcX, srcY = PdfCommon.convertPosition(pos=linePositionsCopy[0], dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            docMaker.line(x1=srcX, y1=srcY, x2=newEndPoint.x, y2=newEndPoint.y)
+        else:
+            #
+            # TODO: This code is still broken.   Handle line with bends
+            #
+            for externalPosition in linePositionsCopy:
+                x, y = PdfCommon.convertPosition(pos=externalPosition, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+                docMaker.line(x1=x, y1=y, x2=newEndPoint.x, y2=newEndPoint.y)
