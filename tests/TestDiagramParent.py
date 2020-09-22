@@ -153,7 +153,14 @@ class TestDiagramParent(TestBase):
 
         leftToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=bigBends)
 
-        bentLineDefinitions: UmlLineDefinitions = [leftToTop]
+        startPosition2: Position = Position(x=604.0, y=354.0)
+        midPosition:    Position = Position(x=604.0, y=209.0)
+        endPosition2:   Position = Position(x=523.0, y=209.0)
+
+        basicBends: LinePositions = [startPosition2, midPosition, endPosition2]
+        rightToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=basicBends)
+
+        bentLineDefinitions: UmlLineDefinitions = [leftToTop, rightToTop]
 
         return bentLineDefinitions
 
