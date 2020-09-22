@@ -78,8 +78,9 @@ class PdfDiagramLine(IDiagramLine):
         Args:
             linePositions - The points that describe the line
         """
-        lastIdx:   int = len(linePositions) - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
 
         convertedSrc:  InternalPosition = endPoints[0]
         convertedDest: InternalPosition = endPoints[1]
@@ -318,18 +319,17 @@ class PdfDiagramLine(IDiagramLine):
         dpi:           int  = self._dpi
         docMaker:      FPDF = self._docMaker
         #
-        # Ok, ok, I get it.  This is not a Pythonic for loop.  But, I am not a purist
+        # Ok, ok, I get it.  This is not a Pythonic 'for' loop.  But, I am not a purist
         #
         numPositions: int      = len(linePositionsCopy)
         currentPos:   Position = linePositionsCopy[0]
         for idx in range(numPositions):
 
             nextIdx: int = idx + 1
+            currentPos = linePositionsCopy[idx]
             if nextIdx == numPositions:
                 break
-
-            currentPos: Position = linePositionsCopy[idx]
-            nextPos:    Position = linePositionsCopy[nextIdx]
+            nextPos: Position = linePositionsCopy[nextIdx]
 
             curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
             nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)

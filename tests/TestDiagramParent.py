@@ -129,6 +129,34 @@ class TestDiagramParent(TestBase):
 
         return lineDefinitions
 
+    def _buildTopClass(self) -> ClassDefinition:
+        top: ClassDefinition = ClassDefinition(name='TopClass', position=Position(409.0, 159.0), size=Size(height=100, width=113))
+        return top
+
+    def _buildLeftClass(self) -> ClassDefinition:
+        left: ClassDefinition = ClassDefinition(name='LeftClass', position=Position(266.0, 359.0), size=Size(height=99.0, width=127.0))
+        return left
+
+    def _buildRightClass(self) -> ClassDefinition:
+        right: ClassDefinition = ClassDefinition(name='RightClass', position=Position(522.0, 354.0), size=Size(height=107.0, width=167.0))
+        return right
+
+    def _buildBendTest(self):
+
+        startPos: Position = Position(x=330.0, y=359.0)
+        cp1Pos:   Position = Position(x=330.0, y=286.0)
+        cp2Pos:   Position = Position(x=178.0, y=286.0)
+        cp3Pos:   Position = Position(x=178.0, y=207.0)
+        endPos:   Position = Position(x=409.0, y=207.0)
+
+        bigBends: LinePositions = [startPos, cp1Pos, cp2Pos, cp3Pos, endPos]
+
+        leftToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=bigBends)
+
+        bentLineDefinitions: UmlLineDefinitions = [leftToTop]
+
+        return bentLineDefinitions
+
     def _buildFields(self) -> BaseDiagram.FieldsRepr:
 
         fields: BaseDiagram.FieldsRepr = []

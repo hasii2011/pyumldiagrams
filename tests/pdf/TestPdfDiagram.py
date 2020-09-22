@@ -1,4 +1,4 @@
-
+from typing import List
 from typing import cast
 
 
@@ -235,6 +235,25 @@ class TestPdfDiagram(TestDiagramParent):
         fieldsTestClass.methods = [initMethodDef]
 
         diagram.drawClass(classDefinition=fieldsTestClass)
+
+        diagram.write()
+
+    def testBends(self):
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-Bends{TestConstants.TEST_SUFFIX}'
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        top:   ClassDefinition = self._buildTopClass()
+        left:  ClassDefinition = self._buildLeftClass()
+        right: ClassDefinition = self._buildRightClass()
+
+        bentClasses: List[ClassDefinition] = [top, left, right]
+        for bentClass in bentClasses:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
 
         diagram.write()
 

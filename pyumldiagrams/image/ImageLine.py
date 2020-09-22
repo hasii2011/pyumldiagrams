@@ -71,8 +71,9 @@ class ImageLine(IDiagramLine):
         Args:
             linePositions  The points that describe the line
         """
-        internalSrc: InternalPosition = self.__toInternal(linePositions[0])
-        lastIdx:     int = len(linePositions) - 1
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
         points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDest)
@@ -87,8 +88,9 @@ class ImageLine(IDiagramLine):
 
     def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        internalSrc:  InternalPosition = self.__toInternal(linePositions[0])
-        lastIdx:      int = len(linePositions) - 1
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
         points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
@@ -103,8 +105,9 @@ class ImageLine(IDiagramLine):
 
     def _drawAggregationDiamond(self, linePositions: LinePositions):
 
-        internalSrc:  InternalPosition = self.__toInternal(linePositions[0])
-        lastIdx:     int = len(linePositions) - 1
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
         points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
