@@ -311,21 +311,30 @@ class PdfDiagramLine(IDiagramLine):
 
     def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
 
-        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
+        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy; remove last one
 
         verticalGap:   int  = self._diagramPadding.verticalGap
         horizontalGap: int  = self._diagramPadding.horizontalGap
+        dpi:           int  = self._dpi
         docMaker:      FPDF = self._docMaker
         #
+        # Ok, ok, I get it.  This is not a Pythonic for loop.  But, I am not a purist
         #
-        #
-        if len(linePositionsCopy) == 1:
-            srcX, srcY = PdfCommon.convertPosition(pos=linePositionsCopy[0], dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-            docMaker.line(x1=srcX, y1=srcY, x2=newEndPoint.x, y2=newEndPoint.y)
-        else:
-            #
-            # TODO: This code is still broken.   Handle line with bends
-            #
-            for externalPosition in linePositionsCopy:
-                x, y = PdfCommon.convertPosition(pos=externalPosition, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-                docMaker.line(x1=x, y1=y, x2=newEndPoint.x, y2=newEndPoint.y)
+        numPositions: int      = len(linePositionsCopy)
+        currentPos:   Position = linePositionsCopy[0]
+        for idx in range(numPositions):
+
+            nextIdx: int = idx + 1
+            if nextIdx == numPositions:
+                break
+
+            currentPos: Position = linePositionsCopy[idx]
+            nextPos:    Position = linePositionsCopy[nextIdx]
+
+            curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+            docMaker.line(x1=curX, y1=curY, x2=nxtX, y2=nxtY)
+
+        curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        docMaker.line(x1=curX, y1=curY, x2=newEndPoint.x, y2=newEndPoint.y)
