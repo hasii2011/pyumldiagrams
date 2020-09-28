@@ -27,12 +27,17 @@
             "handlers": ["consoleHandler"],
             "propagate": "False"
         },
-        "pdfdiagrams": {
+        "pyumldiagrams": {
             "level":     "INFO",
             "handlers":  ["consoleHandler"],
             "propagate": "False"
         },
         "TestDiagram": {
+            "level": "INFO",
+            "handlers": ["consoleHandler"],
+            "propagate": "False"
+        },
+        "TestXmlInput": {
             "level": "INFO",
             "handlers": ["consoleHandler"],
             "propagate": "False"

@@ -10,6 +10,7 @@ from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
 from pyumldiagrams.Defaults import DEFAULT_VERTICAL_GAP
+from pyumldiagrams.UnsupportedException import UnsupportedException
 
 ClassName = str
 
@@ -186,6 +187,25 @@ class LineType(Enum):
     Aggregation  = 1
     Composition  = 3
     Association  = 7
+
+    @staticmethod
+    def toEnum(strValue: str) -> 'LineType':
+        """
+        Converts the input string to the line type enum
+        Args:
+            strValue:   The serialized string representation
+
+        Returns:  The line type enumeration
+        """
+        canonicalStr: str = strValue.lower().strip(' ')
+        if canonicalStr == 'aggregation':
+            return LineType.Aggregation
+        elif canonicalStr == 'composition':
+            return LineType.Composition
+        elif canonicalStr == 'inheritance':
+            return LineType.Inheritance
+        else:
+            raise UnsupportedException(f'Do not handle LineType {canonicalStr}')
 
 
 LinePositions = List[Position]
