@@ -94,8 +94,9 @@ class PdfDiagramLine(IDiagramLine):
 
     def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        lastIdx:   int = len(linePositions) - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
 
         convertedSrc:  InternalPosition = endPoints[0]
         convertedDest: InternalPosition = endPoints[1]
@@ -111,7 +112,9 @@ class PdfDiagramLine(IDiagramLine):
     def _drawAggregationDiamond(self, linePositions: LinePositions):
 
         lastIdx:   int = len(linePositions) - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[0], linePositions[lastIdx])
+        beforeLastIdx: int = lastIdx - 1
+
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
 
         convertedSrc:  InternalPosition = endPoints[0]
         convertedDest: InternalPosition = endPoints[1]

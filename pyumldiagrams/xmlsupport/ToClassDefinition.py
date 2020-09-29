@@ -15,6 +15,7 @@ from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
+from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 
@@ -57,7 +58,7 @@ class ToClassDefinition:
 
         graphicClassNodes: NodeList = self._documentNode.getElementsByTagName(ELEMENT_GRAPHIC_CLASS)
 
-        self.logger.info(f'{graphicClassNodes=}')
+        self.logger.debug(f'{graphicClassNodes=}')
 
         for xmlGraphicClass in graphicClassNodes:
 
@@ -73,11 +74,13 @@ class ToClassDefinition:
 
             classDef: ClassDefinition = ClassDefinition(name=className)
 
-            classDef.height = height
-            classDef.width = width
-            classDef.x = x
-            classDef.y = y
-            self.logger.info(f'{classDef=}')
+            classSize: Size = Size(width=width, height=height)
+            classDef.size = classSize
+
+            position: Position = Position(x=x, y=y)
+            classDef.position = position
+
+            self.logger.debug(f'{classDef=}')
             self._classDefinitions.append(classDef)
 
     def generateUmlLineDefinitions(self):
@@ -105,7 +108,7 @@ class ToClassDefinition:
 
                 controlPoint: Element = cast(Element, controlPoint)
 
-                self.logger.info(f'{controlPoint=}')
+                self.logger.debug(f'{controlPoint=}')
                 x: float = float(controlPoint.getAttribute(ATTR_X))
                 y: float = float(controlPoint.getAttribute(ATTR_Y))
                 bendPosition: Position = Position(x=x, y=y)
@@ -117,9 +120,8 @@ class ToClassDefinition:
             destPosition: Position = Position(x=destX, y=destY)
 
             linePositions.append(destPosition)
-            self.logger.info(f'{umlLineDefinition=}')
+            self.logger.debug(f'{umlLineDefinition=}')
             self._umlLineDefinitions.append(umlLineDefinition)
-
 
     @property
     def classDefinitions(self) -> ClassDefinitions:

@@ -27,32 +27,37 @@
             <ControlPoint x="604.0" y="209.0"/>
             <Link name="PyutObject_00013" type="INHERITANCE" cardSrc="" cardDestination="" bidir="False" sourceId="2" destId="3"/>
         </GraphicLink>
+
         <GraphicLink srcX="329.50" srcY="359.00" dstX="409.00" dstY="208.00" spline="False">
             <ControlPoint x="330.0" y="286.0"/>
             <ControlPoint x="178.0" y="285.0"/>
             <ControlPoint x="179.0" y="207.0"/>
             <Link name="PyutObject_00005" type="INHERITANCE" cardSrc="" cardDestination="" bidir="False" sourceId="1" destId="3"/>
         </GraphicLink>
-        <GraphicLink srcX="467.50" srcY="258.00" dstX="468.00" dstY="545.00" spline="False">
+
+        <GraphicLink srcX="468.00" srcY="545.00" dstX="467.50" dstY="258.00"  spline="False">
             <LabelCenter x="413.50" y="352.00"/>
             <LabelSrc x="467.97" y="278.99"/>
             <LabelDst x="467.53" y="525.01"/>
             <Link name="" type="COMPOSITION" cardSrc="" cardDestination="" bidir="False" sourceId="3" destId="4"/>
         </GraphicLink>
-        <GraphicLink srcX="688.00" srcY="407.50" dstX="791.00" dstY="408.00" spline="False">
+
+        <GraphicLink srcX="791.00" srcY="408.00" dstX="688.00" dstY="407.50" spline="False">
             <LabelCenter x="656.50" y="356.00"/>
             <LabelSrc x="709.00" y="407.57"/>
             <LabelDst x="772.00" y="404.93"/>
             <Link name="PyutObject_00011" type="AGGREGATION" cardSrc="" cardDestination="" bidir="False" sourceId="2" destId="5"/>
         </GraphicLink>
-        <GraphicLink srcX="890.00" srcY="408.00" dstX="973.00" dstY="545.00" spline="False">
+
+        <GraphicLink srcX="973.00" srcY="545.00" dstX="890.00" dstY="408.00" spline="False">
             <LabelCenter x="857.00" y="451.50"/>
             <LabelSrc x="851.92" y="474.76"/>
             <LabelDst x="959.08" y="539.24"/>
             <ControlPoint x="972.0" y="408.0"/>
             <Link name="PyutObject_00013" type="AGGREGATION" cardSrc="" cardDestination="" bidir="False" sourceId="5" destId="6"/>
         </GraphicLink>
-        <GraphicLink srcX="266.00" srcY="408.00" dstX="180.00" dstY="546.00" spline="False">
+
+        <GraphicLink srcX="180.00" srcY="546.00" dstX="266.00" dstY="408.00" spline="False">
             <LabelCenter x="198.00" y="452.50"/>
             <LabelSrc x="317.83" y="474.25"/>
             <LabelDst x="192.67" y="530.75"/>

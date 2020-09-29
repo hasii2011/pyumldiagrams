@@ -22,6 +22,7 @@ from pyumldiagrams.Definitions import UmlLineDefinitions
 
 from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
+from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
@@ -204,6 +205,24 @@ class TestImageDiagram(TestDiagramParent):
             diagram.drawClass(classDefinition=bentClass)
 
         bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.write()
+
+    def testBendsFromXmlInput(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
+
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput.{ImageFormat.PNG.value}'
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bentClass in classDefinitions:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
 
         for bentLine in bentLineDefinitions:
             diagram.drawUmlLine(bentLine)

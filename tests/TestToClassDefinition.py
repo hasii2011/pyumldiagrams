@@ -9,10 +9,9 @@ from pkg_resources import resource_filename
 
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
-
 from tests.TestBase import TestBase
+from tests.TestBase import BEND_TEST_XML_FILE
 
-BEND_TEST_XML_FILE:   str = 'BendTest.xml'
 EXPECTED_CLASS_COUNT: int = 7
 EXPECTED_LINE_COUNT:  int = 6
 

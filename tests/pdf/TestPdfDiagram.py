@@ -21,8 +21,10 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
+from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestBase import TestBase
+
 from tests.TestConstants import TestConstants
 from tests.TestDiagramParent import TestDiagramParent
 
@@ -251,6 +253,24 @@ class TestPdfDiagram(TestDiagramParent):
             diagram.drawClass(classDefinition=bentClass)
 
         bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.write()
+
+    def testBendsFromXmlInput(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
+
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput{TestConstants.TEST_SUFFIX}'
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bentClass in classDefinitions:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
 
         for bentLine in bentLineDefinitions:
             diagram.drawUmlLine(bentLine)

@@ -49,7 +49,7 @@ class ImageLine(IDiagramLine):
             lineDefinition:  Describes the line to draw
         """
         linePositions: LinePositions = lineDefinition.linePositions
-        lineType:    LineType = lineDefinition.lineType
+        lineType:      LineType      = lineDefinition.lineType
 
         if lineType == LineType.Inheritance:
             self._drawInheritanceArrow(linePositions=linePositions)

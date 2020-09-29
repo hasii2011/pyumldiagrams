@@ -1,6 +1,9 @@
 from typing import final
 
+from pkg_resources import resource_filename
+
 from pyumldiagrams.BaseDiagram import BaseDiagram
+
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import FieldDefinition
@@ -13,7 +16,10 @@ from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 
+from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
+
 from tests.TestBase import TestBase
+from tests.TestBase import BEND_TEST_XML_FILE
 
 
 class TestDiagramParent(TestBase):
@@ -181,3 +187,14 @@ class TestDiagramParent(TestBase):
         fields.append(fieldDefaultValueOnly)
 
         return fields
+
+    def _buildBendTestFromXml(self) -> ToClassDefinition:
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+        toClassDefinition.generateUmlLineDefinitions()
+
+        return toClassDefinition
