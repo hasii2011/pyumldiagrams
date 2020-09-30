@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.4" />
+<meta name="generator" content="pdoc 0.8.5" />
 <title>pyumldiagrams.Definitions API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -38,6 +38,7 @@ from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
 from pyumldiagrams.Defaults import DEFAULT_VERTICAL_GAP
+from pyumldiagrams.UnsupportedException import UnsupportedException
 
 ClassName = str
 
@@ -215,20 +216,36 @@ class LineType(Enum):
     Composition  = 3
     Association  = 7
 
+    @staticmethod
+    def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
+        &#34;&#34;&#34;
+        Converts the input string to the line type enum
+        Args:
+            strValue:   The serialized string representation
+
+        Returns:  The line type enumeration
+        &#34;&#34;&#34;
+        canonicalStr: str = strValue.lower().strip(&#39; &#39;)
+        if canonicalStr == &#39;aggregation&#39;:
+            return LineType.Aggregation
+        elif canonicalStr == &#39;composition&#39;:
+            return LineType.Composition
+        elif canonicalStr == &#39;inheritance&#39;:
+            return LineType.Inheritance
+        else:
+            raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)
+
+
+LinePositions = List[Position]
+
 
 @dataclass
 class LineDefinition:
     &#34;&#34;&#34;
-    Defines a line between two points
+    Defines a line between many points;  Index 0 the start of the line;  That last point
+    is the end of the line
     &#34;&#34;&#34;
-    source: Position
-    &#34;&#34;&#34;
-    The source position.  See `Position`
-    &#34;&#34;&#34;
-    destination: Position
-    &#34;&#34;&#34;
-    The destination position.  See `Position`
-    &#34;&#34;&#34;
+    linePositions: LinePositions
 
 
 @dataclass
@@ -586,26 +603,23 @@ See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagra
 </dd>
 <dt id="pyumldiagrams.Definitions.LineDefinition"><code class="flex name class">
 <span>class <span class="ident">LineDefinition</span></span>
-<span>(</span><span>source: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>, destination: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>)</span>
+<span>(</span><span>linePositions: List[<a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Defines a line between two points</p></div>
+<div class="desc"><p>Defines a line between many points;
+Index 0 the start of the line;
+That last point
+is the end of the line</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class LineDefinition:
     &#34;&#34;&#34;
-    Defines a line between two points
+    Defines a line between many points;  Index 0 the start of the line;  That last point
+    is the end of the line
     &#34;&#34;&#34;
-    source: Position
-    &#34;&#34;&#34;
-    The source position.  See `Position`
-    &#34;&#34;&#34;
-    destination: Position
-    &#34;&#34;&#34;
-    The destination position.  See `Position`
-    &#34;&#34;&#34;</code></pre>
+    linePositions: LinePositions</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -630,7 +644,26 @@ Currently, bare associations are not supported.</p></div>
     Inheritance  = 0
     Aggregation  = 1
     Composition  = 3
-    Association  = 7</code></pre>
+    Association  = 7
+
+    @staticmethod
+    def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
+        &#34;&#34;&#34;
+        Converts the input string to the line type enum
+        Args:
+            strValue:   The serialized string representation
+
+        Returns:  The line type enumeration
+        &#34;&#34;&#34;
+        canonicalStr: str = strValue.lower().strip(&#39; &#39;)
+        if canonicalStr == &#39;aggregation&#39;:
+            return LineType.Aggregation
+        elif canonicalStr == &#39;composition&#39;:
+            return LineType.Composition
+        elif canonicalStr == &#39;inheritance&#39;:
+            return LineType.Inheritance
+        else:
+            raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -932,7 +965,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </dd>
 <dt id="pyumldiagrams.Definitions.UmlLineDefinition"><code class="flex name class">
 <span>class <span class="ident">UmlLineDefinition</span></span>
-<span>(</span><span>source: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>, destination: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>, lineType: <a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a>)</span>
+<span>(</span><span>linePositions: List[<a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>], lineType: <a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A UML Line definition includes its' type</p></div>
@@ -1083,7 +1116,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.5</a>.</p>
 </footer>
 </body>
 </html>

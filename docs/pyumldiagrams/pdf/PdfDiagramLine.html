@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.4" />
+<meta name="generator" content="pdoc 0.8.5" />
 <title>pyumldiagrams.pdf.PdfDiagramLine API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -49,6 +49,7 @@ from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import ScanPoints
 
+from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
@@ -82,20 +83,19 @@ class PdfDiagramLine(IDiagramLine):
             lineDefinition:  Describes the line to draw
         &#34;&#34;&#34;
 
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
+        linePositions: LinePositions = lineDefinition.linePositions
+        lineType:      LineType      = lineDefinition.lineType
 
         if lineType == LineType.Inheritance:
-            self._drawInheritanceArrow(src=source, dest=destination)
+            self._drawInheritanceArrow(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositionSolidDiamond(src=source, dest=destination)
+            self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
-            self._drawAggregationDiamond(src=source, dest=destination)
+            self._drawAggregationDiamond(linePositions=linePositions)
         else:
             raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
 
-    def _drawInheritanceArrow(self, src: Position, dest: Position):
+    def _drawInheritanceArrow(self, linePositions: LinePositions):
         &#34;&#34;&#34;
         Must account for the margins and gaps between drawn shapes
         Must convert to points from screen coordinates
@@ -104,38 +104,55 @@ class PdfDiagramLine(IDiagramLine):
         That is where the line ends
 
         Args:
-            src: start of line
-            dest: end line line;  Arrow positioned here
+            linePositions - The points that describe the line
         &#34;&#34;&#34;
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
 
         points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-    def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
+    def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
-
         self.__drawPolygon(points)
-        self.__FillInDiamond(points)
+        self.__fillInDiamond(points)
 
         newEndPoint: InternalPosition = points[3]
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
-    def _drawAggregationDiamond(self, src: Position, dest: Position):
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+    def _drawAggregationDiamond(self, linePositions: LinePositions):
+
+        lastIdx:   int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = points[3]
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
     def __convertEndPoints(self, src: Position, dest: Position) -&gt; Tuple[InternalPosition, InternalPosition]:
 
@@ -300,7 +317,7 @@ class PdfDiagramLine(IDiagramLine):
 
         return deltaX, deltaY
 
-    def __FillInDiamond(self, points: DiamondPoints):
+    def __fillInDiamond(self, points: DiamondPoints):
         &#34;&#34;&#34;
 
         Args:
@@ -322,7 +339,36 @@ class PdfDiagramLine(IDiagramLine):
                 if PdfCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
                     self._docMaker.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
-            x += 1</code></pre>
+            x += 1
+
+    def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
+
+        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy; remove last one
+
+        verticalGap:   int  = self._diagramPadding.verticalGap
+        horizontalGap: int  = self._diagramPadding.horizontalGap
+        dpi:           int  = self._dpi
+        docMaker:      FPDF = self._docMaker
+        #
+        # Ok, ok, I get it.  This is not a Pythonic &#39;for&#39; loop.  But, I am not a purist
+        #
+        numPositions: int      = len(linePositionsCopy)
+        currentPos:   Position = linePositionsCopy[0]
+        for idx in range(numPositions):
+
+            nextIdx: int = idx + 1
+            currentPos = linePositionsCopy[idx]
+            if nextIdx == numPositions:
+                break
+            nextPos: Position = linePositionsCopy[nextIdx]
+
+            curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+            docMaker.line(x1=curX, y1=curY, x2=nxtX, y2=nxtY)
+
+        curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        docMaker.line(x1=curX, y1=curY, x2=newEndPoint.x, y2=newEndPoint.y)</code></pre>
 </details>
 </section>
 <section>
@@ -380,20 +426,19 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
             lineDefinition:  Describes the line to draw
         &#34;&#34;&#34;
 
-        source:      Position = lineDefinition.source
-        destination: Position = lineDefinition.destination
-        lineType:    LineType = lineDefinition.lineType
+        linePositions: LinePositions = lineDefinition.linePositions
+        lineType:      LineType      = lineDefinition.lineType
 
         if lineType == LineType.Inheritance:
-            self._drawInheritanceArrow(src=source, dest=destination)
+            self._drawInheritanceArrow(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositionSolidDiamond(src=source, dest=destination)
+            self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
-            self._drawAggregationDiamond(src=source, dest=destination)
+            self._drawAggregationDiamond(linePositions=linePositions)
         else:
             raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
 
-    def _drawInheritanceArrow(self, src: Position, dest: Position):
+    def _drawInheritanceArrow(self, linePositions: LinePositions):
         &#34;&#34;&#34;
         Must account for the margins and gaps between drawn shapes
         Must convert to points from screen coordinates
@@ -402,38 +447,55 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         That is where the line ends
 
         Args:
-            src: start of line
-            dest: end line line;  Arrow positioned here
+            linePositions - The points that describe the line
         &#34;&#34;&#34;
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
 
         points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-    def _drawCompositionSolidDiamond(self, src: Position, dest: Position):
+    def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+        lastIdx:       int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
-
         self.__drawPolygon(points)
-        self.__FillInDiamond(points)
+        self.__fillInDiamond(points)
 
         newEndPoint: InternalPosition = points[3]
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
 
-    def _drawAggregationDiamond(self, src: Position, dest: Position):
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
-        convertedSrc, convertedDest = self.__convertEndPoints(src, dest)
+    def _drawAggregationDiamond(self, linePositions: LinePositions):
+
+        lastIdx:   int = len(linePositions) - 1
+        beforeLastIdx: int = lastIdx - 1
+
+        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+
+        convertedSrc:  InternalPosition = endPoints[0]
+        convertedDest: InternalPosition = endPoints[1]
+
         points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDest)
         self.__drawPolygon(points)
 
         newEndPoint: InternalPosition = points[3]
 
-        self._docMaker.line(x1=convertedSrc.x, y1=convertedSrc.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
 
     def __convertEndPoints(self, src: Position, dest: Position) -&gt; Tuple[InternalPosition, InternalPosition]:
 
@@ -598,7 +660,7 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 
         return deltaX, deltaY
 
-    def __FillInDiamond(self, points: DiamondPoints):
+    def __fillInDiamond(self, points: DiamondPoints):
         &#34;&#34;&#34;
 
         Args:
@@ -620,7 +682,36 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
                 if PdfCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
                     self._docMaker.line(x1=x, y1=y, x2=x, y2=y)
                 y += 1
-            x += 1</code></pre>
+            x += 1
+
+    def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
+
+        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy; remove last one
+
+        verticalGap:   int  = self._diagramPadding.verticalGap
+        horizontalGap: int  = self._diagramPadding.horizontalGap
+        dpi:           int  = self._dpi
+        docMaker:      FPDF = self._docMaker
+        #
+        # Ok, ok, I get it.  This is not a Pythonic &#39;for&#39; loop.  But, I am not a purist
+        #
+        numPositions: int      = len(linePositionsCopy)
+        currentPos:   Position = linePositionsCopy[0]
+        for idx in range(numPositions):
+
+            nextIdx: int = idx + 1
+            currentPos = linePositionsCopy[idx]
+            if nextIdx == numPositions:
+                break
+            nextPos: Position = linePositionsCopy[nextIdx]
+
+            curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+            docMaker.line(x1=curX, y1=curY, x2=nxtX, y2=nxtY)
+
+        curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        docMaker.line(x1=curX, y1=curY, x2=newEndPoint.x, y2=newEndPoint.y)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -628,11 +719,11 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.PdfDiagramLine.PdfDiagramLine.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x10b8d35e0></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagramLine.PdfDiagramLine.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x105654700></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagramLine.PdfDiagramLine.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x10b8d35e0></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagramLine.PdfDiagramLine.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x105654700></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -660,16 +751,15 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         lineDefinition:  Describes the line to draw
     &#34;&#34;&#34;
 
-    source:      Position = lineDefinition.source
-    destination: Position = lineDefinition.destination
-    lineType:    LineType = lineDefinition.lineType
+    linePositions: LinePositions = lineDefinition.linePositions
+    lineType:      LineType      = lineDefinition.lineType
 
     if lineType == LineType.Inheritance:
-        self._drawInheritanceArrow(src=source, dest=destination)
+        self._drawInheritanceArrow(linePositions=linePositions)
     elif lineType == LineType.Composition:
-        self._drawCompositionSolidDiamond(src=source, dest=destination)
+        self._drawCompositionSolidDiamond(linePositions=linePositions)
     elif lineType == LineType.Aggregation:
-        self._drawAggregationDiamond(src=source, dest=destination)
+        self._drawAggregationDiamond(linePositions=linePositions)
     else:
         raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)</code></pre>
 </details>
@@ -708,7 +798,7 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.5</a>.</p>
 </footer>
 </body>
 </html>
