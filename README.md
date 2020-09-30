@@ -76,11 +76,16 @@ opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208)
 diagram.drawClass(classDefinition=cat)
 diagram.drawClass(classDefinition=opie)
 
-opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, source=Position(600, 208), destination=Position(600, 93))
+linePositions: LinePositions = [Position(600, 208), Position(600, 93)]
+opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
 diagram.drawUmlLine(lineDefinition=opieToCat)
 diagram.write()
 ```
+
+
+
+
 
 ## Sample Image Snippets
 
