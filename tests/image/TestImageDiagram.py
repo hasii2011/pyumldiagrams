@@ -261,6 +261,24 @@ class TestImageDiagram(TestDiagramParent):
 
         self.assertEqual(TestImageDiagram.EXPECTED_NAME, adjustedName, 'Suffix incorrectly added')
 
+    DOTTED_UNADJUSTED_NAME: str = '/Users/humberto.a.sanchez.ii/Downloads/BareFileName'
+    DOTTED_EXPECTED_NAME:   str = f'{DOTTED_UNADJUSTED_NAME}.{EXPECTED_SUFFIX}'
+
+    def testAddSuffixEmbeddedDots(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=TestImageDiagram.DOTTED_UNADJUSTED_NAME)
+
+        adjustedName: str = diagram._addSuffix(fileName=TestImageDiagram.DOTTED_UNADJUSTED_NAME, suffix=TestImageDiagram.EXPECTED_SUFFIX)
+
+        self.assertEqual(TestImageDiagram.DOTTED_EXPECTED_NAME, adjustedName, 'Suffix with embedded periods not added correctly')
+
+    def testAddSuffixEmbeddedDotsNot(self):
+        diagram: ImageDiagram = ImageDiagram(fileName=TestImageDiagram.DOTTED_EXPECTED_NAME)
+
+        adjustedName: str = diagram._addSuffix(fileName=TestImageDiagram.DOTTED_EXPECTED_NAME, suffix=TestImageDiagram.EXPECTED_SUFFIX)
+
+        self.assertEqual(TestImageDiagram.DOTTED_EXPECTED_NAME, adjustedName, 'Suffix incorrectly added for embedded periods')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

@@ -272,7 +272,7 @@ class ImageDiagram(BaseDiagram):
 
     def _addSuffix(self, fileName: str, suffix: str) -> str:
 
-        result = fileName.find(ImageDiagram.SUFFIX_INDICATOR)
+        result = fileName.find(f'{ImageDiagram.SUFFIX_INDICATOR}{suffix}')
         if result == -1:
             adjustedFileName: str = f'{fileName}{ImageDiagram.SUFFIX_INDICATOR}{suffix}'
         else:
