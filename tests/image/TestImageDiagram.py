@@ -241,6 +241,26 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
+    UNADJUSTED_NAME: str = '/user/hasii/bogus'
+    EXPECTED_SUFFIX: str = f'{ImageFormat.PNG.value}'
+    EXPECTED_NAME:   str = f'{UNADJUSTED_NAME}.{EXPECTED_SUFFIX}'
+
+    def testAddSuffix(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName='/user/hasii/bogus')
+
+        adjustedName: str = diagram._addSuffix(fileName=TestImageDiagram.UNADJUSTED_NAME, suffix=TestImageDiagram.EXPECTED_SUFFIX)
+
+        self.assertEqual(TestImageDiagram.EXPECTED_NAME, adjustedName, 'Suffix not added correctly')
+
+    def testAddSuffixNot(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=TestImageDiagram.EXPECTED_NAME)
+
+        adjustedName: str = diagram._addSuffix(fileName=TestImageDiagram.EXPECTED_NAME, suffix=TestImageDiagram.EXPECTED_SUFFIX)
+
+        self.assertEqual(TestImageDiagram.EXPECTED_NAME, adjustedName, 'Suffix incorrectly added')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

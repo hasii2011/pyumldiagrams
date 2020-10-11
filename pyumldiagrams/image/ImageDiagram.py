@@ -51,6 +51,7 @@ class ImageDiagram(BaseDiagram):
     DEFAULT_LINE_COLOR:       str = 'Black'
     DEFAULT_TEXT_COLOR:       str = 'Black'
     DEFAULT_IMAGE_FORMAT:     str = ImageFormat.PNG.value
+    SUFFIX_INDICATOR:         str = '.'
 
     X_NUDGE_FACTOR: final = 4
     Y_NUDGE_FACTOR: final = 8
@@ -183,7 +184,10 @@ class ImageDiagram(BaseDiagram):
             xy = [LEFT_MARGIN, TOP_MARGIN / 2]
             self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
 
-        self._img.save(self._fileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
+        adjustedFileName: str = self._addSuffix(fileName=self._fileName, suffix=ImageDiagram.DEFAULT_IMAGE_FORMAT)
+
+        self.logger.info(f'{adjustedFileName=}')
+        self._img.save(adjustedFileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
 
     def _drawClassSymbol(self, classDefinition: ClassDefinition):
 
@@ -266,6 +270,15 @@ class ImageDiagram(BaseDiagram):
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=methodRepr)
             y = y + self._fontSize
 
+    def _addSuffix(self, fileName: str, suffix: str) -> str:
+
+        result = fileName.find(ImageDiagram.SUFFIX_INDICATOR)
+        if result == -1:
+            adjustedFileName: str = f'{fileName}{ImageDiagram.SUFFIX_INDICATOR}{suffix}'
+        else:
+            adjustedFileName: str = fileName
+        return adjustedFileName
+
     def __toInternalCoordinates(self, definition: ShapeDefinition) -> List[float]:
 
         pos:  Position = definition.position
@@ -291,3 +304,5 @@ class ImageDiagram(BaseDiagram):
         iPos: InternalPosition = ImageCommon.toInternal(position, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         return iPos
+
+
