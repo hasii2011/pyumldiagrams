@@ -15,3 +15,4 @@ find . -maxdepth 1 -type f -name '*'.pdf -delete
 find . -maxdepth 1 -type f -name '*'.png -delete
 
 rm -rf build dist pyumldiagrams.egg-info -delete
+rm -rf build dist
