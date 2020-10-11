@@ -229,6 +229,18 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
+    def testBigClass(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BigClass.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

@@ -7,6 +7,8 @@ ELEMENT_MODEL_CLASS:   str = 'Class'
 ELEMENT_MODEL_LINK:    str = 'Link'
 ELEMENT_CONTROL_POINT: str = 'ControlPoint'
 
+ELEMENT_MODEL_METHOD: str = 'Method'
+
 ATTR_WIDTH:  str = 'width'
 ATTR_HEIGHT: str = 'height'
 ATTR_X:      str = 'x'

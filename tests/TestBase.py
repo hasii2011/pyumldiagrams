@@ -11,6 +11,7 @@ from pkg_resources import resource_filename
 JSON_LOGGING_CONFIG_FILENAME: str = "testLoggingConfig.json"
 TEST_DIRECTORY:               str = 'tests'
 BEND_TEST_XML_FILE:           str = 'BendTest.xml'
+LARGE_CLASS_XML_FILE:         str = 'LargeClassBug.xml'
 
 
 class TestBase(TestCase):

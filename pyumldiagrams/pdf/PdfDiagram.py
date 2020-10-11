@@ -45,6 +45,8 @@ class PdfDiagram(BaseDiagram):
     X_NUDGE_FACTOR: final = 4
     Y_NUDGE_FACTOR: final = 4
 
+    FIRST_METHOD_Y_OFFSET: final = 7
+
     def __init__(self, fileName: str, dpi: int, headerText: str = ''):
         """
 
@@ -68,14 +70,14 @@ class PdfDiagram(BaseDiagram):
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
-        pdf.set_font('Arial', size=PdfDiagram.DEFAULT_FONT_SIZE)
-        self._pdf: FPDFExtended = pdf
-        self._pdf.headerText = headerText
+        pdf.set_font('Arial', size=BaseDiagram.DEFAULT_FONT_SIZE)
+        pdf.headerText = headerText
 
-        self._fontSize: int  = PdfDiagram.DEFAULT_FONT_SIZE
+        self._pdf:      FPDFExtended = pdf
+        self._fontSize: int          = BaseDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: PdfDiagramLine    = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
@@ -109,8 +111,9 @@ class PdfDiagram(BaseDiagram):
         """
 
         position:      Position = classDefinition.position
-        verticalGap:   float = self._diagramPadding.verticalGap
-        horizontalGap: float = self._diagramPadding.horizontalGap
+        verticalGap:   float    = self._diagramPadding.verticalGap
+        horizontalGap: float    = self._diagramPadding.horizontalGap
+
         x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
@@ -191,6 +194,7 @@ class PdfDiagram(BaseDiagram):
 
         symbolWidth:  float = classDefinition.size.width
         symbolHeight: float = classDefinition.size.height
+
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
         convertedWidth, convertedHeight = self.__convertSize(size=size)
@@ -230,12 +234,13 @@ class PdfDiagram(BaseDiagram):
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
         x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + PdfDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
             self._pdf.text(x=x, y=y, txt=methodRepr)
-            y = y + self._fontSize + 2
+
+            y = y + self._fontSize
 
     def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -> SeparatorPosition:
 

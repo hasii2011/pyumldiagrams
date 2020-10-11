@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Core UI" scrollPositionX="1" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+
+        <GraphicClass width="197.00" height="750.00" x="486.00" y="65.00">
+            <Class id="24" name="Widget" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+                <Method name="__init__" visibility="PRIVATE">
+                    <Return type=""/>
+                    <Param name="rect" type="Rect=None,**kwds"/>
+                </Method>
+                <Method name="set" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="add_anchor" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="mode" type="str"/>
+                </Method>
+                <Method name="remove_anchor" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="mode" type="str"/>
+                </Method>
+                <Method name="set_resizing" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="add" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="arg" type="'Widget'"/>
+                </Method>
+                <Method name="add_centered" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="remove" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="set_parent" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="_add" visibility="PROTECTED">
+                    <Return type=""/>
+                </Method>
+                <Method name="_remove" visibility="PROTECTED">
+                    <Return type=""/>
+                </Method>
+                <Method name="draw_all" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="debugSubWidgetDraws" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="diagnose_subsurface_problem" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="find_widget" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="pos" type="tuple"/>
+                </Method>
+                <Method name="handle_mouse" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="augment_mouse_event" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setup_cursor" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="dispatch_key" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="handle_event" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_focus" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="notify_attention_loss" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="dispatch_attention_loss" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="handle_command" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="next_handler" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="call_handler" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="call_parent_handler" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="is_inside" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="present" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="centered" type="bool=True"/>
+                </Method>
+                <Method name="dismiss" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_root" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_top_widget" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="focus" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="focus_on" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="has_focus" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="focused_on" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="focus_chain" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="shrink_wrap" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="invalidate" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="predict" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="predict_attr" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="init_attr" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="predict_font" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_margin_rect" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="set_size_for_text" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="tab_to_first" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="tab_to_next" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_tab_order" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="collect_tab_order" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="inherited" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="attributeName" type="str"/>
+                </Method>
+                <Method name="get_mouse" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_menu_bar" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="set_menu_bar" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_is_gl_container" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="set_is_gl_container" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="gl_draw_all" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="gl_draw_self" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="defer_drawing" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="relative_mode" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="__contains__" visibility="PRIVATE">
+                    <Return type=""/>
+                    <Param name="event" type="Event"/>
+                </Method>
+                <Method name="draw" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="surface" type="Surface"/>
+                </Method>
+                <Method name="draw_over" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="surface" type="Surface"/>
+                </Method>
+                <Method name="key_down" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="theKeyEvent" type="Event"/>
+                </Method>
+                <Method name="key_up" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="theKeyEvent" type="Event"/>
+                </Method>
+                <Method name="get_cursor" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="attention_lost" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="get_visible" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="set_visible" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Field visibility="PRIVATE">
+                    <Param name="logger" type="" defaultValue="logging.getLogger(__name__)"/>
+                </Field>
+                <Field visibility="PRIVATE">
+                    <Param name="is_modal" type="" defaultValue="False"/>
+                </Field>
+                <Field visibility="PRIVATE">
+                    <Param name="modal_result" type="" defaultValue="None"/>
+                </Field>
+            </Class>
+        </GraphicClass>
+
+    </PyutDocument>
+</PyutProject>

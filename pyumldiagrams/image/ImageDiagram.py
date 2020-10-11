@@ -264,7 +264,7 @@ class ImageDiagram(BaseDiagram):
 
             xy = [x, y]
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=methodRepr)
-            y = y + self._fontSize + 2
+            y = y + self._fontSize
 
     def __toInternalCoordinates(self, definition: ShapeDefinition) -> List[float]:
 

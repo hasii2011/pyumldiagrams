@@ -14,6 +14,8 @@ from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
+from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
@@ -36,6 +38,8 @@ from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_LINK
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_LINK
+
+from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_METHOD
 
 
 class ToClassDefinition:
@@ -80,8 +84,24 @@ class ToClassDefinition:
             position: Position = Position(x=x, y=y)
             classDef.position = position
 
+            classDef.methods = self.generateMethods(xmlClass=xmlClass)
+
             self.logger.debug(f'{classDef=}')
             self._classDefinitions.append(classDef)
+
+    def generateMethods(self, xmlClass: Element) -> Methods:
+
+        methods: Methods = []
+
+        for xmlMethod in xmlClass.getElementsByTagName(ELEMENT_MODEL_METHOD):
+            methodName: str = xmlMethod.getAttribute(ATTR_NAME)
+            self.logger.info(f'{methodName=}')
+
+            method: MethodDefinition = MethodDefinition(name=methodName)
+
+            methods.append(method)
+
+        return methods
 
     def generateUmlLineDefinitions(self):
 

@@ -20,6 +20,7 @@ from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestBase import TestBase
 from tests.TestBase import BEND_TEST_XML_FILE
+from tests.TestBase import LARGE_CLASS_XML_FILE
 
 
 class TestDiagramParent(TestBase):
@@ -191,6 +192,17 @@ class TestDiagramParent(TestBase):
     def _buildBendTestFromXml(self) -> ToClassDefinition:
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+        toClassDefinition.generateUmlLineDefinitions()
+
+        return toClassDefinition
+
+    def _buildBigClassFromXml(self) -> ToClassDefinition:
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, LARGE_CLASS_XML_FILE)
 
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
