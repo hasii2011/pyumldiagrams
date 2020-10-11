@@ -95,7 +95,7 @@ class ToClassDefinition:
 
         for xmlMethod in xmlClass.getElementsByTagName(ELEMENT_MODEL_METHOD):
             methodName: str = xmlMethod.getAttribute(ATTR_NAME)
-            self.logger.info(f'{methodName=}')
+            self.logger.debug(f'{methodName=}')
 
             method: MethodDefinition = MethodDefinition(name=methodName)
 

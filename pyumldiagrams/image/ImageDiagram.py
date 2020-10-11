@@ -199,7 +199,7 @@ class ImageDiagram(BaseDiagram):
         x1 = x0 + size.width
         y1 = y0 + size.height
         xy = [x0, y0, x1, y1]
-        self.logger.info(f'Class Symbol {xy=}')
+        self.logger.debug(f'Class Symbol {xy=}')
         imgDraw.rectangle(xy=xy, fill=None, outline=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
     def _drawClassName(self, classDefinition: ClassDefinition, rectX: float, rectY: float, symbolWidth: float):
@@ -212,7 +212,7 @@ class ImageDiagram(BaseDiagram):
         textY: float = rectY + (self._fontSize / 2)
 
         xy = [textX, textY]
-        self.logger.info(f'ClassName {xy=}')
+        self.logger.debug(f'ClassName {xy=}')
         imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=classDefinition.name)
 
     def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
@@ -235,7 +235,7 @@ class ImageDiagram(BaseDiagram):
         endX: float = rectX + shapeWidth
 
         xy = [separatorX, separatorY, endX, separatorY]
-        self.logger.info(f'Separator {xy=}')
+        self.logger.debug(f'Separator {xy=}')
         imgDraw.line(xy=xy, fill=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
         return SeparatorPosition(separatorX, separatorY)
