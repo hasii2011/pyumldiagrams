@@ -29,6 +29,9 @@ from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_DESTINATION_ANCHOR_Y
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_SOURCE_ANCHOR_X
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_SOURCE_ANCHOR_Y
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_NAME
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_SHOW_FIELDS
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_SHOW_METHODS
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_SHOW_STEREOTYPE
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_TYPE
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_WIDTH
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_X
@@ -76,7 +79,15 @@ class ToClassDefinition:
             xmlClass:  Element = xmlGraphicClass.getElementsByTagName(ELEMENT_MODEL_CLASS)[0]
             className: str     = xmlClass.getAttribute(ATTR_NAME)
 
+            displayMethods:    bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_METHODS))
+            displayFields:     bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_FIELDS))
+            displayStereotype: bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_STEREOTYPE))
+
             classDef: ClassDefinition = ClassDefinition(name=className)
+
+            classDef.displayMethods    = displayMethods
+            classDef.displayFields     = displayFields
+            classDef.displayStereotype = displayStereotype
 
             classSize: Size = Size(width=width, height=height)
             classDef.size = classSize
@@ -158,3 +169,17 @@ class ToClassDefinition:
     @umlLineDefinitions.setter
     def umlLineDefinitions(self, newDefinitions: UmlLineDefinitions):
         raise UnsupportedException('UML Line definitions are read-only')
+
+    def _stringToBoolean(self, strBoolValue: str) -> bool:
+
+        self.logger.info(f'{strBoolValue=}')
+        try:
+            if strBoolValue is not None:
+                if strBoolValue in [True, "True", "true", 1, "1"]:
+                    return True
+        except (ValueError, Exception) as e:
+            self.logger.error(f'_stringToBoolean error: {e}')
+
+        return False
+
+

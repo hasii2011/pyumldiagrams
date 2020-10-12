@@ -22,3 +22,7 @@ ATTR_LINK_DESTINATION_ANCHOR_X: str = 'dstX'
 ATTR_LINK_DESTINATION_ANCHOR_Y: str = 'dstY'
 
 ATTR_TYPE: str = 'type'
+
+ATTR_SHOW_METHODS:      str = 'showMethods'
+ATTR_SHOW_FIELDS:       str = 'showFields'
+ATTR_SHOW_STEREOTYPE:   str = 'showStereotype'

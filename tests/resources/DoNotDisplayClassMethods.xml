@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Static" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <GraphicClass width="120.00" height="65.00" x="100.00" y="200.00">
+            <Class id="1" name="PyutClass" filename="" description="" showMethods="False" showFields="False" showStereotype="True">
+                <Method name="__getstate__" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="__init__" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="name" type="" defaultValue="&quot;&quot;"/>
+                </Method>
+                <Method name="addField" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="field" type=""/>
+                </Method>
+                <Method name="getDescription" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getFields" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowFields" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setDescription" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="description" type=""/>
+                </Method>
+                <Method name="setFields" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="fields" type=""/>
+                </Method>
+                <Method name="setMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="methods" type=""/>
+                </Method>
+                <Method name="setShowFields" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="value" type=""/>
+                </Method>
+                <Method name="setShowMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="value" type=""/>
+                </Method>
+                <Method name="setShowStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="theNewValue" type=""/>
+                </Method>
+                <Method name="setStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="stereotype" type=""/>
+                </Method>
+            </Class>
+        </GraphicClass>
+    </PyutDocument>
+</PyutProject>

@@ -52,6 +52,28 @@ class TestXmlInput(TestBase):
         self.assertIsNotNone(toClassDefinition.umlLineDefinitions, 'We need some line definitions')
         self.assertEqual(EXPECTED_LINE_COUNT, len(toClassDefinition.umlLineDefinitions), 'Did not parse the correct number lines')
 
+    def testCaptureShowMethodsFalse(self):
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        for classDefinition in toClassDefinition.classDefinitions:
+            self.assertFalse(classDefinition.displayMethods, f'"{classDefinition.name}" should not display methods')
+
+    def testCaptureShowMethodsTrue(self):
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoDisplayClassMethods.xml')
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        for classDefinition in toClassDefinition.classDefinitions:
+            self.assertTrue(classDefinition.displayMethods, f'"{classDefinition.name}" should display methods')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

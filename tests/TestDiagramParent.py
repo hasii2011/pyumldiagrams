@@ -210,3 +210,15 @@ class TestDiagramParent(TestBase):
         toClassDefinition.generateUmlLineDefinitions()
 
         return toClassDefinition
+
+    def _buildNoMethodDisplayClassFromXml(self) -> ToClassDefinition:
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+        toClassDefinition.generateUmlLineDefinitions()
+
+        return toClassDefinition
+

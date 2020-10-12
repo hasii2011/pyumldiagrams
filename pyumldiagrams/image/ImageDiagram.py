@@ -134,7 +134,8 @@ class ImageDiagram(BaseDiagram):
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
 
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
+        if classDefinition.displayMethods is True:
+            self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """

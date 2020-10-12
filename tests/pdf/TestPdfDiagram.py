@@ -280,9 +280,22 @@ class TestPdfDiagram(TestDiagramParent):
     def testBigClass(self):
 
         toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BigClass{TestConstants.TEST_SUFFIX}'
+        fileName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass{TestConstants.TEST_SUFFIX}'
+
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
 
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
+    def testCaptureShowMethodsFalse(self):
+
+        toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
+        fileName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse.{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
         for bigClass in classDefinitions:
             diagram.drawClass(classDefinition=bigClass)

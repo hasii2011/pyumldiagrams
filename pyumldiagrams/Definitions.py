@@ -174,6 +174,18 @@ class ClassDefinition(BaseDefinition):
     """
     The list of instance variables this class defines.
     """
+    displayStereotype:  bool = True
+    """
+    If true display the class stereotype when drawing the class diagram
+    """
+    displayMethods:     bool = True
+    """
+    If True display the class methods
+    """
+    displayFields:      bool = True
+    """
+    If True display the class instance variables
+    """
 
 
 ClassDefinitions = List[ClassDefinition]

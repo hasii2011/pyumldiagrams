@@ -232,7 +232,19 @@ class TestImageDiagram(TestDiagramParent):
     def testBigClass(self):
 
         toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BigClass.{ImageFormat.PNG.value}'
+        fileName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
+    def testCaptureShowMethodsFalse(self):
+
+        toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
+        fileName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions

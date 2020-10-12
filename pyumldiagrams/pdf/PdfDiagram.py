@@ -126,7 +126,9 @@ class PdfDiagram(BaseDiagram):
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
 
         methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
+
+        if classDefinition.displayMethods is True:
+            self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
