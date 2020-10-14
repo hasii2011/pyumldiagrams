@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Static" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <GraphicClass width="120.00" height="200.00" x="934.90" y="266.00" displayParameters="Unspecified">
+            <Class id="1" name="UnSpecifiedClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+                <Method name="__getstate__" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="__init__" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="name" type="" defaultValue="&quot;&quot;"/>
+                </Method>
+                <Method name="addField" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="field" type=""/>
+                </Method>
+                <Method name="getDescription" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getFields" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowFields" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getShowStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setDescription" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="description" type=""/>
+                </Method>
+                <Method name="setFields" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="fields" type=""/>
+                </Method>
+                <Method name="setMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="methods" type=""/>
+                </Method>
+                <Method name="setShowFields" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="value" type=""/>
+                </Method>
+                <Method name="setShowMethods" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="value" type=""/>
+                </Method>
+                <Method name="setShowStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="theNewValue" type=""/>
+                </Method>
+                <Method name="setStereotype" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="stereotype" type=""/>
+                </Method>
+            </Class>
+        </GraphicClass>
+        <GraphicClass width="82.00" height="60.00" x="22.90" y="393.00" displayParameters="DoNotDisplay">
+            <Class id="2" name="DoNotDisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+                <Method name="__init__" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="name" type="" defaultValue="&quot;&quot;"/>
+                    <Param name="theFieldType" type="" defaultValue="&quot;&quot;"/>
+                    <Param name="defaultValue" type="" defaultValue="None"/>
+                    <Param name="visibility" type="" defaultValue="-"/>
+                </Method>
+                <Method name="getVisibility" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setVisibility" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="visibility" type=""/>
+                </Method>
+            </Class>
+        </GraphicClass>
+        <GraphicClass width="167.00" height="163.00" x="418.00" y="98.00" displayParameters="Display">
+            <Class id="3" name="DisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+                <Method name="__init__" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="name" type="" defaultValue="&quot;&quot;"/>
+                    <Param name="linkType" type="" defaultValue="OGL_INHERITANCE"/>
+                    <Param name="cardSrc" type="" defaultValue="&quot;&quot;"/>
+                    <Param name="cardDest" type="" defaultValue="&quot;&quot;"/>
+                    <Param name="bidir" type="" defaultValue="False"/>
+                    <Param name="source" type="" defaultValue="None"/>
+                    <Param name="destination" type="" defaultValue="None"/>
+                </Method>
+                <Method name="_getDestinationCardinality" visibility="PROTECTED">
+                    <Return type=""/>
+                </Method>
+                <Method name="_getSourceCardinality" visibility="PROTECTED">
+                    <Return type=""/>
+                </Method>
+                <Method name="_setDestinationCardinality" visibility="PROTECTED">
+                    <Return type=""/>
+                    <Param name="cardDest" type=""/>
+                </Method>
+                <Method name="_setSourceCardinality" visibility="PROTECTED">
+                    <Return type=""/>
+                    <Param name="cardSrc" type=""/>
+                </Method>
+                <Method name="getBidir" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getDestination" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getSource" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getType" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setBidir" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="bidirectional" type=""/>
+                </Method>
+                <Method name="setDestination" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="destination" type=""/>
+                </Method>
+                <Method name="setSource" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="source" type=""/>
+                </Method>
+                <Method name="setType" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="theType" type=""/>
+                </Method>
+            </Class>
+        </GraphicClass>
+        <GraphicClass width="125.00" height="141.00" x="605.00" y="222.00">
+            <Class id="4" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+                <Method name="__getstate__" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="__init__" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="name" type="" defaultValue="&quot;&quot;"/>
+                </Method>
+                <Method name="addLink" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="link" type=""/>
+                </Method>
+                <Method name="addParent" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="parent" type=""/>
+                </Method>
+                <Method name="getFilename" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getLinks" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getNextSafeID" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="getParents" visibility="PUBLIC">
+                    <Return type=""/>
+                </Method>
+                <Method name="setFilename" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="filename" type=""/>
+                </Method>
+                <Method name="setLinks" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="links" type=""/>
+                </Method>
+                <Method name="setParents" visibility="PUBLIC">
+                    <Return type=""/>
+                    <Param name="parents" type=""/>
+                </Method>
+            </Class>
+        </GraphicClass>
+    </PyutDocument>
+</PyutProject>

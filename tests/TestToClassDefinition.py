@@ -1,4 +1,6 @@
 
+from typing import cast
+
 from logging import Logger
 from logging import getLogger
 
@@ -7,10 +9,14 @@ from unittest import main as unitTestMain
 
 from pkg_resources import resource_filename
 
+from pyumldiagrams.Definitions import ClassDefinition
+from pyumldiagrams.Definitions import ClassDefinitions
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestBase import TestBase
 from tests.TestBase import BEND_TEST_XML_FILE
+from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
 
 EXPECTED_CLASS_COUNT: int = 7
 EXPECTED_LINE_COUNT:  int = 6
@@ -30,6 +36,8 @@ class TestXmlInput(TestBase):
         self.logger: Logger = TestXmlInput.clsLogger
 
         self._fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
+
+        self._displayMethodParametersTestFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
 
     def tearDown(self):
         pass
@@ -73,6 +81,55 @@ class TestXmlInput(TestBase):
 
         for classDefinition in toClassDefinition.classDefinitions:
             self.assertTrue(classDefinition.displayMethods, f'"{classDefinition.name}" should display methods')
+
+    def testUnspecifiedMethodParametersDisplay(self):
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=self._displayMethodParametersTestFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        classDef: ClassDefinition = self._findClassDefinition('UnSpecifiedClass', toClassDefinition.classDefinitions)
+
+        self.assertEqual(DisplayMethodParameters.UNSPECIFIED, classDef.displayMethodParameters, 'Attribute incorrectly set')
+
+    def testDoNotDisplayMethodParameters(self):
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=self._displayMethodParametersTestFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        classDef: ClassDefinition = self._findClassDefinition('DoNotDisplayClass', toClassDefinition.classDefinitions)
+
+        self.assertEqual(DisplayMethodParameters.DO_NOT_DISPLAY, classDef.displayMethodParameters, 'Attribute incorrectly set')
+
+    def testDoDisplayMethodParameters(self):
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=self._displayMethodParametersTestFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        classDef: ClassDefinition = self._findClassDefinition('DisplayClass', toClassDefinition.classDefinitions)
+
+        self.assertEqual(DisplayMethodParameters.DISPLAY, classDef.displayMethodParameters, 'Attribute incorrectly set')
+
+    def testNoAttributeMethodParameters(self):
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=self._displayMethodParametersTestFileName)
+
+        toClassDefinition.generateClassDefinitions()
+
+        classDef: ClassDefinition = self._findClassDefinition('LegacyClassNoAttribute', toClassDefinition.classDefinitions)
+
+        self.assertEqual(DisplayMethodParameters.UNSPECIFIED, classDef.displayMethodParameters, 'Attribute incorrectly set')
+
+    def _findClassDefinition(self, className: str, classDefs: ClassDefinitions) -> ClassDefinition:
+
+        retClassDef: ClassDefinition = cast(ClassDefinition, None)
+        for classDef in classDefs:
+            if classDef.name == className:
+                retClassDef = classDef
+                break
+
+        if retClassDef is None:
+            self.fail(f'Did not find class name {className};  broken test')
+
+        return retClassDef
 
 
 def suite() -> TestSuite:

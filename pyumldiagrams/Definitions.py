@@ -153,6 +153,13 @@ class FieldDefinition(ParameterDefinition):
 Fields = List[FieldDefinition]
 
 
+class DisplayMethodParameters(Enum):
+
+    DISPLAY        = 'Display'
+    DO_NOT_DISPLAY = 'DoNotDisplay'
+    UNSPECIFIED    = 'Unspecified'
+
+
 @dataclass
 class ClassDefinition(BaseDefinition):
     """
@@ -185,6 +192,10 @@ class ClassDefinition(BaseDefinition):
     displayFields:      bool = True
     """
     If True display the class instance variables
+    """
+    displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
+    """
+    If True display the method parameters
     """
 
 

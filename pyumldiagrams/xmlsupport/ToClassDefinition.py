@@ -12,6 +12,7 @@ from xml.dom.minidom import parseString
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
@@ -22,6 +23,7 @@ from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 
 from pyumldiagrams.UnsupportedException import UnsupportedException
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_DISPLAY_PARAMETERS
 
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_HEIGHT
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_DESTINATION_ANCHOR_X
@@ -83,11 +85,20 @@ class ToClassDefinition:
             displayFields:     bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_FIELDS))
             displayStereotype: bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_STEREOTYPE))
 
+            displayParametersStr: str = xmlGraphicClass.getAttribute(ATTR_DISPLAY_PARAMETERS)
+            displayMethodParameters: DisplayMethodParameters
+
+            if displayParametersStr is None or displayParametersStr == '':
+                displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
+            else:
+                displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters(displayParametersStr)
+
             classDef: ClassDefinition = ClassDefinition(name=className)
 
             classDef.displayMethods    = displayMethods
             classDef.displayFields     = displayFields
             classDef.displayStereotype = displayStereotype
+            classDef.displayMethodParameters = displayMethodParameters
 
             classSize: Size = Size(width=width, height=height)
             classDef.size = classSize
@@ -172,7 +183,7 @@ class ToClassDefinition:
 
     def _stringToBoolean(self, strBoolValue: str) -> bool:
 
-        self.logger.info(f'{strBoolValue=}')
+        self.logger.debug(f'{strBoolValue=}')
         try:
             if strBoolValue is not None:
                 if strBoolValue in [True, "True", "true", 1, "1"]:
