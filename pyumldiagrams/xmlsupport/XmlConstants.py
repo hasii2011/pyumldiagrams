@@ -28,3 +28,6 @@ ATTR_SHOW_FIELDS:       str = 'showFields'
 ATTR_SHOW_STEREOTYPE:   str = 'showStereotype'
 
 ATTR_DISPLAY_PARAMETERS: str = 'displayParameters'
+
+ELEMENT_MODEL_PARAM: str = 'Param'
+ATTR_DEFAULT_VALUE:  str = 'defaultValue'

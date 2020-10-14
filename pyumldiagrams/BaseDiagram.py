@@ -8,6 +8,7 @@ from logging import getLogger
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import MethodDefinition
@@ -172,18 +173,26 @@ class BaseDiagram:
         """
         pass
 
-    def _buildMethods(self, methods: Methods) -> MethodsRepr:
+    def _buildMethods(self, methods: Methods, displayParameters: DisplayMethodParameters) -> MethodsRepr:
+        """
+
+        Args:
+            methods: The method definitions
+            displayParameters:  Determines how to build the method parameter signature
+
+        Returns:  The text version of each method as a list of method representations
+        """
 
         methodReprs: BaseDiagram.MethodsRepr = []
 
         for methodDef in methods:
 
-            methodRepr: str = self._buildMethod(methodDef)
+            methodRepr: str = self._buildMethod(methodDef, displayParameters)
             methodReprs.append(methodRepr)
 
         return methodReprs
 
-    def _buildMethod(self, methodDef: MethodDefinition) -> str:
+    def _buildMethod(self, methodDef: MethodDefinition, displayParameters: DisplayMethodParameters) -> str:
 
         if methodDef.visibility is None:
             methodRepr: str = f'{methodDef.name}'
@@ -193,26 +202,30 @@ class BaseDiagram:
         nParams:   int = len(methodDef.parameters)
         paramNum:  int = 0
         paramRepr: str = ''
-        for parameterDef in methodDef.parameters:
-            parameterDef = cast(ParameterDefinition, parameterDef)
-            paramNum += 1
+        if displayParameters == DisplayMethodParameters.DISPLAY or displayParameters == DisplayMethodParameters.UNSPECIFIED:
 
-            paramRepr = f'{paramRepr}{parameterDef.name}'
+            self.clsLogger.debug(f'{methodDef.name} - {len(methodDef.parameters)=}')
 
-            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
+            for parameterDef in methodDef.parameters:
+                parameterDef = cast(ParameterDefinition, parameterDef)
+                paramNum += 1
 
-            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
+                paramRepr = f'{paramRepr}{parameterDef.name}'
 
-            if paramNum == nParams:
-                paramRepr = f'{paramRepr}'
-            else:
-                paramRepr = f'{paramRepr}, '
+                if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
+                    paramRepr = f'{paramRepr}'
+                else:
+                    paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
+
+                if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
+                    paramRepr = f'{paramRepr}'
+                else:
+                    paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
+
+                if paramNum == nParams:
+                    paramRepr = f'{paramRepr}'
+                else:
+                    paramRepr = f'{paramRepr}, '
 
         methodRepr = f'{methodRepr}({paramRepr})'
 

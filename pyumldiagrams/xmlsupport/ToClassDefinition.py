@@ -17,14 +17,17 @@ from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 
 from pyumldiagrams.UnsupportedException import UnsupportedException
-from pyumldiagrams.xmlsupport.XmlConstants import ATTR_DISPLAY_PARAMETERS
 
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_DEFAULT_VALUE
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_DISPLAY_PARAMETERS
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_HEIGHT
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_DESTINATION_ANCHOR_X
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_LINK_DESTINATION_ANCHOR_Y
@@ -43,8 +46,8 @@ from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_LINK
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_LINK
-
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_METHOD
+from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_PARAM
 
 
 class ToClassDefinition:
@@ -121,6 +124,8 @@ class ToClassDefinition:
 
             method: MethodDefinition = MethodDefinition(name=methodName)
 
+            method = self._generateMethodParameters(xmlMethod=xmlMethod, methodDef=method)
+
             methods.append(method)
 
         return methods
@@ -181,6 +186,30 @@ class ToClassDefinition:
     def umlLineDefinitions(self, newDefinitions: UmlLineDefinitions):
         raise UnsupportedException('UML Line definitions are read-only')
 
+    def _generateMethodParameters(self, xmlMethod: Element, methodDef: MethodDefinition) -> MethodDefinition:
+
+        parameters: Parameters = []
+        for xmlParam in xmlMethod.getElementsByTagName(ELEMENT_MODEL_PARAM):
+            paramDef: ParameterDefinition = self._getParam(xmlParam=xmlParam)
+            parameters.append(paramDef)
+
+        methodDef.parameters = parameters
+
+        return methodDef
+
+    def _getParam(self, xmlParam: Element) -> ParameterDefinition:
+
+        paramName:    str = xmlParam.getAttribute(ATTR_NAME)
+        paramType:    str = xmlParam.getAttribute(ATTR_TYPE)
+        defaultValue: str = xmlParam.getAttribute(ATTR_DEFAULT_VALUE)
+        self.logger.debug(f'{paramName=} {paramType=} {defaultValue=}')
+
+        parameterDefinition: ParameterDefinition = ParameterDefinition(name=paramName,  parameterType=paramType)
+
+        parameterDefinition.defaultValue = defaultValue
+
+        return parameterDefinition
+
     def _stringToBoolean(self, strBoolValue: str) -> bool:
 
         self.logger.debug(f'{strBoolValue=}')
@@ -192,5 +221,3 @@ class ToClassDefinition:
             self.logger.error(f'_stringToBoolean error: {e}')
 
         return False
-
-

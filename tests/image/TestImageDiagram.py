@@ -241,6 +241,23 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
+    def testMethodParametersDisplay(self):
+        toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
+
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay.{ImageFormat.PNG.value}'
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for testClass in classDefinitions:
+            diagram.drawClass(classDefinition=testClass)
+
+        testLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for testLine in testLineDefinitions:
+            diagram.drawUmlLine(testLine)
+
+        diagram.write()
+
     def testCaptureShowMethodsFalse(self):
 
         toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()

@@ -53,8 +53,9 @@ class ImageDiagram(BaseDiagram):
     DEFAULT_IMAGE_FORMAT:     str = ImageFormat.PNG.value
     SUFFIX_INDICATOR:         str = '.'
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 8
+    X_NUDGE_FACTOR:        final = 4
+    Y_NUDGE_FACTOR:        final = 6
+    FIRST_METHOD_Y_OFFSET: final = 0
 
     def __init__(self, fileName: str, headerText: str = '', imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         """
@@ -132,7 +133,7 @@ class ImageDiagram(BaseDiagram):
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
         methodSeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=fieldSeparatorPosition.y, shapeWidth=size.width)
 
-        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
 
         if classDefinition.displayMethods is True:
             self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
@@ -263,7 +264,7 @@ class ImageDiagram(BaseDiagram):
         imgDraw: ImageDraw = self._imgDraw
 
         x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
+        y: float = separatorPosition.y + ImageDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 

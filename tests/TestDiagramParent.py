@@ -21,6 +21,7 @@ from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 from tests.TestBase import TestBase
 from tests.TestBase import BEND_TEST_XML_FILE
 from tests.TestBase import LARGE_CLASS_XML_FILE
+from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
 
 
 class TestDiagramParent(TestBase):
@@ -222,3 +223,13 @@ class TestDiagramParent(TestBase):
 
         return toClassDefinition
 
+    def _buildDisplayMethodParametersTest(self) -> ToClassDefinition:
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
+
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
+
+        toClassDefinition.generateClassDefinitions()
+        toClassDefinition.generateUmlLineDefinitions()
+
+        return toClassDefinition

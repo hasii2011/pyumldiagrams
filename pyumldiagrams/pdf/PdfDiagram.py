@@ -117,7 +117,7 @@ class PdfDiagram(BaseDiagram):
         x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
         self.logger.debug(f'x,y: ({x},{y})')
 
-        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
         fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
         symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)

@@ -11,6 +11,7 @@ from unittest import main as unitTestMain
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
@@ -66,7 +67,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         initMethodDef: MethodDefinition = self._buildInitMethod()
 
-        actualRepr:    str = diagram._buildMethod(initMethodDef)
+        actualRepr:    str = diagram._buildMethod(initMethodDef, DisplayMethodParameters.DISPLAY)
         expectedRepr:  str = '+ __init__(make: str, model: str, year: int=1957)'
 
         self.assertEqual(expectedRepr, actualRepr, 'Method building is incorrect')
@@ -77,7 +78,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         car: ClassDefinition = self._buildCar()
 
-        reprs: PdfDiagram.MethodsRepr = diagram._buildMethods(car.methods)
+        reprs: PdfDiagram.MethodsRepr = diagram._buildMethods(car.methods, DisplayMethodParameters.DISPLAY)
 
         self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
 
@@ -119,6 +120,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
 
+        car.displayMethodParameters = DisplayMethodParameters.DISPLAY
         initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
         initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
@@ -287,6 +289,24 @@ class TestPdfDiagram(TestDiagramParent):
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
         for bigClass in classDefinitions:
             diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
+    def testMethodParametersDisplay(self):
+
+        toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
+
+        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay{TestConstants.TEST_SUFFIX}'
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for testClass in classDefinitions:
+            diagram.drawClass(classDefinition=testClass)
+
+        testLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for testLine in testLineDefinitions:
+            diagram.drawUmlLine(testLine)
 
         diagram.write()
 
