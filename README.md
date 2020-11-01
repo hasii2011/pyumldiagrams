@@ -92,32 +92,32 @@ diagram.write()
 ### Create a basic .png class
 
 ```python
-        diagram:   ImageDiagram       = ImageDiagram(fileName='BasicClass.png')
-        classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
-                                                                                                 size=Size(width=266, height=100),
-                                                                                                 position=Position(x=107, y=30)
-                                                    										    )
+diagram:   ImageDiagram       = ImageDiagram(fileName='BasicClass.png')
+classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
+                                                										 size=Size(width=266, height=100),
+                                                										 position=Position(x=107, y=30)
+                                               											)
 
-        diagram.drawClass(classDef)
-        diagram.write()
+diagram.drawClass(classDef)
+diagram.write()
 ```
 
 ### Create a basic .png class with fields
 
 ```python
-        fileName:        str             = 'Test-WithFields.png'
-        diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
-        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', 
-                                                                                								position=Position(226, 102), 
-                                                            													size=Size(height=156, width=230))
+fileName:               str                           = 'Test-WithFields.png'
+diagram:                 ImageDiagram        = ImageDiagram(fileName=fileName)
+fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', 
+                                                                           								position=Position(226, 102), 
+                                                       													size=Size(height=156, width=230))
 
-        fieldsTestClass.fields = self._buildFields()
+fieldsTestClass.fields = self._buildFields()
 
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
-        fieldsTestClass.methods = [initMethodDef]
+fieldsTestClass.methods = [initMethodDef]
 
-        diagram.drawClass(classDefinition=fieldsTestClass)
+diagram.drawClass(classDefinition=fieldsTestClass)
 
-        diagram.write()
+diagram.write()
 ```
