@@ -1,8 +1,7 @@
-
-fpdf2~=2.0.5
-Pillow~=6.2.2
+fpdf2~=2.0.6
+Pillow~=8.0.0
 html-testRunner~=1.2.1
-pdoc3~=0.8.4
-setuptools~=49.3.1
+pdoc3~=0.9.1
+setuptools~=50.3.2
 twine~=3.2.0
-wheel~=0.34.2
+wheel~=0.35.1

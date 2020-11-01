@@ -1,5 +1,5 @@
-/pyenv-3.8.2-pyuml/
 /pyenv-3.8.5-pyuml/
+/pyenv-3.9.0-pyuml/
 .DS_Store
 .idea/
 *.pdf
