@@ -12,7 +12,7 @@ The documentation is [here](https://hasii2011.github.io/pyumldiagrams/pyumldiagr
 ### Create a basic class
 
 ```python
-diagram: Diagram = Diagram(fileName='basicClass.pdf', dpi=75)
+diagram: PdfDiagram = PdfDiagram(fileName='basicClass.pdf', dpi=75)
 classDef: ClassDefinition = ClassDefinition(name='BasicClass', size=Size(width=100, height=100))
 
 diagram.drawClass(classDef)
@@ -24,10 +24,10 @@ diagram.write()
 ### Create a class with a method
 
 ```python
-diagram: Diagram = Diagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
+diagram: PdfDiagram = PdfDiagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
 
 position: Position = Position(107, 30)
-size:     Size     = Size(width=266, height=100)
+size:         Size          = Size(width=266, height=100)
 
 car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
 
@@ -68,9 +68,9 @@ diagram.write()
 
 
 ```python
-diagram: Diagram = Diagram(fileName='MinimalInheritance.pdf', dpi=75)
+diagram: PdfDiagram = PdfDiagram(fileName='MinimalInheritance.pdf', dpi=75)
 
-cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
+cat:   ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
 opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
 
 diagram.drawClass(classDefinition=cat)
@@ -91,8 +91,33 @@ diagram.write()
 
 ### Create a basic .png class
 
-**TBD**
+```python
+        diagram:   ImageDiagram       = ImageDiagram(fileName='BasicClass.png')
+        classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
+                                                                                                 size=Size(width=266, height=100),
+                                                                                                 position=Position(x=107, y=30)
+                                                    										    )
 
-### Create a basic .jpg class with fields
+        diagram.drawClass(classDef)
+        diagram.write()
+```
 
-**TBD**
+### Create a basic .png class with fields
+
+```python
+        fileName:        str             = 'Test-WithFields.png'
+        diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
+        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', 
+                                                                                								position=Position(226, 102), 
+                                                            													size=Size(height=156, width=230))
+
+        fieldsTestClass.fields = self._buildFields()
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        fieldsTestClass.methods = [initMethodDef]
+
+        diagram.drawClass(classDefinition=fieldsTestClass)
+
+        diagram.write()
+```
