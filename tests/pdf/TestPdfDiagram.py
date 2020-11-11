@@ -322,6 +322,15 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.write()
 
+    def testGetFullyQualifiedPdfPath(self):
+
+        self.logger.warning(f'{TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME}')
+
+        actualName:   str = self._getFullyQualifiedPdfPath('Test-Basic-Standard.pdf')
+
+        partialPath: str = '/tests/resources/basefiles/pdf/'    # needs to match resource package name
+        self.assertTrue(partialPath in actualName, 'Name does not match')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

@@ -8,7 +8,7 @@ from typing import Union
 class InternalPosition:
     """
     The x and y coordinates are relative to the diagramming method.  For pdf
-    documents they are in points.  For images they are in pixels.  In all cases, the position is
+    documents they are in points.  For image they are in pixels.  In all cases, the position is
     adjusted for left and right margins plus vertical and horizontal gaps.
     """
     x: float = 0.0

@@ -308,6 +308,14 @@ class TestImageDiagram(TestDiagramParent):
 
         self.assertEqual(TestImageDiagram.DOTTED_EXPECTED_NAME, adjustedName, 'Suffix incorrectly added for embedded periods')
 
+    def testGetFullyQualifiedImagePath(self):
+
+        self.logger.warning(f'{TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME}')
+        actualName:   str = self._getFullyQualifiedImagePath('Test-Basic-Standard.png')
+
+        partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
+        self.assertTrue(partialPath in actualName, 'Name does not match')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

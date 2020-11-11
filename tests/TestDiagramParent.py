@@ -31,6 +31,20 @@ class TestDiagramParent(TestBase):
 
     BASE_TEST_CLASS_NAME: str = 'TestClassName'
 
+    BASE_FILES_PACKAGE_NAME:          str = f'{TestBase.RESOURCES_PACKAGE_NAME}.basefiles'
+    BASE_IMAGE_RESOURCE_PACKAGE_NAME: str = f'{BASE_FILES_PACKAGE_NAME}.image'
+    BASE_PDF_RESOURCE_PACKAGE_NAME:   str = f'{BASE_FILES_PACKAGE_NAME}.pdf'
+
+    def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
+
+        fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
+        return fqFileName
+
+    def _getFullyQualifiedPdfPath(self, pdfFileName: str) -> str:
+
+        fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
+        return fqFileName
+
     def _buildCar(self) -> ClassDefinition:
 
         car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))
