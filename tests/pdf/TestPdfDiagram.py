@@ -5,6 +5,8 @@ from typing import cast
 from logging import Logger
 from logging import getLogger
 
+from datetime import datetime
+
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
@@ -41,6 +43,8 @@ class TestPdfDiagram(TestDiagramParent):
     CELL_WIDTH:  int = 150  # points
     CELL_HEIGHT: int = 100  # points
 
+    STANDARD_SUFFIX: str = '-Standard'
+
     clsLogger: Logger = None
 
     @classmethod
@@ -49,7 +53,8 @@ class TestPdfDiagram(TestDiagramParent):
         TestPdfDiagram.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestPdfDiagram.clsLogger
+        self.logger:            Logger   = TestPdfDiagram.clsLogger
+        self.unitTestTimeStamp: datetime = datetime(2020, 3, 1, 8, 30)
 
     def tearDown(self):
         pass
@@ -84,12 +89,21 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasicDiagramDraw(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Basic'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram      = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
         classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.drawClass(classDef)
         diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic should be identical')
 
     def testFillPage(self):
 
@@ -109,6 +123,7 @@ class TestPdfDiagram(TestDiagramParent):
                                                             size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
                 diagram.drawClass(classDef)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBasicMethod(self):
@@ -129,6 +144,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.drawClass(car)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBasicMethods(self):
@@ -138,19 +154,27 @@ class TestPdfDiagram(TestDiagramParent):
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
-
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBasicHeader(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader{TestConstants.TEST_SUFFIX}',
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}',
                                          dpi=TestConstants.TEST_DPI,
                                          headerText=TestDiagramParent.UNIT_TEST_HEADER)
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
-
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Header should be identical')
 
     def testSophisticatedHeader(self):
         from time import localtime
@@ -166,6 +190,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.drawClass(classDef)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testSophisticatedLayout(self):
@@ -187,6 +212,7 @@ class TestPdfDiagram(TestDiagramParent):
         for lineDefinition in lineDefinitions:
             diagram.drawUmlLine(lineDefinition=lineDefinition)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testMinimalInheritance(self):
@@ -203,6 +229,7 @@ class TestPdfDiagram(TestDiagramParent):
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testMethodReprRegression(self):
@@ -223,11 +250,14 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.drawClass(car)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBasicFields(self):
 
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BasicFields{TestConstants.TEST_SUFFIX}'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
 
         fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
@@ -240,7 +270,13 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.drawClass(classDefinition=fieldsTestClass)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Fields should be identical')
 
     def testBends(self):
         fileName: str        = f'{TestConstants.TEST_FILE_NAME}-Bends{TestConstants.TEST_SUFFIX}'
@@ -259,6 +295,7 @@ class TestPdfDiagram(TestDiagramParent):
         for bentLine in bentLineDefinitions:
             diagram.drawUmlLine(bentLine)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBendsFromXmlInput(self):
@@ -277,6 +314,7 @@ class TestPdfDiagram(TestDiagramParent):
         for bentLine in bentLineDefinitions:
             diagram.drawUmlLine(bentLine)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testBigClass(self):
@@ -290,6 +328,7 @@ class TestPdfDiagram(TestDiagramParent):
         for bigClass in classDefinitions:
             diagram.drawClass(classDefinition=bigClass)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testMethodParametersDisplay(self):
@@ -308,6 +347,7 @@ class TestPdfDiagram(TestDiagramParent):
         for testLine in testLineDefinitions:
             diagram.drawUmlLine(testLine)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testCaptureShowMethodsFalse(self):
@@ -320,6 +360,7 @@ class TestPdfDiagram(TestDiagramParent):
         for bigClass in classDefinitions:
             diagram.drawClass(classDefinition=bigClass)
 
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def testGetFullyQualifiedPdfPath(self):
@@ -331,6 +372,7 @@ class TestPdfDiagram(TestDiagramParent):
         partialPath: str = '/tests/resources/basefiles/pdf/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
+    # Fix this unit test by generating the basic PDF file
     # def testRunDiff(self):
     #     """
     #     Test this method here even though the method will be used for both

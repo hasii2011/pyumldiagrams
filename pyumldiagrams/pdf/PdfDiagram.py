@@ -8,6 +8,8 @@ from logging import getLogger
 
 from os import sep as osSep
 
+from datetime import datetime
+
 from pkg_resources import resource_filename
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
@@ -80,6 +82,20 @@ class PdfDiagram(BaseDiagram):
         self._lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
+
+    @property
+    def docTimeStamp(self) -> datetime:
+        """
+        Overrides the empty base implementation
+        """
+        return self._pdf.creation_date
+
+    @docTimeStamp.setter
+    def docTimeStamp(self, timeStamp: datetime):
+        """
+        Overrides the empty base implementation
+        """
+        self._pdf.creation_date = timeStamp
 
     def retrieveResourcePath(self, bareFileName: str) -> str:
         """
