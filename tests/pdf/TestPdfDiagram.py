@@ -331,6 +331,37 @@ class TestPdfDiagram(TestDiagramParent):
         partialPath: str = '/tests/resources/basefiles/pdf/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
+    def testRunDiff(self):
+        """
+        Test this method here even though the method will be used for both
+        pdf and image comparisons
+        """
+        standardFileName:  str = self._getFullyQualifiedPdfPath('Test-Basic-Standard.pdf')
+        generatedFileName: str = 'Test-Basic.pdf'
+
+        status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+        self.assertTrue(status == 0, 'These should be identical')
+
+    def testRunDiffBogusFail(self):
+        """
+        Test this method here even though the method will be used for both
+        pdf and image comparisons
+        """
+        status: int = self._runDiff(baseFileName='bogus', standardFileName='')
+
+        self.assertFalse(status == 0, 'This should fail')
+
+    def testRunDiffActualFail(self):
+        """
+        Test this method here even though the method will be used for both
+        pdf and image comparisons
+        """
+        standardFileName: str = self._getFullyQualifiedImagePath('Test-Basic-Standard.png')
+        generatedFileName: str = self._getFullyQualifiedPdfPath('Test-Basic.pdf')
+
+        status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+        self.assertFalse(status == 0, 'These are not even the same type')
+
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""

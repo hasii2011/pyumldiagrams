@@ -1,4 +1,7 @@
+
 from typing import final
+
+from os import system as osSystem
 
 from pkg_resources import resource_filename
 
@@ -35,6 +38,8 @@ class TestDiagramParent(TestBase):
     BASE_IMAGE_RESOURCE_PACKAGE_NAME: str = f'{BASE_FILES_PACKAGE_NAME}.image'
     BASE_PDF_RESOURCE_PACKAGE_NAME:   str = f'{BASE_FILES_PACKAGE_NAME}.pdf'
 
+    EXTERNAL_DIFF_PROGRAM: str = 'diff'
+
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
         fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
@@ -44,6 +49,12 @@ class TestDiagramParent(TestBase):
 
         fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         return fqFileName
+
+    def _runDiff(self, baseFileName: str, standardFileName) -> int:
+
+        status: int = osSystem(f'{TestDiagramParent.EXTERNAL_DIFF_PROGRAM} {baseFileName} {standardFileName}')
+
+        return status
 
     def _buildCar(self) -> ClassDefinition:
 
