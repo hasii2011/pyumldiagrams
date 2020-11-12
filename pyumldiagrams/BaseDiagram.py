@@ -6,6 +6,8 @@ from typing import final
 from logging import Logger
 from logging import getLogger
 
+from datetime import datetime
+
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import DisplayMethodParameters
@@ -114,6 +116,21 @@ class BaseDiagram:
     @softwareNameVersion.setter
     def softwareNameVersion(self, newValue: str):
         self._softwareNameVersion = newValue
+
+    @property
+    def docTimeStamp(self) -> datetime:
+        """
+        Must be overridden by implementors
+        """
+        return cast(datetime, None)
+
+    @docTimeStamp.setter
+    def docTimeStamp(self, timeStamp: datetime):
+        """
+        Must be overridden by implementors
+
+        """
+        pass
 
     def retrieveResourcePath(self, bareFileName: str) -> str:
         """
