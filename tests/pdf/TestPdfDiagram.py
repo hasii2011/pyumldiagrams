@@ -178,6 +178,24 @@ class TestPdfDiagram(TestDiagramParent):
 
         self.assertTrue(status == 0, 'Basic Method should be identical')
 
+    def testBasicMethods(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethods'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
+
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Methods should be identical')
+
     def testMethodReprRegression(self):
 
         baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodReprRegression'
@@ -222,16 +240,6 @@ class TestPdfDiagram(TestDiagramParent):
                                                             size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
                 diagram.drawClass(classDef)
 
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-    def testBasicMethods(self):
-
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-
-        classDef: ClassDefinition = self._buildCar()
-
-        diagram.drawClass(classDef)
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
