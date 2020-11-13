@@ -196,6 +196,60 @@ class TestPdfDiagram(TestDiagramParent):
 
         self.assertTrue(status == 0, 'Basic Methods should be identical')
 
+    def testBends(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Bends'
+        fileName: str  = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        top:   ClassDefinition = self._buildTopClass()
+        left:  ClassDefinition = self._buildLeftClass()
+        right: ClassDefinition = self._buildRightClass()
+
+        bentClasses: List[ClassDefinition] = [top, left, right]
+        for bentClass in bentClasses:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Bends should be identical')
+
+    def testBendsFromXmlInput(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bentClass in classDefinitions:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Bends from XML Input should be identical')
+
     def testMethodReprRegression(self):
 
         baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodReprRegression'
@@ -296,45 +350,6 @@ class TestPdfDiagram(TestDiagramParent):
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-    def testBends(self):
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-Bends{TestConstants.TEST_SUFFIX}'
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
-
-        top:   ClassDefinition = self._buildTopClass()
-        left:  ClassDefinition = self._buildLeftClass()
-        right: ClassDefinition = self._buildRightClass()
-
-        bentClasses: List[ClassDefinition] = [top, left, right]
-        for bentClass in bentClasses:
-            diagram.drawClass(classDefinition=bentClass)
-
-        bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
-
-        for bentLine in bentLineDefinitions:
-            diagram.drawUmlLine(bentLine)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-    def testBendsFromXmlInput(self):
-
-        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
-
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput{TestConstants.TEST_SUFFIX}'
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
-
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for bentClass in classDefinitions:
-            diagram.drawClass(classDefinition=bentClass)
-
-        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
-
-        for bentLine in bentLineDefinitions:
-            diagram.drawUmlLine(bentLine)
-
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
