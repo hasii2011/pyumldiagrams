@@ -250,6 +250,27 @@ class TestPdfDiagram(TestDiagramParent):
 
         self.assertTrue(status == 0, 'Bends from XML Input should be identical')
 
+    def testBigClass(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Bends from XML Input should be identical')
+
     def testMethodReprRegression(self):
 
         baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodReprRegression'
@@ -353,19 +374,6 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-    def testBigClass(self):
-
-        toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
-        fileName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass{TestConstants.TEST_SUFFIX}'
-
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
-
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for bigClass in classDefinitions:
-            diagram.drawClass(classDefinition=bigClass)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
 
     def testMethodParametersDisplay(self):
 
