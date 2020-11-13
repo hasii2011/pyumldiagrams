@@ -100,10 +100,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.drawClass(classDef)
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical')
 
     def testBasicFields(self):
 
@@ -125,10 +122,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Fields should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields should be identical')
 
     def testBasicHeader(self):
 
@@ -144,10 +138,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Header should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Header should be identical')
 
     def testBasicMethod(self):
 
@@ -173,10 +164,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Method should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Method should be identical')
 
     def testBasicMethods(self):
 
@@ -191,10 +179,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Methods should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Methods should be identical')
 
     def testBends(self):
 
@@ -219,10 +204,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Bends should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Bends should be identical')
 
     def testBendsFromXmlInput(self):
 
@@ -245,10 +227,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Bends from XML Input should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Bends from XML Input should be identical')
 
     def testBigClass(self):
 
@@ -266,10 +245,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Bends from XML Input should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Bends from XML Input should be identical')
 
     def testMethodReprRegression(self):
 
@@ -374,7 +350,6 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-
     def testMethodParametersDisplay(self):
 
         toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
@@ -447,6 +422,13 @@ class TestPdfDiagram(TestDiagramParent):
 
         status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertFalse(status == 0, 'These are not even the same type')
+
+    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str) -> None:
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, failMessage)
 
 
 def suite() -> TestSuite:
