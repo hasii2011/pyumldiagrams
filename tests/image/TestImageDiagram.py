@@ -50,9 +50,12 @@ class TestImageDiagram(TestDiagramParent):
     def tearDown(self):
         pass
 
-    def testBasicDiagramDraw(self):
+    def testBasic(self):
 
-        diagram:  ImageDiagram    = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Basic.{ImageFormat.PNG.value}')
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Basic'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram    = ImageDiagram(fileName=f'{fileName}')
         classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=266, height=100),
                                                     position=Position(x=107, y=30)
@@ -60,6 +63,8 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.drawClass(classDef)
         diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic image file should be identical')
 
     def testFillPage(self):
 
@@ -315,6 +320,19 @@ class TestImageDiagram(TestDiagramParent):
 
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
+
+    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str) -> None:
+        """
+        The side-affect here is that if the assertion passes then this method removes the generated file
+
+        Args:
+            baseName:           The base image file name
+            generatedFileName:  The generated image file name
+            failMessage:        The message to display if the image files fail comparison
+        """
+        standardFileName: str = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}.{ImageFormat.PNG.value}')
+        status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+        self.assertTrue(status == 0, 'Image Basic should be identical')
 
 
 def suite() -> TestSuite:

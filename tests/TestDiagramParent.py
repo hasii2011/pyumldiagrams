@@ -40,6 +40,8 @@ class TestDiagramParent(TestBase):
 
     EXTERNAL_DIFF_PROGRAM: str = 'diff'
 
+    STANDARD_SUFFIX: str = '-Standard'
+
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
         fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)

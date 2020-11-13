@@ -44,8 +44,6 @@ class TestPdfDiagram(TestDiagramParent):
     CELL_WIDTH:  int = 150  # points
     CELL_HEIGHT: int = 100  # points
 
-    STANDARD_SUFFIX: str = '-Standard'
-
     clsLogger: Logger = None
 
     @classmethod
@@ -443,7 +441,7 @@ class TestPdfDiagram(TestDiagramParent):
             failMessage:        The message to display if the files fail comparison
         """
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
 
         self.assertTrue(status == 0, failMessage)
