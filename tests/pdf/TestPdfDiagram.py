@@ -268,14 +268,14 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'MethodReprRegression should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='MethodReprRegression should be identical')
 
     def testFillPage(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-FillPage'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
 
         widthInterval:  int = TestPdfDiagram.CELL_WIDTH // 10
         heightInterval: int = TestPdfDiagram.CELL_HEIGHT // 10
@@ -294,14 +294,16 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='FillPage should be identical')
+
     def testSophisticatedHeader(self):
-        from time import localtime
 
-        from time import strftime
+        today = self.unitTestTimeStamp.strftime("%d %b %Y %H:%M:%S")
 
-        today = strftime("%d %b %Y %H:%M:%S", localtime())
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=fileName,
                                          dpi=TestConstants.TEST_DPI,
                                          headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
         classDef: ClassDefinition = self._buildCar()
@@ -311,9 +313,14 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='SophisticatedHeader should be identical')
+
     def testSophisticatedLayout(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = [
             self._buildCar(),
@@ -332,10 +339,14 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='SophisticatedLayout should be identical')
 
     def testMinimalInheritance(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance{TestConstants.TEST_SUFFIX}', dpi=75)
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=75)
 
         cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
         opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
@@ -350,11 +361,15 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='SophisticatedLayout should be identical')
+
     def testMethodParametersDisplay(self):
 
         toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
 
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay{TestConstants.TEST_SUFFIX}'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
@@ -369,10 +384,14 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='MethodParametersDisplay should be identical')
+
     def testCaptureShowMethodsFalse(self):
 
         toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
-        fileName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse.{TestConstants.TEST_SUFFIX}'
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
@@ -382,6 +401,8 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='CaptureShowMethodsFalse should be identical')
+
     def testGetFullyQualifiedPdfPath(self):
 
         self.logger.warning(f'{TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME}')
@@ -390,18 +411,6 @@ class TestPdfDiagram(TestDiagramParent):
 
         partialPath: str = '/tests/resources/basefiles/pdf/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
-
-    # Fix this unit test by generating the basic PDF file
-    # def testRunDiff(self):
-    #     """
-    #     Test this method here even though the method will be used for both
-    #     pdf and image comparisons
-    #     """
-    #     standardFileName:  str = self._getFullyQualifiedPdfPath('Test-Basic-Standard.pdf')
-    #     generatedFileName: str = 'Test-Basic.pdf'
-    #
-    #     status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
-    #     self.assertTrue(status == 0, 'These should be identical')
 
     def testRunDiffBogusFail(self):
         """
