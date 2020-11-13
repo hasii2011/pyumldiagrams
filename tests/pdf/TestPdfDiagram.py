@@ -1,9 +1,10 @@
 from typing import List
 from typing import cast
 
-
 from logging import Logger
 from logging import getLogger
+
+from os import remove as osRemove
 
 from datetime import datetime
 
@@ -433,11 +434,22 @@ class TestPdfDiagram(TestDiagramParent):
         self.assertFalse(status == 0, 'These are not even the same type')
 
     def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str) -> None:
+        """
+        The side-affect here is that if the assertion passes then this method removes the generated file
+
+        Args:
+            baseName:           The base file name
+            generatedFileName:  The generated file name
+            failMessage:        The message to display if the files fail comparison
+        """
 
         standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
 
         self.assertTrue(status == 0, failMessage)
+
+        self.logger.info(f'Removing: {generatedFileName}')
+        osRemove(generatedFileName)
 
 
 def suite() -> TestSuite:
