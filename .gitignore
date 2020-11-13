@@ -2,7 +2,7 @@
 /pyenv-3.9.0-pyuml/
 .DS_Store
 .idea/
-*.pdf
+/*.pdf
 __pycache__/
 *.pkl
 /dist/

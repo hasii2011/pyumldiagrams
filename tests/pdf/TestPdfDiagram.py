@@ -87,7 +87,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         self.assertEqual(5, len(reprs), 'Generated incorrect number of method representations')
 
-    def testBasicDiagramDraw(self):
+    def testBasic(self):
 
         baseName: str = f'{TestConstants.TEST_FILE_NAME}-Basic'
         fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
@@ -104,6 +104,105 @@ class TestPdfDiagram(TestDiagramParent):
         status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
 
         self.assertTrue(status == 0, 'Basic should be identical')
+
+    def testBasicFields(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
+
+        fieldsTestClass.fields = self._buildFields()
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        fieldsTestClass.methods = [initMethodDef]
+
+        diagram.drawClass(classDefinition=fieldsTestClass)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Fields should be identical')
+
+    def testBasicHeader(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}',
+                                         dpi=TestConstants.TEST_DPI,
+                                         headerText=TestDiagramParent.UNIT_TEST_HEADER)
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Header should be identical')
+
+    def testBasicMethod(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethod'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        car.displayMethodParameters = DisplayMethodParameters.DISPLAY
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+        initMethodDef.parameters = [initParam]
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'Basic Method should be identical')
+
+    def testMethodReprRegression(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodReprRegression'
+        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
+
+        diagram: PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=cast(DefinitionType, None))
+
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
+        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, 'MethodReprRegression should be identical')
 
     def testFillPage(self):
 
@@ -126,27 +225,6 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-    def testBasicMethod(self):
-
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethod{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
-
-        position: Position = Position(107, 30)
-        size:     Size     = Size(width=266, height=100)
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
-
-        car.displayMethodParameters = DisplayMethodParameters.DISPLAY
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
-        initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
-
-        diagram.drawClass(car)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
     def testBasicMethods(self):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
@@ -156,25 +234,6 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.drawClass(classDef)
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
-
-    def testBasicHeader(self):
-
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
-        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
-
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}',
-                                         dpi=TestConstants.TEST_DPI,
-                                         headerText=TestDiagramParent.UNIT_TEST_HEADER)
-        classDef: ClassDefinition = self._buildCar()
-
-        diagram.drawClass(classDef)
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Header should be identical')
 
     def testSophisticatedHeader(self):
         from time import localtime
@@ -231,52 +290,6 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
-
-    def testMethodReprRegression(self):
-
-        testFileName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethodRegression{TestConstants.TEST_SUFFIX}'
-        diagram: PdfDiagram = PdfDiagram(fileName=testFileName, dpi=TestConstants.TEST_DPI)
-
-        position: Position = Position(107, 30)
-        size:     Size     = Size(width=266, height=100)
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
-
-        #
-        # Make visibility None
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=cast(DefinitionType, None))
-
-        car.methods = [initMethodDef]
-
-        diagram.drawClass(car)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-    def testBasicFields(self):
-
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
-        fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
-
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
-
-        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
-
-        fieldsTestClass.fields = self._buildFields()
-
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        fieldsTestClass.methods = [initMethodDef]
-
-        diagram.drawClass(classDefinition=fieldsTestClass)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
-
-        standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestPdfDiagram.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=fileName, standardFileName=standardFileName)
-
-        self.assertTrue(status == 0, 'Basic Fields should be identical')
 
     def testBends(self):
         fileName: str        = f'{TestConstants.TEST_FILE_NAME}-Bends{TestConstants.TEST_SUFFIX}'
