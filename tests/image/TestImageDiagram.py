@@ -1,8 +1,15 @@
 
-from logging import Logger
-from logging import getLogger
 from typing import List
 from typing import cast
+
+from logging import Logger
+from logging import getLogger
+
+from os import remove as osRemove
+
+from datetime import datetime
+
+from time import strftime
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
@@ -45,7 +52,8 @@ class TestImageDiagram(TestDiagramParent):
         TestImageDiagram.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestImageDiagram.clsLogger
+        self.logger:            Logger = TestImageDiagram.clsLogger
+        self.unitTestTimeStamp: datetime = TestDiagramParent.KNOWABLE_DATE
 
     def tearDown(self):
         pass
@@ -119,21 +127,106 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(car)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Header image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Method image file should be identical')
 
     def testBasicMethods(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods.{ImageFormat.PNG.value}')
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethods'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
 
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Methods image file should be identical')
+
+    def testBends(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Bends'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        top:   ClassDefinition = self._buildTopClass()
+        left:  ClassDefinition = self._buildLeftClass()
+        right: ClassDefinition = self._buildRightClass()
+
+        bentClasses: List[ClassDefinition] = [top, left, right]
+        for bentClass in bentClasses:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Bends image file should be identical')
+
+    def testBendsFromXmlInput(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bentClass in classDefinitions:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='BendsFromXmlInput image file should be identical')
+
+    def testBigClass(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Big Class image file should be identical')
+
+    def testCaptureShowMethodsFalse(self):
+
+        toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='CaptureShowMethodsFalse image file should be identical')
+
     def testFillPage(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-FillPage.{ImageFormat.PNG.value}')
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-FillPage'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
 
         widthInterval:  int = TestImageDiagram.CELL_WIDTH // 10
         heightInterval: int = TestImageDiagram.CELL_HEIGHT // 10
@@ -151,24 +244,77 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Fill Page image file should be identical')
+
+    def testMethodParametersDisplay(self):
+
+        toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for testClass in classDefinitions:
+            diagram.drawClass(classDefinition=testClass)
+
+        testLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for testLine in testLineDefinitions:
+            diagram.drawUmlLine(testLine)
+
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='MethodParametersDisplay image file should be identical')
+
+    def testMinimalInheritance(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
+
+        cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
+        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
+
+        diagram.drawClass(classDefinition=cat)
+        diagram.drawClass(classDefinition=opie)
+
+        startPosition: Position = Position(600, 208)
+        endPosition:   Position = Position(600, 93)
+        linePositions: LinePositions = [startPosition, endPosition]
+
+        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
+
+        diagram.drawUmlLine(lineDefinition=opieToCat)
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Minimal Inheritance image file should be identical')
+
     def testSophisticatedHeader(self):
-        from time import localtime
 
-        from time import strftime
+        today:      str = strftime("%d %b %Y %H:%M:%S", self.unitTestTimeStamp.timetuple())
+        headerText: str = f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}'
 
-        today = strftime("%d %b %Y %H:%M:%S", localtime())
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader.{ImageFormat.PNG.value}',
-                                             headerText=f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}', headerText=headerText)
         classDef: ClassDefinition = self._buildCar()
 
         diagram.drawClass(classDef)
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Sophisticated Header image file should be identical')
+
     def testSophisticatedLayout(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout.{ImageFormat.PNG.value}')
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
 
         classDefinitions: ClassDefinitions = [
             self._buildCar(),
@@ -187,103 +333,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-    def testMinimalInheritance(self):
-
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance.{ImageFormat.PNG.value}')
-
-        cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
-        opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
-
-        diagram.drawClass(classDefinition=cat)
-        diagram.drawClass(classDefinition=opie)
-
-        startPosition: Position = Position(600, 208)
-        endPosition:   Position = Position(600, 93)
-        linePositions: LinePositions = [startPosition, endPosition]
-
-        opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
-
-        diagram.drawUmlLine(lineDefinition=opieToCat)
-        diagram.write()
-
-    def testBends(self):
-
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-Bends.{ImageFormat.PNG.value}'
-        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-
-        top:   ClassDefinition = self._buildTopClass()
-        left:  ClassDefinition = self._buildLeftClass()
-        right: ClassDefinition = self._buildRightClass()
-
-        bentClasses: List[ClassDefinition] = [top, left, right]
-        for bentClass in bentClasses:
-            diagram.drawClass(classDefinition=bentClass)
-
-        bentLineDefinitions: UmlLineDefinitions = self._buildBendTest()
-
-        for bentLine in bentLineDefinitions:
-            diagram.drawUmlLine(bentLine)
-
-        diagram.write()
-
-    def testBendsFromXmlInput(self):
-
-        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
-
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput.{ImageFormat.PNG.value}'
-        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for bentClass in classDefinitions:
-            diagram.drawClass(classDefinition=bentClass)
-
-        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
-
-        for bentLine in bentLineDefinitions:
-            diagram.drawUmlLine(bentLine)
-
-        diagram.write()
-
-    def testBigClass(self):
-
-        toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
-        fileName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass.{ImageFormat.PNG.value}'
-
-        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for bigClass in classDefinitions:
-            diagram.drawClass(classDefinition=bigClass)
-
-        diagram.write()
-
-    def testMethodParametersDisplay(self):
-        toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
-
-        fileName: str        = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay.{ImageFormat.PNG.value}'
-        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for testClass in classDefinitions:
-            diagram.drawClass(classDefinition=testClass)
-
-        testLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
-
-        for testLine in testLineDefinitions:
-            diagram.drawUmlLine(testLine)
-
-        diagram.write()
-
-    def testCaptureShowMethodsFalse(self):
-
-        toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
-        fileName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse.{ImageFormat.PNG.value}'
-
-        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-        for bigClass in classDefinitions:
-            diagram.drawClass(classDefinition=bigClass)
-
-        diagram.write()
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Sophisticated Layout image file should be identical')
 
     UNADJUSTED_NAME: str = '/user/hasii/bogus'
     EXPECTED_SUFFIX: str = f'{ImageFormat.PNG.value}'
@@ -343,6 +393,9 @@ class TestImageDiagram(TestDiagramParent):
         standardFileName: str = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}.{ImageFormat.PNG.value}')
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertTrue(status == 0, f'{failMessage}')
+
+        self.logger.info(f'Removing: {generatedFileName}')
+        osRemove(generatedFileName)
 
 
 def suite() -> TestSuite:

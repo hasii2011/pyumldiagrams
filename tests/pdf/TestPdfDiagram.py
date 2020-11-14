@@ -53,7 +53,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def setUp(self):
         self.logger:            Logger   = TestPdfDiagram.clsLogger
-        self.unitTestTimeStamp: datetime = datetime(2020, 3, 1, 8, 30)
+        self.unitTestTimeStamp: datetime = TestDiagramParent.KNOWABLE_DATE
 
     def tearDown(self):
         pass

@@ -1,4 +1,4 @@
-
+from datetime import datetime
 from typing import final
 
 from os import system as osSystem
@@ -41,6 +41,8 @@ class TestDiagramParent(TestBase):
     EXTERNAL_DIFF_PROGRAM: str = 'diff'
 
     STANDARD_SUFFIX: str = '-Standard'
+
+    KNOWABLE_DATE: datetime = datetime(2020, 3, 1, 8, 30)
 
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 

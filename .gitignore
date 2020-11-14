@@ -3,6 +3,7 @@
 .DS_Store
 .idea/
 /*.pdf
+/*.png
 __pycache__/
 *.pkl
 /dist/
