@@ -66,9 +66,74 @@ class TestImageDiagram(TestDiagramParent):
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic image file should be identical')
 
+    def testBasicFields(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
+        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
+
+        fieldsTestClass.fields = self._buildFields()
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        fieldsTestClass.methods = [initMethodDef]
+
+        diagram.drawClass(classDefinition=fieldsTestClass)
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical')
+
+    def testBasicHeader(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}', headerText=TestDiagramParent.UNIT_TEST_HEADER)
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Header image file should be identical')
+
+    def testBasicMethod(self):
+
+        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethod'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
+
+        position: Position = Position(107, 30)
+        size:     Size     = Size(width=266, height=100)
+
+        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
+
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+
+        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+        initMethodDef.parameters = [initParam]
+        car.methods = [initMethodDef]
+
+        diagram.drawClass(car)
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Header image file should be identical')
+
+    def testBasicMethods(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods.{ImageFormat.PNG.value}')
+
+        classDef: ClassDefinition = self._buildCar()
+
+        diagram.drawClass(classDef)
+
+        diagram.write()
+
     def testFillPage(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-Full.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-FillPage.{ImageFormat.PNG.value}')
 
         widthInterval:  int = TestImageDiagram.CELL_WIDTH // 10
         heightInterval: int = TestImageDiagram.CELL_HEIGHT // 10
@@ -83,45 +148,6 @@ class TestImageDiagram(TestDiagramParent):
                                                             position=Position(scrX, scrY),
                                                             size=Size(width=TestImageDiagram.CELL_WIDTH, height=TestImageDiagram.CELL_HEIGHT))
                 diagram.drawClass(classDef)
-
-        diagram.write()
-
-    def testBasicMethod(self):
-
-        diagram: ImageDiagram = ImageDiagram(fileName=f'Test-BasicMethod.png')
-
-        position: Position = Position(107, 30)
-        size:     Size     = Size(width=266, height=100)
-
-        car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
-
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
-        initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
-
-        diagram.drawClass(car)
-
-        diagram.write()
-
-    def testBasicMethods(self):
-
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicMethods.{ImageFormat.PNG.value}')
-
-        classDef: ClassDefinition = self._buildCar()
-
-        diagram.drawClass(classDef)
-
-        diagram.write()
-
-    def testBasicHeader(self):
-
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-BasicHeader.{ImageFormat.PNG.value}',
-                                             headerText=TestDiagramParent.UNIT_TEST_HEADER)
-        classDef: ClassDefinition = self._buildCar()
-
-        diagram.drawClass(classDef)
 
         diagram.write()
 
@@ -178,22 +204,6 @@ class TestImageDiagram(TestDiagramParent):
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
         diagram.drawUmlLine(lineDefinition=opieToCat)
-        diagram.write()
-
-    def testBasicFields(self):
-
-        fileName:        str             = f'{TestConstants.TEST_FILE_NAME}-BasicFields.{ImageFormat.PNG.value}'
-        diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
-        fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', position=Position(226, 102), size=Size(height=156, width=230))
-
-        fieldsTestClass.fields = self._buildFields()
-
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-        fieldsTestClass.methods = [initMethodDef]
-
-        diagram.drawClass(classDefinition=fieldsTestClass)
-
         diagram.write()
 
     def testBends(self):
@@ -332,7 +342,7 @@ class TestImageDiagram(TestDiagramParent):
         """
         standardFileName: str = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}.{ImageFormat.PNG.value}')
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
-        self.assertTrue(status == 0, 'Image Basic should be identical')
+        self.assertTrue(status == 0, f'{failMessage}')
 
 
 def suite() -> TestSuite:
