@@ -88,7 +88,7 @@ class ToClassDefinition:
             displayFields:     bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_FIELDS))
             displayStereotype: bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_STEREOTYPE))
 
-            displayParametersStr: str = xmlGraphicClass.getAttribute(ATTR_DISPLAY_PARAMETERS)
+            displayParametersStr: str = xmlClass.getAttribute(ATTR_DISPLAY_PARAMETERS)
             displayMethodParameters: DisplayMethodParameters
 
             if displayParametersStr is None or displayParametersStr == '':

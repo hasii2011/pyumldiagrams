@@ -17,6 +17,7 @@ from PIL import ImageFont
 
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
+from pyumldiagrams.Definitions import DisplayMethodParameters
 
 from pyumldiagrams.Definitions import TOP_MARGIN
 from pyumldiagrams.Definitions import LEFT_MARGIN
@@ -57,18 +58,20 @@ class ImageDiagram(BaseDiagram):
     Y_NUDGE_FACTOR:        final = 6
     FIRST_METHOD_Y_OFFSET: final = 0
 
-    def __init__(self, fileName: str, headerText: str = '', imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = '', imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         """
 
         Args:
             fileName:  The output file name.  Including the suffix
+
+            docDisplayMethodParameters:  The global value to consult if a class value says UNSPECIFIED
 
             headerText:  The text to display as a header on the diagram
 
             imageSize:  The diagram size in pixels
         """
 
-        super().__init__(fileName=fileName, headerText=headerText)
+        super().__init__(fileName=fileName, docDisplayMethodParameters=docDisplayMethodParameters, headerText=headerText)
 
         self.logger: Logger = getLogger(__name__)
 

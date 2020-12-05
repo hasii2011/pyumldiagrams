@@ -14,6 +14,7 @@ from pkg_resources import resource_filename
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Internal import SeparatorPosition
 
 from pyumldiagrams.Definitions import ClassDefinition
@@ -49,15 +50,16 @@ class PdfDiagram(BaseDiagram):
 
     FIRST_METHOD_Y_OFFSET: final = 7
 
-    def __init__(self, fileName: str, dpi: int, headerText: str = ''):
+    def __init__(self, fileName: str, dpi: int, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = ''):
         """
 
         Args:
             fileName:    Fully qualified file name
             dpi:         dots per inch for the display we are mapping from
+            docDisplayMethodParameters:  The global value to consult if a class value says UNSPECIFIED
             headerText:  The header to place on the page
         """
-        super().__init__(fileName=fileName, dpi=dpi, headerText=headerText)
+        super().__init__(fileName=fileName, docDisplayMethodParameters=docDisplayMethodParameters, dpi=dpi, headerText=headerText)
         # self._fileName: str = fileName
         # self._dpi:      int = dpi
         self.logger: Logger = getLogger(__name__)

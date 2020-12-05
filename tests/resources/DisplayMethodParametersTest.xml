@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PyutProject version="10" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="Static" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
-        <GraphicClass width="190.00" height="200.00" x="734.90" y="266.00" displayParameters="Unspecified">
-            <Class id="1" name="UnSpecifiedClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+        <GraphicClass width="190.00" height="200.00" x="734.90" y="266.00">
+            <Class id="1" name="UnSpecifiedClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
                 <Method name="__getstate__" visibility="PUBLIC">
                     <Return type=""/>
                 </Method>
@@ -65,8 +65,8 @@
                 </Method>
             </Class>
         </GraphicClass>
-        <GraphicClass width="102.00" height="60.00" x="22.90" y="393.00" displayParameters="DoNotDisplay">
-            <Class id="2" name="DoNotDisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+        <GraphicClass width="102.00" height="60.00" x="22.90" y="393.00">
+            <Class id="2" name="DoNotDisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="DoNotDisplay">
                 <Method name="__init__" visibility="PUBLIC">
                     <Return type=""/>
                     <Param name="name" type="" defaultValue="&quot;&quot;"/>
@@ -83,8 +83,8 @@
                 </Method>
             </Class>
         </GraphicClass>
-        <GraphicClass width="577.00" height="163.00" x="5.00" y="98.00" displayParameters="Display">
-            <Class id="3" name="DisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+        <GraphicClass width="577.00" height="163.00" x="5.00" y="98.00">
+            <Class id="3" name="DisplayClass" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Display">
                 <Method name="__init__" visibility="PUBLIC">
                     <Return type=""/>
                     <Param name="name" type="" defaultValue="&quot;&quot;"/>
@@ -140,7 +140,7 @@
             </Class>
         </GraphicClass>
         <GraphicClass width="125.00" height="141.00" x="405.00" y="322.00">
-            <Class id="4" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
+            <Class id="4" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
                 <Method name="__getstate__" visibility="PUBLIC">
                     <Return type=""/>
                 </Method>

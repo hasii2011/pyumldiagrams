@@ -113,6 +113,13 @@ Syntactic sugar to define a list of parameters.
 """
 
 
+class DisplayMethodParameters(Enum):
+
+    DISPLAY        = 'Display'
+    DO_NOT_DISPLAY = 'DoNotDisplay'
+    UNSPECIFIED    = 'Unspecified'
+
+
 @dataclass
 class MethodDefinition(BaseDefinition):
     """
@@ -153,13 +160,6 @@ class FieldDefinition(ParameterDefinition):
 Fields = List[FieldDefinition]
 
 
-class DisplayMethodParameters(Enum):
-
-    DISPLAY        = 'Display'
-    DO_NOT_DISPLAY = 'DoNotDisplay'
-    UNSPECIFIED    = 'Unspecified'
-
-
 @dataclass
 class ClassDefinition(BaseDefinition):
     """
@@ -195,7 +195,7 @@ class ClassDefinition(BaseDefinition):
     """
     displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
     """
-    If True display the method parameters
+    If True display the method parameters;  If UNSPECIFIED defer to global
     """
 
 

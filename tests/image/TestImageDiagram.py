@@ -381,7 +381,7 @@ class TestImageDiagram(TestDiagramParent):
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
-    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str) -> None:
+    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str, removeTestFile: bool = True) -> None:
         """
         The side-affect here is that if the assertion passes then this method removes the generated file
 
@@ -394,8 +394,9 @@ class TestImageDiagram(TestDiagramParent):
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertTrue(status == 0, f'{failMessage}')
 
-        self.logger.info(f'Removing: {generatedFileName}')
-        osRemove(generatedFileName)
+        if removeTestFile is True:
+            self.logger.info(f'Removing: {generatedFileName}')
+            osRemove(generatedFileName)
 
 
 def suite() -> TestSuite:

@@ -39,11 +39,13 @@ class BaseDiagram:
 
     clsLogger: Logger = getLogger(__name__)
 
-    def __init__(self, fileName: str, dpi: int = 0, headerText: str = ''):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, dpi: int = 0, headerText: str = ''):
         """
 
         Args:
             fileName:   Fully qualified file name
+
+            docDisplayMethodParameters: global flag to determine whether or not or display a method's parameters
 
             dpi: dots per inch for the display we are mapping from;
             Some diagramming documents may not need a value for this since they map directly to display device
@@ -52,9 +54,12 @@ class BaseDiagram:
         """
 
         self._fileName:   str = fileName
+
+        self._docDisplayMethodParameters: DisplayMethodParameters = docDisplayMethodParameters
+
         self._dpi:        int = dpi
         self._headerText: str = headerText
-        self._fontSize:   int  = BaseDiagram.DEFAULT_FONT_SIZE
+        self._fontSize:   int = BaseDiagram.DEFAULT_FONT_SIZE
 
         self._softwareNameVersion: str = ''
         self._diagramPadding:      DiagramPadding = DiagramPadding()

@@ -369,7 +369,8 @@ class TestPdfDiagram(TestDiagramParent):
         baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay'
         fileName: str = f'{baseName}{TestConstants.TEST_SUFFIX}'
 
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, docDisplayMethodParameters=DisplayMethodParameters.UNSPECIFIED,
+                                          dpi=TestConstants.TEST_DPI)
 
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
         for testClass in classDefinitions:
@@ -383,7 +384,8 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='MethodParametersDisplay should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName,
+                                   failMessage='MethodParametersDisplay should be identical', removeTestFile=False)
 
     def testCaptureShowMethodsFalse(self):
 
@@ -431,7 +433,7 @@ class TestPdfDiagram(TestDiagramParent):
         status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertFalse(status == 0, 'These are not even the same type')
 
-    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str) -> None:
+    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str, removeTestFile: bool = True) -> None:
         """
         The side-affect here is that if the assertion passes then this method removes the generated file
 
@@ -446,8 +448,9 @@ class TestPdfDiagram(TestDiagramParent):
 
         self.assertTrue(status == 0, failMessage)
 
-        self.logger.info(f'Removing: {generatedFileName}')
-        osRemove(generatedFileName)
+        if removeTestFile is True:
+            self.logger.info(f'Removing: {generatedFileName}')
+            osRemove(generatedFileName)
 
 
 def suite() -> TestSuite:
