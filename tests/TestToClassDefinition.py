@@ -12,6 +12,7 @@ from pkg_resources import resource_filename
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
+
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestBase import TestBase
@@ -109,8 +110,10 @@ class TestXmlInput(TestBase):
 
         self.assertEqual(DisplayMethodParameters.DISPLAY, classDef.displayMethodParameters, 'Attribute incorrectly set')
 
-    def testNoAttributeMethodParameters(self):
-        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=self._displayMethodParametersTestFileName)
+    def testNoMethodAttribute(self):
+
+        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'NoMethodAttributeTest.xml')
+        toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
 
