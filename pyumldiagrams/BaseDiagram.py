@@ -221,33 +221,16 @@ class BaseDiagram:
         else:
             methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
 
-        nParams:   int = len(methodDef.parameters)
-        paramNum:  int = 0
         paramRepr: str = ''
-        if displayParameters == DisplayMethodParameters.DISPLAY or displayParameters == DisplayMethodParameters.UNSPECIFIED:
+
+        if displayParameters == DisplayMethodParameters.DISPLAY:
 
             self.clsLogger.debug(f'{methodDef.name} - {len(methodDef.parameters)=}')
 
-            for parameterDef in methodDef.parameters:
-                parameterDef = cast(ParameterDefinition, parameterDef)
-                paramNum += 1
-
-                paramRepr = f'{paramRepr}{parameterDef.name}'
-
-                if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
-                    paramRepr = f'{paramRepr}'
-                else:
-                    paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
-
-                if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
-                    paramRepr = f'{paramRepr}'
-                else:
-                    paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
-
-                if paramNum == nParams:
-                    paramRepr = f'{paramRepr}'
-                else:
-                    paramRepr = f'{paramRepr}, '
+            paramRepr = self.__generateParametersString(methodDef, paramRepr)
+        elif displayParameters == DisplayMethodParameters.UNSPECIFIED:
+            if self._docDisplayMethodParameters == DisplayMethodParameters.DISPLAY:
+                paramRepr = self.__generateParametersString(methodDef, paramRepr)
 
         methodRepr = f'{methodRepr}({paramRepr})'
 
@@ -274,3 +257,31 @@ class BaseDiagram:
             fieldRepr = f'{fieldRepr} = {fieldDef.defaultValue}'
 
         return fieldRepr
+
+    def __generateParametersString(self, methodDef, paramRepr):
+
+        nParams:  int = len(methodDef.parameters)
+        paramNum: int = 0
+
+        for parameterDef in methodDef.parameters:
+            parameterDef = cast(ParameterDefinition, parameterDef)
+            paramNum += 1
+
+            paramRepr = f'{paramRepr}{parameterDef.name}'
+
+            if parameterDef.parameterType is None or len(parameterDef.parameterType) == 0:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}: {parameterDef.parameterType}'
+
+            if parameterDef.defaultValue is None or len(parameterDef.defaultValue) == 0:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}={parameterDef.defaultValue}'
+
+            if paramNum == nParams:
+                paramRepr = f'{paramRepr}'
+            else:
+                paramRepr = f'{paramRepr}, '
+
+        return paramRepr

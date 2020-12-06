@@ -140,7 +140,7 @@
             </Class>
         </GraphicClass>
         <GraphicClass width="125.00" height="141.00" x="405.00" y="322.00">
-            <Class id="4" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+            <Class id="4" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Display">
                 <Method name="__getstate__" visibility="PUBLIC">
                     <Return type=""/>
                 </Method>
