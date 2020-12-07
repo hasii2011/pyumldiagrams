@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.5" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>pyumldiagrams.image.ImageDiagram API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
 <style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 <b>A Python UML document maker.</b>
 </head>
@@ -45,6 +45,7 @@ from PIL import ImageFont
 
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
+from pyumldiagrams.Definitions import DisplayMethodParameters
 
 from pyumldiagrams.Definitions import TOP_MARGIN
 from pyumldiagrams.Definitions import LEFT_MARGIN
@@ -79,22 +80,26 @@ class ImageDiagram(BaseDiagram):
     DEFAULT_LINE_COLOR:       str = &#39;Black&#39;
     DEFAULT_TEXT_COLOR:       str = &#39;Black&#39;
     DEFAULT_IMAGE_FORMAT:     str = ImageFormat.PNG.value
+    SUFFIX_INDICATOR:         str = &#39;.&#39;
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 8
+    X_NUDGE_FACTOR:        final = 4
+    Y_NUDGE_FACTOR:        final = 6
+    FIRST_METHOD_Y_OFFSET: final = 0
 
-    def __init__(self, fileName: str, headerText: str = &#39;&#39;, imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = &#39;&#39;, imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         &#34;&#34;&#34;
 
         Args:
             fileName:  The output file name.  Including the suffix
+
+            docDisplayMethodParameters:  The global value to consult if a class value says UNSPECIFIED
 
             headerText:  The text to display as a header on the diagram
 
             imageSize:  The diagram size in pixels
         &#34;&#34;&#34;
 
-        super().__init__(fileName=fileName, headerText=headerText)
+        super().__init__(fileName=fileName, docDisplayMethodParameters=docDisplayMethodParameters, headerText=headerText)
 
         self.logger: Logger = getLogger(__name__)
 
@@ -159,9 +164,10 @@ class ImageDiagram(BaseDiagram):
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
         methodSeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=fieldSeparatorPosition.y, shapeWidth=size.width)
 
-        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
 
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
+        if classDefinition.displayMethods is True:
+            self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         &#34;&#34;&#34;
@@ -211,7 +217,10 @@ class ImageDiagram(BaseDiagram):
             xy = [LEFT_MARGIN, TOP_MARGIN / 2]
             self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
 
-        self._img.save(self._fileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
+        adjustedFileName: str = self._addSuffix(fileName=self._fileName, suffix=ImageDiagram.DEFAULT_IMAGE_FORMAT)
+
+        self.logger.info(f&#39;{adjustedFileName=}&#39;)
+        self._img.save(adjustedFileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
 
     def _drawClassSymbol(self, classDefinition: ClassDefinition):
 
@@ -227,7 +236,7 @@ class ImageDiagram(BaseDiagram):
         x1 = x0 + size.width
         y1 = y0 + size.height
         xy = [x0, y0, x1, y1]
-        self.logger.info(f&#39;Class Symbol {xy=}&#39;)
+        self.logger.debug(f&#39;Class Symbol {xy=}&#39;)
         imgDraw.rectangle(xy=xy, fill=None, outline=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
     def _drawClassName(self, classDefinition: ClassDefinition, rectX: float, rectY: float, symbolWidth: float):
@@ -240,7 +249,7 @@ class ImageDiagram(BaseDiagram):
         textY: float = rectY + (self._fontSize / 2)
 
         xy = [textX, textY]
-        self.logger.info(f&#39;ClassName {xy=}&#39;)
+        self.logger.debug(f&#39;ClassName {xy=}&#39;)
         imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=classDefinition.name)
 
     def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
@@ -263,7 +272,7 @@ class ImageDiagram(BaseDiagram):
         endX: float = rectX + shapeWidth
 
         xy = [separatorX, separatorY, endX, separatorY]
-        self.logger.info(f&#39;Separator {xy=}&#39;)
+        self.logger.debug(f&#39;Separator {xy=}&#39;)
         imgDraw.line(xy=xy, fill=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
         return SeparatorPosition(separatorX, separatorY)
@@ -286,13 +295,22 @@ class ImageDiagram(BaseDiagram):
         imgDraw: ImageDraw = self._imgDraw
 
         x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
+        y: float = separatorPosition.y + ImageDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
             xy = [x, y]
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=methodRepr)
-            y = y + self._fontSize + 2
+            y = y + self._fontSize
+
+    def _addSuffix(self, fileName: str, suffix: str) -&gt; str:
+
+        result = fileName.find(f&#39;{ImageDiagram.SUFFIX_INDICATOR}{suffix}&#39;)
+        if result == -1:
+            adjustedFileName: str = f&#39;{fileName}{ImageDiagram.SUFFIX_INDICATOR}{suffix}&#39;
+        else:
+            adjustedFileName: str = fileName
+        return adjustedFileName
 
     def __toInternalCoordinates(self, definition: ShapeDefinition) -&gt; List[float]:
 
@@ -332,7 +350,7 @@ class ImageDiagram(BaseDiagram):
 <dl>
 <dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram"><code class="flex name class">
 <span>class <span class="ident">ImageDiagram</span></span>
-<span>(</span><span>fileName: str, headerText: str = '', imageSize: <a title="pyumldiagrams.Definitions.Size" href="../Definitions.html#pyumldiagrams.Definitions.Size">Size</a> = Size(width=1280, height=1024))</span>
+<span>(</span><span>fileName: str, docDisplayMethodParameters: <a title="pyumldiagrams.Definitions.DisplayMethodParameters" href="../Definitions.html#pyumldiagrams.Definitions.DisplayMethodParameters">DisplayMethodParameters</a> = DisplayMethodParameters.DISPLAY, headerText: str = '', imageSize: <a title="pyumldiagrams.Definitions.Size" href="../Definitions.html#pyumldiagrams.Definitions.Size">Size</a> = Size(width=1280, height=1024))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Always lays out in portrait mode.
@@ -347,6 +365,8 @@ specify the text font size</p>
 <dt><strong><code>fileName</code></strong></dt>
 <dd>The output file name.
 Including the suffix</dd>
+<dt><strong><code>docDisplayMethodParameters</code></strong></dt>
+<dd>The global value to consult if a class value says UNSPECIFIED</dd>
 <dt><strong><code>headerText</code></strong></dt>
 <dd>The text to display as a header on the diagram</dd>
 <dt><strong><code>imageSize</code></strong></dt>
@@ -368,22 +388,26 @@ Including the suffix</dd>
     DEFAULT_LINE_COLOR:       str = &#39;Black&#39;
     DEFAULT_TEXT_COLOR:       str = &#39;Black&#39;
     DEFAULT_IMAGE_FORMAT:     str = ImageFormat.PNG.value
+    SUFFIX_INDICATOR:         str = &#39;.&#39;
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 8
+    X_NUDGE_FACTOR:        final = 4
+    Y_NUDGE_FACTOR:        final = 6
+    FIRST_METHOD_Y_OFFSET: final = 0
 
-    def __init__(self, fileName: str, headerText: str = &#39;&#39;, imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = &#39;&#39;, imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         &#34;&#34;&#34;
 
         Args:
             fileName:  The output file name.  Including the suffix
+
+            docDisplayMethodParameters:  The global value to consult if a class value says UNSPECIFIED
 
             headerText:  The text to display as a header on the diagram
 
             imageSize:  The diagram size in pixels
         &#34;&#34;&#34;
 
-        super().__init__(fileName=fileName, headerText=headerText)
+        super().__init__(fileName=fileName, docDisplayMethodParameters=docDisplayMethodParameters, headerText=headerText)
 
         self.logger: Logger = getLogger(__name__)
 
@@ -448,9 +472,10 @@ Including the suffix</dd>
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
         methodSeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=fieldSeparatorPosition.y, shapeWidth=size.width)
 
-        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+        methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
 
-        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
+        if classDefinition.displayMethods is True:
+            self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         &#34;&#34;&#34;
@@ -500,7 +525,10 @@ Including the suffix</dd>
             xy = [LEFT_MARGIN, TOP_MARGIN / 2]
             self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
 
-        self._img.save(self._fileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
+        adjustedFileName: str = self._addSuffix(fileName=self._fileName, suffix=ImageDiagram.DEFAULT_IMAGE_FORMAT)
+
+        self.logger.info(f&#39;{adjustedFileName=}&#39;)
+        self._img.save(adjustedFileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)
 
     def _drawClassSymbol(self, classDefinition: ClassDefinition):
 
@@ -516,7 +544,7 @@ Including the suffix</dd>
         x1 = x0 + size.width
         y1 = y0 + size.height
         xy = [x0, y0, x1, y1]
-        self.logger.info(f&#39;Class Symbol {xy=}&#39;)
+        self.logger.debug(f&#39;Class Symbol {xy=}&#39;)
         imgDraw.rectangle(xy=xy, fill=None, outline=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
     def _drawClassName(self, classDefinition: ClassDefinition, rectX: float, rectY: float, symbolWidth: float):
@@ -529,7 +557,7 @@ Including the suffix</dd>
         textY: float = rectY + (self._fontSize / 2)
 
         xy = [textX, textY]
-        self.logger.info(f&#39;ClassName {xy=}&#39;)
+        self.logger.debug(f&#39;ClassName {xy=}&#39;)
         imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=classDefinition.name)
 
     def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
@@ -552,7 +580,7 @@ Including the suffix</dd>
         endX: float = rectX + shapeWidth
 
         xy = [separatorX, separatorY, endX, separatorY]
-        self.logger.info(f&#39;Separator {xy=}&#39;)
+        self.logger.debug(f&#39;Separator {xy=}&#39;)
         imgDraw.line(xy=xy, fill=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
         return SeparatorPosition(separatorX, separatorY)
@@ -575,13 +603,22 @@ Including the suffix</dd>
         imgDraw: ImageDraw = self._imgDraw
 
         x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
+        y: float = separatorPosition.y + ImageDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
             xy = [x, y]
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=methodRepr)
-            y = y + self._fontSize + 2
+            y = y + self._fontSize
+
+    def _addSuffix(self, fileName: str, suffix: str) -&gt; str:
+
+        result = fileName.find(f&#39;{ImageDiagram.SUFFIX_INDICATOR}{suffix}&#39;)
+        if result == -1:
+            adjustedFileName: str = f&#39;{fileName}{ImageDiagram.SUFFIX_INDICATOR}{suffix}&#39;
+        else:
+            adjustedFileName: str = fileName
+        return adjustedFileName
 
     def __toInternalCoordinates(self, definition: ShapeDefinition) -&gt; List[float]:
 
@@ -623,11 +660,11 @@ Including the suffix</dd>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_IMAGE_HEIGHT</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_IMAGE_HEIGHT</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_IMAGE_WIDTH</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_IMAGE_WIDTH</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -639,19 +676,27 @@ Including the suffix</dd>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.FIRST_METHOD_Y_OFFSET"><code class="name">var <span class="ident">FIRST_METHOD_Y_OFFSET</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x105654700></code></dt>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.SUFFIX_INDICATOR"><code class="name">var <span class="ident">SUFFIX_INDICATOR</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x1099c6160></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x1099c6160></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -698,9 +743,10 @@ Including the suffix</dd>
     fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
     methodSeparatorPosition = self._drawSeparator(rectX=iPos.x, rectY=fieldSeparatorPosition.y, shapeWidth=size.width)
 
-    methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods)
+    methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
 
-    self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)</code></pre>
+    if classDefinition.displayMethods is True:
+        self._drawMethods(methodReprs=methodReprs, separatorPosition=methodSeparatorPosition)</code></pre>
 </details>
 </dd>
 <dt id="pyumldiagrams.image.ImageDiagram.ImageDiagram.drawEllipse"><code class="name flex">
@@ -812,7 +858,10 @@ between the UML classes</p>
         xy = [LEFT_MARGIN, TOP_MARGIN / 2]
         self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
 
-    self._img.save(self._fileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)</code></pre>
+    adjustedFileName: str = self._addSuffix(fileName=self._fileName, suffix=ImageDiagram.DEFAULT_IMAGE_FORMAT)
+
+    self.logger.info(f&#39;{adjustedFileName=}&#39;)
+    self._img.save(adjustedFileName, ImageDiagram.DEFAULT_IMAGE_FORMAT)</code></pre>
 </details>
 </dd>
 </dl>
@@ -820,6 +869,7 @@ between the UML classes</p>
 <ul class="hlist">
 <li><code><b><a title="pyumldiagrams.BaseDiagram.BaseDiagram" href="../BaseDiagram.html#pyumldiagrams.BaseDiagram.BaseDiagram">BaseDiagram</a></b></code>:
 <ul class="hlist">
+<li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.docTimeStamp" href="../BaseDiagram.html#pyumldiagrams.BaseDiagram.BaseDiagram.docTimeStamp">docTimeStamp</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.fontSize" href="../BaseDiagram.html#pyumldiagrams.BaseDiagram.BaseDiagram.fontSize">fontSize</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.headerText" href="../BaseDiagram.html#pyumldiagrams.BaseDiagram.BaseDiagram.headerText">headerText</a></code></li>
 <li><code><a title="pyumldiagrams.BaseDiagram.BaseDiagram.horizontalGap" href="../BaseDiagram.html#pyumldiagrams.BaseDiagram.BaseDiagram.horizontalGap">horizontalGap</a></code></li>
@@ -856,8 +906,10 @@ between the UML classes</p>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_WIDTH" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_IMAGE_WIDTH">DEFAULT_IMAGE_WIDTH</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_LINE_COLOR" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_LINE_COLOR">DEFAULT_LINE_COLOR</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_TEXT_COLOR" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.DEFAULT_TEXT_COLOR">DEFAULT_TEXT_COLOR</a></code></li>
+<li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.FIRST_METHOD_Y_OFFSET" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.FIRST_METHOD_Y_OFFSET">FIRST_METHOD_Y_OFFSET</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PACKAGE_NAME" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PACKAGE_NAME">RESOURCES_PACKAGE_NAME</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PATH" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.RESOURCES_PATH">RESOURCES_PATH</a></code></li>
+<li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.SUFFIX_INDICATOR" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.SUFFIX_INDICATOR">SUFFIX_INDICATOR</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.X_NUDGE_FACTOR" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.X_NUDGE_FACTOR">X_NUDGE_FACTOR</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.Y_NUDGE_FACTOR" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.Y_NUDGE_FACTOR">Y_NUDGE_FACTOR</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageDiagram.ImageDiagram.drawClass" href="#pyumldiagrams.image.ImageDiagram.ImageDiagram.drawClass">drawClass</a></code></li>
@@ -874,7 +926,7 @@ between the UML classes</p>
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>

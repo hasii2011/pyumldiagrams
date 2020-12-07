@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.5" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>pyumldiagrams.Definitions API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
 <style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 <b>A Python UML document maker.</b>
 </head>
@@ -141,6 +141,13 @@ Syntactic sugar to define a list of parameters.
 &#34;&#34;&#34;
 
 
+class DisplayMethodParameters(Enum):
+
+    DISPLAY        = &#39;Display&#39;
+    DO_NOT_DISPLAY = &#39;DoNotDisplay&#39;
+    UNSPECIFIED    = &#39;Unspecified&#39;
+
+
 @dataclass
 class MethodDefinition(BaseDefinition):
     &#34;&#34;&#34;
@@ -201,6 +208,22 @@ class ClassDefinition(BaseDefinition):
     fields: Fields = field(default_factory=list)
     &#34;&#34;&#34;
     The list of instance variables this class defines.
+    &#34;&#34;&#34;
+    displayStereotype:  bool = True
+    &#34;&#34;&#34;
+    If true display the class stereotype when drawing the class diagram
+    &#34;&#34;&#34;
+    displayMethods:     bool = True
+    &#34;&#34;&#34;
+    If True display the class methods
+    &#34;&#34;&#34;
+    displayFields:      bool = True
+    &#34;&#34;&#34;
+    If True display the class instance variables
+    &#34;&#34;&#34;
+    displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
+    &#34;&#34;&#34;
+    If True display the method parameters;  If UNSPECIFIED defer to global
     &#34;&#34;&#34;
 
 
@@ -369,7 +392,7 @@ class EllipseDefinition(RectangleDefinition):
 </dd>
 <dt id="pyumldiagrams.Definitions.ClassDefinition"><code class="flex name class">
 <span>class <span class="ident">ClassDefinition</span></span>
-<span>(</span><span>name: str, size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=100, height=100), position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), methods: List[<a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a>] = &lt;factory&gt;, fields: List[<a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a>] = &lt;factory&gt;)</span>
+<span>(</span><span>name: str, size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=100, height=100), position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), methods: List[<a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a>] = &lt;factory&gt;, fields: List[<a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a>] = &lt;factory&gt;, displayStereotype: bool = True, displayMethods: bool = True, displayFields: bool = True, displayMethodParameters: <a title="pyumldiagrams.Definitions.DisplayMethodParameters" href="#pyumldiagrams.Definitions.DisplayMethodParameters">DisplayMethodParameters</a> = DisplayMethodParameters.UNSPECIFIED)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The class definition.
@@ -397,6 +420,22 @@ Currently, does not support instance properties.</p></div>
     fields: Fields = field(default_factory=list)
     &#34;&#34;&#34;
     The list of instance variables this class defines.
+    &#34;&#34;&#34;
+    displayStereotype:  bool = True
+    &#34;&#34;&#34;
+    If true display the class stereotype when drawing the class diagram
+    &#34;&#34;&#34;
+    displayMethods:     bool = True
+    &#34;&#34;&#34;
+    If True display the class methods
+    &#34;&#34;&#34;
+    displayFields:      bool = True
+    &#34;&#34;&#34;
+    If True display the class instance variables
+    &#34;&#34;&#34;
+    displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
+    &#34;&#34;&#34;
+    If True display the method parameters;  If UNSPECIFIED defer to global
     &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -405,6 +444,31 @@ Currently, does not support instance properties.</p></div>
 </ul>
 <h3>Class variables</h3>
 <dl>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.displayFields"><code class="name">var <span class="ident">displayFields</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>If True display the class instance variables</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.displayMethodParameters"><code class="name">var <span class="ident">displayMethodParameters</span> : <a title="pyumldiagrams.Definitions.DisplayMethodParameters" href="#pyumldiagrams.Definitions.DisplayMethodParameters">DisplayMethodParameters</a></code></dt>
+<dd>
+<div class="desc"><p>If True display the method parameters;
+If UNSPECIFIED defer to global</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.displayMethods"><code class="name">var <span class="ident">displayMethods</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>If True display the class methods</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.displayStereotype"><code class="name">var <span class="ident">displayStereotype</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>If true display the class stereotype when drawing the class diagram</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.fields"><code class="name">var <span class="ident">fields</span> : List[<a title="pyumldiagrams.Definitions.FieldDefinition" href="#pyumldiagrams.Definitions.FieldDefinition">FieldDefinition</a>]</code></dt>
+<dd>
+<div class="desc"><p>The list of instance variables this class defines.</p></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.ClassDefinition.methods"><code class="name">var <span class="ident">methods</span> : List[<a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a>]</code></dt>
+<dd>
+<div class="desc"><p>The list of methods this class implements.</p></div>
+</dd>
 <dt id="pyumldiagrams.Definitions.ClassDefinition.position"><code class="name">var <span class="ident">position</span> : <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a></code></dt>
 <dd>
 <div class="desc"><p>The position of the UML class symbol.
@@ -524,6 +588,42 @@ See <code><a title="pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP" href="Defaults.
 </dd>
 </dl>
 </dd>
+<dt id="pyumldiagrams.Definitions.DisplayMethodParameters"><code class="flex name class">
+<span>class <span class="ident">DisplayMethodParameters</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DisplayMethodParameters(Enum):
+
+    DISPLAY        = &#39;Display&#39;
+    DO_NOT_DISPLAY = &#39;DoNotDisplay&#39;
+    UNSPECIFIED    = &#39;Unspecified&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.Definitions.DisplayMethodParameters.DISPLAY"><code class="name">var <span class="ident">DISPLAY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.DisplayMethodParameters.DO_NOT_DISPLAY"><code class="name">var <span class="ident">DO_NOT_DISPLAY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.DisplayMethodParameters.UNSPECIFIED"><code class="name">var <span class="ident">UNSPECIFIED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pyumldiagrams.Definitions.EllipseDefinition"><code class="flex name class">
 <span>class <span class="ident">EllipseDefinition</span></span>
 <span>(</span><span>renderStyle: <a title="pyumldiagrams.Definitions.RenderStyle" href="#pyumldiagrams.Definitions.RenderStyle">RenderStyle</a> = RenderStyle.Draw, position: <a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a> = Position(x=0, y=0), size: <a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definitions.Size">Size</a> = Size(width=0, height=0))</span>
@@ -625,6 +725,13 @@ is the end of the line</p></div>
 <ul class="hlist">
 <li><a title="pyumldiagrams.Definitions.UmlLineDefinition" href="#pyumldiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a></li>
 </ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.Definitions.LineDefinition.linePositions"><code class="name">var <span class="ident">linePositions</span> : List[<a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 </dd>
 <dt id="pyumldiagrams.Definitions.LineType"><code class="flex name class">
 <span>class <span class="ident">LineType</span></span>
@@ -688,6 +795,45 @@ Currently, bare associations are not supported.</p></div>
 <div class="desc"></div>
 </dd>
 </dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="pyumldiagrams.Definitions.LineType.toEnum"><code class="name flex">
+<span>def <span class="ident">toEnum</span></span>(<span>strValue: str) ‑> <a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Converts the input string to the line type enum</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>strValue</code></strong></dt>
+<dd>The serialized string representation</dd>
+</dl>
+<p>Returns:
+The line type enumeration</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
+    &#34;&#34;&#34;
+    Converts the input string to the line type enum
+    Args:
+        strValue:   The serialized string representation
+
+    Returns:  The line type enumeration
+    &#34;&#34;&#34;
+    canonicalStr: str = strValue.lower().strip(&#39; &#39;)
+    if canonicalStr == &#39;aggregation&#39;:
+        return LineType.Aggregation
+    elif canonicalStr == &#39;composition&#39;:
+        return LineType.Composition
+    elif canonicalStr == &#39;inheritance&#39;:
+        return LineType.Inheritance
+    else:
+        raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)</code></pre>
+</details>
+</dd>
+</dl>
 </dd>
 <dt id="pyumldiagrams.Definitions.MethodDefinition"><code class="flex name class">
 <span>class <span class="ident">MethodDefinition</span></span>
@@ -722,6 +868,10 @@ Currently, bare associations are not supported.</p></div>
 </ul>
 <h3>Class variables</h3>
 <dl>
+<dt id="pyumldiagrams.Definitions.MethodDefinition.parameters"><code class="name">var <span class="ident">parameters</span> : List[<a title="pyumldiagrams.Definitions.ParameterDefinition" href="#pyumldiagrams.Definitions.ParameterDefinition">ParameterDefinition</a>]</code></dt>
+<dd>
+<div class="desc"><p>Define the parameters for a particular method</p></div>
+</dd>
 <dt id="pyumldiagrams.Definitions.MethodDefinition.returnType"><code class="name">var <span class="ident">returnType</span> : str</code></dt>
 <dd>
 <div class="desc"><p>Defines the method return type.</p></div>
@@ -986,6 +1136,14 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <ul class="hlist">
 <li><a title="pyumldiagrams.Definitions.LineDefinition" href="#pyumldiagrams.Definitions.LineDefinition">LineDefinition</a></li>
 </ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.Definitions.UmlLineDefinition.lineType"><code class="name">var <span class="ident">lineType</span> : <a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a></code></dt>
+<dd>
+<div class="desc"><p>The UML line type
+See <code><a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a></code>.</p></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -1020,6 +1178,12 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.ClassDefinition" href="#pyumldiagrams.Definitions.ClassDefinition">ClassDefinition</a></code></h4>
 <ul class="">
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.displayFields" href="#pyumldiagrams.Definitions.ClassDefinition.displayFields">displayFields</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.displayMethodParameters" href="#pyumldiagrams.Definitions.ClassDefinition.displayMethodParameters">displayMethodParameters</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.displayMethods" href="#pyumldiagrams.Definitions.ClassDefinition.displayMethods">displayMethods</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.displayStereotype" href="#pyumldiagrams.Definitions.ClassDefinition.displayStereotype">displayStereotype</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.fields" href="#pyumldiagrams.Definitions.ClassDefinition.fields">fields</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.ClassDefinition.methods" href="#pyumldiagrams.Definitions.ClassDefinition.methods">methods</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.ClassDefinition.position" href="#pyumldiagrams.Definitions.ClassDefinition.position">position</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.ClassDefinition.size" href="#pyumldiagrams.Definitions.ClassDefinition.size">size</a></code></li>
 </ul>
@@ -1042,6 +1206,14 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </ul>
 </li>
 <li>
+<h4><code><a title="pyumldiagrams.Definitions.DisplayMethodParameters" href="#pyumldiagrams.Definitions.DisplayMethodParameters">DisplayMethodParameters</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.DisplayMethodParameters.DISPLAY" href="#pyumldiagrams.Definitions.DisplayMethodParameters.DISPLAY">DISPLAY</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.DisplayMethodParameters.DO_NOT_DISPLAY" href="#pyumldiagrams.Definitions.DisplayMethodParameters.DO_NOT_DISPLAY">DO_NOT_DISPLAY</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.DisplayMethodParameters.UNSPECIFIED" href="#pyumldiagrams.Definitions.DisplayMethodParameters.UNSPECIFIED">UNSPECIFIED</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pyumldiagrams.Definitions.EllipseDefinition" href="#pyumldiagrams.Definitions.EllipseDefinition">EllipseDefinition</a></code></h4>
 </li>
 <li>
@@ -1052,6 +1224,9 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.LineDefinition" href="#pyumldiagrams.Definitions.LineDefinition">LineDefinition</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.LineDefinition.linePositions" href="#pyumldiagrams.Definitions.LineDefinition.linePositions">linePositions</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a></code></h4>
@@ -1060,11 +1235,13 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <li><code><a title="pyumldiagrams.Definitions.LineType.Association" href="#pyumldiagrams.Definitions.LineType.Association">Association</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.Composition" href="#pyumldiagrams.Definitions.LineType.Composition">Composition</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.Inheritance" href="#pyumldiagrams.Definitions.LineType.Inheritance">Inheritance</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.LineType.toEnum" href="#pyumldiagrams.Definitions.LineType.toEnum">toEnum</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.MethodDefinition" href="#pyumldiagrams.Definitions.MethodDefinition">MethodDefinition</a></code></h4>
 <ul class="">
+<li><code><a title="pyumldiagrams.Definitions.MethodDefinition.parameters" href="#pyumldiagrams.Definitions.MethodDefinition.parameters">parameters</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.MethodDefinition.returnType" href="#pyumldiagrams.Definitions.MethodDefinition.returnType">returnType</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.MethodDefinition.visibility" href="#pyumldiagrams.Definitions.MethodDefinition.visibility">visibility</a></code></li>
 </ul>
@@ -1108,6 +1285,9 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.UmlLineDefinition" href="#pyumldiagrams.Definitions.UmlLineDefinition">UmlLineDefinition</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.Definitions.UmlLineDefinition.lineType" href="#pyumldiagrams.Definitions.UmlLineDefinition.lineType">lineType</a></code></li>
+</ul>
 </li>
 </ul>
 </li>
@@ -1116,7 +1296,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>
