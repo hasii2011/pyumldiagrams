@@ -16,6 +16,10 @@ cache: pip
 python:
   - "3.9.0"
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install poppler-utils
+
 # command to install dependencies
 install:
   - pip install fpdf2
