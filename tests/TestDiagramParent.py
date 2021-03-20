@@ -38,7 +38,8 @@ class TestDiagramParent(TestBase):
     BASE_IMAGE_RESOURCE_PACKAGE_NAME: str = f'{BASE_FILES_PACKAGE_NAME}.image'
     BASE_PDF_RESOURCE_PACKAGE_NAME:   str = f'{BASE_FILES_PACKAGE_NAME}.pdf'
 
-    EXTERNAL_DIFF_PROGRAM: str = 'diff'
+    EXTERNAL_DIFF_PROGRAM:    str = 'diff'
+    EXTERNAL_PDF_DIFF_SCRIPT: str = './scripts/diffpdf.sh'
 
     STANDARD_SUFFIX: str = '-Standard'
 
@@ -57,6 +58,12 @@ class TestDiagramParent(TestBase):
     def _runDiff(self, baseFileName: str, standardFileName) -> int:
 
         status: int = osSystem(f'{TestDiagramParent.EXTERNAL_DIFF_PROGRAM} {baseFileName} {standardFileName}')
+
+        return status
+
+    def _runPdfDiff(self, baseFileName: str, standardFileName) -> int:
+
+        status: int = osSystem(f'{TestDiagramParent.EXTERNAL_PDF_DIFF_SCRIPT} {baseFileName} {standardFileName}')
 
         return status
 

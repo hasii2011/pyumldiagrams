@@ -444,7 +444,7 @@ class TestPdfDiagram(TestDiagramParent):
         """
 
         standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}{TestConstants.TEST_SUFFIX}')
-        status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+        status:           int = self._runPdfDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
 
         self.assertTrue(status == 0, failMessage)
 
