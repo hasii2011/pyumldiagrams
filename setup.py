@@ -10,8 +10,8 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="pyumldiagrams",
-    version="2.30.0",
-    description="Draw UML diagrams in various format",
+    version="2.30.5",
+    description="Draw UML diagrams in various formats",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/hasii2011/pyumldiagrams",
