@@ -206,10 +206,11 @@ class LineType(Enum):
     """
     The type of UML line you wish to draw.  Currently, bare associations are not supported.
     """
-    Inheritance  = 0
-    Aggregation  = 1
-    Composition  = 3
-    Association  = 7
+    Inheritance     = 0
+    Aggregation     = 1
+    Composition     = 3
+    Association     = 7
+    NoteAssociation = 9
 
     @staticmethod
     def toEnum(strValue: str) -> 'LineType':
@@ -227,6 +228,10 @@ class LineType(Enum):
             return LineType.Composition
         elif canonicalStr == 'inheritance':
             return LineType.Inheritance
+        elif canonicalStr == 'association':
+            return LineType.Association
+        elif canonicalStr == 'noteAssociation':
+            return LineType.NoteAssociation
         else:
             raise UnsupportedException(f'Do not handle LineType {canonicalStr}')
 
@@ -246,7 +251,7 @@ class LineDefinition:
 @dataclass
 class UmlLineDefinition(LineDefinition):
     """
-    A UML Line definition includes its' type
+    A UML Line definition includes its type
     """
     lineType: LineType
     """

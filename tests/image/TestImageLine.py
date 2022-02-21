@@ -172,6 +172,37 @@ class TestImageLine(TestBase):
             lineDrawer.draw(definition)
         diagram.write()
 
+    def testOrthogonalAssociationLines(self):
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAssociationLines.{ImageFormat.PNG.value}')
+
+        self._drawHorizontalBoundaries(diagram)
+        self._drawVerticalBoundaries(diagram)
+
+        north, south, east, west = self._createOrthogonalLines(LineType.Association)
+        lineDefinitions: UmlLineDefinitions = [
+            north, south, east, west
+        ]
+        lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
+
+        for lineDefinition in lineDefinitions:
+            lineDrawer.draw(lineDefinition)
+
+        diagram.write()
+
+    def testDiagonalAssociationLines(self):
+
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAssociationLines.{ImageFormat.PNG.value}')
+        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+
+        lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
+
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Association)
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
+
+        diagram.write()
+
     def _drawHorizontalBoundaries(self, diagram: ImageDiagram):
 
         imgDraw: ImageDraw = diagram._imgDraw
@@ -243,21 +274,21 @@ class TestImageLine(TestBase):
         arrowSize: float    = ELLIPSE_WIDTH / 2
 
         center: Position = self.__computeEllipseCenter(pos)
-        neDest: Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
-        nwDest: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
-        seDest: Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
-        swDest: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
+        neDst: Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
+        nwDst: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
+        seDst: Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
+        swDst: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = [center, neDest]
+        nePositions: LinePositions = [center, neDst]
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
 
-        nwPositions: LinePositions = [center, nwDest]
+        nwPositions: LinePositions = [center, nwDst]
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
 
-        swPositions: LinePositions = [center, swDest]
+        swPositions: LinePositions = [center, swDst]
         southWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=swPositions)
 
-        sePositions: LinePositions = [center, seDest]
+        sePositions: LinePositions = [center, seDst]
         southEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=sePositions)
 
         return northEast, northWest, southEast, southWest
@@ -275,7 +306,7 @@ class TestImageLine(TestBase):
     def __computeNorthEastDestination(self, center: Position, arrowSize: float) -> Position:
         from math import pi
 
-        radians: float = (pi / 4) * -1.0    # definition of 45 degree angle
+        radians: float = (pi / 4) * -1.0    # definition of 45-degree angle
         return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
 
     def __computeNorthWestDestination(self, center: Position, arrowSize: float) -> Position:

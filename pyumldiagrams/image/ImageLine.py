@@ -57,15 +57,17 @@ class ImageLine(IDiagramLine):
             self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
             self._drawAggregationDiamond(linePositions=linePositions)
+        elif lineType == LineType.Association:
+            self._drawAssociation(linePositions=linePositions)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
     def _drawInheritanceArrow(self, linePositions: LinePositions):
         """
         Must account for the margins and gaps between drawn shapes
-        Must convert to points from screen coordinates
+        Must convert from screen coordinates to point coordinates
         Draw the arrow first
-        Compute the mid point of the bottom line of the arrow
+        Compute the mid-point of the bottom line of the arrow
         That is where the line ends
 
         Args:
@@ -74,9 +76,9 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDest)
+        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -91,9 +93,9 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -108,15 +110,23 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
 
         newEndPoint: InternalPosition = points[3]
         xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+
+        self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+    def _drawAssociation(self, linePositions: LinePositions):
+
+        lastIdx:     int                  = len(linePositions) - 1
+        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
+        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
