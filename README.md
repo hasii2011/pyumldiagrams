@@ -27,13 +27,12 @@ diagram.write()
 diagram: PdfDiagram = PdfDiagram(fileName=f'Test-BasicMethod.pdf', dpi=75)
 
 position: Position = Position(107, 30)
-size:         Size          = Size(width=266, height=100)
+size:     Size     = Size(width=266, height=100)
 
 car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
 
-initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
-
-initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
+initMethodDef: MethodDefinition    = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+initParam:     ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
 initMethodDef.parameters = [initParam]
 car.methods = [initMethodDef]
 
@@ -70,14 +69,14 @@ diagram.write()
 ```python
 diagram: PdfDiagram = PdfDiagram(fileName='MinimalInheritance.pdf', dpi=75)
 
-cat:   ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
+cat:  ClassDefinition = ClassDefinition(name='Gato', position=Position(536, 19), size=Size(height=74, width=113))
 opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
 
 diagram.drawClass(classDefinition=cat)
 diagram.drawClass(classDefinition=opie)
 
-linePositions: LinePositions = [Position(600, 208), Position(600, 93)]
-opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
+linePositions: LinePositions     = [Position(600, 208), Position(600, 93)]
+opieToCat:     UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
 diagram.drawUmlLine(lineDefinition=opieToCat)
 diagram.write()
@@ -92,11 +91,11 @@ diagram.write()
 ### Create a basic .png class
 
 ```python
-diagram:   ImageDiagram       = ImageDiagram(fileName='BasicClass.png')
+diagram:  ImageDiagram    = ImageDiagram(fileName='BasicClass.png')
 classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
-                                                										 size=Size(width=266, height=100),
-                                                										 position=Position(x=107, y=30)
-                                               											)
+                                            size=Size(width=266, height=100),
+                                            position=Position(x=107, y=30)
+                                            )
 
 diagram.drawClass(classDef)
 diagram.write()
@@ -105,8 +104,8 @@ diagram.write()
 ### Create a basic .png class with fields
 
 ```python
-fileName:               str                           = 'Test-WithFields.png'
-diagram:                 ImageDiagram        = ImageDiagram(fileName=fileName)
+fileName:        str             = 'Test-WithFields.png'
+diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
 fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', 
                                                                            								position=Position(226, 102), 
                                                        													size=Size(height=156, width=230))
