@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>pyumldiagrams.image.ImageLine API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -85,15 +85,17 @@ class ImageLine(IDiagramLine):
             self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
             self._drawAggregationDiamond(linePositions=linePositions)
+        elif lineType == LineType.Association:
+            self._drawAssociation(linePositions=linePositions)
         else:
             raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
 
     def _drawInheritanceArrow(self, linePositions: LinePositions):
         &#34;&#34;&#34;
         Must account for the margins and gaps between drawn shapes
-        Must convert to points from screen coordinates
+        Must convert from screen coordinates to point coordinates
         Draw the arrow first
-        Compute the mid point of the bottom line of the arrow
+        Compute the mid-point of the bottom line of the arrow
         That is where the line ends
 
         Args:
@@ -102,9 +104,9 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDest)
+        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -119,9 +121,9 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -136,15 +138,23 @@ class ImageLine(IDiagramLine):
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill=&#39;black&#39;)
 
         newEndPoint: InternalPosition = points[3]
         xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+
+        self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+    def _drawAssociation(self, linePositions: LinePositions):
+
+        lastIdx:     int                  = len(linePositions) - 1
+        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
+        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -241,15 +251,17 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
             self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
             self._drawAggregationDiamond(linePositions=linePositions)
+        elif lineType == LineType.Association:
+            self._drawAssociation(linePositions=linePositions)
         else:
             raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)
 
     def _drawInheritanceArrow(self, linePositions: LinePositions):
         &#34;&#34;&#34;
         Must account for the margins and gaps between drawn shapes
-        Must convert to points from screen coordinates
+        Must convert from screen coordinates to point coordinates
         Draw the arrow first
-        Compute the mid point of the bottom line of the arrow
+        Compute the mid-point of the bottom line of the arrow
         That is where the line ends
 
         Args:
@@ -258,9 +270,9 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDest)
+        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -275,9 +287,9 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
@@ -292,15 +304,23 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDest: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDest)
+        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill=&#39;black&#39;)
 
         newEndPoint: InternalPosition = points[3]
         xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+
+        self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+    def _drawAssociation(self, linePositions: LinePositions):
+
+        lastIdx:     int                  = len(linePositions) - 1
+        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
+        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -344,11 +364,11 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR"><code class="name">var <span class="ident">DEFAULT_LINE_COLOR</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR"><code class="name">var <span class="ident">DEFAULT_LINE_COLOR</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH"><code class="name">var <span class="ident">LINE_WIDTH</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH"><code class="name">var <span class="ident">LINE_WIDTH</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -393,6 +413,8 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         self._drawCompositionSolidDiamond(linePositions=linePositions)
     elif lineType == LineType.Aggregation:
         self._drawAggregationDiamond(linePositions=linePositions)
+    elif lineType == LineType.Association:
+        self._drawAssociation(linePositions=linePositions)
     else:
         raise UnsupportedException(f&#39;Line definition type not supported: `{lineType}`&#39;)</code></pre>
 </details>
@@ -433,7 +455,7 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

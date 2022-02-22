@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>pyumldiagrams.pdf.PdfCommon API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -27,7 +27,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import Tuple
+<pre><code class="python">from dataclasses import dataclass
 
 from pyumldiagrams.Common import Common
 from pyumldiagrams.Definitions import Position
@@ -38,6 +38,24 @@ from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import ScanPoints
+
+
+@dataclass
+class Coordinates:
+    x: int = 0
+    y: int = 0
+
+
+@dataclass
+class Dimensions:
+    width:  int = 0
+    height: int = 0
+
+
+@dataclass
+class PdfShapeDefinition:
+    coordinates: Coordinates = Coordinates()
+    dimensions:  Dimensions  = Dimensions()
 
 
 class PdfCommon(Common):
@@ -60,12 +78,12 @@ class PdfCommon(Common):
         return points
 
     @classmethod
-    def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -&gt; Tuple[float, float]:
+    def convertPosition(cls, pos: Position, dpi: int, verticalGap: int, horizontalGap: int) -&gt; Coordinates:
 
-        x: float = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-        y: float = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
+        x: int = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+        y: int = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
-        return x, y
+        return Coordinates(x=x, y=y)
 
     @classmethod
     def pointInsidePolygon(cls, pos: InternalPosition, polygon: PolygonPoints) -&gt; bool:
@@ -110,14 +128,14 @@ class PdfCommon(Common):
     @classmethod
     def buildScanPoints(cls, points: PolygonPoints) -&gt; ScanPoints:
 
-        minX: float = points[0].x
-        maxX: float = points[0].y
-        minY: float = points[0].x
-        maxY: float = points[0].y
+        minX: int = points[0].x
+        maxX: int = points[0].y
+        minY: int = points[0].x
+        maxY: int = points[0].y
 
         for point in points:
-            currX: float = point.x
-            currY: float = point.y
+            currX: int = point.x
+            currY: int = point.y
             if currX &lt; minX:
                 minX = currX
             if currX &gt; maxX:
@@ -145,6 +163,60 @@ class PdfCommon(Common):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="pyumldiagrams.pdf.PdfCommon.Coordinates"><code class="flex name class">
+<span>class <span class="ident">Coordinates</span></span>
+<span>(</span><span>x: int = 0, y: int = 0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Coordinates(x: int = 0, y: int = 0)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Coordinates:
+    x: int = 0
+    y: int = 0</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.pdf.PdfCommon.Coordinates.x"><code class="name">var <span class="ident">x</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.pdf.PdfCommon.Coordinates.y"><code class="name">var <span class="ident">y</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pyumldiagrams.pdf.PdfCommon.Dimensions"><code class="flex name class">
+<span>class <span class="ident">Dimensions</span></span>
+<span>(</span><span>width: int = 0, height: int = 0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Dimensions(width: int = 0, height: int = 0)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Dimensions:
+    width:  int = 0
+    height: int = 0</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.pdf.PdfCommon.Dimensions.height"><code class="name">var <span class="ident">height</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.pdf.PdfCommon.Dimensions.width"><code class="name">var <span class="ident">width</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon"><code class="flex name class">
 <span>class <span class="ident">PdfCommon</span></span>
 </code></dt>
@@ -174,12 +246,12 @@ class PdfCommon(Common):
         return points
 
     @classmethod
-    def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -&gt; Tuple[float, float]:
+    def convertPosition(cls, pos: Position, dpi: int, verticalGap: int, horizontalGap: int) -&gt; Coordinates:
 
-        x: float = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-        y: float = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
+        x: int = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+        y: int = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
-        return x, y
+        return Coordinates(x=x, y=y)
 
     @classmethod
     def pointInsidePolygon(cls, pos: InternalPosition, polygon: PolygonPoints) -&gt; bool:
@@ -224,14 +296,14 @@ class PdfCommon(Common):
     @classmethod
     def buildScanPoints(cls, points: PolygonPoints) -&gt; ScanPoints:
 
-        minX: float = points[0].x
-        maxX: float = points[0].y
-        minY: float = points[0].x
-        maxY: float = points[0].y
+        minX: int = points[0].x
+        maxX: int = points[0].y
+        minY: int = points[0].x
+        maxY: int = points[0].y
 
         for point in points:
-            currX: float = point.x
-            currY: float = point.y
+            currX: int = point.x
+            currY: int = point.y
             if currX &lt; minX:
                 minX = currX
             if currX &gt; maxX:
@@ -255,11 +327,11 @@ class PdfCommon(Common):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -278,14 +350,14 @@ class PdfCommon(Common):
 <pre><code class="python">@classmethod
 def buildScanPoints(cls, points: PolygonPoints) -&gt; ScanPoints:
 
-    minX: float = points[0].x
-    maxX: float = points[0].y
-    minY: float = points[0].x
-    maxY: float = points[0].y
+    minX: int = points[0].x
+    maxX: int = points[0].y
+    minY: int = points[0].x
+    maxY: int = points[0].y
 
     for point in points:
-        currX: float = point.x
-        currY: float = point.y
+        currX: int = point.x
+        currY: int = point.y
         if currX &lt; minX:
             minX = currX
         if currX &gt; maxX:
@@ -305,7 +377,7 @@ def buildScanPoints(cls, points: PolygonPoints) -&gt; ScanPoints:
 </details>
 </dd>
 <dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.convertPosition"><code class="name flex">
-<span>def <span class="ident">convertPosition</span></span>(<span>pos: <a title="pyumldiagrams.Definitions.Position" href="../Definitions.html#pyumldiagrams.Definitions.Position">Position</a>, dpi: int, verticalGap: float, horizontalGap: float) ‑> Tuple[float, float]</span>
+<span>def <span class="ident">convertPosition</span></span>(<span>pos: <a title="pyumldiagrams.Definitions.Position" href="../Definitions.html#pyumldiagrams.Definitions.Position">Position</a>, dpi: int, verticalGap: int, horizontalGap: int) ‑> <a title="pyumldiagrams.pdf.PdfCommon.Coordinates" href="#pyumldiagrams.pdf.PdfCommon.Coordinates">Coordinates</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -314,12 +386,12 @@ def buildScanPoints(cls, points: PolygonPoints) -&gt; ScanPoints:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -&gt; Tuple[float, float]:
+def convertPosition(cls, pos: Position, dpi: int, verticalGap: int, horizontalGap: int) -&gt; Coordinates:
 
-    x: float = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-    y: float = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
+    x: int = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+    y: int = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
-    return x, y</code></pre>
+    return Coordinates(x=x, y=y)</code></pre>
 </details>
 </dd>
 <dt id="pyumldiagrams.pdf.PdfCommon.PdfCommon.pointInsidePolygon"><code class="name flex">
@@ -428,6 +500,33 @@ def toPdfPoints(cls, pixelNumber: float, dpi: int) -&gt; int:
 </li>
 </ul>
 </dd>
+<dt id="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition"><code class="flex name class">
+<span>class <span class="ident">PdfShapeDefinition</span></span>
+<span>(</span><span>coordinates: <a title="pyumldiagrams.pdf.PdfCommon.Coordinates" href="#pyumldiagrams.pdf.PdfCommon.Coordinates">Coordinates</a> = Coordinates(x=0, y=0), dimensions: <a title="pyumldiagrams.pdf.PdfCommon.Dimensions" href="#pyumldiagrams.pdf.PdfCommon.Dimensions">Dimensions</a> = Dimensions(width=0, height=0))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>PdfShapeDefinition(coordinates: pyumldiagrams.pdf.PdfCommon.Coordinates = Coordinates(x=0, y=0), dimensions: pyumldiagrams.pdf.PdfCommon.Dimensions = Dimensions(width=0, height=0))</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class PdfShapeDefinition:
+    coordinates: Coordinates = Coordinates()
+    dimensions:  Dimensions  = Dimensions()</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.coordinates"><code class="name">var <span class="ident">coordinates</span> : <a title="pyumldiagrams.pdf.PdfCommon.Coordinates" href="#pyumldiagrams.pdf.PdfCommon.Coordinates">Coordinates</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.dimensions"><code class="name">var <span class="ident">dimensions</span> : <a title="pyumldiagrams.pdf.PdfCommon.Dimensions" href="#pyumldiagrams.pdf.PdfCommon.Dimensions">Dimensions</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 </article>
@@ -446,6 +545,20 @@ def toPdfPoints(cls, pixelNumber: float, dpi: int) -&gt; int:
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="pyumldiagrams.pdf.PdfCommon.Coordinates" href="#pyumldiagrams.pdf.PdfCommon.Coordinates">Coordinates</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.Coordinates.x" href="#pyumldiagrams.pdf.PdfCommon.Coordinates.x">x</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.Coordinates.y" href="#pyumldiagrams.pdf.PdfCommon.Coordinates.y">y</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pyumldiagrams.pdf.PdfCommon.Dimensions" href="#pyumldiagrams.pdf.PdfCommon.Dimensions">Dimensions</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.Dimensions.height" href="#pyumldiagrams.pdf.PdfCommon.Dimensions.height">height</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.Dimensions.width" href="#pyumldiagrams.pdf.PdfCommon.Dimensions.width">width</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pyumldiagrams.pdf.PdfCommon.PdfCommon" href="#pyumldiagrams.pdf.PdfCommon.PdfCommon">PdfCommon</a></code></h4>
 <ul class="">
 <li><code><a title="pyumldiagrams.pdf.PdfCommon.PdfCommon.DIAMOND_HEIGHT" href="#pyumldiagrams.pdf.PdfCommon.PdfCommon.DIAMOND_HEIGHT">DIAMOND_HEIGHT</a></code></li>
@@ -456,6 +569,13 @@ def toPdfPoints(cls, pixelNumber: float, dpi: int) -&gt; int:
 <li><code><a title="pyumldiagrams.pdf.PdfCommon.PdfCommon.toPdfPoints" href="#pyumldiagrams.pdf.PdfCommon.PdfCommon.toPdfPoints">toPdfPoints</a></code></li>
 </ul>
 </li>
+<li>
+<h4><code><a title="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition" href="#pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition">PdfShapeDefinition</a></code></h4>
+<ul class="">
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.coordinates" href="#pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.coordinates">coordinates</a></code></li>
+<li><code><a title="pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.dimensions" href="#pyumldiagrams.pdf.PdfCommon.PdfShapeDefinition.dimensions">dimensions</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -463,7 +583,7 @@ def toPdfPoints(cls, pixelNumber: float, dpi: int) -&gt; int:
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

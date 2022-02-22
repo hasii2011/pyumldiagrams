@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>pyumldiagrams.Definitions API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -49,11 +49,11 @@ class Position:
     The x and y coordinates are in screen/display resolution.  Diagramming modules may
     convert these to appropriate positions based on the rendering technology.
     &#34;&#34;&#34;
-    x: float = 0.0
+    x: int = 0
     &#34;&#34;&#34;
     The x-axis (horizontal) abscissa
     &#34;&#34;&#34;
-    y: float = 0.0
+    y: int = 0
     &#34;&#34;&#34;
     The y-axis (vertical) ordinate
     &#34;&#34;&#34;
@@ -91,11 +91,11 @@ class Size:
     &#34;&#34;&#34;
     Defines the size of the input UML definitions;
     &#34;&#34;&#34;
-    width:  float = 100
+    width:  int = 100
     &#34;&#34;&#34;
     The width of a shape
     &#34;&#34;&#34;
-    height: float = 100
+    height: int = 100
     &#34;&#34;&#34;
     The height of the shape
     &#34;&#34;&#34;
@@ -234,10 +234,11 @@ class LineType(Enum):
     &#34;&#34;&#34;
     The type of UML line you wish to draw.  Currently, bare associations are not supported.
     &#34;&#34;&#34;
-    Inheritance  = 0
-    Aggregation  = 1
-    Composition  = 3
-    Association  = 7
+    Inheritance     = 0
+    Aggregation     = 1
+    Composition     = 3
+    Association     = 7
+    NoteAssociation = 9
 
     @staticmethod
     def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
@@ -255,6 +256,10 @@ class LineType(Enum):
             return LineType.Composition
         elif canonicalStr == &#39;inheritance&#39;:
             return LineType.Inheritance
+        elif canonicalStr == &#39;association&#39;:
+            return LineType.Association
+        elif canonicalStr == &#39;noteAssociation&#39;:
+            return LineType.NoteAssociation
         else:
             raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)
 
@@ -274,7 +279,7 @@ class LineDefinition:
 @dataclass
 class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
-    A UML Line definition includes its&#39; type
+    A UML Line definition includes its type
     &#34;&#34;&#34;
     lineType: LineType
     &#34;&#34;&#34;
@@ -368,7 +373,8 @@ class EllipseDefinition(RectangleDefinition):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class BaseDefinition:
+<pre><code class="python">@dataclass
+class BaseDefinition:
 
     __slots__ = [&#39;name&#39;]
     name: str
@@ -401,7 +407,8 @@ Currently, does not support instance properties.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ClassDefinition(BaseDefinition):
+<pre><code class="python">@dataclass
+class ClassDefinition(BaseDefinition):
     &#34;&#34;&#34;
     The class definition.  Currently, does not support instance properties.
     &#34;&#34;&#34;
@@ -538,7 +545,8 @@ These should move to the Internal package</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class DiagramPadding:
+<pre><code class="python">@dataclass
+class DiagramPadding:
     &#34;&#34;&#34;
     todo::  These should move to the Internal package
     &#34;&#34;&#34;
@@ -634,7 +642,8 @@ See <code><a title="pyumldiagrams.Defaults.DEFAULT_VERTICAL_GAP" href="Defaults.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class EllipseDefinition(RectangleDefinition):
+<pre><code class="python">@dataclass
+class EllipseDefinition(RectangleDefinition):
     &#34;&#34;&#34;
     This is just typing syntactical sugar on how to define an Ellipse.
     &#34;&#34;&#34;
@@ -667,7 +676,8 @@ parameter definition.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class FieldDefinition(ParameterDefinition):
+<pre><code class="python">@dataclass
+class FieldDefinition(ParameterDefinition):
     &#34;&#34;&#34;
     Defines a single instance variable;  Seems funny to inherit from a
     parameter definition.
@@ -714,7 +724,8 @@ is the end of the line</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class LineDefinition:
+<pre><code class="python">@dataclass
+class LineDefinition:
     &#34;&#34;&#34;
     Defines a line between many points;  Index 0 the start of the line;  That last point
     is the end of the line
@@ -748,10 +759,11 @@ Currently, bare associations are not supported.</p></div>
     &#34;&#34;&#34;
     The type of UML line you wish to draw.  Currently, bare associations are not supported.
     &#34;&#34;&#34;
-    Inheritance  = 0
-    Aggregation  = 1
-    Composition  = 3
-    Association  = 7
+    Inheritance     = 0
+    Aggregation     = 1
+    Composition     = 3
+    Association     = 7
+    NoteAssociation = 9
 
     @staticmethod
     def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
@@ -769,6 +781,10 @@ Currently, bare associations are not supported.</p></div>
             return LineType.Composition
         elif canonicalStr == &#39;inheritance&#39;:
             return LineType.Inheritance
+        elif canonicalStr == &#39;association&#39;:
+            return LineType.Association
+        elif canonicalStr == &#39;noteAssociation&#39;:
+            return LineType.NoteAssociation
         else:
             raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)</code></pre>
 </details>
@@ -791,6 +807,10 @@ Currently, bare associations are not supported.</p></div>
 <div class="desc"></div>
 </dd>
 <dt id="pyumldiagrams.Definitions.LineType.Inheritance"><code class="name">var <span class="ident">Inheritance</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pyumldiagrams.Definitions.LineType.NoteAssociation"><code class="name">var <span class="ident">NoteAssociation</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -829,6 +849,10 @@ def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
         return LineType.Composition
     elif canonicalStr == &#39;inheritance&#39;:
         return LineType.Inheritance
+    elif canonicalStr == &#39;association&#39;:
+        return LineType.Association
+    elif canonicalStr == &#39;noteAssociation&#39;:
+        return LineType.NoteAssociation
     else:
         raise UnsupportedException(f&#39;Do not handle LineType {canonicalStr}&#39;)</code></pre>
 </details>
@@ -845,7 +869,8 @@ def toEnum(strValue: str) -&gt; &#39;LineType&#39;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class MethodDefinition(BaseDefinition):
+<pre><code class="python">@dataclass
+class MethodDefinition(BaseDefinition):
     &#34;&#34;&#34;
     Defines a single method in a UML class
     &#34;&#34;&#34;
@@ -901,7 +926,8 @@ See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagra
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ParameterDefinition(BaseDefinition):
+<pre><code class="python">@dataclass
+class ParameterDefinition(BaseDefinition):
     &#34;&#34;&#34;
     Defines a single parameter for a method
     &#34;&#34;&#34;
@@ -944,7 +970,7 @@ See <code><a title="pyumldiagrams.Definitions.DefinitionType" href="#pyumldiagra
 </dd>
 <dt id="pyumldiagrams.Definitions.Position"><code class="flex name class">
 <span>class <span class="ident">Position</span></span>
-<span>(</span><span>x: float = 0.0, y: float = 0.0)</span>
+<span>(</span><span>x: int = 0, y: int = 0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The x and y coordinates are in screen/display resolution.
@@ -954,27 +980,28 @@ convert these to appropriate positions based on the rendering technology.</p></d
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Position:
+<pre><code class="python">@dataclass
+class Position:
     &#34;&#34;&#34;
     The x and y coordinates are in screen/display resolution.  Diagramming modules may
     convert these to appropriate positions based on the rendering technology.
     &#34;&#34;&#34;
-    x: float = 0.0
+    x: int = 0
     &#34;&#34;&#34;
     The x-axis (horizontal) abscissa
     &#34;&#34;&#34;
-    y: float = 0.0
+    y: int = 0
     &#34;&#34;&#34;
     The y-axis (vertical) ordinate
     &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.Definitions.Position.x"><code class="name">var <span class="ident">x</span> : float</code></dt>
+<dt id="pyumldiagrams.Definitions.Position.x"><code class="name">var <span class="ident">x</span> : int</code></dt>
 <dd>
 <div class="desc"><p>The x-axis (horizontal) abscissa</p></div>
 </dd>
-<dt id="pyumldiagrams.Definitions.Position.y"><code class="name">var <span class="ident">y</span> : float</code></dt>
+<dt id="pyumldiagrams.Definitions.Position.y"><code class="name">var <span class="ident">y</span> : int</code></dt>
 <dd>
 <div class="desc"><p>The y-axis (vertical) ordinate</p></div>
 </dd>
@@ -990,7 +1017,8 @@ convert these to appropriate positions based on the rendering technology.</p></d
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class RectangleDefinition:
+<pre><code class="python">@dataclass
+class RectangleDefinition:
     &#34;&#34;&#34;
     Defines a rectangle
     &#34;&#34;&#34;
@@ -1080,7 +1108,7 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 </dd>
 <dt id="pyumldiagrams.Definitions.Size"><code class="flex name class">
 <span>class <span class="ident">Size</span></span>
-<span>(</span><span>width: float = 100, height: float = 100)</span>
+<span>(</span><span>width: int = 100, height: int = 100)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Defines the size of the input UML definitions;</p></div>
@@ -1088,26 +1116,27 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Size:
+<pre><code class="python">@dataclass
+class Size:
     &#34;&#34;&#34;
     Defines the size of the input UML definitions;
     &#34;&#34;&#34;
-    width:  float = 100
+    width:  int = 100
     &#34;&#34;&#34;
     The width of a shape
     &#34;&#34;&#34;
-    height: float = 100
+    height: int = 100
     &#34;&#34;&#34;
     The height of the shape
     &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.Definitions.Size.height"><code class="name">var <span class="ident">height</span> : float</code></dt>
+<dt id="pyumldiagrams.Definitions.Size.height"><code class="name">var <span class="ident">height</span> : int</code></dt>
 <dd>
 <div class="desc"><p>The height of the shape</p></div>
 </dd>
-<dt id="pyumldiagrams.Definitions.Size.width"><code class="name">var <span class="ident">width</span> : float</code></dt>
+<dt id="pyumldiagrams.Definitions.Size.width"><code class="name">var <span class="ident">width</span> : int</code></dt>
 <dd>
 <div class="desc"><p>The width of a shape</p></div>
 </dd>
@@ -1118,14 +1147,15 @@ See <code><a title="pyumldiagrams.Definitions.Size" href="#pyumldiagrams.Definit
 <span>(</span><span>linePositions: List[<a title="pyumldiagrams.Definitions.Position" href="#pyumldiagrams.Definitions.Position">Position</a>], lineType: <a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A UML Line definition includes its' type</p></div>
+<div class="desc"><p>A UML Line definition includes its type</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class UmlLineDefinition(LineDefinition):
+<pre><code class="python">@dataclass
+class UmlLineDefinition(LineDefinition):
     &#34;&#34;&#34;
-    A UML Line definition includes its&#39; type
+    A UML Line definition includes its type
     &#34;&#34;&#34;
     lineType: LineType
     &#34;&#34;&#34;
@@ -1230,11 +1260,12 @@ See <code><a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Def
 </li>
 <li>
 <h4><code><a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Definitions.LineType">LineType</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="pyumldiagrams.Definitions.LineType.Aggregation" href="#pyumldiagrams.Definitions.LineType.Aggregation">Aggregation</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.Association" href="#pyumldiagrams.Definitions.LineType.Association">Association</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.Composition" href="#pyumldiagrams.Definitions.LineType.Composition">Composition</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.Inheritance" href="#pyumldiagrams.Definitions.LineType.Inheritance">Inheritance</a></code></li>
+<li><code><a title="pyumldiagrams.Definitions.LineType.NoteAssociation" href="#pyumldiagrams.Definitions.LineType.NoteAssociation">NoteAssociation</a></code></li>
 <li><code><a title="pyumldiagrams.Definitions.LineType.toEnum" href="#pyumldiagrams.Definitions.LineType.toEnum">toEnum</a></code></li>
 </ul>
 </li>
@@ -1296,7 +1327,7 @@ See <code><a title="pyumldiagrams.Definitions.LineType" href="#pyumldiagrams.Def
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

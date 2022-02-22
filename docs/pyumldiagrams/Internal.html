@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>pyumldiagrams.Internal API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -36,11 +36,11 @@ from typing import Union
 class InternalPosition:
     &#34;&#34;&#34;
     The x and y coordinates are relative to the diagramming method.  For pdf
-    documents they are in points.  For image they are in pixels.  In all cases, the position is
+    documents they are in points.  For images, they are in pixels.  In all cases, the position is
     adjusted for left and right margins plus vertical and horizontal gaps.
     &#34;&#34;&#34;
-    x: float = 0.0
-    y: float = 0.0
+    x: int = 0
+    y: int = 0
 
 
 @dataclass
@@ -75,27 +75,28 @@ class ScanPoints:
 <dl>
 <dt id="pyumldiagrams.Internal.InternalPosition"><code class="flex name class">
 <span>class <span class="ident">InternalPosition</span></span>
-<span>(</span><span>x: float = 0.0, y: float = 0.0)</span>
+<span>(</span><span>x: int = 0, y: int = 0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The x and y coordinates are relative to the diagramming method.
 For pdf
 documents they are in points.
-For image they are in pixels.
+For images, they are in pixels.
 In all cases, the position is
 adjusted for left and right margins plus vertical and horizontal gaps.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class InternalPosition:
+<pre><code class="python">@dataclass(eq=True)
+class InternalPosition:
     &#34;&#34;&#34;
     The x and y coordinates are relative to the diagramming method.  For pdf
-    documents they are in points.  For image they are in pixels.  In all cases, the position is
+    documents they are in points.  For images, they are in pixels.  In all cases, the position is
     adjusted for left and right margins plus vertical and horizontal gaps.
     &#34;&#34;&#34;
-    x: float = 0.0
-    y: float = 0.0</code></pre>
+    x: int = 0
+    y: int = 0</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -103,11 +104,11 @@ adjusted for left and right margins plus vertical and horizontal gaps.</p></div>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.Internal.InternalPosition.x"><code class="name">var <span class="ident">x</span> : float</code></dt>
+<dt id="pyumldiagrams.Internal.InternalPosition.x"><code class="name">var <span class="ident">x</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.Internal.InternalPosition.y"><code class="name">var <span class="ident">y</span> : float</code></dt>
+<dt id="pyumldiagrams.Internal.InternalPosition.y"><code class="name">var <span class="ident">y</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -127,7 +128,8 @@ diagramming method will draw a dot at the specified point to simulate a fill.</p
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ScanPoints:
+<pre><code class="python">@dataclass
+class ScanPoints:
     &#34;&#34;&#34;
     Used by diagramming methods that cannot fill in a polygon.  In that case, the diagrammer
     scans these points to determine if they are in the polygon.  If they are then presumably the
@@ -150,15 +152,16 @@ diagramming method will draw a dot at the specified point to simulate a fill.</p
 </dd>
 <dt id="pyumldiagrams.Internal.SeparatorPosition"><code class="flex name class">
 <span>class <span class="ident">SeparatorPosition</span></span>
-<span>(</span><span>x: float = 0.0, y: float = 0.0)</span>
+<span>(</span><span>x: int = 0, y: int = 0)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SeparatorPosition(x: float = 0.0, y: float = 0.0)</p></div>
+<div class="desc"><p>SeparatorPosition(x: int = 0, y: int = 0)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SeparatorPosition(InternalPosition):
+<pre><code class="python">@dataclass
+class SeparatorPosition(InternalPosition):
     pass</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -167,11 +170,11 @@ diagramming method will draw a dot at the specified point to simulate a fill.</p
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.Internal.SeparatorPosition.x"><code class="name">var <span class="ident">x</span> : float</code></dt>
+<dt id="pyumldiagrams.Internal.SeparatorPosition.x"><code class="name">var <span class="ident">x</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.Internal.SeparatorPosition.y"><code class="name">var <span class="ident">y</span> : float</code></dt>
+<dt id="pyumldiagrams.Internal.SeparatorPosition.y"><code class="name">var <span class="ident">y</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -222,7 +225,7 @@ diagramming method will draw a dot at the specified point to simulate a fill.</p
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>pyumldiagrams.pdf.PdfDiagram API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -27,8 +27,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import Tuple
-from typing import final
+<pre><code class="python">from typing import final
 
 from logging import Logger
 from logging import getLogger
@@ -53,21 +52,25 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
+from pyumldiagrams.pdf.PdfCommon import Coordinates
+from pyumldiagrams.pdf.PdfCommon import Dimensions
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
-from pyumldiagrams.pdf.PdfLine import PdfDiagramLine
+from pyumldiagrams.pdf.PdfCommon import PdfShapeDefinition
+
+from pyumldiagrams.pdf.PdfLine import PdfLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 
 class PdfDiagram(BaseDiagram):
     &#34;&#34;&#34;
 
-    Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
-    inheritance, composition, and aggregation lines.
+    Always lays out in portrait mode.  Currently, only supports UML classes with methods.  Only supports
+    inheritance, composition, aggregation, and association lines.
 
     You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
     specify the text font size
     &#34;&#34;&#34;
-    FPDF_DRAW: final = &#39;D&#39;
+    FPDF_DRAW: str = &#39;D&#39;
 
     RESOURCES_PACKAGE_NAME: final = &#39;pdf.resources&#39;
     RESOURCES_PATH:         final = f&#39;pdf{osSep}resources&#39;
@@ -108,7 +111,7 @@ class PdfDiagram(BaseDiagram):
         self._fontSize: int          = BaseDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfLine = PdfLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
@@ -156,16 +159,18 @@ class PdfDiagram(BaseDiagram):
         &#34;&#34;&#34;
 
         position:      Position = classDefinition.position
-        verticalGap:   float    = self._diagramPadding.verticalGap
-        horizontalGap: float    = self._diagramPadding.horizontalGap
+        verticalGap:   int      = self._diagramPadding.verticalGap
+        horizontalGap: int      = self._diagramPadding.horizontalGap
 
-        x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x: int = coordinates.x
+        y: int = coordinates.y
         self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
         fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
-        symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
@@ -193,8 +198,14 @@ class PdfDiagram(BaseDiagram):
             definition:     It&#39;s definition
         &#34;&#34;&#34;
 
-        x, y, width, height = self.__convertDefinition(definition)
-        self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+        pdfShapeDefinition: PdfShapeDefinition = self.__convertDefinition(definition)
+
+        x:      int = pdfShapeDefinition.coordinates.x
+        y:      int = pdfShapeDefinition.coordinates.y
+        width:  int = pdfShapeDefinition.dimensions.width
+        height: int = pdfShapeDefinition.dimensions.height
+
+        self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle.value)
 
     def drawRectangle(self, definition: RectangleDefinition):
         &#34;&#34;&#34;
@@ -204,9 +215,14 @@ class PdfDiagram(BaseDiagram):
             definition:  The rectangle definition
 
         &#34;&#34;&#34;
+        pdfShapeDefinition: PdfShapeDefinition = self.__convertDefinition(definition)
 
-        x, y, width, height = self.__convertDefinition(definition)
-        self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+        x:      int = pdfShapeDefinition.coordinates.x
+        y:      int = pdfShapeDefinition.coordinates.y
+        width:  int = pdfShapeDefinition.dimensions.width
+        height: int = pdfShapeDefinition.dimensions.height
+
+        self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle.value)
 
     def drawText(self, position: Position, text: str):
         &#34;&#34;&#34;
@@ -218,8 +234,8 @@ class PdfDiagram(BaseDiagram):
             text:   The text to display
         &#34;&#34;&#34;
 
-        x, y = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-        self._pdf.text(x=x, y=y, txt=text)
+        coordinates: Coordinates = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        self._pdf.text(x=coordinates.x, y=coordinates.y, txt=text)
 
     def write(self):
         &#34;&#34;&#34;
@@ -227,7 +243,7 @@ class PdfDiagram(BaseDiagram):
         &#34;&#34;&#34;
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; float:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int) -&gt; int:
         &#34;&#34;&#34;
         Draws the UML Class symbol.
 
@@ -239,40 +255,45 @@ class PdfDiagram(BaseDiagram):
         Returns:  The computed UML symbol width
         &#34;&#34;&#34;
 
-        symbolWidth:  float = classDefinition.size.width
-        symbolHeight: float = classDefinition.size.height
+        symbolWidth:  int = classDefinition.size.width
+        symbolHeight: int = classDefinition.size.height
 
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
-        convertedWidth, convertedHeight = self.__convertSize(size=size)
+        dimensions: Dimensions = self.__convertSize(size=size)
+        convertedWidth:  int = dimensions.width
+        convertedHeight: int = dimensions.height
+        #
+        # The docs for rect are incorrect;  style is string
+        # noinspection PyTypeChecker
         self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
-        textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
-        textY: float = rectY + self._fontSize
+        textX: int = rectX + ((symbolWidth // 2) - (nameWidth // 2))
+        textY: int = rectY + self._fontSize
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
         return convertedWidth
 
-    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
+    def _drawSeparator(self, rectX: int, rectY: int, shapeWidth: int) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
 
         Args:
             rectX: x position of symbol
-            rectY: y position of symbol (
+            rectY: y position of symbol
             shapeWidth: The width of the symbol
 
         Returns:  Where it drew the separator
 
         &#34;&#34;&#34;
 
-        separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
+        separatorX: int = rectX
+        separatorY: int = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
 
-        endX: float = rectX + shapeWidth
+        endX: int = rectX + shapeWidth
 
         self._pdf.line(x1=separatorX, y1=separatorY, x2=endX, y2=separatorY)
 
@@ -280,8 +301,8 @@ class PdfDiagram(BaseDiagram):
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + PdfDiagram.FIRST_METHOD_Y_OFFSET
+        x: int = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + PdfDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
@@ -291,8 +312,8 @@ class PdfDiagram(BaseDiagram):
 
     def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -&gt; SeparatorPosition:
 
-        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+        x: int = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for fieldRepr in fieldReprs:
             self._pdf.text(x=x, y=y, txt=fieldRepr)
@@ -302,25 +323,25 @@ class PdfDiagram(BaseDiagram):
 
         return SeparatorPosition(x=x, y=y)
 
-    def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
+    def __convertDefinition(self, definition: RectangleDefinition) -&gt; PdfShapeDefinition:
         &#34;&#34;&#34;
 
         Args:
             definition:
 
-        Returns: a tuple of x, y, width height
+        Returns: A description of the shape
         &#34;&#34;&#34;
-        x, y = PdfCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-        width, height = self.__convertSize(definition.size)
+        coordinates: Coordinates = PdfCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        dimensions:  Dimensions = self.__convertSize(definition.size)
 
-        return x, y, width, height
+        return PdfShapeDefinition(coordinates=coordinates, dimensions=dimensions)
 
-    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
+    def __convertSize(self, size: Size) -&gt; Dimensions:
 
-        width:  float = PdfCommon.toPdfPoints(size.width, self._dpi)
-        height: float = PdfCommon.toPdfPoints(size.height, self._dpi)
+        width:  int = PdfCommon.toPdfPoints(size.width, self._dpi)
+        height: int = PdfCommon.toPdfPoints(size.height, self._dpi)
 
-        return width, height</code></pre>
+        return Dimensions(width=width, height=height)</code></pre>
 </details>
 </section>
 <section>
@@ -338,9 +359,9 @@ class PdfDiagram(BaseDiagram):
 </code></dt>
 <dd>
 <div class="desc"><p>Always lays out in portrait mode.
-Currently only supports UML classes with methods.
+Currently, only supports UML classes with methods.
 Only supports
-inheritance, composition, and aggregation lines.</p>
+inheritance, composition, aggregation, and association lines.</p>
 <p>You are allowed to set the gap between UML classes both horizontally and vertically.
 Also, you are allowed to
 specify the text font size</p>
@@ -365,13 +386,13 @@ specify the text font size</p>
 <pre><code class="python">class PdfDiagram(BaseDiagram):
     &#34;&#34;&#34;
 
-    Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
-    inheritance, composition, and aggregation lines.
+    Always lays out in portrait mode.  Currently, only supports UML classes with methods.  Only supports
+    inheritance, composition, aggregation, and association lines.
 
     You are allowed to set the gap between UML classes both horizontally and vertically.  Also, you are allowed to
     specify the text font size
     &#34;&#34;&#34;
-    FPDF_DRAW: final = &#39;D&#39;
+    FPDF_DRAW: str = &#39;D&#39;
 
     RESOURCES_PACKAGE_NAME: final = &#39;pdf.resources&#39;
     RESOURCES_PATH:         final = f&#39;pdf{osSep}resources&#39;
@@ -412,7 +433,7 @@ specify the text font size</p>
         self._fontSize: int          = BaseDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfLine = PdfLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
@@ -460,16 +481,18 @@ specify the text font size</p>
         &#34;&#34;&#34;
 
         position:      Position = classDefinition.position
-        verticalGap:   float    = self._diagramPadding.verticalGap
-        horizontalGap: float    = self._diagramPadding.horizontalGap
+        verticalGap:   int      = self._diagramPadding.verticalGap
+        horizontalGap: int      = self._diagramPadding.horizontalGap
 
-        x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        x: int = coordinates.x
+        y: int = coordinates.y
         self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
         methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
         fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
-        symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+        symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
         separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
@@ -497,8 +520,14 @@ specify the text font size</p>
             definition:     It&#39;s definition
         &#34;&#34;&#34;
 
-        x, y, width, height = self.__convertDefinition(definition)
-        self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+        pdfShapeDefinition: PdfShapeDefinition = self.__convertDefinition(definition)
+
+        x:      int = pdfShapeDefinition.coordinates.x
+        y:      int = pdfShapeDefinition.coordinates.y
+        width:  int = pdfShapeDefinition.dimensions.width
+        height: int = pdfShapeDefinition.dimensions.height
+
+        self._pdf.ellipse(x=x, y=y, w=width, h=height, style=definition.renderStyle.value)
 
     def drawRectangle(self, definition: RectangleDefinition):
         &#34;&#34;&#34;
@@ -508,9 +537,14 @@ specify the text font size</p>
             definition:  The rectangle definition
 
         &#34;&#34;&#34;
+        pdfShapeDefinition: PdfShapeDefinition = self.__convertDefinition(definition)
 
-        x, y, width, height = self.__convertDefinition(definition)
-        self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle)
+        x:      int = pdfShapeDefinition.coordinates.x
+        y:      int = pdfShapeDefinition.coordinates.y
+        width:  int = pdfShapeDefinition.dimensions.width
+        height: int = pdfShapeDefinition.dimensions.height
+
+        self._pdf.rect(x=x, y=y, w=width, h=height, style=definition.renderStyle.value)
 
     def drawText(self, position: Position, text: str):
         &#34;&#34;&#34;
@@ -522,8 +556,8 @@ specify the text font size</p>
             text:   The text to display
         &#34;&#34;&#34;
 
-        x, y = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-        self._pdf.text(x=x, y=y, txt=text)
+        coordinates: Coordinates = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        self._pdf.text(x=coordinates.x, y=coordinates.y, txt=text)
 
     def write(self):
         &#34;&#34;&#34;
@@ -531,7 +565,7 @@ specify the text font size</p>
         &#34;&#34;&#34;
         self._pdf.output(self._fileName)
 
-    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: float, rectY: float) -&gt; float:
+    def _drawClassSymbol(self, classDefinition: ClassDefinition, rectX: int, rectY: int) -&gt; int:
         &#34;&#34;&#34;
         Draws the UML Class symbol.
 
@@ -543,40 +577,45 @@ specify the text font size</p>
         Returns:  The computed UML symbol width
         &#34;&#34;&#34;
 
-        symbolWidth:  float = classDefinition.size.width
-        symbolHeight: float = classDefinition.size.height
+        symbolWidth:  int = classDefinition.size.width
+        symbolHeight: int = classDefinition.size.height
 
         size: Size = Size(width=symbolWidth, height=symbolHeight)
 
-        convertedWidth, convertedHeight = self.__convertSize(size=size)
+        dimensions: Dimensions = self.__convertSize(size=size)
+        convertedWidth:  int = dimensions.width
+        convertedHeight: int = dimensions.height
+        #
+        # The docs for rect are incorrect;  style is string
+        # noinspection PyTypeChecker
         self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
         nameWidth: int = self._pdf.get_string_width(classDefinition.name)
-        textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
-        textY: float = rectY + self._fontSize
+        textX: int = rectX + ((symbolWidth // 2) - (nameWidth // 2))
+        textY: int = rectY + self._fontSize
 
         self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
 
         return convertedWidth
 
-    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -&gt; SeparatorPosition:
+    def _drawSeparator(self, rectX: int, rectY: int, shapeWidth: int) -&gt; SeparatorPosition:
         &#34;&#34;&#34;
         Draws the UML separator between the class name and the start of the class definition
         Does the computation to determine where it drew the separator
 
         Args:
             rectX: x position of symbol
-            rectY: y position of symbol (
+            rectY: y position of symbol
             shapeWidth: The width of the symbol
 
         Returns:  Where it drew the separator
 
         &#34;&#34;&#34;
 
-        separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
+        separatorX: int = rectX
+        separatorY: int = rectY + self._fontSize + PdfDiagram.Y_NUDGE_FACTOR
 
-        endX: float = rectX + shapeWidth
+        endX: int = rectX + shapeWidth
 
         self._pdf.line(x1=separatorX, y1=separatorY, x2=endX, y2=separatorY)
 
@@ -584,8 +623,8 @@ specify the text font size</p>
 
     def _drawMethods(self, methodReprs: BaseDiagram.MethodsRepr, separatorPosition: SeparatorPosition):
 
-        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + PdfDiagram.FIRST_METHOD_Y_OFFSET
+        x: int = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + PdfDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
@@ -595,8 +634,8 @@ specify the text font size</p>
 
     def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -&gt; SeparatorPosition:
 
-        x: float = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
+        x: int = separatorPosition.x + PdfDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for fieldRepr in fieldReprs:
             self._pdf.text(x=x, y=y, txt=fieldRepr)
@@ -606,25 +645,25 @@ specify the text font size</p>
 
         return SeparatorPosition(x=x, y=y)
 
-    def __convertDefinition(self, definition: RectangleDefinition) -&gt; Tuple[float, float, float, float]:
+    def __convertDefinition(self, definition: RectangleDefinition) -&gt; PdfShapeDefinition:
         &#34;&#34;&#34;
 
         Args:
             definition:
 
-        Returns: a tuple of x, y, width height
+        Returns: A description of the shape
         &#34;&#34;&#34;
-        x, y = PdfCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-        width, height = self.__convertSize(definition.size)
+        coordinates: Coordinates = PdfCommon.convertPosition(definition.position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+        dimensions:  Dimensions = self.__convertSize(definition.size)
 
-        return x, y, width, height
+        return PdfShapeDefinition(coordinates=coordinates, dimensions=dimensions)
 
-    def __convertSize(self, size: Size) -&gt; Tuple[float, float]:
+    def __convertSize(self, size: Size) -&gt; Dimensions:
 
-        width:  float = PdfCommon.toPdfPoints(size.width, self._dpi)
-        height: float = PdfCommon.toPdfPoints(size.height, self._dpi)
+        width:  int = PdfCommon.toPdfPoints(size.width, self._dpi)
+        height: int = PdfCommon.toPdfPoints(size.height, self._dpi)
 
-        return width, height</code></pre>
+        return Dimensions(width=width, height=height)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -632,27 +671,27 @@ specify the text font size</p>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FIRST_METHOD_Y_OFFSET"><code class="name">var <span class="ident">FIRST_METHOD_Y_OFFSET</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FIRST_METHOD_Y_OFFSET"><code class="name">var <span class="ident">FIRST_METHOD_Y_OFFSET</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FPDF_DRAW"><code class="name">var <span class="ident">FPDF_DRAW</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x1099c6160></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x1021a1940></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -700,16 +739,18 @@ def docTimeStamp(self) -&gt; datetime:
     &#34;&#34;&#34;
 
     position:      Position = classDefinition.position
-    verticalGap:   float    = self._diagramPadding.verticalGap
-    horizontalGap: float    = self._diagramPadding.horizontalGap
+    verticalGap:   int      = self._diagramPadding.verticalGap
+    horizontalGap: int      = self._diagramPadding.horizontalGap
 
-    x, y = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+    coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+    x: int = coordinates.x
+    y: int = coordinates.y
     self.logger.debug(f&#39;x,y: ({x},{y})&#39;)
 
     methodReprs: BaseDiagram.MethodsRepr = self._buildMethods(classDefinition.methods, classDefinition.displayMethodParameters)
     fieldReprs:  BaseDiagram.FieldsRepr  = self._buildFields(classDefinition.fields)
 
-    symbolWidth: float = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
+    symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
     separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
     fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
@@ -748,8 +789,8 @@ position to PDF points</p>
         text:   The text to display
     &#34;&#34;&#34;
 
-    x, y = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-    self._pdf.text(x=x, y=y, txt=text)</code></pre>
+    coordinates: Coordinates = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
+    self._pdf.text(x=coordinates.x, y=coordinates.y, txt=text)</code></pre>
 </details>
 </dd>
 <dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.drawUmlLine"><code class="name flex">
@@ -885,7 +926,7 @@ Returns: a fully qualified name</p></div>
 </main>
 <footer id="footer">
 By Humberto A. Sanchez II
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>
