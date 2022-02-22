@@ -12,7 +12,7 @@ The documentation is [here](https://hasii2011.github.io/pyumldiagrams/pyumldiagr
 ### Create a basic class
 
 ```python
-diagram: PdfDiagram = PdfDiagram(fileName='basicClass.pdf', dpi=75)
+diagram:  PdfDiagram      = PdfDiagram(fileName='basicClass.pdf', dpi=75)
 classDef: ClassDefinition = ClassDefinition(name='BasicClass', size=Size(width=100, height=100))
 
 diagram.drawClass(classDef)
