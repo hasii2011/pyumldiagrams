@@ -72,7 +72,8 @@ class TestPdfDiagramLine(TestBase):
 
     def testOrthogonalInheritanceLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -90,7 +91,8 @@ class TestPdfDiagramLine(TestBase):
 
     def testOrthogonalCompositionLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -109,7 +111,8 @@ class TestPdfDiagramLine(TestBase):
 
     def testDiagonalInheritanceLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -121,7 +124,8 @@ class TestPdfDiagramLine(TestBase):
         diagram.write()
 
     def testDiagonalCompositionLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -133,7 +137,8 @@ class TestPdfDiagramLine(TestBase):
         diagram.write()
 
     def testOrthogonalAggregationLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -151,7 +156,8 @@ class TestPdfDiagramLine(TestBase):
 
     def testDiagonalAggregationLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}', dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -160,6 +166,39 @@ class TestPdfDiagramLine(TestBase):
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
         for definition in definitions:
             lineDrawer.draw(definition)
+        diagram.write()
+
+    def testOrthogonalAssociationLines(self):
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAssociationLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
+
+        self.__drawHorizontalBoundaries(diagram)
+        self.__drawVerticalBoundaries(diagram)
+
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        north, south, east, west = self.__createOrthogonalLines(LineType.Association)
+        lineDefinitions: UmlLineDefinitions = [
+            north, south, east, west
+        ]
+        for lineDefinition in lineDefinitions:
+            lineDrawer.draw(lineDefinition)
+
+        diagram.write()
+
+    def testDiagonalAssociationLines(self):
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAssociationLines{TestConstants.TEST_SUFFIX}',
+                                         dpi=TestConstants.TEST_DPI)
+
+        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+
+        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Association)
+        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        for definition in definitions:
+            lineDrawer.draw(definition)
+
         diagram.write()
 
     def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
@@ -190,15 +229,15 @@ class TestPdfDiagramLine(TestBase):
         arrowSize: float = TestPdfDiagramLine.ELLIPSE_WIDTH / 2
 
         center: Position = self.__computeEllipseCenter(pos)
-        neDest: Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
-        seDest: Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
-        nwDest: Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
-        swDest: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
+        neDst:  Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
+        seDst:  Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
+        nwDst:  Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
+        swDst:  Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = [center, neDest]
-        nwPositions: LinePositions = [center, nwDest]
-        sePositions: LinePositions = [center, seDest]
-        swPositions: LinePositions = [center, swDest]
+        nePositions: LinePositions = [center, neDst]
+        nwPositions: LinePositions = [center, nwDst]
+        sePositions: LinePositions = [center, seDst]
+        swPositions: LinePositions = [center, swDst]
 
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
@@ -253,15 +292,15 @@ class TestPdfDiagramLine(TestBase):
         x: float = ellipsePos.x
         y: float = ellipsePos.y
 
-        centerX: float = x + (TestPdfDiagramLine.ELLIPSE_WIDTH / 2)
-        centerY: float = y + (TestPdfDiagramLine.ELLIPSE_HEIGHT / 2)
+        centerX: int = x + (TestPdfDiagramLine.ELLIPSE_WIDTH // 2)
+        centerY: int = y + (TestPdfDiagramLine.ELLIPSE_HEIGHT // 2)
 
         return Position(centerX, centerY)
 
     def __computeNorthEastDestination(self, center: Position, arrowSize: float) -> Position:
         from math import pi
 
-        radians: float = (pi / 4) * -1.0    # definition of 45 degree angle
+        radians: float = (pi / 4) * -1.0    # definition of a 45-degree angle
         return self.__computeDestination(center=center, arrowSize=arrowSize, radians=radians)
 
     def __computeSouthEastDestination(self, center: Position, arrowSize: float) -> Position:

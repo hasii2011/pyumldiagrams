@@ -21,11 +21,11 @@ class Position:
     The x and y coordinates are in screen/display resolution.  Diagramming modules may
     convert these to appropriate positions based on the rendering technology.
     """
-    x: float = 0.0
+    x: int = 0
     """
     The x-axis (horizontal) abscissa
     """
-    y: float = 0.0
+    y: int = 0
     """
     The y-axis (vertical) ordinate
     """

@@ -31,10 +31,10 @@ class PdfCommon(Common):
         return points
 
     @classmethod
-    def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -> Tuple[float, float]:
+    def convertPosition(cls, pos: Position, dpi: int, verticalGap: float, horizontalGap: float) -> Tuple[int, int]:
 
-        x: float = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
-        y: float = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
+        x: int = PdfCommon.toPdfPoints(pos.x, dpi) + LEFT_MARGIN + verticalGap
+        y: int = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN + horizontalGap
 
         return x, y
 
