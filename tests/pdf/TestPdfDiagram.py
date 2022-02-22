@@ -410,6 +410,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         actualName:   str = self._getFullyQualifiedPdfPath('Test-Basic-Standard.pdf')
 
+        # noinspection SpellCheckingInspection
         partialPath: str = '/tests/resources/basefiles/pdf/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
@@ -435,7 +436,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str, removeTestFile: bool = True) -> None:
         """
-        The side-affect here is that if the assertion passes then this method removes the generated file
+        The side effect here is that if the assertion passes then this method removes the generated file
 
         Args:
             baseName:           The base file name

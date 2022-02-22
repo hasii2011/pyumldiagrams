@@ -27,6 +27,7 @@ from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
+from pyumldiagrams.pdf.PdfCommon import Coordinates
 
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
@@ -145,21 +146,21 @@ class PdfLine(IDiagramLine):
                 break
             nextPos: Position = linePositions[nextIdx]
 
-            curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-            nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            currentCoordinates: Coordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            nextCoordinates:    Coordinates = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
-            docMaker.line(x1=curX, y1=curY, x2=nxtX, y2=nxtY)
+            docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
     def __convertEndPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
 
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
 
-        x1, y1 = PdfCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-        x2, y2 = PdfCommon.convertPosition(pos=dst, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        sourceCoordinates:      Coordinates = PdfCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        destinationCoordinates: Coordinates = PdfCommon.convertPosition(pos=dst, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
-        convertedSrc: InternalPosition = InternalPosition(x1, y1)
-        convertedDst: InternalPosition = InternalPosition(x2, y2)
+        convertedSrc: InternalPosition = InternalPosition(sourceCoordinates.x, sourceCoordinates.y)
+        convertedDst: InternalPosition = InternalPosition(destinationCoordinates.x, destinationCoordinates.y)
 
         return convertedSrc, convertedDst
 
@@ -207,8 +208,8 @@ class PdfLine(IDiagramLine):
         # They are inverted for downward facing arrows
         #
         arrowTip:   InternalPosition = InternalPosition(x2, y2)
-        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+        rightPoint: InternalPosition = InternalPosition(x2 + round(size * cos(alpha1)), y2 + round(size * sin(alpha1)))
+        leftPoint:  InternalPosition = InternalPosition(x2 + round(size * cos(alpha2)), y2 + round(size * sin(alpha2)))
 
         points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 
@@ -221,8 +222,8 @@ class PdfLine(IDiagramLine):
             dst:
         """
         pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   float = dst.x
-        y2:   float = dst.y
+        x2:   int = dst.x
+        y2:   int = dst.y
 
         deltaX, deltaY = self.__computeDeltaXDeltaY(src, dst)
 
@@ -249,10 +250,10 @@ class PdfLine(IDiagramLine):
         # noinspection PyListCreation
         points: DiamondPoints = []
 
-        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+        points.append((InternalPosition(x2 + round(size * cos(alpha1)), y2 + round(size * sin(alpha1)))))
         points.append(InternalPosition(x2, y2))
-        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
+        points.append(InternalPosition(x2 + round(size * cos(alpha2)), y2 + round(size * sin(alpha2))))
+        points.append(InternalPosition(x2 + 2 * round(size * cos(alpha)), y2 + 2 * round(size * sin(alpha))))
 
         return points
 
@@ -291,13 +292,13 @@ class PdfLine(IDiagramLine):
         Returns:  Midpoint between startPos - endPos
 
         """
-        x1: float = startPos.x
-        y1: float = startPos.y
-        x2: float = endPos.x
-        y2: float = endPos.y
+        x1: int = startPos.x
+        y1: int = startPos.y
+        x2: int = endPos.x
+        y2: int = endPos.y
 
-        midX: float = (x1 + x2) / 2
-        midY: float = (y1 + y2) / 2
+        midX: int = (x1 + x2) // 2
+        midY: int = (y1 + y2) // 2
 
         return InternalPosition(midX, midY)
 
@@ -322,11 +323,11 @@ class PdfLine(IDiagramLine):
         """
         scanPoints: ScanPoints = PdfCommon.buildScanPoints(points)
 
-        startX: float = scanPoints.startScan.x
-        startY: float = scanPoints.startScan.y
+        startX: int = scanPoints.startScan.x
+        startY: int = scanPoints.startScan.y
 
-        endX: float = scanPoints.endScan.x
-        endY: float = scanPoints.endScan.y
+        endX: int = scanPoints.endScan.x
+        endY: int = scanPoints.endScan.y
 
         x = startX
         while x <= endX:
@@ -358,10 +359,11 @@ class PdfLine(IDiagramLine):
                 break
             nextPos: Position = linePositionsCopy[nextIdx]
 
-            curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-            nxtX, nxtY = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            currentCoordinates: Coordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            nextCoordinates:    Coordinates = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
-            docMaker.line(x1=curX, y1=curY, x2=nxtX, y2=nxtY)
+            docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
-        curX, curY = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-        docMaker.line(x1=curX, y1=curY, x2=newEndPoint.x, y2=newEndPoint.y)
+        currentCoordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+        docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=newEndPoint.x, y2=newEndPoint.y)

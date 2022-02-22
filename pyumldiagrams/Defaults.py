@@ -34,7 +34,7 @@ DEFAULT_IMAGE_HEIGHT: int = 1024
 The image height"
 """
 
-DEFAULT_LINE_WIDTH: float = 0.5
+DEFAULT_LINE_WIDTH: int = 1
 """
 The line width
 """

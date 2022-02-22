@@ -295,11 +295,11 @@ class TestImageLine(TestBase):
 
     def __computeEllipseCenter(self, ellipsePos: Position) -> Position:
 
-        x: float = ellipsePos.x
-        y: float = ellipsePos.y
+        x: int = ellipsePos.x
+        y: int = ellipsePos.y
 
-        centerX: float = x + (ELLIPSE_WIDTH / 2)
-        centerY: float = y + (ELLIPSE_HEIGHT / 2)
+        centerX: int = x + (ELLIPSE_WIDTH // 2)
+        centerY: int = y + (ELLIPSE_HEIGHT // 2)
 
         return Position(centerX, centerY)
 
@@ -332,7 +332,7 @@ class TestImageLine(TestBase):
         from math import cos
         from math import sin
 
-        return Position(center.x + arrowSize * cos(radians), center.y + arrowSize * sin(radians))
+        return Position(center.x + round(arrowSize * cos(radians)), center.y + round(arrowSize * sin(radians)))
 
     def __toInternal(self, position: Position, diagram: ImageDiagram) -> InternalPosition:
         verticalGap:   int = diagram.verticalGap

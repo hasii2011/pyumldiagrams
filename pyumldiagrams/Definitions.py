@@ -63,11 +63,11 @@ class Size:
     """
     Defines the size of the input UML definitions;
     """
-    width:  float = 100
+    width:  int = 100
     """
     The width of a shape
     """
-    height: float = 100
+    height: int = 100
     """
     The height of the shape
     """
