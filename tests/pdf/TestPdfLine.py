@@ -20,7 +20,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
-from pyumldiagrams.pdf.PdfLine import PdfDiagramLine
+from pyumldiagrams.pdf.PdfLine import PdfLine
 
 from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
@@ -78,7 +78,7 @@ class TestPdfDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Inheritance)
         lineDefinitions: UmlLineDefinitions = [
@@ -97,7 +97,7 @@ class TestPdfDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Composition)
 
@@ -115,7 +115,7 @@ class TestPdfDiagramLine(TestBase):
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
@@ -128,7 +128,7 @@ class TestPdfDiagramLine(TestBase):
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Composition)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
@@ -143,7 +143,7 @@ class TestPdfDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Aggregation)
         lineDefinitions: UmlLineDefinitions = [
@@ -160,7 +160,7 @@ class TestPdfDiagramLine(TestBase):
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Aggregation)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
@@ -175,7 +175,7 @@ class TestPdfDiagramLine(TestBase):
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Association)
         lineDefinitions: UmlLineDefinitions = [
@@ -192,7 +192,7 @@ class TestPdfDiagramLine(TestBase):
 
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
-        lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
+        lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Association)
         definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]

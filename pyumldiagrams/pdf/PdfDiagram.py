@@ -27,7 +27,7 @@ from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
-from pyumldiagrams.pdf.PdfLine import PdfDiagramLine
+from pyumldiagrams.pdf.PdfLine import PdfLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 
@@ -81,7 +81,7 @@ class PdfDiagram(BaseDiagram):
         self._fontSize: int          = BaseDiagram.DEFAULT_FONT_SIZE
 
         diagramPadding:   DiagramPadding = DiagramPadding()
-        self._lineDrawer: PdfDiagramLine = PdfDiagramLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
+        self._lineDrawer: PdfLine = PdfLine(pdf=pdf, diagramPadding=diagramPadding, dpi=dpi)
 
         self._diagramPadding: DiagramPadding = diagramPadding
 
