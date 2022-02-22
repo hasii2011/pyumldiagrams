@@ -113,7 +113,7 @@ class TestPdfDiagramLine(TestBase):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
-        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+        self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
@@ -126,7 +126,7 @@ class TestPdfDiagramLine(TestBase):
     def testDiagonalCompositionLines(self):
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
-        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+        self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
@@ -158,7 +158,7 @@ class TestPdfDiagramLine(TestBase):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
-        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+        self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
@@ -190,7 +190,7 @@ class TestPdfDiagramLine(TestBase):
         diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAssociationLines{TestConstants.TEST_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
-        self.__drawEllipseForDiagonalInheritanceLines(diagram)
+        self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
@@ -272,7 +272,7 @@ class TestPdfDiagramLine(TestBase):
 
         diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfDiagramLine.DASH_LINE_SPACE_LENGTH)
 
-    def __drawEllipseForDiagonalInheritanceLines(self, diagram: PdfDiagram):
+    def __drawEllipseForDiagonalLines(self, diagram: PdfDiagram):
 
         eDef: EllipseDefinition = EllipseDefinition()
         pos:  Position          = Position(TestPdfDiagramLine.ELLIPSE_X, TestPdfDiagramLine.ELLIPSE_Y)
