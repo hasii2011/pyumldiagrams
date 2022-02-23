@@ -18,5 +18,5 @@ setup(
     packages=find_packages(),
     include_package_data=False,
     package_data={'pyumldiagrams.image.resources': ['*.ttf', 'pyumldiagrams/image/resources/*.ttf']},
-    install_requires=["fpdf2", "Pillow"]
+    install_requires=['fpdf2>=2.5.0', 'Pillow>=9.0.1']
 )
