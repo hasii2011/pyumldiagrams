@@ -9,12 +9,15 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(
-    name="pyumldiagrams",
-    version="2.30.5",
-    description="Draw UML diagrams in various formats",
+    name='pyumldiagrams',
+    version='2.30.5',
+    description='Draw UML diagrams in various formats',
+    author='Humberto A. Sanchez II',
+    author_email='humberto.a.sanchez.ii@gmail.com',
     long_description=README,
-    long_description_content_type="text/markdown",
-    url="https://github.com/hasii2011/pyumldiagrams",
+    long_description_content_type='text/markdown',
+    license='GPL V3',
+    url='https://github.com/hasii2011/pyumldiagrams',
     packages=find_packages(),
     include_package_data=False,
     package_data={'pyumldiagrams.image.resources': ['*.ttf', 'pyumldiagrams/image/resources/*.ttf']},
