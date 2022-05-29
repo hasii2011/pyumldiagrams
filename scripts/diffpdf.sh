@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+#
+#  Requires brew install of poppler see: https://github.com/jalan/pdftotext
+#
 function changeToProjectRoot {
 
     export areHere=`basename ${PWD}`

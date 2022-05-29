@@ -18,7 +18,8 @@ python:
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get -y install poppler
+#  - sudo apt-get -y install poppler
+  - apt install build-essential libpoppler-cpp-dev
 
 # command to install dependencies
 install:
