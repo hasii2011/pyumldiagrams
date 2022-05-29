@@ -18,15 +18,11 @@ python:
 
 before_install:
   - sudo apt-get update
-  - sudo apt install poppler
   - sudo apt install build-essential libpoppler-cpp-dev pkg-config
 
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-#  - pip install fpdf2
-#  - pip install Pillow
-#  - pip install html-testRunner
 
 # command to run tests
 script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
