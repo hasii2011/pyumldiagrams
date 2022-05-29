@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='pyumldiagrams',
-    version='2.30.5',
+    version='2.30.6',
     description='Draw UML diagrams in various formats',
     author='Humberto A. Sanchez II',
     author_email='humberto.a.sanchez.ii@gmail.com',
@@ -21,5 +21,5 @@ setup(
     packages=find_packages(),
     include_package_data=False,
     package_data={'pyumldiagrams.image.resources': ['*.ttf', 'pyumldiagrams/image/resources/*.ttf']},
-    install_requires=['fpdf2>=2.5.0', 'Pillow>=9.0.1']
+    install_requires=['fpdf2>=2.5.4', 'Pillow>=9.1.1']
 )

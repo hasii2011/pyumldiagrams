@@ -14,7 +14,7 @@ language: python
 cache: pip
 
 python:
-  - "3.9.0"
+  - "3.9.1"
 
 before_install:
   - sudo apt-get update
@@ -22,10 +22,11 @@ before_install:
 
 # command to install dependencies
 install:
-  - pip install fpdf2
-  - pip install Pillow
-  - pip install html-testRunner
+  - pip install -r requirements.txt
+#  - pip install fpdf2
+#  - pip install Pillow
+#  - pip install html-testRunner
 
 # command to run tests
-# script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
-script: pdftotext --help
+script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
+# script: pdftotext --help

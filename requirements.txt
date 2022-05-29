@@ -1,8 +1,9 @@
-fpdf2~=2.5.0
-Pillow~=9.0.1
+fpdf2~=2.5.4
+Pillow~=9.1.1
 html-testRunner~=1.2.1
 pdoc3~=0.10.0
-setuptools~=60.9.3
-twine~=3.8.0
+setuptools==62.3.2
+twine==4.0.0
 wheel~=0.37.1
-build~=0.7.0
+build==0.8.0
+pdftotext~=2.2.2

@@ -1,6 +1,4 @@
-/pyenv-3.8.5-pyuml/
-/pyenv-3.9.0-pyuml/
-/venv-3.9.1/
+/pyenv-3.9.1/
 .DS_Store
 .idea/
 /*.pdf
@@ -10,3 +8,4 @@ __pycache__/
 /dist/
 /build/
 /pyumldiagrams.egg-info/
+.envrc
