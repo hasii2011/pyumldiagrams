@@ -1,15 +1,14 @@
 
-# os: osx
+os: osx
 
-# osx_image: xcode11.2
+osx_image: xcode13.3
+
 notifications:
   email:
     recipients:
       - humberto.a.sanchez.ii@gmail.com
     on_success: change # default: change
     on_failure: always # default: always
-
-dist: bionic
 
 language: python
 
@@ -19,13 +18,14 @@ python:
   - "3.9.1"
 
 before_install:
-  - sudo apt-get update
-  - sudo apt install build-essential libpoppler-cpp-dev pkg-config
+  - brew install pkg-config poppler
+#  - sudo apt-get update
+#  - sudo apt install build-essential libpoppler-cpp-dev pkg-config
 
 # command to install dependencies
 install:
   - pip install -r requirements.txt
 
 # command to run tests
-# script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
-script: pdftotext --help
+script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
+# script: pdftotext --help
