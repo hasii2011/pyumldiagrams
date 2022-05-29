@@ -1,7 +1,7 @@
 
-os: osx
-
-osx_image: xcode13.3
+#os: osx
+#
+#osx_image: xcode13.3
 
 notifications:
   email:
@@ -10,26 +10,24 @@ notifications:
     on_success: change # default: change
     on_failure: always # default: always
 
-# language: python
+language: python
 
 cache: pip
 
-#python:
-#  - "3.9.1"
+python:
+  - "3.9.1"
 
 before_install:
-  - pyenv install 3.9.1
-  - python -m venv pyenv-3.9.1
-  - brew install pkg-config poppler
-#  - sudo apt-get update
-#  - sudo apt install build-essential libpoppler-cpp-dev pkg-config
+#  - pyenv install 3.9.1
+#  - python -m venv pyenv-3.9.1
+#  - brew install pkg-config poppler
+  - sudo apt-get update
+  - sudo apt install build-essential libpoppler-cpp-dev pkg-config
 
 # command to install dependencies
 install:
-  - ./pyenv-3.9.1/bin/activate
-  - python --version
   - pip install -r requirements.txt
 
 # command to run tests
-script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
-# script: pdftotext --help
+# script: ${TRAVIS_BUILD_DIR}/scripts/runtests.sh -c
+script: pdftotext --help
