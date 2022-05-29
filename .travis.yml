@@ -14,16 +14,20 @@ language: python
 
 cache: pip
 
-python:
-  - "3.9.1"
+#python:
+#  - "3.9.1"
 
 before_install:
+  - pyenv install 3.9.1
+  - python -m venv pyenv-3.9.1
   - brew install pkg-config poppler
 #  - sudo apt-get update
 #  - sudo apt install build-essential libpoppler-cpp-dev pkg-config
 
 # command to install dependencies
 install:
+  - ./pyenv-3.9.1/bin/activate
+  - python --version
   - pip install -r requirements.txt
 
 # command to run tests
