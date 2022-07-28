@@ -6,4 +6,4 @@ setuptools==63.2.0
 twine==4.0.1
 wheel~=0.37.1
 build==0.8.0
-pdftotext~=2.2.2  Install manually for unit tests
+pdftotext~=2.2.2  # Install manually for unit tests
