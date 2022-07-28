@@ -1,0 +1,7 @@
+
+site_name: Python UML Diagram Generator
+repo_url: https://github.com/hasii2011/pyumldiagrams
+site_author: Humberto A. Sanchez II
+
+nav:
+    - 'index.md'
