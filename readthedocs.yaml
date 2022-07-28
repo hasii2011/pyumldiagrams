@@ -5,6 +5,9 @@
 version: 2
 
 build:
+  os: ubuntu-22.04
+  apt_packages:
+    - libpoppler-cpp0v5
   tools:
     python: "3.9"
 
