@@ -29,7 +29,7 @@
 </summary>
 <pre><code class="python">from typing import List
 from typing import cast
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -61,19 +61,21 @@ class BaseDiagram:
     MethodsRepr = List[str]
     FieldsRepr  = List[str]
 
-    DEFAULT_FONT_SIZE: final = 10
-    HEADER_FONT_SIZE:  final = 14
-    RESOURCE_ENV_VAR:  final = &#39;RESOURCEPATH&#39;
+    DEFAULT_FONT_SIZE: Final = 10
+    HEADER_FONT_SIZE:  Final = 14
+    # noinspection SpellCheckingInspection
+    RESOURCE_ENV_VAR:  Final = &#39;RESOURCEPATH&#39;
 
     clsLogger: Logger = getLogger(__name__)
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, dpi: int = 0, headerText: str = &#39;&#39;):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
+                 dpi: int = 0, headerText: str = &#39;&#39;):
         &#34;&#34;&#34;
 
         Args:
             fileName:   Fully qualified file name
 
-            docDisplayMethodParameters: global flag to determine whether or not or display a method&#39;s parameters
+            docDisplayMethodParameters: global flag to determine whether or display a method&#39;s parameters
 
             dpi: dots per inch for the display we are mapping from;
             Some diagramming documents may not need a value for this since they map directly to display device
@@ -247,7 +249,7 @@ class BaseDiagram:
         if methodDef.visibility is None:
             methodRepr: str = f&#39;{methodDef.name}&#39;
         else:
-            methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+            methodRepr = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
 
         paramRepr: str = &#39;&#39;
 
@@ -341,7 +343,7 @@ specify the text font size</p>
 <dt><strong><code>fileName</code></strong></dt>
 <dd>Fully qualified file name</dd>
 <dt><strong><code>docDisplayMethodParameters</code></strong></dt>
-<dd>global flag to determine whether or not or display a method's parameters</dd>
+<dd>global flag to determine whether or display a method's parameters</dd>
 <dt><strong><code>dpi</code></strong></dt>
 <dd>dots per inch for the display we are mapping from;</dd>
 </dl>
@@ -366,19 +368,21 @@ specify the text font size</p>
     MethodsRepr = List[str]
     FieldsRepr  = List[str]
 
-    DEFAULT_FONT_SIZE: final = 10
-    HEADER_FONT_SIZE:  final = 14
-    RESOURCE_ENV_VAR:  final = &#39;RESOURCEPATH&#39;
+    DEFAULT_FONT_SIZE: Final = 10
+    HEADER_FONT_SIZE:  Final = 14
+    # noinspection SpellCheckingInspection
+    RESOURCE_ENV_VAR:  Final = &#39;RESOURCEPATH&#39;
 
     clsLogger: Logger = getLogger(__name__)
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, dpi: int = 0, headerText: str = &#39;&#39;):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
+                 dpi: int = 0, headerText: str = &#39;&#39;):
         &#34;&#34;&#34;
 
         Args:
             fileName:   Fully qualified file name
 
-            docDisplayMethodParameters: global flag to determine whether or not or display a method&#39;s parameters
+            docDisplayMethodParameters: global flag to determine whether or display a method&#39;s parameters
 
             dpi: dots per inch for the display we are mapping from;
             Some diagramming documents may not need a value for this since they map directly to display device
@@ -552,7 +556,7 @@ specify the text font size</p>
         if methodDef.visibility is None:
             methodRepr: str = f&#39;{methodDef.name}&#39;
         else:
-            methodRepr: str = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
+            methodRepr = f&#39;{methodDef.visibility.value} {methodDef.name}&#39;
 
         paramRepr: str = &#39;&#39;
 
@@ -626,7 +630,7 @@ specify the text font size</p>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.DEFAULT_FONT_SIZE"><code class="name">var <span class="ident">DEFAULT_FONT_SIZE</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -634,7 +638,7 @@ specify the text font size</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.HEADER_FONT_SIZE"><code class="name">var <span class="ident">HEADER_FONT_SIZE</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -642,7 +646,7 @@ specify the text font size</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.BaseDiagram.BaseDiagram.RESOURCE_ENV_VAR"><code class="name">var <span class="ident">RESOURCE_ENV_VAR</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

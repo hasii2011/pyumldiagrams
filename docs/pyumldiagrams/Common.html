@@ -27,7 +27,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import final
+<pre><code class="python">from typing import Final
 from typing import Tuple
 
 from math import pi
@@ -42,8 +42,8 @@ from pyumldiagrams.Internal import InternalPosition
 
 class Common:
 
-    INHERITANCE_ARROW_HEIGHT: final = 10
-    DIAMOND_HEIGHT:           final = 8
+    INHERITANCE_ARROW_HEIGHT: Final = 10
+    DIAMOND_HEIGHT:           Final = 8
 
     @classmethod
     def computeTheArrowVertices(cls, src: InternalPosition, dest: InternalPosition)  -&gt; ArrowPoints:
@@ -83,15 +83,15 @@ class Common:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = Common.INHERITANCE_ARROW_HEIGHT
-        x2: float = dest.x
-        y2: float = dest.y
+        x2: int = dest.x
+        y2: int = dest.y
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
         #
         arrowTip:   InternalPosition = InternalPosition(x2, y2)
-        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))    # type: ignore
+        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))    # type: ignore
 
         points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 
@@ -105,8 +105,8 @@ class Common:
             dest:   The destination point
         &#34;&#34;&#34;
         pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   float = dest.x
-        y2:   float = dest.y
+        x2:   int   = dest.x
+        y2:   int   = dest.y
 
         deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
 
@@ -133,23 +133,23 @@ class Common:
         # noinspection PyListCreation
         points: DiamondPoints = []
 
-        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))) # type: ignore
         points.append(InternalPosition(x2, y2))
-        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
+        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))           # type: ignore
+        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore
 
         return points
 
     @classmethod
-    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[float, float]:
+    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[int, int]:
 
-        x1: float = src.x
-        y1: float = src.y
-        x2: float = dest.x
-        y2: float = dest.y
+        x1: int = src.x
+        y1: int = src.y
+        x2: int = dest.x
+        y2: int = dest.y
 
-        deltaX: float = x2 - x1
-        deltaY: float = y2 - y1
+        deltaX: int = x2 - x1
+        deltaY: int = y2 - y1
 
         return deltaX, deltaY
 
@@ -166,13 +166,13 @@ class Common:
         Returns:  Midpoint between startPos - endPos
 
         &#34;&#34;&#34;
-        x1: float = startPos.x
-        y1: float = startPos.y
-        x2: float = endPos.x
-        y2: float = endPos.y
+        x1: int = startPos.x
+        y1: int = startPos.y
+        x2: int = endPos.x
+        y2: int = endPos.y
 
-        midX: float = (x1 + x2) / 2
-        midY: float = (y1 + y2) / 2
+        midX: int = (x1 + x2) // 2
+        midY: int = (y1 + y2) // 2
 
         return InternalPosition(midX, midY)</code></pre>
 </details>
@@ -197,8 +197,8 @@ class Common:
 </summary>
 <pre><code class="python">class Common:
 
-    INHERITANCE_ARROW_HEIGHT: final = 10
-    DIAMOND_HEIGHT:           final = 8
+    INHERITANCE_ARROW_HEIGHT: Final = 10
+    DIAMOND_HEIGHT:           Final = 8
 
     @classmethod
     def computeTheArrowVertices(cls, src: InternalPosition, dest: InternalPosition)  -&gt; ArrowPoints:
@@ -238,15 +238,15 @@ class Common:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = Common.INHERITANCE_ARROW_HEIGHT
-        x2: float = dest.x
-        y2: float = dest.y
+        x2: int = dest.x
+        y2: int = dest.y
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
         #
         arrowTip:   InternalPosition = InternalPosition(x2, y2)
-        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))    # type: ignore
+        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))    # type: ignore
 
         points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 
@@ -260,8 +260,8 @@ class Common:
             dest:   The destination point
         &#34;&#34;&#34;
         pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   float = dest.x
-        y2:   float = dest.y
+        x2:   int   = dest.x
+        y2:   int   = dest.y
 
         deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
 
@@ -288,23 +288,23 @@ class Common:
         # noinspection PyListCreation
         points: DiamondPoints = []
 
-        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))) # type: ignore
         points.append(InternalPosition(x2, y2))
-        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
+        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))           # type: ignore
+        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore
 
         return points
 
     @classmethod
-    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[float, float]:
+    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[int, int]:
 
-        x1: float = src.x
-        y1: float = src.y
-        x2: float = dest.x
-        y2: float = dest.y
+        x1: int = src.x
+        y1: int = src.y
+        x2: int = dest.x
+        y2: int = dest.y
 
-        deltaX: float = x2 - x1
-        deltaY: float = y2 - y1
+        deltaX: int = x2 - x1
+        deltaY: int = y2 - y1
 
         return deltaX, deltaY
 
@@ -321,13 +321,13 @@ class Common:
         Returns:  Midpoint between startPos - endPos
 
         &#34;&#34;&#34;
-        x1: float = startPos.x
-        y1: float = startPos.y
-        x2: float = endPos.x
-        y2: float = endPos.y
+        x1: int = startPos.x
+        y1: int = startPos.y
+        x2: int = endPos.x
+        y2: int = endPos.y
 
-        midX: float = (x1 + x2) / 2
-        midY: float = (y1 + y2) / 2
+        midX: int = (x1 + x2) // 2
+        midY: int = (y1 + y2) // 2
 
         return InternalPosition(midX, midY)</code></pre>
 </details>
@@ -338,11 +338,11 @@ class Common:
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.Common.Common.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.Common.Common.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.Common.Common.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.Common.Common.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -350,7 +350,7 @@ class Common:
 <h3>Static methods</h3>
 <dl>
 <dt id="pyumldiagrams.Common.Common.computeDeltaXDeltaY"><code class="name flex">
-<span>def <span class="ident">computeDeltaXDeltaY</span></span>(<span>src: <a title="pyumldiagrams.Internal.InternalPosition" href="Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a>, dest: <a title="pyumldiagrams.Internal.InternalPosition" href="Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a>) ‑> Tuple[float, float]</span>
+<span>def <span class="ident">computeDeltaXDeltaY</span></span>(<span>src: <a title="pyumldiagrams.Internal.InternalPosition" href="Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a>, dest: <a title="pyumldiagrams.Internal.InternalPosition" href="Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a>) ‑> Tuple[int, int]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -359,15 +359,15 @@ class Common:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[float, float]:
+def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -&gt; Tuple[int, int]:
 
-    x1: float = src.x
-    y1: float = src.y
-    x2: float = dest.x
-    y2: float = dest.y
+    x1: int = src.x
+    y1: int = src.y
+    x2: int = dest.x
+    y2: int = dest.y
 
-    deltaX: float = x2 - x1
-    deltaY: float = y2 - y1
+    deltaX: int = x2 - x1
+    deltaY: int = y2 - y1
 
     return deltaX, deltaY</code></pre>
 </details>
@@ -395,8 +395,8 @@ def computeDiamondVertices(cls, src: InternalPosition, dest: InternalPosition) -
         dest:   The destination point
     &#34;&#34;&#34;
     pi_6: float = pi/6     # radians for 30 degree angle
-    x2:   float = dest.x
-    y2:   float = dest.y
+    x2:   int   = dest.x
+    y2:   int   = dest.y
 
     deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
 
@@ -423,10 +423,10 @@ def computeDiamondVertices(cls, src: InternalPosition, dest: InternalPosition) -
     # noinspection PyListCreation
     points: DiamondPoints = []
 
-    points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+    points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))) # type: ignore
     points.append(InternalPosition(x2, y2))
-    points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-    points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
+    points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))           # type: ignore
+    points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore
 
     return points</code></pre>
 </details>
@@ -463,13 +463,13 @@ def computeMidPointOfBottomLine(cls, startPos: InternalPosition, endPos: Interna
     Returns:  Midpoint between startPos - endPos
 
     &#34;&#34;&#34;
-    x1: float = startPos.x
-    y1: float = startPos.y
-    x2: float = endPos.x
-    y2: float = endPos.y
+    x1: int = startPos.x
+    y1: int = startPos.y
+    x2: int = endPos.x
+    y2: int = endPos.y
 
-    midX: float = (x1 + x2) / 2
-    midY: float = (y1 + y2) / 2
+    midX: int = (x1 + x2) // 2
+    midY: int = (y1 + y2) // 2
 
     return InternalPosition(midX, midY)</code></pre>
 </details>
@@ -530,15 +530,15 @@ def computeTheArrowVertices(cls, src: InternalPosition, dest: InternalPosition) 
     alpha1: float = alpha + pi_6
     alpha2: float = alpha - pi_6
     size:   float = Common.INHERITANCE_ARROW_HEIGHT
-    x2: float = dest.x
-    y2: float = dest.y
+    x2: int = dest.x
+    y2: int = dest.y
     #
     # The names for the left and right points are correct for upward facing arrows
     # They are inverted for downward facing arrows
     #
     arrowTip:   InternalPosition = InternalPosition(x2, y2)
-    rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-    leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+    rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))    # type: ignore
+    leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))    # type: ignore
 
     points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 

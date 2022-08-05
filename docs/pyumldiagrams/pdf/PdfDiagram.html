@@ -27,7 +27,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import final
+<pre><code class="python">from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -72,13 +72,13 @@ class PdfDiagram(BaseDiagram):
     &#34;&#34;&#34;
     FPDF_DRAW: str = &#39;D&#39;
 
-    RESOURCES_PACKAGE_NAME: final = &#39;pdf.resources&#39;
-    RESOURCES_PATH:         final = f&#39;pdf{osSep}resources&#39;
+    RESOURCES_PACKAGE_NAME: Final = &#39;pdf.resources&#39;
+    RESOURCES_PATH:         Final = f&#39;pdf{osSep}resources&#39;
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 4
+    X_NUDGE_FACTOR: Final = 4
+    Y_NUDGE_FACTOR: Final = 4
 
-    FIRST_METHOD_Y_OFFSET: final = 7
+    FIRST_METHOD_Y_OFFSET: Final = 7
 
     def __init__(self, fileName: str, dpi: int, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = &#39;&#39;):
         &#34;&#34;&#34;
@@ -145,8 +145,9 @@ class PdfDiagram(BaseDiagram):
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-            fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
+            # I find Optional[str]   a funny type
+            pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)       # type: ignore
+            fqFileName = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
         return fqFileName
 
@@ -394,13 +395,13 @@ specify the text font size</p>
     &#34;&#34;&#34;
     FPDF_DRAW: str = &#39;D&#39;
 
-    RESOURCES_PACKAGE_NAME: final = &#39;pdf.resources&#39;
-    RESOURCES_PATH:         final = f&#39;pdf{osSep}resources&#39;
+    RESOURCES_PACKAGE_NAME: Final = &#39;pdf.resources&#39;
+    RESOURCES_PATH:         Final = f&#39;pdf{osSep}resources&#39;
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 4
+    X_NUDGE_FACTOR: Final = 4
+    Y_NUDGE_FACTOR: Final = 4
 
-    FIRST_METHOD_Y_OFFSET: final = 7
+    FIRST_METHOD_Y_OFFSET: Final = 7
 
     def __init__(self, fileName: str, dpi: int, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = &#39;&#39;):
         &#34;&#34;&#34;
@@ -467,8 +468,9 @@ specify the text font size</p>
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-            fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
+            # I find Optional[str]   a funny type
+            pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)       # type: ignore
+            fqFileName = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
         return fqFileName
 
@@ -671,7 +673,7 @@ specify the text font size</p>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FIRST_METHOD_Y_OFFSET"><code class="name">var <span class="ident">FIRST_METHOD_Y_OFFSET</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.FIRST_METHOD_Y_OFFSET"><code class="name">var <span class="ident">FIRST_METHOD_Y_OFFSET</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -679,19 +681,19 @@ specify the text font size</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PACKAGE_NAME"><code class="name">var <span class="ident">RESOURCES_PACKAGE_NAME</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.RESOURCES_PATH"><code class="name">var <span class="ident">RESOURCES_PATH</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.X_NUDGE_FACTOR"><code class="name">var <span class="ident">X_NUDGE_FACTOR</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.PdfDiagram.PdfDiagram.Y_NUDGE_FACTOR"><code class="name">var <span class="ident">Y_NUDGE_FACTOR</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -847,8 +849,9 @@ Returns: a fully qualified name</p></div>
         # Maybe we are in an app
         #
         from os import environ
-        pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)
-        fqFileName:      str = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
+        # I find Optional[str]   a funny type
+        pathToResources: str = environ.get(f&#39;{BaseDiagram.RESOURCE_ENV_VAR}&#39;)       # type: ignore
+        fqFileName = f&#39;{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}&#39;
 
     return fqFileName</code></pre>
 </details>

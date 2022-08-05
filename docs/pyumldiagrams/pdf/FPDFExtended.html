@@ -27,7 +27,7 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import final
+<pre><code class="python">from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -37,8 +37,8 @@ from fpdf import FPDF
 
 class FPDFExtended(FPDF):
 
-    DEFAULT_PAGE_WIDTH:  final = 3000     # points
-    DEFAULT_PAGE_HEIGHT: final = 1500     # points
+    DEFAULT_PAGE_WIDTH:  Final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: Final = 1500     # points
 
     def __init__(self, headerText: str = &#39;&#39;):
 
@@ -99,10 +99,7 @@ Default to "mm".</dd>
 <dd>possible values are "a3", "a4", "a5", "letter", "legal" or a tuple
 (width, height) expressed in the given unit. Default to "a4".</dd>
 <dt><strong><code>font_cache_dir</code></strong> :&ensp;<code>Path</code> or <code>str</code></dt>
-<dd>directory where pickle files
-for TTF font files are kept.
-<code>None</code> disables font chaching.
-The default is <code>True</code>, meaning the current folder.</dd>
+<dd>[<strong>DEPRECATED since v2.5.1</strong>] unused</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -110,8 +107,8 @@ The default is <code>True</code>, meaning the current folder.</dd>
 </summary>
 <pre><code class="python">class FPDFExtended(FPDF):
 
-    DEFAULT_PAGE_WIDTH:  final = 3000     # points
-    DEFAULT_PAGE_HEIGHT: final = 1500     # points
+    DEFAULT_PAGE_WIDTH:  Final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: Final = 1500     # points
 
     def __init__(self, headerText: str = &#39;&#39;):
 
@@ -147,11 +144,11 @@ The default is <code>True</code>, meaning the current folder.</dd>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.pdf.FPDFExtended.FPDFExtended.DEFAULT_PAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_PAGE_HEIGHT</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.FPDFExtended.FPDFExtended.DEFAULT_PAGE_HEIGHT"><code class="name">var <span class="ident">DEFAULT_PAGE_HEIGHT</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.pdf.FPDFExtended.FPDFExtended.DEFAULT_PAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_PAGE_WIDTH</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.pdf.FPDFExtended.FPDFExtended.DEFAULT_PAGE_WIDTH"><code class="name">var <span class="ident">DEFAULT_PAGE_WIDTH</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

@@ -29,8 +29,9 @@
 </summary>
 <pre><code class="python">from typing import Any
 from typing import List
+from typing import NewType
 from typing import Union
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -52,14 +53,14 @@ from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
 from pyumldiagrams.Internal import InternalPosition
 
+PILPoints     = NewType(&#39;PILPoints&#39;, List[int])
+PolygonPoints = NewType(&#39;PolygonPoints&#39;, List[int])
+
 
 class ImageLine(IDiagramLine):
 
-    DEFAULT_LINE_COLOR: final = &#39;Black&#39;
-    LINE_WIDTH:         final = 1
-
-    PILPoints     = List[float]
-    PolygonPoints = PILPoints       # syntactic sugar
+    DEFAULT_LINE_COLOR: Final = &#39;Black&#39;
+    LINE_WIDTH:         Final = 1
 
     def __init__(self, docWriter: Any, diagramPadding: DiagramPadding):
 
@@ -106,13 +107,13 @@ class ImageLine(IDiagramLine):
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  ArrowPoints   = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
-        newEndPoint: InternalPosition    = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        newEndPoint: InternalPosition = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -123,13 +124,13 @@ class ImageLine(IDiagramLine):
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -140,21 +141,21 @@ class ImageLine(IDiagramLine):
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill=&#39;black&#39;)
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
-        lastIdx:     int                  = len(linePositions) - 1
-        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
+        lastIdx:     int              = len(linePositions) - 1
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -169,7 +170,7 @@ class ImageLine(IDiagramLine):
 
     def __toPolygonPoints(self, points: Union[ArrowPoints, DiamondPoints]) -&gt; PolygonPoints:
 
-        polygon: ImageLine.PolygonPoints = []
+        polygon: PolygonPoints = PolygonPoints([])
 
         for point in points:
             polygon.append(int(point.x))
@@ -181,7 +182,7 @@ class ImageLine(IDiagramLine):
 
         linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
 
-        xy: ImageLine.PILPoints = []
+        xy: PILPoints = PILPoints([])
         for externalPosition in linePositionsCopy:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)
@@ -221,11 +222,8 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </summary>
 <pre><code class="python">class ImageLine(IDiagramLine):
 
-    DEFAULT_LINE_COLOR: final = &#39;Black&#39;
-    LINE_WIDTH:         final = 1
-
-    PILPoints     = List[float]
-    PolygonPoints = PILPoints       # syntactic sugar
+    DEFAULT_LINE_COLOR: Final = &#39;Black&#39;
+    LINE_WIDTH:         Final = 1
 
     def __init__(self, docWriter: Any, diagramPadding: DiagramPadding):
 
@@ -272,13 +270,13 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  ArrowPoints   = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
-        newEndPoint: InternalPosition    = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        newEndPoint: InternalPosition = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -289,13 +287,13 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -306,21 +304,21 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill=&#39;black&#39;)
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
-        lastIdx:     int                  = len(linePositions) - 1
-        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
+        lastIdx:     int              = len(linePositions) - 1
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -335,7 +333,7 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 
     def __toPolygonPoints(self, points: Union[ArrowPoints, DiamondPoints]) -&gt; PolygonPoints:
 
-        polygon: ImageLine.PolygonPoints = []
+        polygon: PolygonPoints = PolygonPoints([])
 
         for point in points:
             polygon.append(int(point.x))
@@ -347,7 +345,7 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 
         linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
 
-        xy: ImageLine.PILPoints = []
+        xy: PILPoints = PILPoints([])
         for externalPosition in linePositionsCopy:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)
@@ -364,19 +362,11 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR"><code class="name">var <span class="ident">DEFAULT_LINE_COLOR</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR"><code class="name">var <span class="ident">DEFAULT_LINE_COLOR</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH"><code class="name">var <span class="ident">LINE_WIDTH</span> : <function final at 0x10927d940></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.PILPoints"><code class="name">var <span class="ident">PILPoints</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="pyumldiagrams.image.ImageLine.ImageLine.PolygonPoints"><code class="name">var <span class="ident">PolygonPoints</span></code></dt>
+<dt id="pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH"><code class="name">var <span class="ident">LINE_WIDTH</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -443,8 +433,6 @@ See <code><a title="pyumldiagrams.Definitions.DiagramPadding" href="../Definitio
 <ul class="">
 <li><code><a title="pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR" href="#pyumldiagrams.image.ImageLine.ImageLine.DEFAULT_LINE_COLOR">DEFAULT_LINE_COLOR</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH" href="#pyumldiagrams.image.ImageLine.ImageLine.LINE_WIDTH">LINE_WIDTH</a></code></li>
-<li><code><a title="pyumldiagrams.image.ImageLine.ImageLine.PILPoints" href="#pyumldiagrams.image.ImageLine.ImageLine.PILPoints">PILPoints</a></code></li>
-<li><code><a title="pyumldiagrams.image.ImageLine.ImageLine.PolygonPoints" href="#pyumldiagrams.image.ImageLine.ImageLine.PolygonPoints">PolygonPoints</a></code></li>
 <li><code><a title="pyumldiagrams.image.ImageLine.ImageLine.draw" href="#pyumldiagrams.image.ImageLine.ImageLine.draw">draw</a></code></li>
 </ul>
 </li>

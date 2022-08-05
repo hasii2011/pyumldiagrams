@@ -38,7 +38,7 @@ from pyumldiagrams.Internal import InternalPosition
 class ImageCommon(Common):
 
     @classmethod
-    def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float) -&gt; InternalPosition:
+    def toInternal(cls, position: Position, verticalGap: int, horizontalGap: int) -&gt; InternalPosition:
         &#34;&#34;&#34;
         Assumes a 1 to 1 relationship between display device and the image we are generating.
 
@@ -51,8 +51,8 @@ class ImageCommon(Common):
 
         Returns:  The new position adjust for margins and gaps
         &#34;&#34;&#34;
-        adjustedX: float = position.x + LEFT_MARGIN + verticalGap
-        adjustedY: float = position.y + TOP_MARGIN  + horizontalGap
+        adjustedX: int = position.x + LEFT_MARGIN + verticalGap
+        adjustedY: int = position.y + TOP_MARGIN  + horizontalGap
 
         return InternalPosition(x=adjustedX, y=adjustedY)</code></pre>
 </details>
@@ -78,7 +78,7 @@ class ImageCommon(Common):
 <pre><code class="python">class ImageCommon(Common):
 
     @classmethod
-    def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float) -&gt; InternalPosition:
+    def toInternal(cls, position: Position, verticalGap: int, horizontalGap: int) -&gt; InternalPosition:
         &#34;&#34;&#34;
         Assumes a 1 to 1 relationship between display device and the image we are generating.
 
@@ -91,8 +91,8 @@ class ImageCommon(Common):
 
         Returns:  The new position adjust for margins and gaps
         &#34;&#34;&#34;
-        adjustedX: float = position.x + LEFT_MARGIN + verticalGap
-        adjustedY: float = position.y + TOP_MARGIN  + horizontalGap
+        adjustedX: int = position.x + LEFT_MARGIN + verticalGap
+        adjustedY: int = position.y + TOP_MARGIN  + horizontalGap
 
         return InternalPosition(x=adjustedX, y=adjustedY)</code></pre>
 </details>
@@ -102,11 +102,11 @@ class ImageCommon(Common):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pyumldiagrams.image.ImageCommon.ImageCommon.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.image.ImageCommon.ImageCommon.DIAMOND_HEIGHT"><code class="name">var <span class="ident">DIAMOND_HEIGHT</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pyumldiagrams.image.ImageCommon.ImageCommon.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : <function final at 0x10927d940></code></dt>
+<dt id="pyumldiagrams.image.ImageCommon.ImageCommon.INHERITANCE_ARROW_HEIGHT"><code class="name">var <span class="ident">INHERITANCE_ARROW_HEIGHT</span> : Final</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -114,7 +114,7 @@ class ImageCommon(Common):
 <h3>Static methods</h3>
 <dl>
 <dt id="pyumldiagrams.image.ImageCommon.ImageCommon.toInternal"><code class="name flex">
-<span>def <span class="ident">toInternal</span></span>(<span>position: <a title="pyumldiagrams.Definitions.Position" href="../Definitions.html#pyumldiagrams.Definitions.Position">Position</a>, verticalGap: float, horizontalGap: float) ‑> <a title="pyumldiagrams.Internal.InternalPosition" href="../Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a></span>
+<span>def <span class="ident">toInternal</span></span>(<span>position: <a title="pyumldiagrams.Definitions.Position" href="../Definitions.html#pyumldiagrams.Definitions.Position">Position</a>, verticalGap: int, horizontalGap: int) ‑> <a title="pyumldiagrams.Internal.InternalPosition" href="../Internal.html#pyumldiagrams.Internal.InternalPosition">InternalPosition</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Assumes a 1 to 1 relationship between display device and the image we are generating.</p>
@@ -134,7 +134,7 @@ The new position adjust for margins and gaps</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float) -&gt; InternalPosition:
+def toInternal(cls, position: Position, verticalGap: int, horizontalGap: int) -&gt; InternalPosition:
     &#34;&#34;&#34;
     Assumes a 1 to 1 relationship between display device and the image we are generating.
 
@@ -147,8 +147,8 @@ def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float
 
     Returns:  The new position adjust for margins and gaps
     &#34;&#34;&#34;
-    adjustedX: float = position.x + LEFT_MARGIN + verticalGap
-    adjustedY: float = position.y + TOP_MARGIN  + horizontalGap
+    adjustedX: int = position.x + LEFT_MARGIN + verticalGap
+    adjustedY: int = position.y + TOP_MARGIN  + horizontalGap
 
     return InternalPosition(x=adjustedX, y=adjustedY)</code></pre>
 </details>
