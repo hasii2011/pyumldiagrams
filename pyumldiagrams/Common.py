@@ -55,15 +55,15 @@ class Common:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = Common.INHERITANCE_ARROW_HEIGHT
-        x2: float = dest.x
-        y2: float = dest.y
+        x2: int = dest.x
+        y2: int = dest.y
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
         #
         arrowTip:   InternalPosition = InternalPosition(x2, y2)
-        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))
-        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))
+        rightPoint: InternalPosition = InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))    # type: ignore
+        leftPoint:  InternalPosition = InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2))    # type: ignore
 
         points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
 
@@ -77,8 +77,8 @@ class Common:
             dest:   The destination point
         """
         pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   float = dest.x
-        y2:   float = dest.y
+        x2:   int   = dest.x
+        y2:   int   = dest.y
 
         deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
 
@@ -105,23 +105,23 @@ class Common:
         # noinspection PyListCreation
         points: DiamondPoints = []
 
-        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1))))
+        points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))) # type: ignore
         points.append(InternalPosition(x2, y2))
-        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))
-        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))
+        points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))           # type: ignore
+        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore  
 
         return points
 
     @classmethod
-    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -> Tuple[float, float]:
+    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -> Tuple[int, int]:
 
-        x1: float = src.x
-        y1: float = src.y
-        x2: float = dest.x
-        y2: float = dest.y
+        x1: int = src.x
+        y1: int = src.y
+        x2: int = dest.x
+        y2: int = dest.y
 
-        deltaX: float = x2 - x1
-        deltaY: float = y2 - y1
+        deltaX: int = x2 - x1
+        deltaY: int = y2 - y1
 
         return deltaX, deltaY
 
