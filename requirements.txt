@@ -1,8 +1,9 @@
 fpdf2~=2.5.4
 Pillow~=9.1.1
-
+# for readthedocs
+jinja2==3.0.3
 html-testRunner~=1.2.1
-types-setuptools==63.2.3
+types-setuptools==63.4.0
 mypy==0.971
 pdoc3~=0.10.0
 setuptools==63.4.1
