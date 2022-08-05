@@ -1,6 +1,6 @@
 
-from typing import List
-from typing import final
+from typing import Final
+from typing import Tuple
 from typing import Union
 
 from logging import Logger
@@ -42,11 +42,11 @@ ShapeDefinition = Union[EllipseDefinition, RectangleDefinition]
 
 class ImageDiagram(BaseDiagram):
 
-    RESOURCES_PACKAGE_NAME: final = 'pyumldiagrams.image.resources'
-    RESOURCES_PATH:         final = f'pyumldiagrams{osSep}image{osSep}resources'
+    RESOURCES_PACKAGE_NAME: Final = 'pyumldiagrams.image.resources'
+    RESOURCES_PATH:         Final = f'pyumldiagrams{osSep}image{osSep}resources'
 
-    DEFAULT_IMAGE_WIDTH:  final = 1280    # pixels
-    DEFAULT_IMAGE_HEIGHT: final = 1024    # pixels
+    DEFAULT_IMAGE_WIDTH:  Final = 1280    # pixels
+    DEFAULT_IMAGE_HEIGHT: Final = 1024    # pixels
 
     DEFAULT_BACKGROUND_COLOR: str = 'LightYellow'
     DEFAULT_LINE_COLOR:       str = 'Black'
@@ -54,11 +54,12 @@ class ImageDiagram(BaseDiagram):
     DEFAULT_IMAGE_FORMAT:     str = ImageFormat.PNG.value
     SUFFIX_INDICATOR:         str = '.'
 
-    X_NUDGE_FACTOR:        final = 4
-    Y_NUDGE_FACTOR:        final = 6
-    FIRST_METHOD_Y_OFFSET: final = 0
+    X_NUDGE_FACTOR:        Final = 4
+    Y_NUDGE_FACTOR:        Final = 6
+    FIRST_METHOD_Y_OFFSET: Final = 0
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = '', imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = '',
+                 imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         """
 
         Args:
@@ -82,6 +83,7 @@ class ImageDiagram(BaseDiagram):
         self._imgDraw:    ImageDraw = ImageDraw.Draw(self._img)
         self._lineDrawer: ImageLine = ImageLine(docWriter=self._imgDraw, diagramPadding=self._diagramPadding)
 
+        # noinspection SpellCheckingInspection
         fqPath:     str       = self.retrieveResourcePath('MonoFonto.ttf')
         self._font:       ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
         self._headerFont: ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.HEADER_FONT_SIZE)
@@ -186,7 +188,7 @@ class ImageDiagram(BaseDiagram):
         """
         if self._headerText is not None and self._headerText != '':
 
-            xy = [LEFT_MARGIN, TOP_MARGIN / 2]
+            xy = (LEFT_MARGIN, TOP_MARGIN // 2)
             self._imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._headerFont, text=self._headerText)
 
         adjustedFileName: str = self._addSuffix(fileName=self._fileName, suffix=ImageDiagram.DEFAULT_IMAGE_FORMAT)
@@ -207,7 +209,7 @@ class ImageDiagram(BaseDiagram):
         y0 = iPos.y
         x1 = x0 + size.width
         y1 = y0 + size.height
-        xy = [x0, y0, x1, y1]
+        xy = (x0, y0, x1, y1)
         self.logger.debug(f'Class Symbol {xy=}')
         imgDraw.rectangle(xy=xy, fill=None, outline=ImageDiagram.DEFAULT_LINE_COLOR, width=1)
 
@@ -220,28 +222,28 @@ class ImageDiagram(BaseDiagram):
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
         textY: float = rectY + (self._fontSize / 2)
 
-        xy = [textX, textY]
+        xy = (textX, textY)
         self.logger.debug(f'ClassName {xy=}')
         imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=classDefinition.name)
 
-    def _drawSeparator(self, rectX: float, rectY: float, shapeWidth: float) -> SeparatorPosition:
+    def _drawSeparator(self, rectX: int, rectY: int, shapeWidth: int) -> SeparatorPosition:
         """
         Draws the UML separators between the various part of the UML shape
         Does the computation to determine where it drew the separator
 
         Args:
             rectX: x position of symbol
-            rectY: y position of symbol (
+            rectY: y position of symbol
             shapeWidth: The width of the symbol
 
         Returns:  Where it drew the separator
         """
         imgDraw: ImageDraw = self._imgDraw
 
-        separatorX: float = rectX
-        separatorY: float = rectY + self._fontSize + ImageDiagram.Y_NUDGE_FACTOR
+        separatorX: int = rectX
+        separatorY: int = rectY + self._fontSize + ImageDiagram.Y_NUDGE_FACTOR
 
-        endX: float = rectX + shapeWidth
+        endX: int = rectX + shapeWidth
 
         xy = [separatorX, separatorY, endX, separatorY]
         self.logger.debug(f'Separator {xy=}')
@@ -252,10 +254,10 @@ class ImageDiagram(BaseDiagram):
     def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -> SeparatorPosition:
 
         imgDraw: ImageDraw = self._imgDraw
-        x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
+        x: int = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + ImageDiagram.Y_NUDGE_FACTOR
         for fieldRepr in fieldReprs:
-            xy = [x, y]
+            xy = (x, y)
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=fieldRepr)
             y = y + self._fontSize + 2
 
@@ -266,12 +268,12 @@ class ImageDiagram(BaseDiagram):
 
         imgDraw: ImageDraw = self._imgDraw
 
-        x: float = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
-        y: float = separatorPosition.y + ImageDiagram.FIRST_METHOD_Y_OFFSET
+        x: int = separatorPosition.x + ImageDiagram.X_NUDGE_FACTOR
+        y: int = separatorPosition.y + ImageDiagram.FIRST_METHOD_Y_OFFSET
 
         for methodRepr in methodReprs:
 
-            xy = [x, y]
+            xy = (x, y)
             imgDraw.text(xy=xy, fill=ImageDiagram.DEFAULT_TEXT_COLOR, font=self._font, text=methodRepr)
             y = y + self._fontSize
 
@@ -284,7 +286,7 @@ class ImageDiagram(BaseDiagram):
             adjustedFileName: str = fileName
         return adjustedFileName
 
-    def __toInternalCoordinates(self, definition: ShapeDefinition) -> List[float]:
+    def __toInternalCoordinates(self, definition: ShapeDefinition) -> Tuple[int, int, int, int]:
 
         pos:  Position = definition.position
         size: Size     = definition.size
@@ -297,7 +299,7 @@ class ImageDiagram(BaseDiagram):
         x2 = internalEnd.x
         y2 = internalEnd.y
 
-        xy = [x1, y1, x2, y2]
+        xy = (x1, y1, x2, y2)
 
         return xy
 
@@ -309,5 +311,3 @@ class ImageDiagram(BaseDiagram):
         iPos: InternalPosition = ImageCommon.toInternal(position, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         return iPos
-
-
