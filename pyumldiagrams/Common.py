@@ -108,7 +108,7 @@ class Common:
         points.append((InternalPosition(x2 + size * cos(alpha1), y2 + size * sin(alpha1)))) # type: ignore
         points.append(InternalPosition(x2, y2))
         points.append(InternalPosition(x2 + size * cos(alpha2), y2 + size * sin(alpha2)))           # type: ignore
-        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore  
+        points.append(InternalPosition(x2 + 2 * size * cos(alpha), y2 + 2 * size * sin(alpha)))     # type: ignore
 
         return points
 
