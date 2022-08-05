@@ -4,9 +4,10 @@ from typing import cast
 from logging import Logger
 from logging import getLogger
 
+from xml.dom.minicompat import NodeList
+
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
-from xml.dom.minidom import NodeList
 
 from xml.dom.minidom import parseString
 
@@ -57,14 +58,14 @@ class ToClassDefinition:
         self.logger: Logger = getLogger(__name__)
 
         self._xmlData:          str      = ''
-        self._documentNode:     Document = None
 
         self._classDefinitions: ClassDefinitions   = []
         self._umlLineDefinitions:  UmlLineDefinitions = []
 
+        self._documentNode: Document = cast(Document, None)
         with open(fqFileName) as xmlFile:
             self._xmlData = xmlFile.read()
-            self._documentNode: Document = parseString(self._xmlData)
+            self._documentNode = parseString(self._xmlData)
 
     def generateClassDefinitions(self):
 

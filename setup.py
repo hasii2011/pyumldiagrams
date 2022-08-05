@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='pyumldiagrams',
-    version='2.30.6',
+    version='2.30.7',
     description='Draw UML diagrams in various formats',
     author='Humberto A. Sanchez II',
     author_email='humberto.a.sanchez.ii@gmail.com',

@@ -1,5 +1,5 @@
 
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -38,8 +38,8 @@ class PdfLine(IDiagramLine):
     described UML classes.  End users generally do not directly use this class.
     It is split off as part of the separation of responsibility principle.
     """
-    INHERITANCE_ARROW_HEIGHT: final = 10
-    DIAMOND_HEIGHT:           final = 8
+    INHERITANCE_ARROW_HEIGHT: Final = 10
+    DIAMOND_HEIGHT:           Final = 8
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -263,19 +263,19 @@ class PdfLine(IDiagramLine):
         ptNumber: int = 0
         for point in points:
 
-            x1: int = round(point.x)
-            y1: int = round(point.y)
+            x1: int = point.x
+            y1: int = point.y
 
             if ptNumber == len(points) - 1:
                 nextPoint = points[0]
-                x2: int = round(nextPoint.x)
-                y2: int = round(nextPoint.y)
+                x2: int = nextPoint.x
+                y2: int = nextPoint.y
                 pdf.line(x1, y1, x2, y2)
                 break
             else:
                 nextPoint = points[ptNumber + 1]
-                x2: int = round(nextPoint.x)
-                y2: int = round(nextPoint.y)
+                x2 = nextPoint.x
+                y2 = nextPoint.y
                 pdf.line(x1, y1, x2, y2)
 
             ptNumber += 1

@@ -44,7 +44,7 @@ DEFAULT_FILE_NAME: str = 'PyutExport'
 The file name
 """
 
-DEFAULT_IMAGE_FORMAT: ImageFormat.PNG
+DEFAULT_IMAGE_FORMAT: ImageFormat = ImageFormat.PNG
 """
 The Image format
 

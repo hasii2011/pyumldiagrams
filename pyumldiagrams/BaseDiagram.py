@@ -1,7 +1,7 @@
 
 from typing import List
 from typing import cast
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -33,19 +33,21 @@ class BaseDiagram:
     MethodsRepr = List[str]
     FieldsRepr  = List[str]
 
-    DEFAULT_FONT_SIZE: final = 10
-    HEADER_FONT_SIZE:  final = 14
-    RESOURCE_ENV_VAR:  final = 'RESOURCEPATH'
+    DEFAULT_FONT_SIZE: Final = 10
+    HEADER_FONT_SIZE:  Final = 14
+    # noinspection SpellCheckingInspection
+    RESOURCE_ENV_VAR:  Final = 'RESOURCEPATH'
 
     clsLogger: Logger = getLogger(__name__)
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, dpi: int = 0, headerText: str = ''):
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
+                 dpi: int = 0, headerText: str = ''):
         """
 
         Args:
             fileName:   Fully qualified file name
 
-            docDisplayMethodParameters: global flag to determine whether or not or display a method's parameters
+            docDisplayMethodParameters: global flag to determine whether or display a method's parameters
 
             dpi: dots per inch for the display we are mapping from;
             Some diagramming documents may not need a value for this since they map directly to display device
@@ -219,7 +221,7 @@ class BaseDiagram:
         if methodDef.visibility is None:
             methodRepr: str = f'{methodDef.name}'
         else:
-            methodRepr: str = f'{methodDef.visibility.value} {methodDef.name}'
+            methodRepr = f'{methodDef.visibility.value} {methodDef.name}'
 
         paramRepr: str = ''
 

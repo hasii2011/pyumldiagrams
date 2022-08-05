@@ -1,8 +1,11 @@
 fpdf2~=2.5.4
 Pillow~=9.1.1
+
 html-testRunner~=1.2.1
+types-setuptools==63.2.3
+mypy==0.971
 pdoc3~=0.10.0
-setuptools==63.2.0
+setuptools==63.4.1
 twine==4.0.1
 wheel~=0.37.1
 build==0.8.0

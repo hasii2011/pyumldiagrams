@@ -68,8 +68,8 @@ class PdfCommon(Common):
 
         Returns: True if it is, else False
         """
-        x: float = pos.x
-        y: float = pos.y
+        x: int = pos.x
+        y: int = pos.y
         n: int   = len(polygon)
 
         inside: bool = False
@@ -88,7 +88,7 @@ class PdfCommon(Common):
                     if x <= max(p1x, p2x):
                         xIntersection: float = 0
                         if p1y != p2y:
-                            xIntersection: float = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                            xIntersection = (y - p1y) * (p2x - p1x) // (p2y - p1y) + p1x
                         if p1x == p2x or x <= xIntersection:
                             inside = not inside
 

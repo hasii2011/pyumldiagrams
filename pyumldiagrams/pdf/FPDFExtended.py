@@ -1,5 +1,5 @@
 
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -9,8 +9,8 @@ from fpdf import FPDF
 
 class FPDFExtended(FPDF):
 
-    DEFAULT_PAGE_WIDTH:  final = 3000     # points
-    DEFAULT_PAGE_HEIGHT: final = 1500     # points
+    DEFAULT_PAGE_WIDTH:  Final = 3000     # points
+    DEFAULT_PAGE_HEIGHT: Final = 1500     # points
 
     def __init__(self, headerText: str = ''):
 

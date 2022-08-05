@@ -1,5 +1,5 @@
 
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -44,13 +44,13 @@ class PdfDiagram(BaseDiagram):
     """
     FPDF_DRAW: str = 'D'
 
-    RESOURCES_PACKAGE_NAME: final = 'pdf.resources'
-    RESOURCES_PATH:         final = f'pdf{osSep}resources'
+    RESOURCES_PACKAGE_NAME: Final = 'pdf.resources'
+    RESOURCES_PATH:         Final = f'pdf{osSep}resources'
 
-    X_NUDGE_FACTOR: final = 4
-    Y_NUDGE_FACTOR: final = 4
+    X_NUDGE_FACTOR: Final = 4
+    Y_NUDGE_FACTOR: Final = 4
 
-    FIRST_METHOD_Y_OFFSET: final = 7
+    FIRST_METHOD_Y_OFFSET: Final = 7
 
     def __init__(self, fileName: str, dpi: int, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = ''):
         """
@@ -117,8 +117,9 @@ class PdfDiagram(BaseDiagram):
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
-            fqFileName:      str = f'{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}'
+            # I find Optional[str]   a funny type
+            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')       # type: ignore
+            fqFileName = f'{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}'
 
         return fqFileName
 

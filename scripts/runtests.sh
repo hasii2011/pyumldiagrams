@@ -3,7 +3,7 @@
 function changeToProjectRoot {
 
     areHere=$(basename "${PWD}")
-    epxort areHere
+    export areHere
     if [[ ${areHere} = "scripts" ]]; then
         cd ..
     fi
@@ -12,7 +12,7 @@ function changeToProjectRoot {
 changeToProjectRoot
 
 
-python3 -m tests.TestAll "$*"
+python -m tests.TestAll
 status=$?
 
 while getopts c option

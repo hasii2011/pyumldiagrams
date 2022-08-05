@@ -26,7 +26,7 @@ class IDiagramLine(metaclass=ABCMeta):
 
         self._docMaker:       Any = docMaker
         self._dpi:            int = dpi
-        self._diagramPadding: diagramPadding  = diagramPadding
+        self._diagramPadding: DiagramPadding  = diagramPadding
 
     @abstractmethod
     def draw(self, lineDefinition: UmlLineDefinition):
