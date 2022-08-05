@@ -1,5 +1,5 @@
 
-from typing import final
+from typing import Final
 from typing import Tuple
 
 from math import pi
@@ -14,8 +14,8 @@ from pyumldiagrams.Internal import InternalPosition
 
 class Common:
 
-    INHERITANCE_ARROW_HEIGHT: final = 10
-    DIAMOND_HEIGHT:           final = 8
+    INHERITANCE_ARROW_HEIGHT: Final = 10
+    DIAMOND_HEIGHT:           Final = 8
 
     @classmethod
     def computeTheArrowVertices(cls, src: InternalPosition, dest: InternalPosition)  -> ArrowPoints:

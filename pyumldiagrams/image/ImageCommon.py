@@ -10,7 +10,7 @@ from pyumldiagrams.Internal import InternalPosition
 class ImageCommon(Common):
 
     @classmethod
-    def toInternal(cls, position: Position, verticalGap: float, horizontalGap: float) -> InternalPosition:
+    def toInternal(cls, position: Position, verticalGap: int, horizontalGap: int) -> InternalPosition:
         """
         Assumes a 1 to 1 relationship between display device and the image we are generating.
 
@@ -23,7 +23,7 @@ class ImageCommon(Common):
 
         Returns:  The new position adjust for margins and gaps
         """
-        adjustedX: float = position.x + LEFT_MARGIN + verticalGap
-        adjustedY: float = position.y + TOP_MARGIN  + horizontalGap
+        adjustedX: int = position.x + LEFT_MARGIN + verticalGap
+        adjustedY: int = position.y + TOP_MARGIN  + horizontalGap
 
         return InternalPosition(x=adjustedX, y=adjustedY)
