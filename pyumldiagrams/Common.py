@@ -138,12 +138,12 @@ class Common:
         Returns:  Midpoint between startPos - endPos
 
         """
-        x1: float = startPos.x
-        y1: float = startPos.y
-        x2: float = endPos.x
-        y2: float = endPos.y
+        x1: int = startPos.x
+        y1: int = startPos.y
+        x2: int = endPos.x
+        y2: int = endPos.y
 
-        midX: float = (x1 + x2) / 2
-        midY: float = (y1 + y2) / 2
+        midX: int = (x1 + x2) // 2
+        midY: int = (y1 + y2) // 2
 
         return InternalPosition(midX, midY)
