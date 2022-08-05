@@ -1,8 +1,9 @@
 
 from typing import Any
 from typing import List
+from typing import NewType
 from typing import Union
-from typing import final
+from typing import Final
 
 from logging import Logger
 from logging import getLogger
@@ -24,14 +25,14 @@ from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
 from pyumldiagrams.Internal import InternalPosition
 
+PILPoints     = NewType('PILPoints', List[int])
+PolygonPoints = NewType('PolygonPoints', List[int])
+
 
 class ImageLine(IDiagramLine):
 
-    DEFAULT_LINE_COLOR: final = 'Black'
-    LINE_WIDTH:         final = 1
-
-    PILPoints     = List[float]
-    PolygonPoints = PILPoints       # syntactic sugar
+    DEFAULT_LINE_COLOR: Final = 'Black'
+    LINE_WIDTH:         Final = 1
 
     def __init__(self, docWriter: Any, diagramPadding: DiagramPadding):
 
@@ -78,13 +79,13 @@ class ImageLine(IDiagramLine):
         internalSrc: InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  ArrowPoints             = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  ArrowPoints   = ImageCommon.computeTheArrowVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
-        newEndPoint: InternalPosition    = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        newEndPoint: InternalPosition = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -95,13 +96,13 @@ class ImageLine(IDiagramLine):
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -112,21 +113,21 @@ class ImageLine(IDiagramLine):
         internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
         internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
 
-        points:  DiamondPoints           = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
-        polygon: ImageLine.PolygonPoints = self.__toPolygonPoints(points)
+        points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
+        polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
 
         newEndPoint: InternalPosition = points[3]
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
-        lastIdx:     int                  = len(linePositions) - 1
-        internalDst: InternalPosition    = self.__toInternal(linePositions[lastIdx])
-        xy:          ImageLine.PILPoints = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
+        lastIdx:     int              = len(linePositions) - 1
+        internalDst: InternalPosition = self.__toInternal(linePositions[lastIdx])
+        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -141,7 +142,7 @@ class ImageLine(IDiagramLine):
 
     def __toPolygonPoints(self, points: Union[ArrowPoints, DiamondPoints]) -> PolygonPoints:
 
-        polygon: ImageLine.PolygonPoints = []
+        polygon: PolygonPoints = PolygonPoints([])
 
         for point in points:
             polygon.append(int(point.x))
@@ -153,7 +154,7 @@ class ImageLine(IDiagramLine):
 
         linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
 
-        xy: ImageLine.PILPoints = []
+        xy: PILPoints = PILPoints([])
         for externalPosition in linePositionsCopy:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)

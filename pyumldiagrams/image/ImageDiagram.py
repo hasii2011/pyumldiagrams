@@ -1,5 +1,6 @@
 
 from typing import Final
+from typing import Optional
 from typing import Tuple
 from typing import Union
 
@@ -108,8 +109,8 @@ class ImageDiagram(BaseDiagram):
             # Maybe we are in an app
             #
             from os import environ
-            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
-            fqFileName:      str = f'{pathToResources}/{ImageDiagram.RESOURCES_PATH}/{bareFileName}'
+            pathToResources: Optional[str] = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
+            fqFileName = f'{pathToResources}/{ImageDiagram.RESOURCES_PATH}/{bareFileName}'
 
         return fqFileName
 
@@ -283,7 +284,7 @@ class ImageDiagram(BaseDiagram):
         if result == -1:
             adjustedFileName: str = f'{fileName}{ImageDiagram.SUFFIX_INDICATOR}{suffix}'
         else:
-            adjustedFileName: str = fileName
+            adjustedFileName = fileName
         return adjustedFileName
 
     def __toInternalCoordinates(self, definition: ShapeDefinition) -> Tuple[int, int, int, int]:
