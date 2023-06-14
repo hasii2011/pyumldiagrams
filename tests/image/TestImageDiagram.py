@@ -91,7 +91,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDefinition=fieldsTestClass)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical', removeTestFile=False)
 
     def testBasicHeader(self):
 
@@ -378,12 +378,13 @@ class TestImageDiagram(TestDiagramParent):
         self.logger.warning(f'{TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME}')
         actualName:   str = self._getFullyQualifiedImagePath('Test-Basic-Standard.png')
 
+        # noinspection SpellCheckingInspection
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
     def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str, removeTestFile: bool = True) -> None:
         """
-        The side-affect here is that if the assertion passes then this method removes the generated file
+        The side effect here is that if the assertion passes then this method removes the generated file
 
         Args:
             baseName:           The base image file name
@@ -392,7 +393,7 @@ class TestImageDiagram(TestDiagramParent):
         """
         standardFileName: str = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}.{ImageFormat.PNG.value}')
         status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
-        self.assertTrue(status == 0, f'{failMessage}')
+        self.assertTrue(status == 0, failMessage)
 
         if removeTestFile is True:
             self.logger.info(f'Removing: {generatedFileName}')

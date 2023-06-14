@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PyutProject version="10" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="Static" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
-        <GraphicClass width="190.00" height="200.00" x="734.90" y="266.00">
+        <GraphicClass width="190" height="200" x="735" y="266">
             <Class id="1" name="LegacyClassNoAttribute" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
                 <Method name="__getstate__" visibility="PUBLIC">
                     <Return type=""/>

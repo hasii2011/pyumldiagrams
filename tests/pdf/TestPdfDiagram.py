@@ -95,8 +95,8 @@ class TestPdfDiagram(TestDiagramParent):
         classDef: ClassDefinition = ClassDefinition(name=TestDiagramParent.BASE_TEST_CLASS_NAME,
                                                     size=Size(width=TestPdfDiagram.CELL_WIDTH, height=TestPdfDiagram.CELL_HEIGHT))
 
-        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.drawClass(classDef)
+        diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical')

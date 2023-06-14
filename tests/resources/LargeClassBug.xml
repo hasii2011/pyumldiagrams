@@ -2,7 +2,7 @@
 <PyutProject version="10" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="Core UI" scrollPositionX="1" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
 
-        <GraphicClass width="197.00" height="750.00" x="486.00" y="65.00">
+        <GraphicClass width="197" height="750" x="486" y="65">
             <Class id="24" name="Widget" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
                 <Method name="__init__" visibility="PRIVATE">
                     <Return type=""/>

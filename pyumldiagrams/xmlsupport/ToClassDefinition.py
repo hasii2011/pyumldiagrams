@@ -73,14 +73,14 @@ class ToClassDefinition:
 
         self.logger.debug(f'{graphicClassNodes=}')
 
-        for xmlGraphicClass in graphicClassNodes:
+        for xmlGraphicClassNode in graphicClassNodes:
 
-            xmlGraphicClass: Element = cast(Element, xmlGraphicClass)
+            xmlGraphicClass: Element = cast(Element, xmlGraphicClassNode)
 
-            height: float = float(xmlGraphicClass.getAttribute(ATTR_HEIGHT))
-            width:  float = float(xmlGraphicClass.getAttribute(ATTR_WIDTH))
-            x:      float = float(xmlGraphicClass.getAttribute(ATTR_X))
-            y:      float = float(xmlGraphicClass.getAttribute(ATTR_Y))
+            height: int = int(xmlGraphicClass.getAttribute(ATTR_HEIGHT))
+            width:  int = int(xmlGraphicClass.getAttribute(ATTR_WIDTH))
+            x:      int = int(xmlGraphicClass.getAttribute(ATTR_X))
+            y:      int = int(xmlGraphicClass.getAttribute(ATTR_Y))
 
             xmlClass:  Element = xmlGraphicClass.getElementsByTagName(ELEMENT_MODEL_CLASS)[0]
             className: str     = xmlClass.getAttribute(ATTR_NAME)
@@ -90,12 +90,11 @@ class ToClassDefinition:
             displayStereotype: bool = self._stringToBoolean(xmlClass.getAttribute(ATTR_SHOW_STEREOTYPE))
 
             displayParametersStr: str = xmlClass.getAttribute(ATTR_DISPLAY_PARAMETERS)
-            displayMethodParameters: DisplayMethodParameters
 
             if displayParametersStr is None or displayParametersStr == '':
                 displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.UNSPECIFIED
             else:
-                displayMethodParameters: DisplayMethodParameters = DisplayMethodParameters(displayParametersStr)
+                displayMethodParameters = DisplayMethodParameters(displayParametersStr)
 
             classDef: ClassDefinition = ClassDefinition(name=className)
 
@@ -135,15 +134,15 @@ class ToClassDefinition:
 
         graphicLinkNodes: NodeList = self._documentNode.getElementsByTagName(ELEMENT_GRAPHIC_LINK)
 
-        for xmlGraphicLink in graphicLinkNodes:
+        for graphicLinkNode in graphicLinkNodes:
 
-            xmlGraphicLink: Element = cast(Element, xmlGraphicLink)
+            xmlGraphicLink: Element = cast(Element, graphicLinkNode)
 
             xmlLink:       Element  = xmlGraphicLink.getElementsByTagName(ELEMENT_MODEL_LINK)[0]
             controlPoints: NodeList = xmlGraphicLink.getElementsByTagName(ELEMENT_CONTROL_POINT)
 
-            srcX: float = float(xmlGraphicLink.getAttribute(ATTR_LINK_SOURCE_ANCHOR_X))
-            srcY: float = float(xmlGraphicLink.getAttribute(ATTR_LINK_SOURCE_ANCHOR_Y))
+            srcX: int = int(xmlGraphicLink.getAttribute(ATTR_LINK_SOURCE_ANCHOR_X))
+            srcY: int = int(xmlGraphicLink.getAttribute(ATTR_LINK_SOURCE_ANCHOR_Y))
 
             strType:  str      = xmlLink.getAttribute(ATTR_TYPE)
             lineType: LineType = LineType.toEnum(strType)
@@ -152,18 +151,18 @@ class ToClassDefinition:
             linePositions: LinePositions = [srcPosition]
             umlLineDefinition: UmlLineDefinition = UmlLineDefinition(linePositions=linePositions, lineType=lineType)
 
-            for controlPoint in controlPoints:
+            for point in controlPoints:
 
-                controlPoint: Element = cast(Element, controlPoint)
+                controlPoint: Element = cast(Element, point)
 
                 self.logger.debug(f'{controlPoint=}')
-                x: float = float(controlPoint.getAttribute(ATTR_X))
-                y: float = float(controlPoint.getAttribute(ATTR_Y))
+                x: int = int(controlPoint.getAttribute(ATTR_X))
+                y: int = int(controlPoint.getAttribute(ATTR_Y))
                 bendPosition: Position = Position(x=x, y=y)
                 linePositions.append(bendPosition)
 
-            destX: float = float(xmlGraphicLink.getAttribute(ATTR_LINK_DESTINATION_ANCHOR_X))
-            destY: float = float(xmlGraphicLink.getAttribute(ATTR_LINK_DESTINATION_ANCHOR_Y))
+            destX: int = int(xmlGraphicLink.getAttribute(ATTR_LINK_DESTINATION_ANCHOR_X))
+            destY: int = int(xmlGraphicLink.getAttribute(ATTR_LINK_DESTINATION_ANCHOR_Y))
 
             destPosition: Position = Position(x=destX, y=destY)
 

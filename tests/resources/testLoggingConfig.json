@@ -32,11 +32,11 @@
             "propagate": "False"
         },
         "TestDiagram": {
-            "level": "INFO",
+            "level": "WARNING",
             "propagate": "False"
         },
         "TestXmlInput": {
-            "level": "INFO",
+            "level": "WARNING",
             "handlers": ["consoleHandler"],
             "propagate": "False"
         }

@@ -148,7 +148,7 @@ class BaseDiagram:
 
         Returns: a fully qualified name
         """
-        pass
+        return ''
 
     def drawClass(self, classDefinition: ClassDefinition):
         """

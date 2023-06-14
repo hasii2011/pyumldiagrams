@@ -1,7 +1,12 @@
-from datetime import datetime
+
 from typing import final
 
 from os import system as osSystem
+
+
+from datetime import datetime
+from datetime import timezone
+from datetime import timedelta
 
 from pkg_resources import resource_filename
 
@@ -34,16 +39,18 @@ class TestDiagramParent(TestBase):
 
     BASE_TEST_CLASS_NAME: str = 'TestClassName'
 
+    # noinspection SpellCheckingInspection
     BASE_FILES_PACKAGE_NAME:          str = f'{TestBase.RESOURCES_PACKAGE_NAME}.basefiles'
     BASE_IMAGE_RESOURCE_PACKAGE_NAME: str = f'{BASE_FILES_PACKAGE_NAME}.image'
     BASE_PDF_RESOURCE_PACKAGE_NAME:   str = f'{BASE_FILES_PACKAGE_NAME}.pdf'
 
     EXTERNAL_DIFF_PROGRAM:    str = 'diff'
+    # noinspection SpellCheckingInspection
     EXTERNAL_PDF_DIFF_SCRIPT: str = './scripts/diffpdf.sh'
 
     STANDARD_SUFFIX: str = '-Standard'
 
-    KNOWABLE_DATE: datetime = datetime(2020, 3, 1, 8, 30)
+    KNOWABLE_DATE: datetime = datetime(2020, 3, 1, 8, 30, tzinfo=timezone(offset=timedelta(), name='America/Chicago'))
 
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
@@ -174,32 +181,32 @@ class TestDiagramParent(TestBase):
         return lineDefinitions
 
     def _buildTopClass(self) -> ClassDefinition:
-        top: ClassDefinition = ClassDefinition(name='TopClass', position=Position(409.0, 159.0), size=Size(height=100, width=113))
+        top: ClassDefinition = ClassDefinition(name='TopClass', position=Position(409, 159), size=Size(height=100, width=113))
         return top
 
     def _buildLeftClass(self) -> ClassDefinition:
-        left: ClassDefinition = ClassDefinition(name='LeftClass', position=Position(266.0, 359.0), size=Size(height=99.0, width=127.0))
+        left: ClassDefinition = ClassDefinition(name='LeftClass', position=Position(266, 359), size=Size(height=99, width=127))
         return left
 
     def _buildRightClass(self) -> ClassDefinition:
-        right: ClassDefinition = ClassDefinition(name='RightClass', position=Position(522.0, 354.0), size=Size(height=107.0, width=167.0))
+        right: ClassDefinition = ClassDefinition(name='RightClass', position=Position(522, 354), size=Size(height=107, width=167))
         return right
 
     def _buildBendTest(self):
 
-        startPos: Position = Position(x=330.0, y=359.0)
-        cp1Pos:   Position = Position(x=330.0, y=286.0)
-        cp2Pos:   Position = Position(x=178.0, y=286.0)
-        cp3Pos:   Position = Position(x=178.0, y=207.0)
-        endPos:   Position = Position(x=409.0, y=207.0)
+        startPos: Position = Position(x=330, y=359)
+        cp1Pos:   Position = Position(x=330, y=286)
+        cp2Pos:   Position = Position(x=178, y=286)
+        cp3Pos:   Position = Position(x=178, y=207)
+        endPos:   Position = Position(x=409, y=207)
 
         bigBends: LinePositions = [startPos, cp1Pos, cp2Pos, cp3Pos, endPos]
 
         leftToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=bigBends)
 
-        startPosition2: Position = Position(x=604.0, y=354.0)
-        midPosition:    Position = Position(x=604.0, y=209.0)
-        endPosition2:   Position = Position(x=523.0, y=209.0)
+        startPosition2: Position = Position(x=604, y=354)
+        midPosition:    Position = Position(x=604, y=209)
+        endPosition2:   Position = Position(x=523, y=209)
 
         basicBends: LinePositions = [startPosition2, midPosition, endPosition2]
         rightToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=basicBends)

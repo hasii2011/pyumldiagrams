@@ -9,6 +9,7 @@ from unittest import main as unitTestMain
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Definitions import LinePositions
+from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
 
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
@@ -47,6 +48,10 @@ class TestPdfLine(TestBase):
 
     Y_INC: int = 50
     DASH_LINE_SPACE_LENGTH: int = 4
+
+    DASH_LENGTH:   int = 1
+    BACK_TO_SOLID: int = 0
+    DASH_GAP:      int = 4
 
     ELLIPSE_X: int = V_LEFT_X
     ELLIPSE_Y: int = V_TOP_Y
@@ -252,11 +257,22 @@ class TestPdfLine(TestBase):
         x2: int = PdfCommon.toPdfPoints(TestPdfLine.TOP_LINE_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         y2: int = PdfCommon.toPdfPoints(TestPdfLine.V_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+        pdf: FPDFExtended = diagram._pdf
+        # diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+
+        pdf.set_dash_pattern(dash=TestPdfLine.DASH_LENGTH, gap=TestPdfLine.DASH_LINE_SPACE_LENGTH, phase=0)
+        with pdf.new_path() as path:
+            path.move_to(x1, y2)
+            path.line_to(x2, y2)
 
         y2 = PdfCommon.toPdfPoints(TestPdfLine.V_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+        # diagram._pdf.dashed_line(x1=x1, y1=y2, x2=x2, y2=y2, space_length=TestPdfLine.DASH_GAP)
+        with pdf.new_path() as path:
+            path.move_to(x1, y2)
+            path.line_to(x2, y2)
+
+        pdf.set_dash_pattern(dash=TestPdfLine.BACK_TO_SOLID)
 
     def __drawVerticalBoundaries(self, diagram: PdfDiagram):
 
@@ -265,12 +281,24 @@ class TestPdfLine(TestBase):
         y1: int = PdfCommon.toPdfPoints(TestPdfLine.H_LEFT_TOP_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
         y2: int = PdfCommon.toPdfPoints(TestPdfLine.H_LEFT_BOTTOM_Y, diagram._dpi) + TOP_MARGIN + diagram.horizontalGap
 
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+        # diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+        pdf: FPDFExtended = diagram._pdf
+        pdf.set_dash_pattern(dash=TestPdfLine.DASH_LENGTH, gap=TestPdfLine.DASH_LINE_SPACE_LENGTH, phase=0)
+
+        with pdf.new_path() as path:
+            path.move_to(x1, y1)
+            path.line_to(x2, y2)
 
         x1 = PdfCommon.toPdfPoints(TestPdfLine.H_RIGHT_X, diagram._dpi) + LEFT_MARGIN + diagram.verticalGap
         x2 = x1
 
-        diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+        # diagram._pdf.dashed_line(x1=x1, y1=y1, x2=x2, y2=y2, space_length=TestPdfLine.DASH_LINE_SPACE_LENGTH)
+
+        with pdf.new_path() as path:
+            path.move_to(x1, y1)
+            path.line_to(x2, y2)
+
+        pdf.set_dash_pattern(dash=TestPdfLine.BACK_TO_SOLID)
 
     def __drawEllipseForDiagonalLines(self, diagram: PdfDiagram):
 

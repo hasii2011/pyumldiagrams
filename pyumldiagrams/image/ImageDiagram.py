@@ -218,8 +218,10 @@ class ImageDiagram(BaseDiagram):
 
         imgDraw: ImageDraw = self._imgDraw
 
-        nameWidth, nameHeight = imgDraw.textsize(text=classDefinition.name, font=self._font)
+        # nameWidth, nameHeight = imgDraw.textsize(text=classDefinition.name, font=self._font)
 
+        left, top, right, bottom = imgDraw.textbbox(xy=(0, 0), text=classDefinition.name, font=self._font)
+        nameWidth = right - left
         textX: float = rectX + ((symbolWidth / 2) - (nameWidth / 2))
         textY: float = rectY + (self._fontSize / 2)
 
