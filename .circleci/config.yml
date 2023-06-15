@@ -19,8 +19,13 @@ jobs:
     executor: python/default
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
+      - run:
+        name: Install library dependencies
+        command: | 
+            sudo apt-get update
+            sudo apt-get install -y libpoppler-cpp-dev pkg-config
+            sudo apt-get -y install poppler-utils
+            pip install -r requirements.txt
       - run:
             name: run tests
             command: | 
