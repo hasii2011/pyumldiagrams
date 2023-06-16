@@ -1,5 +1,6 @@
 
 from dataclasses import dataclass
+from dataclasses import field
 
 from pyumldiagrams.Common import Common
 from pyumldiagrams.Definitions import Position
@@ -18,16 +19,24 @@ class Coordinates:
     y: int = 0
 
 
+def createCoordinatesFactory() -> Coordinates:
+    return Coordinates()
+
+
 @dataclass
 class Dimensions:
     width:  int = 0
     height: int = 0
 
 
+def createDimensionsFactory() -> Dimensions:
+    return Dimensions()
+
+
 @dataclass
 class PdfShapeDefinition:
-    coordinates: Coordinates = Coordinates()
-    dimensions:  Dimensions  = Dimensions()
+    coordinates: Coordinates = field(default_factory=createCoordinatesFactory)
+    dimensions:  Dimensions  = field(default_factory=createDimensionsFactory)
 
 
 class PdfCommon(Common):

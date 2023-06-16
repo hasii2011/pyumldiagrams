@@ -31,6 +31,10 @@ class Position:
     """
 
 
+def createPositionFactory() -> Position:
+    return Position()
+
+
 @dataclass
 class DiagramPadding:
     """
@@ -71,6 +75,10 @@ class Size:
     """
     The height of the shape
     """
+
+
+def createSizeFactory() -> Size:
+    return Size()
 
 
 class DefinitionType(Enum):
@@ -165,11 +173,11 @@ class ClassDefinition(BaseDefinition):
     """
     The class definition.  Currently, does not support instance properties.
     """
-    size:     Size     = Size()
+    size:     Size     = field(default_factory=createSizeFactory)
     """
     The size of UML class symbol.  See `Size`
     """
-    position: Position = Position(0, 0)
+    position: Position = field(default_factory=createPositionFactory)
     """
     The position of the UML class symbol.  See `Position`
     """
@@ -293,11 +301,11 @@ class RectangleDefinition:
     """
     How to draw the rectangle.  See `RenderStyle`
     """
-    position:    Position    = Position(0, 0)
+    position:    Position    = field(default_factory=createPositionFactory)
     """
     Where to put the rectangle.  See `Position`
     """
-    size:        Size        = Size(0, 0)
+    size:        Size        = field(default_factory=createSizeFactory)
     """
     The rectangle size.  See `Size`
     """

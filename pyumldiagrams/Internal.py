@@ -1,7 +1,9 @@
 
-from dataclasses import dataclass
 from typing import List
 from typing import Union
+
+from dataclasses import dataclass
+from dataclasses import field
 
 
 @dataclass(eq=True)
@@ -13,6 +15,10 @@ class InternalPosition:
     """
     x: int = 0
     y: int = 0
+
+
+def createInternalPositionFactory() -> InternalPosition:
+    return InternalPosition()
 
 
 @dataclass
@@ -32,5 +38,5 @@ class ScanPoints:
     scans these points to determine if they are in the polygon.  If they are then presumably the
     diagramming method will draw a dot at the specified point to simulate a fill.
     """
-    startScan: InternalPosition = InternalPosition(0, 0)
-    endScan:   InternalPosition = InternalPosition(0, 0)
+    startScan: InternalPosition = field(default_factory=createInternalPositionFactory)
+    endScan:   InternalPosition = field(default_factory=createInternalPositionFactory)

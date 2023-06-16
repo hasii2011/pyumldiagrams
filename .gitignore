@@ -1,4 +1,5 @@
 /pyenv-3.9.1/
+/pyenv-3.11.0/
 .DS_Store
 .idea/
 /*.pdf
@@ -9,3 +10,4 @@ __pycache__/
 /build/
 /pyumldiagrams.egg-info/
 .envrc
+.python-version
