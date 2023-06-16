@@ -24,6 +24,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import createMethodsFactory
 
 from pyumldiagrams.UnsupportedException import UnsupportedException
 
@@ -116,7 +117,7 @@ class ToClassDefinition:
 
     def generateMethods(self, xmlClass: Element) -> Methods:
 
-        methods: Methods = []
+        methods: Methods = createMethodsFactory()
 
         for xmlMethod in xmlClass.getElementsByTagName(ELEMENT_MODEL_METHOD):
             methodName: str = xmlMethod.getAttribute(ATTR_NAME)

@@ -1,5 +1,6 @@
 
 from typing import List
+from typing import NewType
 
 from enum import Enum
 
@@ -147,10 +148,14 @@ class MethodDefinition(BaseDefinition):
     """
 
 
-Methods = List[MethodDefinition]
+Methods = NewType('Methods', List[MethodDefinition])
 """
 Syntactic sugar to define a list of methods.
 """
+
+
+def createMethodsFactory() -> Methods:
+    return Methods([])
 
 
 @dataclass
@@ -181,7 +186,7 @@ class ClassDefinition(BaseDefinition):
     """
     The position of the UML class symbol.  See `Position`
     """
-    methods: Methods   = field(default_factory=list)
+    methods: Methods   = field(default_factory=createMethodsFactory)
     """
     The list of methods this class implements.  
     """
