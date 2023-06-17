@@ -54,15 +54,15 @@ class TestDiagramCommon(TestBase):
     def setUp(self):
         self.logger: Logger = TestDiagramCommon.clsLogger
         self.diamond: PolygonPoints = [
-            InternalPosition(1118.0, 460.0),
-            InternalPosition(1122.0, 469.0717),
-            InternalPosition(1114.0, 469.0717),
-            InternalPosition(1118.0, 476.0)
+            InternalPosition(1118, 460),
+            InternalPosition(1122, 469),
+            InternalPosition(1114, 469),
+            InternalPosition(1118, 476)
         ]
         self.arrow: PolygonPoints = [
-            InternalPosition(1122.0, 469.0717),
-            InternalPosition(1118.0, 476.0),
-            InternalPosition(1114.0, 469.0717)
+            InternalPosition(1122, 469),
+            InternalPosition(1118, 476),
+            InternalPosition(1114, 469)
         ]
 
     def tearDown(self):
@@ -70,42 +70,42 @@ class TestDiagramCommon(TestBase):
 
     def testPointLeftOfDiamond(self):
 
-        notInPolygon: InternalPosition = InternalPosition(0.0, 0.0)
+        notInPolygon: InternalPosition = InternalPosition(0, 0)
         actualAns:    bool = PdfCommon.pointInsidePolygon(pos=notInPolygon, polygon=self.diamond)
 
         self.assertFalse(actualAns, 'Diamond check is bad')
 
     def testInCenterOfDiamond(self):
 
-        inPolygon: InternalPosition = InternalPosition(1118.0, 470.0)
+        inPolygon: InternalPosition = InternalPosition(1118, 470)
         actualAns: bool = PdfCommon.pointInsidePolygon(pos=inPolygon, polygon=self.diamond)
 
         self.assertTrue(actualAns, 'Diamond check in center of diamond is bad')
 
     def testPointRightOfDiamond(self):
 
-        notInPolygon: InternalPosition = InternalPosition(1122.0, 490.0)
+        notInPolygon: InternalPosition = InternalPosition(1122, 490)
         actualAns:    bool = PdfCommon.pointInsidePolygon(pos=notInPolygon, polygon=self.diamond)
 
         self.assertFalse(actualAns, 'Diamond check is bad')
 
     def testPointLeftOfArrow(self):
 
-        notInPolygon: InternalPosition = InternalPosition(0.0, 0.0)
+        notInPolygon: InternalPosition = InternalPosition(0, 0)
         actualAns:    bool = PdfCommon.pointInsidePolygon(pos=notInPolygon, polygon=self.arrow)
 
         self.assertFalse(actualAns, 'Arrow check is bad')
 
     def testInCenterOfArrow(self):
 
-        inPolygon: InternalPosition = InternalPosition(1118.0, 472.0)
+        inPolygon: InternalPosition = InternalPosition(1118, 472)
         actualAns: bool = PdfCommon.pointInsidePolygon(pos=inPolygon, polygon=self.arrow)
 
         self.assertTrue(actualAns, 'Diamond check is bad')
 
     def testPointRightOfArrow(self):
 
-        notInPolygon: InternalPosition = InternalPosition(1122.0, 490.0)
+        notInPolygon: InternalPosition = InternalPosition(1122, 490)
         actualAns:    bool = PdfCommon.pointInsidePolygon(pos=notInPolygon, polygon=self.arrow)
 
         self.assertFalse(actualAns, 'Diamond check is bad')
@@ -114,21 +114,21 @@ class TestDiagramCommon(TestBase):
 
         scanPoints: ScanPoints = PdfCommon.buildScanPoints(points=self.arrow)
 
-        self.assertEqual(1114.0, scanPoints.startScan.x, 'Minimum X not correct for arrow')
-        self.assertEqual(469.0717,  scanPoints.startScan.y, 'Minimum Y not correct for arrow')
+        self.assertEqual(1114, scanPoints.startScan.x, 'Minimum X not correct for arrow')
+        self.assertEqual(469.,  scanPoints.startScan.y, 'Minimum Y not correct for arrow')
 
-        self.assertEqual(1122.0, scanPoints.endScan.x, 'Max x is not correct for arrow')
-        self.assertEqual(476.0, scanPoints.endScan.y, 'Max y is not correct for arrow')
+        self.assertEqual(1122, scanPoints.endScan.x, 'Max x is not correct for arrow')
+        self.assertEqual(476, scanPoints.endScan.y, 'Max y is not correct for arrow')
 
     def testBuildScanPointsForDiamond(self):
 
         scanPoints: ScanPoints = PdfCommon.buildScanPoints(points=self.diamond)
 
-        self.assertEqual(1114.0, scanPoints.startScan.x, 'Minimum X not correct for diamond')
-        self.assertEqual(460.0, scanPoints.startScan.y, 'Minimum Y not correct for diamond')
+        self.assertEqual(1114, scanPoints.startScan.x, 'Minimum X not correct for diamond')
+        self.assertEqual(460, scanPoints.startScan.y, 'Minimum Y not correct for diamond')
 
-        self.assertEqual(1122.0, scanPoints.endScan.x, 'Max x is not correct for diamond')
-        self.assertEqual(476.0, scanPoints.endScan.y, 'Max y is not correct for diamond')
+        self.assertEqual(1122, scanPoints.endScan.x, 'Max x is not correct for diamond')
+        self.assertEqual(476, scanPoints.endScan.y, 'Max y is not correct for diamond')
 
 
 def suite() -> TestSuite:
@@ -136,8 +136,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestDiagramCommon))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestDiagramCommon))
 
     return testSuite
 
