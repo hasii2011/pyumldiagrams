@@ -91,7 +91,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDefinition=fieldsTestClass)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical', removeTestFile=False)
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical')
 
     def testBasicHeader(self):
 
@@ -375,7 +375,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testGetFullyQualifiedImagePath(self):
 
-        self.logger.warning(f'{TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME}')
+        self.logger.debug(f'{TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME}')
         actualName:   str = self._getFullyQualifiedImagePath('Test-Basic-Standard.png')
 
         # noinspection SpellCheckingInspection
@@ -405,8 +405,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestImageDiagram))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestImageDiagram))
 
     return testSuite
 

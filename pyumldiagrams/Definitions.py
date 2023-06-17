@@ -13,7 +13,8 @@ from pyumldiagrams.Defaults import DEFAULT_HORIZONTAL_GAP
 from pyumldiagrams.Defaults import DEFAULT_VERTICAL_GAP
 from pyumldiagrams.UnsupportedException import UnsupportedException
 
-ClassName = str
+
+ClassName = NewType('ClassName', str)
 
 
 @dataclass
@@ -170,7 +171,11 @@ class FieldDefinition(ParameterDefinition):
     """
 
 
-Fields = List[FieldDefinition]
+Fields = NewType('Fields', List[FieldDefinition])
+
+
+def createFieldsFactory() -> Fields:
+    return Fields([])
 
 
 @dataclass
@@ -190,7 +195,7 @@ class ClassDefinition(BaseDefinition):
     """
     The list of methods this class implements.  
     """
-    fields: Fields = field(default_factory=list)
+    fields:  Fields    = field(default_factory=createFieldsFactory)
     """
     The list of instance variables this class defines.
     """

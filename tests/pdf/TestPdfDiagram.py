@@ -406,7 +406,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testGetFullyQualifiedPdfPath(self):
 
-        self.logger.warning(f'{TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME}')
+        self.logger.debug(f'{TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME}')
 
         actualName:   str = self._getFullyQualifiedPdfPath('Test-Basic-Standard.pdf')
 
@@ -450,7 +450,7 @@ class TestPdfDiagram(TestDiagramParent):
         self.assertTrue(status == 0, failMessage)
 
         if removeTestFile is True:
-            self.logger.info(f'Removing: {generatedFileName}')
+            self.logger.debug(f'Removing: {generatedFileName}')
             osRemove(generatedFileName)
 
 
@@ -459,8 +459,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestPdfDiagram))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestPdfDiagram))
 
     return testSuite
 

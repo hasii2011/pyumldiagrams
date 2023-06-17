@@ -40,9 +40,9 @@ fi
 standardFile=${1}
 generatedFile=${2}
 
-clear
-echo "Standard File:  ${standardFile}"
-echo "Generated File: ${generatedFile}"
+# clear
+# echo "Standard File:  ${standardFile}"
+# echo "Generated File: ${generatedFile}"
 
 pdftotext ${standardFile}  standard.txt
 pdftotext ${generatedFile} generated.txt

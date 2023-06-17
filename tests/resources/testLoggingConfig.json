@@ -23,12 +23,12 @@
             "propagate": "False"
         },
         "__main__": {
-            "level": "INFO",
+            "level": "WARNING",
             "handlers": ["consoleHandler"],
             "propagate": "False"
         },
         "pyumldiagrams": {
-            "level":     "INFO",
+            "level":     "WARNING",
             "propagate": "False"
         },
         "TestDiagram": {
