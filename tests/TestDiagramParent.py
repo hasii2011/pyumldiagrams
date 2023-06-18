@@ -1,8 +1,8 @@
 
 from typing import final
 
-from os import system as osSystem
-
+from subprocess import run as subProcessRun
+from subprocess import CompletedProcess
 
 from datetime import datetime
 from datetime import timezone
@@ -62,15 +62,20 @@ class TestDiagramParent(TestBase):
         fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         return fqFileName
 
-    def _runDiff(self, baseFileName: str, standardFileName) -> int:
+    def _runDiff(self, baseFileName: str, standardFileName: str, diffProgram: str = EXTERNAL_DIFF_PROGRAM) -> int:
 
-        status: int = osSystem(f'{TestDiagramParent.EXTERNAL_DIFF_PROGRAM} {baseFileName} {standardFileName}')
+        command: str = f'{diffProgram} {baseFileName} {standardFileName}'
+        completedProcess: CompletedProcess = subProcessRun([command], shell=True, capture_output=True, text=True, check=False)
 
-        return status
+        return completedProcess.returncode
 
     def _runPdfDiff(self, baseFileName: str, standardFileName) -> int:
-
-        status: int = osSystem(f'{TestDiagramParent.EXTERNAL_PDF_DIFF_SCRIPT} {baseFileName} {standardFileName}')
+        """
+        """
+        status: int = self._runDiff(baseFileName=baseFileName,
+                                    standardFileName=standardFileName,
+                                    diffProgram=TestDiagramParent.EXTERNAL_PDF_DIFF_SCRIPT
+                                    )
 
         return status
 
