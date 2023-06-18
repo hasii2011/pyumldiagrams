@@ -6,7 +6,8 @@ from setuptools import find_packages
 HERE = pathlib.Path(__file__).parent
 
 # The text of the README file
-README = (HERE / "README.md").read_text()
+README  = (HERE / "README.md").read_text()
+LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name='pyumldiagrams',
@@ -16,7 +17,7 @@ setup(
     author_email='humberto.a.sanchez.ii@gmail.com',
     long_description=README,
     long_description_content_type='text/markdown',
-    license='GPL V3',
+    license=LICENSE,
     url='https://github.com/hasii2011/pyumldiagrams',
     packages=find_packages(),
     include_package_data=False,
