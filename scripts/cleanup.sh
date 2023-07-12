@@ -2,7 +2,7 @@
 
 function changeToProjectRoot {
 
-    export areHere=`basename ${PWD}`
+    areHere=$(basename "${PWD}")
     if [[ ${areHere} = "scripts" ]]; then
         cd ..
     fi
@@ -10,8 +10,8 @@ function changeToProjectRoot {
 
 changeToProjectRoot
 
-rm -fv *.pdf
-rm -fv *.png
+rm -fv ./*.pdf
+rm -fv ./*.png
 
 rm -rf build dist pyumldiagrams.egg-info -delete
 rm -rf build dist
