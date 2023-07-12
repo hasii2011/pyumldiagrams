@@ -26,22 +26,18 @@ EXPECTED_LINE_COUNT:  int = 6
 class TestXmlInput(TestBase):
     """
     """
-    clsLogger: Logger = None
-
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestXmlInput.clsLogger = getLogger(__name__)
-
+        super().setUpClass()
+        
     def setUp(self):
-        self.logger: Logger = TestXmlInput.clsLogger
-
+        super().setUp()
         self._fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
 
         self._displayMethodParametersTestFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
 
     def tearDown(self):
-        pass
+        super().tearDown()
 
     def testBasicClassDefinitions(self):
 
@@ -121,10 +117,10 @@ class TestXmlInput(TestBase):
 
         self.assertEqual(DisplayMethodParameters.UNSPECIFIED, classDef.displayMethodParameters, 'Attribute incorrectly set')
 
-    def _findClassDefinition(self, className: str, classDefs: ClassDefinitions) -> ClassDefinition:
+    def _findClassDefinition(self, className: str, classDefinitions: ClassDefinitions) -> ClassDefinition:
 
         retClassDef: ClassDefinition = cast(ClassDefinition, None)
-        for classDef in classDefs:
+        for classDef in classDefinitions:
             if classDef.name == className:
                 retClassDef = classDef
                 break
@@ -140,8 +136,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestXmlInput))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestXmlInput))
 
     return testSuite
 

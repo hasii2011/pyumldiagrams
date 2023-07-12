@@ -1,6 +1,5 @@
 
 from logging import Logger
-from logging import getLogger
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
@@ -44,15 +43,13 @@ class TestDiagramCommon(TestBase):
                         1118.0, 476.0
 
     """
-    clsLogger: Logger = None
 
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestDiagramCommon.clsLogger = getLogger(__name__)
+        super().setUpClass()
 
     def setUp(self):
-        self.logger: Logger = TestDiagramCommon.clsLogger
+        super().setUp()
         self.diamond: PolygonPoints = [
             InternalPosition(1118, 460),
             InternalPosition(1122, 469),
@@ -66,7 +63,7 @@ class TestDiagramCommon(TestBase):
         ]
 
     def tearDown(self):
-        pass
+        super().tearDown()
 
     def testPointLeftOfDiamond(self):
 

@@ -1,9 +1,6 @@
 
 from typing import Tuple
 
-from logging import Logger
-from logging import getLogger
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
@@ -64,15 +61,12 @@ ELLIPSE_HEIGHT: int = 300
 
 class TestImageLine(TestBase):
 
-    clsLogger: Logger = None
-
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestImageLine.clsLogger = getLogger(__name__)
+        super().setUpClass()
 
     def setUp(self):
-        self.logger: Logger = TestImageLine.clsLogger
+        super().setUp()
 
     def tearDown(self):
         pass

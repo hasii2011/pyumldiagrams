@@ -1,4 +1,6 @@
 
+from typing import cast
+
 from logging import Logger
 from logging import getLogger
 
@@ -8,7 +10,7 @@ from unittest import main as unitTestMain
 from tests.TestBase import TestBase
 
 # import the class you want to test here
-# from pdf.PdfDiagram import PdfDiagram
+# from org.pyut.template import template
 
 
 class TestTemplate(TestBase):
@@ -18,7 +20,7 @@ class TestTemplate(TestBase):
 
     See existing tests for more information.
     """
-    clsLogger: Logger = None
+    clsLogger: Logger = cast(Logger, None)
 
     @classmethod
     def setUpClass(cls):
@@ -44,8 +46,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestTemplate))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestTemplate))
 
     return testSuite
 

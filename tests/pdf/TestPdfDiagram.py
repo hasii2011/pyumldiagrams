@@ -1,8 +1,8 @@
+
 from typing import List
 from typing import cast
 
 from logging import Logger
-from logging import getLogger
 
 from os import remove as osRemove
 
@@ -27,7 +27,6 @@ from pyumldiagrams.Definitions import Size
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
-from tests.TestBase import TestBase
 
 from tests.TestConstants import TestConstants
 from tests.TestDiagramParent import TestDiagramParent
@@ -44,19 +43,16 @@ class TestPdfDiagram(TestDiagramParent):
     CELL_WIDTH:  int = 150  # points
     CELL_HEIGHT: int = 100  # points
 
-    clsLogger: Logger = None
-
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestPdfDiagram.clsLogger = getLogger(__name__)
-
+        super().setUpClass()
+        
     def setUp(self):
-        self.logger:            Logger   = TestPdfDiagram.clsLogger
+        super().setUp()
         self.unitTestTimeStamp: datetime = TestDiagramParent.KNOWABLE_DATE
 
     def tearDown(self):
-        pass
+        super().tearDown()
 
     def testConstruction(self):
 

@@ -147,7 +147,7 @@ def main():
     if args.produce_html_results:
         status: int = testAll.runHtmlTestRunner()
     else:
-        status: int = testAll.runTextTestRunner()
+        status = testAll.runTextTestRunner()
 
     return status
 

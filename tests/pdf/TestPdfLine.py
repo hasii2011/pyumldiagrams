@@ -1,6 +1,4 @@
 
-from logging import Logger
-from logging import getLogger
 from typing import Tuple
 
 from unittest import TestSuite
@@ -61,16 +59,12 @@ class TestPdfLine(TestBase):
 
     ELLIPSE_FILL_STYLE: str = 'D'
 
-    clsLogger: Logger = None
-
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestPdfLine.clsLogger = getLogger(__name__)
+        super().setUpClass()
 
     def setUp(self):
-
-        self.logger: Logger = TestPdfLine.clsLogger
+        super().setUp()
 
     def tearDown(self):
         pass
