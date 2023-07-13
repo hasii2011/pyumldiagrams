@@ -15,10 +15,18 @@ copyright = '2023, Humberto A. Sanchez II'
 author = 'Humberto A. Sanchez II'
 version = '2.50.0'
 
-sys.path.insert(0, os.path.abspath('../pyumldiagrams'))
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+
+# Mappings for sphinx.ext.intersphinx. Projects have to have Sphinx-generated doc! (.inv file)
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3/", None),
+}
+
+autosummary_generate = True     # Turn on sphinx.ext.autosummary
+autoclass_content = "both"      # Add __init__ doc (ie. params) to class summaries
 
 # extensions = ["myst_parser"]
 # extensions = []

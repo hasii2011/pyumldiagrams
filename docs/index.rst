@@ -10,6 +10,7 @@ Welcome to PyUmlDiagram's documentation
 
    api
    usage
+   modules
 
 
 

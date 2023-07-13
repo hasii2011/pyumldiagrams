@@ -8,7 +8,7 @@ __pycache__/
 *.pkl
 /dist/
 /build/
-/docs/build/
+/docs/generated/
 /pyumldiagrams.egg-info/
 .envrc
 .python-version
