@@ -6,29 +6,31 @@ Usage
 Installation
 ------------
 
-To use Lumache, first install it using pip:
+To use pyumldiagrams, first install it using pip:
 
 .. code-block:: console
 
-   (.venv) $ pip install lumache
+   (.venv) $ pip install pyumldiagrams
 
-Creating recipes
-----------------
+.. code-block:: console
 
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
+=================================
+Create a basic pdf class diagram
+=================================
 
-.. autofunction:: lumache.get_random_ingredients
+.. code-block:: console
 
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception.
+    from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
+    from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
-.. autoexception:: lumache.InvalidKindError
 
-For example:
+    diagram:  PdfDiagram      = PdfDiagram(fileName='basicClass.pdf', dpi=75)
+    classDef: ClassDefinition = ClassDefinition(name='BasicClass', size=Size(width=100, height=100))
 
->>> import lumache
->>> lumache.get_random_ingredients()
-['shells', 'gorgonzola', 'parsley']
+    diagram.drawClass(classDef)
+    diagram.write()
+
+Produces the following output
+
+.. image:: images/Test-Basic.png
 

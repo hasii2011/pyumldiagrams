@@ -2,6 +2,4 @@ API
 ===
 
 .. autosummary::
-   :toctree: generated
-
-    pyumldiagrams
+    :toctree: generated

@@ -2,8 +2,6 @@
 from typing import List
 from typing import cast
 
-from logging import Logger
-
 from os import remove as osRemove
 
 from datetime import datetime
@@ -95,7 +93,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical', removeTestFile=False)
 
     def testBasicFields(self):
 
