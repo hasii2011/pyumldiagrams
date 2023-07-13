@@ -14,5 +14,6 @@ buildlackey==1.1.0
 hasiihelper==0.2.1
 
 fpdf2==2.7.4
-Pillow~=9.5.0
+# Pillow~=9.5.0
+Pillow==10.0.0
 pdftotext~=2.2.2  # Install manually for unit tests
