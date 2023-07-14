@@ -10,8 +10,8 @@ Welcome to PyUmlDiagram's documentation
    :maxdepth: 5
    :caption: Description of PyUmlDiagram
 
+   ./usage/usage
    api
-   usage
    modules
 
 
