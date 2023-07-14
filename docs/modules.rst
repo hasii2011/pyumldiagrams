@@ -7,5 +7,6 @@ Module Reference
    :toctree: generated
 
    pyumldiagrams
+   pyumldiagrams.BaseDiagram
    pyumldiagrams.pdf
    pyumldiagrams.image

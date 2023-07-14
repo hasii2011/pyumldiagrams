@@ -180,8 +180,7 @@ def createFieldsFactory() -> Fields:
 
 @dataclass
 class ClassDefinition(BaseDefinition):
-    """
-    The class definition.  Currently, does not support instance properties.
+    """ The class definition.  Currently, does not support instance properties.
     """
     size:     Size     = field(default_factory=createSizeFactory)
     """

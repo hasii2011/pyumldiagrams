@@ -59,9 +59,11 @@ class ImageDiagram(BaseDiagram):
     Y_NUDGE_FACTOR:        Final = 6
     FIRST_METHOD_Y_OFFSET: Final = 0
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = '',
+    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
+                 headerText: str = '',
                  imageSize: Size = Size(width=DEFAULT_IMAGE_WIDTH, height=DEFAULT_IMAGE_HEIGHT)):
         """
+        Constructor
 
         Args:
             fileName:  The output file name.  Including the suffix

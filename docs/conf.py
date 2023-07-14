@@ -10,10 +10,10 @@ import sys
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'PyUmlDiagrams'
+project   = 'PyUmlDiagrams'
 copyright = '2023, Humberto A. Sanchez II'
-author = 'Humberto A. Sanchez II'
-version = '2.50.0'
+author    = 'Humberto A. Sanchez II'
+version   = '2.50.0'
 
 sys.path.insert(0, os.path.abspath('../'))
 
@@ -26,25 +26,26 @@ intersphinx_mapping = {
 }
 
 autosummary_generate = True     # Turn on sphinx.ext.autosummary
-autoclass_content = "both"      # Add __init__ doc (ie. params) to class summaries
+autoclass_content    = "both"      # Add __init__ doc (ie. params) to class summaries
 
 # extensions = ["myst_parser"]
 # extensions = []
-# noinspection SpellCheckingInspection
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.napoleon',
 ]
 
 
-templates_path = ['_templates']
+templates_path   = ['_templates']
 exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'classic'
+html_theme       = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+html_logo        = 'PyumlDiagrammerLogo.png'

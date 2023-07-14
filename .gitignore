@@ -9,6 +9,7 @@ __pycache__/
 /dist/
 /build/
 /docs/generated/
+/docs/build/
 /pyumldiagrams.egg-info/
 .envrc
 .python-version

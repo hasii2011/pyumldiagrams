@@ -40,8 +40,11 @@ class BaseDiagram:
 
     clsLogger: Logger = getLogger(__name__)
 
-    def __init__(self, fileName: str, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
-                 dpi: int = 0, headerText: str = ''):
+    def __init__(self, fileName: str,
+                 docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY,
+                 dpi: int = 0,
+                 headerText: str = ''
+                 ):
         """
 
         Args:
