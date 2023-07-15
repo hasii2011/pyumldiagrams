@@ -24,6 +24,7 @@ PDF Generation
    BasicClass
    BasicMethod
    BasicFields
+   Inheritance
 
 
 ================
