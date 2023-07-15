@@ -51,6 +51,6 @@ Basic Fields
     diagram.write()
 
 
-Produces the following output
+Produces the following pdf output
 
 .. image:: ./images/BasicFields.png

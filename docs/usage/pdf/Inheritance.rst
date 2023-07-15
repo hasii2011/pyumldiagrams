@@ -20,6 +20,6 @@ Inheritance
     diagram.drawUmlLine(lineDefinition=opieToCat)
     diagram.write()
 
-Produces the following output
+Produces the following pdf output
 
 .. image:: ./images/Inheritance.png

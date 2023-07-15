@@ -1,9 +1,6 @@
 
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
@@ -23,7 +20,7 @@ EXPECTED_CLASS_COUNT: int = 7
 EXPECTED_LINE_COUNT:  int = 6
 
 
-class TestXmlInput(TestBase):
+class TestToClassDefinition(TestBase):
     """
     """
     @classmethod
@@ -137,7 +134,7 @@ def suite() -> TestSuite:
 
     testSuite: TestSuite = TestSuite()
 
-    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestXmlInput))
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestToClassDefinition))
 
     return testSuite
 

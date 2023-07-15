@@ -25,21 +25,19 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
 }
 
-autosummary_generate = True     # Turn on sphinx.ext.autosummary
-autoclass_content    = "both"      # Add __init__ doc (ie. params) to class summaries
-
 # extensions = ["myst_parser"]
 # extensions = []
 extensions = [
     'sphinx.ext.duration',
-    'sphinx.ext.doctest',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
+    'autoapi.extension',
 ]
 
+autoapi_dirs = ['../pyumldiagrams']
+autoapi_options = [ 'members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'imported-members', 'show-inheritance-diagram',]
+autoapi_python_class_content = 'both'
 
 templates_path   = ['_templates']
 exclude_patterns = []
