@@ -13,13 +13,10 @@ To use pyumldiagrams, first install it using pip:
 
    (.venv) $ pip install pyumldiagrams
 
-PDF Generation
---------------
-
 .. toctree::
    :maxdepth: 2
    :titlesonly:
-   :caption: PDF examples
+   :caption: PDF Generation
 
    pdf/BasicClass
    pdf/BasicMethod
@@ -27,5 +24,12 @@ PDF Generation
    pdf/Inheritance
 
 
-Image Generation
-----------------
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :caption: Image Generation
+
+   image/BasicClass
+   image/BasicMethod
+   image/BasicFields
+   image/Inheritance

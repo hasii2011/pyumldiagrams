@@ -1,5 +1,5 @@
-Basic Methods
-=============
+Basic Method
+============
 
 .. code-block:: python
     :caption: Create a class with a method
