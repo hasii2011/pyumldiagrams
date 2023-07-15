@@ -18,4 +18,4 @@ Basic Class
 
 Produces the following output
 
-.. image:: images/BasicClass.png
+.. image:: ../images/BasicClass.png

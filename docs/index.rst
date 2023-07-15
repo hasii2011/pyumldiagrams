@@ -7,7 +7,7 @@ Welcome to PyUmlDiagram's documentation
 =========================================
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 1
    :caption: Description of PyUmlDiagram
 
    ./usage/usage

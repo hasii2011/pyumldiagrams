@@ -9,24 +9,23 @@ Installation
 To use pyumldiagrams, first install it using pip:
 
 .. code-block:: console
+   :linenos:
 
    (.venv) $ pip install pyumldiagrams
 
-===============
 PDF Generation
-===============
+--------------
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
    :titlesonly:
    :caption: PDF examples
 
-   BasicClass
-   BasicMethod
-   BasicFields
-   Inheritance
+   pdf/BasicClass
+   pdf/BasicMethod
+   pdf/BasicFields
+   pdf/Inheritance
 
 
-================
 Image Generation
-================
+----------------

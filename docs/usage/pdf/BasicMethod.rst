@@ -34,5 +34,5 @@ Basic Methods
 
 Produces the following output
 
-.. image:: images/BasicMethod.png
+.. image:: ../images/BasicMethod.png
 
