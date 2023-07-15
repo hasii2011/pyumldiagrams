@@ -22,4 +22,4 @@ Inheritance
 
 Produces the following output
 
-.. image:: ../images/Inheritance.png
+.. image:: ../sample-output/Inheritance.png

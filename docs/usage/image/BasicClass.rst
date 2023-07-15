@@ -19,4 +19,4 @@ Basic Class
 
 Produces the following image output
 
-.. image:: ../images/ImageBasicClass.png
+.. image:: ../sample-output/ImageBasicClass.png
