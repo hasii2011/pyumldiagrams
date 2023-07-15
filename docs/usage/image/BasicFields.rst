@@ -51,4 +51,4 @@ Basic Fields
 
 Produces the following image output
 
-.. image:: ../sample-output/ImageBasicFields.png
+.. image:: ./images/BasicFields.png

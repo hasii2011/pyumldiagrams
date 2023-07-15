@@ -34,5 +34,5 @@ Basic Method
 
 Produces the following output
 
-.. image:: ../sample-output/BasicMethod.png
+.. image:: ./images/BasicMethod.png
 

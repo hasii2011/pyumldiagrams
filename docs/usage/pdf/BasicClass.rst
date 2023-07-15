@@ -18,4 +18,4 @@ Basic Class
 
 Produces the following pdf output
 
-.. image:: ../sample-output/BasicClass.png
+.. image:: ./images/BasicClass.png
