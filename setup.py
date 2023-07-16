@@ -20,12 +20,11 @@ setup(
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
     description='Draw UML diagrams in various formats',
-    long_description_content_type='text/markdown',
     long_description=README,
+    long_description_content_type='text/markdown',
     license=LICENSE,
     url='https://github.com/hasii2011/pyumldiagrams',
     packages=find_packages(),
-    include_package_data=False,
     package_data={
         'pyumldiagrams.image.resources': ['*.ttf', 'pyumldiagrams/image/resources/*.ttf', 'py.typed'],
         'pyumldiagrams':               ['py.typed'],
