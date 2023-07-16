@@ -8,7 +8,7 @@ from os import sep as osSep
 
 from datetime import datetime
 
-from pkg_resources import resource_filename
+from hasiihelper.ResourceManager import ResourceManager
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
@@ -110,16 +110,9 @@ class PdfDiagram(BaseDiagram):
 
         Returns: a fully qualified name
         """
-        try:
-            fqFileName: str = resource_filename(PdfDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
-        except (ValueError, Exception):
-            #
-            # Maybe we are in an app
-            #
-            from os import environ
-            # I find Optional[str]   a funny type
-            pathToResources: str = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')       # type: ignore
-            fqFileName = f'{pathToResources}/{PdfDiagram.RESOURCES_PATH}/{bareFileName}'
+        fqFileName: str = ResourceManager.retrieveResourcePath(bareFileName=bareFileName,
+                                                               resourcePath=PdfDiagram.RESOURCES_PATH,
+                                                               packageName=PdfDiagram.RESOURCES_PACKAGE_NAME)
 
         return fqFileName
 

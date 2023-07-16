@@ -1,6 +1,5 @@
 
 from typing import Final
-from typing import Optional
 from typing import Tuple
 from typing import Union
 
@@ -9,7 +8,7 @@ from logging import getLogger
 
 from os import sep as osSep
 
-from pkg_resources import resource_filename
+from hasiihelper.ResourceManager import ResourceManager
 
 from PIL import Image
 from PIL import ImageColor
@@ -104,15 +103,9 @@ class ImageDiagram(BaseDiagram):
 
     def retrieveResourcePath(self, bareFileName: str) -> str:
 
-        try:
-            fqFileName: str = resource_filename(ImageDiagram.RESOURCES_PACKAGE_NAME, bareFileName)
-        except (ValueError, Exception):
-            #
-            # Maybe we are in an app
-            #
-            from os import environ
-            pathToResources: Optional[str] = environ.get(f'{BaseDiagram.RESOURCE_ENV_VAR}')
-            fqFileName = f'{pathToResources}/{ImageDiagram.RESOURCES_PATH}/{bareFileName}'
+        fqFileName: str = ResourceManager.retrieveResourcePath(bareFileName=bareFileName,
+                                                               resourcePath=ImageDiagram.RESOURCES_PATH,
+                                                               packageName=ImageDiagram.RESOURCES_PACKAGE_NAME)
 
         return fqFileName
 
@@ -219,8 +212,6 @@ class ImageDiagram(BaseDiagram):
     def _drawClassName(self, classDefinition: ClassDefinition, rectX: float, rectY: float, symbolWidth: float):
 
         imgDraw: ImageDraw = self._imgDraw
-
-        # nameWidth, nameHeight = imgDraw.textsize(text=classDefinition.name, font=self._font)
 
         left, top, right, bottom = imgDraw.textbbox(xy=(0, 0), text=classDefinition.name, font=self._font)
         nameWidth = right - left
