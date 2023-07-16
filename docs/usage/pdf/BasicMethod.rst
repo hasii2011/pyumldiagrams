@@ -10,6 +10,7 @@ Basic Method
     from pyumldiagrams.Definitions import MethodDefinition
     from pyumldiagrams.Definitions import Methods
     from pyumldiagrams.Definitions import ParameterDefinition
+    from pyumldiagrams.Definitions import Parameters
     from pyumldiagrams.Definitions import Position
     from pyumldiagrams.Definitions import Size
 
@@ -24,12 +25,13 @@ Basic Method
     initMethodDef: MethodDefinition   = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
     initParam:    ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
 
-    initMethodDef.parameters = [initParam]
-    car.methods = Methods([initMethodDef])
+    initMethodDef.parameters = Parameters([initParam])
+    car.methods              = Methods([initMethodDef])
 
     diagram.drawClass(car)
 
     diagram.write()
+
 
 Produces the following pdf output
 

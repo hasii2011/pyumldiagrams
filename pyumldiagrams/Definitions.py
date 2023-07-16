@@ -117,7 +117,7 @@ class ParameterDefinition(BaseDefinition):
     """
 
 
-Parameters = List[ParameterDefinition]
+Parameters = NewType('Parameters', List[ParameterDefinition])
 """
 Syntactic sugar to define a list of parameters.  
 """
@@ -129,6 +129,9 @@ class DisplayMethodParameters(Enum):
     DO_NOT_DISPLAY = 'DoNotDisplay'
     UNSPECIFIED    = 'Unspecified'
 
+
+def createParametersFactory() -> Parameters:
+    return Parameters([])
 
 @dataclass
 class MethodDefinition(BaseDefinition):
@@ -143,7 +146,7 @@ class MethodDefinition(BaseDefinition):
     """
     Defines the method return type.
     """
-    parameters: Parameters = field(default_factory=list)
+    parameters: Parameters = field(default_factory=createParametersFactory)
     """
     Define the parameters for a particular method
     """
