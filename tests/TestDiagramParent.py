@@ -1,6 +1,4 @@
 
-from typing import final
-
 from subprocess import run as subProcessRun
 from subprocess import CompletedProcess
 
@@ -10,14 +8,14 @@ from datetime import timedelta
 
 from pkg_resources import resource_filename
 
-from pyumldiagrams.BaseDiagram import BaseDiagram
-
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import FieldDefinition
+from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
@@ -34,8 +32,8 @@ from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
 
 class TestDiagramParent(TestBase):
 
-    UNIT_TEST_HEADER:               final = 'Unit Test Header'
-    UNIT_TEST_SOPHISTICATED_HEADER: final = 'Pyut Export Version 6.0'
+    UNIT_TEST_HEADER:               str = 'Unit Test Header'
+    UNIT_TEST_SOPHISTICATED_HEADER: str = 'Pyut Export Version 6.0'
 
     BASE_TEST_CLASS_NAME: str = 'TestClassName'
 
@@ -95,7 +93,7 @@ class TestDiagramParent(TestBase):
         milesParam: ParameterDefinition = ParameterDefinition(name='miles', parameterType='int')
         incrementMethodDef.parameters = [milesParam]
 
-        car.methods = [initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef]
+        car.methods = Methods([initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef])
 
         return car
 
@@ -119,7 +117,7 @@ class TestDiagramParent(TestBase):
         sitMethod:      MethodDefinition = MethodDefinition('sit')
         rollOverMethod: MethodDefinition = MethodDefinition('rollOver')
 
-        cat.methods = [initMethod, sitMethod, rollOverMethod]
+        cat.methods = Methods([initMethod, sitMethod, rollOverMethod])
 
         return cat
 
@@ -132,7 +130,7 @@ class TestDiagramParent(TestBase):
 
         publicMethod.parameters = [paramDef]
 
-        opie.methods = [publicMethod]
+        opie.methods = Methods([publicMethod])
 
         return opie
 
@@ -148,7 +146,7 @@ class TestDiagramParent(TestBase):
         yearParameter:  ParameterDefinition = ParameterDefinition(name='year')
 
         initMethod.parameters = [makeParameter, modelParameter, yearParameter]
-        electricCar.methods = [initMethod, descMethod]
+        electricCar.methods = Methods([initMethod, descMethod])
         return electricCar
 
     def _buildNameTestCase(self) -> ClassDefinition:
@@ -162,7 +160,7 @@ class TestDiagramParent(TestBase):
         lastParam:  ParameterDefinition = ParameterDefinition(name='last')
 
         formattedName.parameters = [firstParam, lastParam]
-        namesTest.methods = [testFirst, formattedName]
+        namesTest.methods = Methods([testFirst, formattedName])
 
         return namesTest
 
@@ -220,9 +218,9 @@ class TestDiagramParent(TestBase):
 
         return bentLineDefinitions
 
-    def _buildFields(self) -> BaseDiagram.FieldsRepr:
+    def _buildFields(self) -> Fields:
 
-        fields: BaseDiagram.FieldsRepr = []
+        fields: Fields = Fields([])
 
         fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             parameterType='int',   defaultValue='1')
         fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')

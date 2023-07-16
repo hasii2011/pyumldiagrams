@@ -2,9 +2,6 @@
 from typing import List
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
 from os import remove as osRemove
 
 from datetime import datetime
@@ -21,6 +18,7 @@ from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
@@ -31,7 +29,6 @@ from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
-from tests.TestBase import TestBase
 from tests.TestConstants import TestConstants
 from tests.TestDiagramParent import TestDiagramParent
 
@@ -44,19 +41,16 @@ class TestImageDiagram(TestDiagramParent):
     TEST_LAST_X_POSITION: int = 5
     TEST_LAST_Y_POSITION: int = 6
 
-    clsLogger: Logger = None
-
     @classmethod
     def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestImageDiagram.clsLogger = getLogger(__name__)
+        super().setUpClass()
 
     def setUp(self):
-        self.logger:            Logger = TestImageDiagram.clsLogger
+        super().setUp()
         self.unitTestTimeStamp: datetime = TestDiagramParent.KNOWABLE_DATE
 
     def tearDown(self):
-        pass
+        super().tearDown()
 
     def testBasic(self):
 
@@ -86,7 +80,7 @@ class TestImageDiagram(TestDiagramParent):
 
         initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
-        fieldsTestClass.methods = [initMethodDef]
+        fieldsTestClass.methods = Methods([initMethodDef])
 
         diagram.drawClass(classDefinition=fieldsTestClass)
         diagram.write()
@@ -122,7 +116,7 @@ class TestImageDiagram(TestDiagramParent):
 
         initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
         initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
+        car.methods = Methods([initMethodDef])
 
         diagram.drawClass(car)
         diagram.write()

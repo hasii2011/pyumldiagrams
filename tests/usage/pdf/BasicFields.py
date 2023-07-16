@@ -1,18 +1,19 @@
 
-from pyumldiagrams.BaseDiagram import BaseDiagram
-
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import FieldDefinition
+from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 
 
-def buildFields() -> BaseDiagram.FieldsRepr:
-    fields: BaseDiagram.FieldsRepr = []
+def buildFields() -> Fields:
+
+    fields: Fields = Fields([])
 
     fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             parameterType='int',   defaultValue='1')
     fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
@@ -38,7 +39,7 @@ fieldsTestClass.fields = buildFields()
 
 initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
-fieldsTestClass.methods = [initMethodDef]
+fieldsTestClass.methods = Methods([initMethodDef])
 
 diagram.drawClass(classDefinition=fieldsTestClass)
 

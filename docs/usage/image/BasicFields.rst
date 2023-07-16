@@ -5,19 +5,21 @@ Basic Fields
     :caption: Create a class with fields
     :linenos:
 
-    from pyumldiagrams.BaseDiagram import BaseDiagram
     from pyumldiagrams.Definitions import ClassDefinition
     from pyumldiagrams.Definitions import DefinitionType
     from pyumldiagrams.Definitions import FieldDefinition
+    from pyumldiagrams.Definitions import Fields
     from pyumldiagrams.Definitions import MethodDefinition
+    from pyumldiagrams.Definitions import Methods
     from pyumldiagrams.Definitions import Position
     from pyumldiagrams.Definitions import Size
+
     from pyumldiagrams.image.ImageDiagram import ImageDiagram
 
 
-    def buildFields() -> BaseDiagram.FieldsRepr:
+    def buildFields() -> Fields:
 
-        fields: BaseDiagram.FieldsRepr = []
+        fields: Fields = Fields([])
 
         fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             parameterType='int',   defaultValue='1')
         fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
@@ -42,11 +44,12 @@ Basic Fields
 
     initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
-    fieldsTestClass.methods = [initMethodDef]
+    fieldsTestClass.methods = Methods([initMethodDef])
 
     diagram.drawClass(classDefinition=fieldsTestClass)
 
     diagram.write()
+
 
 
 Produces the following image output

@@ -2,6 +2,7 @@
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
@@ -18,7 +19,7 @@ initMethodDef: MethodDefinition   = MethodDefinition(name='__init__', visibility
 initParam:    ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
 
 initMethodDef.parameters = [initParam]
-car.methods = [initMethodDef]
+car.methods = Methods([initMethodDef])
 
 diagram.drawClass(car)
 

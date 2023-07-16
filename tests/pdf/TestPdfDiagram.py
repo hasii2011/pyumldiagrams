@@ -14,6 +14,7 @@ from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import LinePositions
+from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.Definitions import LineType
@@ -108,7 +109,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
 
-        fieldsTestClass.methods = [initMethodDef]
+        fieldsTestClass.methods = Methods([initMethodDef])
 
         diagram.drawClass(classDefinition=fieldsTestClass)
 
@@ -150,7 +151,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
         initMethodDef.parameters = [initParam]
-        car.methods = [initMethodDef]
+        car.methods = Methods([initMethodDef])
 
         diagram.drawClass(car)
 
@@ -254,7 +255,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=cast(DefinitionType, None))
 
-        car.methods = [initMethodDef]
+        car.methods = Methods([initMethodDef])
 
         diagram.drawClass(car)
 

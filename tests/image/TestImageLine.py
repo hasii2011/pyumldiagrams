@@ -231,17 +231,17 @@ class TestImageLine(TestBase):
 
     def _createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
-        northLinePositions: LinePositions = [Position(BOTTOM_LINE_LEFT_X + X_INC, TOP_LINE_Y), Position(BOTTOM_LINE_LEFT_X + X_INC, BOTTOM_LINE_Y)]
-        north: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=northLinePositions)
+        northLinePositions: LinePositions     = [Position(BOTTOM_LINE_LEFT_X + X_INC, TOP_LINE_Y), Position(BOTTOM_LINE_LEFT_X + X_INC, BOTTOM_LINE_Y)]
+        north:              UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=northLinePositions)
 
-        northLinePositions: LinePositions = [Position(BOTTOM_LINE_RIGHT_X + X_DEC, TOP_LINE_Y), Position(BOTTOM_LINE_RIGHT_X + X_DEC, BOTTOM_LINE_Y)]
+        northLinePositions = [Position(BOTTOM_LINE_RIGHT_X + X_DEC, TOP_LINE_Y), Position(BOTTOM_LINE_RIGHT_X + X_DEC, BOTTOM_LINE_Y)]
         south: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=northLinePositions)
 
-        eastLinePositions: LinePositions = [Position(V_LEFT_X, V_TOP_Y + Y_INC), Position(V_RIGHT_X, V_TOP_Y + Y_INC)]
-        east: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=eastLinePositions)
+        eastLinePositions: LinePositions     = [Position(V_LEFT_X, V_TOP_Y + Y_INC), Position(V_RIGHT_X, V_TOP_Y + Y_INC)]
+        east:              UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=eastLinePositions)
 
-        westLinePositions: LinePositions = [Position(V_RIGHT_X, V_BOTTOM_Y + Y_DEC), Position(V_LEFT_X, V_BOTTOM_Y + Y_DEC)]
-        west: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=westLinePositions)
+        westLinePositions: LinePositions     = [Position(V_RIGHT_X, V_BOTTOM_Y + Y_DEC), Position(V_LEFT_X, V_BOTTOM_Y + Y_DEC)]
+        west:              UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=westLinePositions)
 
         return north, south, east, west
 
