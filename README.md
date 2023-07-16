@@ -1,12 +1,13 @@
-[![Build Status](https://travis-ci.com/hasii2011/pyumldiagrams.svg?branch=master)](https://travis-ci.com/hasii2011/pyumldiagrams)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/hasii2011/pyumldiagrams/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/hasii2011/pyumldiagrams/tree/master)
 [![PyPI version](https://badge.fury.io/py/pyumldiagrams.svg)](https://badge.fury.io/py/pyumldiagrams)
 [![Documentation Status](https://readthedocs.org/projects/pyumldiagrams/badge/?version=latest)](https://pyumldiagrams.readthedocs.io/en/latest/?badge=latest)
-      
+
+
+PyUmlDiagrams is a set of helper code that allows Pyut to generate UML Diagrams in either pdf or image format.  Currently,
+the only supported image type is png.
+
+
 The documentation is on [read the docs](https://pyumldiagrams.readthedocs.io/en/latest/).
-
-
-
-
 
 ------
 

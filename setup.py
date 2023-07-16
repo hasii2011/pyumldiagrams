@@ -1,6 +1,9 @@
+
 import pathlib
 from setuptools import setup
 from setuptools import find_packages
+
+from pyumldiagrams import __version__ as pyumldiagramsVersion
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -11,12 +14,14 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name='pyumldiagrams',
-    version='2.40.0',
-    description='Draw UML diagrams in various formats',
+    version=pyumldiagramsVersion,
     author='Humberto A. Sanchez II',
     author_email='humberto.a.sanchez.ii@gmail.com',
-    long_description=README,
+    maintainer='Humberto A. Sanchez II',
+    maintainer_email='humberto.a.sanchez.ii@gmail.com',
+    description='Draw UML diagrams in various formats',
     long_description_content_type='text/markdown',
+    long_description=README,
     license=LICENSE,
     url='https://github.com/hasii2011/pyumldiagrams',
     packages=find_packages(),
@@ -29,5 +34,5 @@ setup(
         'pyumldiagrams.pdf.resources': ['py.typed'],
         'pyumldiagrams.xmlsupport':    ['py.typed'],
     },
-    install_requires=['fpdf2>=2.7.4', 'Pillow>=9.5.0']
+    install_requires=['fpdf2>=2.7.4', 'Pillow>=10.0.0']
 )
