@@ -33,15 +33,17 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'autoapi.extension',
+    'sphinx.ext.graphviz',
 ]
 
-autoapi_dirs = ['../pyumldiagrams']
-autoapi_options = [ 'members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'imported-members', 'show-inheritance-diagram',]
+autoapi_dirs                 = ['../pyumldiagrams']
+autoapi_options              = ['members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'imported-members', 'show-inheritance-diagram', ]
 autoapi_python_class_content = 'both'
+autoapi_member_order         = 'bysource'
 
-templates_path   = ['_templates']
-exclude_patterns = []
-todo_include_todos=True
+templates_path     = ['_templates']
+exclude_patterns   = []
+todo_include_todos = True
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
