@@ -33,7 +33,6 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'autoapi.extension',
-    'sphinx.ext.graphviz',
 ]
 
 autoapi_dirs                 = ['../pyumldiagrams']

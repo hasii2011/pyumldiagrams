@@ -10,3 +10,4 @@ jupytext
 jupyter
 matplotlib
 numpy
+graphviz
