@@ -189,7 +189,7 @@ class ToClassDefinition:
 
     def _generateMethodParameters(self, xmlMethod: Element, methodDef: MethodDefinition) -> MethodDefinition:
 
-        parameters: Parameters = []
+        parameters: Parameters = Parameters([])
         for xmlParam in xmlMethod.getElementsByTagName(ELEMENT_MODEL_PARAM):
             paramDef: ParameterDefinition = self._getParam(xmlParam=xmlParam)
             parameters.append(paramDef)

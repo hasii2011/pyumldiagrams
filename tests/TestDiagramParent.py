@@ -17,6 +17,7 @@ from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
@@ -88,10 +89,10 @@ class TestDiagramParent(TestBase):
         incrementMethodDef: MethodDefinition = MethodDefinition(name='incrementOdometer',  visibility=DefinitionType.Protected)
 
         mileageParam: ParameterDefinition = ParameterDefinition(name='mileage', defaultValue='1')
-        updateOdoMethodDef.parameters = [mileageParam]
+        updateOdoMethodDef.parameters = Parameters([mileageParam])
 
         milesParam: ParameterDefinition = ParameterDefinition(name='miles', parameterType='int')
-        incrementMethodDef.parameters = [milesParam]
+        incrementMethodDef.parameters = Parameters([milesParam])
 
         car.methods = Methods([initMethodDef, descMethodDef, odometerMethodDef, updateOdoMethodDef, incrementMethodDef])
 
@@ -105,7 +106,7 @@ class TestDiagramParent(TestBase):
         modelParam: ParameterDefinition = ParameterDefinition(name='model', parameterType='str', defaultValue='')
         yearParam:  ParameterDefinition = ParameterDefinition(name='year',  parameterType='int', defaultValue='1957')
 
-        initMethodDef.parameters = [initParam, modelParam, yearParam]
+        initMethodDef.parameters = Parameters([initParam, modelParam, yearParam])
 
         return initMethodDef
 
@@ -128,9 +129,8 @@ class TestDiagramParent(TestBase):
         publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=DefinitionType.Public, returnType='bool')
         paramDef: ParameterDefinition  = ParameterDefinition(name='param', parameterType='float', defaultValue='23.0')
 
-        publicMethod.parameters = [paramDef]
-
-        opie.methods = Methods([publicMethod])
+        publicMethod.parameters = Parameters([paramDef])
+        opie.methods            = Methods([publicMethod])
 
         return opie
 
@@ -145,8 +145,8 @@ class TestDiagramParent(TestBase):
         modelParameter: ParameterDefinition = ParameterDefinition(name='model')
         yearParameter:  ParameterDefinition = ParameterDefinition(name='year')
 
-        initMethod.parameters = [makeParameter, modelParameter, yearParameter]
-        electricCar.methods = Methods([initMethod, descMethod])
+        initMethod.parameters = Parameters([makeParameter, modelParameter, yearParameter])
+        electricCar.methods   = Methods([initMethod, descMethod])
         return electricCar
 
     def _buildNameTestCase(self) -> ClassDefinition:
@@ -159,8 +159,8 @@ class TestDiagramParent(TestBase):
         firstParam:  ParameterDefinition = ParameterDefinition(name='first')
         lastParam:  ParameterDefinition = ParameterDefinition(name='last')
 
-        formattedName.parameters = [firstParam, lastParam]
-        namesTest.methods = Methods([testFirst, formattedName])
+        formattedName.parameters = Parameters([firstParam, lastParam])
+        namesTest.methods        = Methods([testFirst, formattedName])
 
         return namesTest
 
