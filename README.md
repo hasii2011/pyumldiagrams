@@ -1,4 +1,4 @@
-<img src="./docs/agpl-license-web-badge-version-2-256x48.png"/> 
+![](https://github.com/hasii2011/code-ally-basic/blob/master/developer/agpl-license-web-badge-version-2-256x48.png "AGPL")
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/hasii2011/pyumldiagrams/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/hasii2011/pyumldiagrams/tree/master)
 [![PyPI version](https://badge.fury.io/py/pyumldiagrams.svg)](https://badge.fury.io/py/pyumldiagrams)
@@ -15,20 +15,19 @@ This project uses [buildlackey](https://github.com/hasii2011/buildlackey) for da
 
 ------
 
-Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto">Humberto A. Sanchez II</a>  (C) 2023
-
 ## Note
 For all kind of problems, requests, enhancements, bug reports, etc.,
 please drop me an e-mail.
+Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto">Humberto A. Sanchez II</a>  (C) 2023
+
 
 ------
 
 
-![Humberto's Modified Logo](https://raw.githubusercontent.com/wiki/hasii2011/gittodoistclone/images/SillyGitHub.png)
-
+---
 I am concerned about GitHub's Copilot project
 
-
+![](https://github.com/hasii2011/code-ally-basic/blob/master/developer/SillyGitHub.png)
 
 I urge you to read about the
 [Give up GitHub](https://GiveUpGitHub.org) campaign from
@@ -42,4 +41,3 @@ to monitor their terms of service.
 
 Any use of this project's code by GitHub Copilot, past or present, is done
 without my permission.  I do not consent to GitHub's use of this project's
-code in Copilot.
