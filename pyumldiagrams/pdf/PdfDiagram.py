@@ -8,7 +8,7 @@ from os import sep as osSep
 
 from datetime import datetime
 
-from hasiihelper.ResourceManager import ResourceManager
+from codeallybasic.ResourceManager import ResourceManager
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH

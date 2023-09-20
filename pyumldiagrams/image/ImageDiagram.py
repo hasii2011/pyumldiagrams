@@ -8,7 +8,7 @@ from logging import getLogger
 
 from os import sep as osSep
 
-from hasiihelper.ResourceManager import ResourceManager
+from codeallybasic.ResourceManager import ResourceManager
 
 from PIL import Image
 from PIL import ImageColor

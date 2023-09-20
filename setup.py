@@ -33,5 +33,5 @@ setup(
         'pyumldiagrams.pdf.resources': ['py.typed'],
         'pyumldiagrams.xmlsupport':    ['py.typed'],
     },
-    install_requires=['fpdf2>=2.7.4', 'Pillow>=10.0.0']
+    install_requires=['fpdf2>=2.7.4', 'Pillow>=10.0.0', 'codeallybasic==0.5.2']
 )
