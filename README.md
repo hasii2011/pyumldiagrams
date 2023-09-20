@@ -4,8 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/pyumldiagrams.svg)](https://badge.fury.io/py/pyumldiagrams)
 [![Documentation Status](https://readthedocs.org/projects/pyumldiagrams/badge/?version=latest)](https://pyumldiagrams.readthedocs.io/en/latest/?badge=latest)
 
-PyUmlDiagrams is a set of helper code that allows Pyut to generate UML Diagrams in either pdf or image format.  Currently,
-the only supported image type is png.
+PyUmlDiagrams is a set of helper code that allows Pyut to generate UML Diagrams in either pdf or image format.  Currently, the only supported image type is png.
 
 
 The documentation is on [read the docs](https://pyumldiagrams.readthedocs.io/en/latest/).
@@ -16,8 +15,7 @@ This project uses [buildlackey](https://github.com/hasii2011/buildlackey) for da
 ------
 
 ## Note
-For all kind of problems, requests, enhancements, bug reports, etc.,
-please drop me an e-mail.
+For all kind of problems, requests, enhancements, bug reports, etc., please drop me an e-mail.
 Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto">Humberto A. Sanchez II</a>  (C) 2023
 
 

@@ -21,8 +21,7 @@ setup(
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
     description='Draw UML diagrams in various formats',
     long_description=README,
-    long_description_content_type='text/markdown',
-    license=LICENSE,
+    long_description_content_type="text/markdown",
     url='https://github.com/hasii2011/pyumldiagrams',
     packages=find_packages(),
     package_data={
