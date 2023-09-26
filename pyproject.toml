@@ -4,5 +4,5 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "pyumldiagrams"
-authors = [{name = "Humberto", email = "humberto.a.sanchez.ii@gmail.com"}]
+authors = [{name = "Humberto A. Sanchez II", email = "humberto.a.sanchez.ii@gmail.com"}]
 dynamic = ["version", "description"]

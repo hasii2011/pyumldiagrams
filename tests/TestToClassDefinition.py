@@ -4,7 +4,7 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pkg_resources import resource_filename
+from codeallybasic.UnitTestBase import UnitTestBase
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
@@ -29,9 +29,12 @@ class TestToClassDefinition(TestBase):
         
     def setUp(self):
         super().setUp()
-        self._fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
 
-        self._displayMethodParametersTestFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
+        self._fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName=BEND_TEST_XML_FILE)
+
+        # self._displayMethodParametersTestFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
+
+        self._displayMethodParametersTestFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
 
     def tearDown(self):
         super().tearDown()
@@ -56,8 +59,8 @@ class TestToClassDefinition(TestBase):
 
     def testCaptureShowMethodsFalse(self):
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
-
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
@@ -67,8 +70,9 @@ class TestToClassDefinition(TestBase):
 
     def testCaptureShowMethodsTrue(self):
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoDisplayClassMethods.xml')
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoDisplayClassMethods.xml')
 
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, 'DoDisplayClassMethods.xml')
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
@@ -105,7 +109,8 @@ class TestToClassDefinition(TestBase):
 
     def testNoMethodAttribute(self):
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'NoMethodAttributeTest.xml')
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'NoMethodAttributeTest.xml')
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, 'NoMethodAttributeTest.xml')
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()

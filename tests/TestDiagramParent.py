@@ -6,7 +6,9 @@ from datetime import datetime
 from datetime import timezone
 from datetime import timedelta
 
-from pkg_resources import resource_filename
+from codeallybasic.UnitTestBase import UnitTestBase
+
+# from pkg_resources import resource_filename
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
@@ -53,12 +55,15 @@ class TestDiagramParent(TestBase):
 
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
-        fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
+        # fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
+
         return fqFileName
 
     def _getFullyQualifiedPdfPath(self, pdfFileName: str) -> str:
 
-        fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
+        # fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         return fqFileName
 
     def _runDiff(self, baseFileName: str, standardFileName: str, diffProgram: str = EXTERNAL_DIFF_PROGRAM) -> int:
@@ -238,8 +243,8 @@ class TestDiagramParent(TestBase):
 
     def _buildBendTestFromXml(self) -> ToClassDefinition:
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
-
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, BEND_TEST_XML_FILE)
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
@@ -249,8 +254,8 @@ class TestDiagramParent(TestBase):
 
     def _buildBigClassFromXml(self) -> ToClassDefinition:
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, LARGE_CLASS_XML_FILE)
-
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, LARGE_CLASS_XML_FILE)
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, LARGE_CLASS_XML_FILE)
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
@@ -260,8 +265,8 @@ class TestDiagramParent(TestBase):
 
     def _buildNoMethodDisplayClassFromXml(self) -> ToClassDefinition:
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
-
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, 'DoNotDisplayClassMethods.xml')
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
@@ -271,8 +276,9 @@ class TestDiagramParent(TestBase):
 
     def _buildDisplayMethodParametersTest(self) -> ToClassDefinition:
 
-        fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
+        # fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
 
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(UnitTestBase.RESOURCES_PACKAGE_NAME, DISPLAY_METHOD_PARAMETERS_TEST_FILE)
         toClassDefinition: ToClassDefinition = ToClassDefinition(fqFileName=fqFileName)
 
         toClassDefinition.generateClassDefinitions()
