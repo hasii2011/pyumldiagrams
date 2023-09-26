@@ -2,8 +2,6 @@
 import os
 import sys
 
-from pyumldiagrams import __version__
-
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -15,7 +13,7 @@ from pyumldiagrams import __version__
 project   = 'PyUmlDiagrams'
 copyright = '2023, Humberto A. Sanchez II'
 author    = 'Humberto A. Sanchez II'
-version   = __version__
+version   = '2.60.2'
 
 sys.path.insert(0, os.path.abspath('../'))
 
