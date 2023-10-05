@@ -340,7 +340,7 @@ class PdfLine(IDiagramLine):
 
     def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
 
-        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy; remove last one
+        linePositionsCopy: LinePositions = LinePositions(linePositions[:-1])    # Makes a copy; remove last one
 
         verticalGap:   int  = self._diagramPadding.verticalGap
         horizontalGap: int  = self._diagramPadding.horizontalGap

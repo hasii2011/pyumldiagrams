@@ -152,7 +152,7 @@ class ImageLine(IDiagramLine):
 
     def __toPILPoints(self, linePositions: LinePositions, newEndPoint: InternalPosition) -> PILPoints:
 
-        linePositionsCopy: LinePositions = linePositions[:-1]  # Makes a copy
+        linePositionsCopy: LinePositions = LinePositions(linePositions[:-1])  # Makes a copy
 
         xy: PILPoints = PILPoints([])
         for externalPosition in linePositionsCopy:

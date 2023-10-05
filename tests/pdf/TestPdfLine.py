@@ -202,21 +202,21 @@ class TestPdfLine(TestBase):
 
     def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
-        northLinePositions: LinePositions = [Position(TestPdfLine.V_RIGHT_X, TestPdfLine.V_TOP_Y),
-                                             Position(TestPdfLine.V_RIGHT_X, TestPdfLine.V_BOTTOM_Y)]
+        northLinePositions: LinePositions = LinePositions([Position(TestPdfLine.V_RIGHT_X, TestPdfLine.V_TOP_Y),
+                                                           Position(TestPdfLine.V_RIGHT_X, TestPdfLine.V_BOTTOM_Y)])
         north: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=northLinePositions)
 
-        southLinePositions: LinePositions = [Position(TestPdfLine.V_LEFT_X, TestPdfLine.V_BOTTOM_Y),
-                                             Position(TestPdfLine.V_LEFT_X, TestPdfLine.V_TOP_Y)]
+        southLinePositions: LinePositions = LinePositions([Position(TestPdfLine.V_LEFT_X, TestPdfLine.V_BOTTOM_Y),
+                                                           Position(TestPdfLine.V_LEFT_X, TestPdfLine.V_TOP_Y)])
         south: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=southLinePositions)
 
-        eastLinePositions: LinePositions = [Position(TestPdfLine.H_LEFT_X, TestPdfLine.H_LEFT_TOP_Y + TestPdfLine.Y_INC),
-                                            Position(TestPdfLine.H_RIGHT_X, TestPdfLine.H_LEFT_TOP_Y + TestPdfLine.Y_INC)]
+        eastLinePositions: LinePositions = LinePositions([Position(TestPdfLine.H_LEFT_X, TestPdfLine.H_LEFT_TOP_Y + TestPdfLine.Y_INC),
+                                                          Position(TestPdfLine.H_RIGHT_X, TestPdfLine.H_LEFT_TOP_Y + TestPdfLine.Y_INC)])
 
         east: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=eastLinePositions)
 
-        westLinePositions: LinePositions = [Position(TestPdfLine.H_RIGHT_X, TestPdfLine.H_RIGHT_BOTTOM_Y),
-                                            Position(TestPdfLine.H_LEFT_X, TestPdfLine.H_LEFT_BOTTOM_Y)]
+        westLinePositions: LinePositions = LinePositions([Position(TestPdfLine.H_RIGHT_X, TestPdfLine.H_RIGHT_BOTTOM_Y),
+                                                          Position(TestPdfLine.H_LEFT_X, TestPdfLine.H_LEFT_BOTTOM_Y)])
         west: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=westLinePositions)
 
         return north, south, east, west
@@ -233,10 +233,10 @@ class TestPdfLine(TestBase):
         nwDst:  Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
         swDst:  Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = [center, neDst]
-        nwPositions: LinePositions = [center, nwDst]
-        sePositions: LinePositions = [center, seDst]
-        swPositions: LinePositions = [center, swDst]
+        nePositions: LinePositions = LinePositions([center, neDst])
+        nwPositions: LinePositions = LinePositions([center, nwDst])
+        sePositions: LinePositions = LinePositions([center, seDst])
+        swPositions: LinePositions = LinePositions([center, swDst])
 
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)

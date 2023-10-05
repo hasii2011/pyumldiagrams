@@ -349,7 +349,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.drawClass(classDefinition=cat)
         diagram.drawClass(classDefinition=opie)
 
-        linePositions: LinePositions = [Position(600, 208), Position(600, 93)]
+        linePositions: LinePositions = LinePositions([Position(600, 208), Position(600, 93)])
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 
         diagram.drawUmlLine(lineDefinition=opieToCat)

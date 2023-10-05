@@ -149,7 +149,7 @@ class ToClassDefinition:
             lineType: LineType = LineType.toEnum(strType)
 
             srcPosition: Position = Position(x=srcX, y=srcY)
-            linePositions: LinePositions = [srcPosition]
+            linePositions: LinePositions = LinePositions([srcPosition])
             umlLineDefinition: UmlLineDefinition = UmlLineDefinition(linePositions=linePositions, lineType=lineType)
 
             for point in controlPoints:

@@ -278,7 +278,7 @@ class TestImageDiagram(TestDiagramParent):
 
         startPosition: Position = Position(600, 208)
         endPosition:   Position = Position(600, 93)
-        linePositions: LinePositions = [startPosition, endPosition]
+        linePositions: LinePositions = LinePositions([startPosition, endPosition])
 
         opieToCat: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=linePositions)
 

@@ -133,6 +133,7 @@ class DisplayMethodParameters(Enum):
 def createParametersFactory() -> Parameters:
     return Parameters([])
 
+
 @dataclass
 class MethodDefinition(BaseDefinition):
     """
@@ -256,7 +257,7 @@ class LineType(Enum):
             raise UnsupportedException(f'Do not handle LineType {canonicalStr}')
 
 
-LinePositions = List[Position]
+LinePositions = NewType('LinePositions', list[Position])
 
 
 @dataclass
