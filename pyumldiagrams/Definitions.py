@@ -220,7 +220,7 @@ class ClassDefinition(BaseDefinition):
     """
 
 
-ClassDefinitions = List[ClassDefinition]
+ClassDefinitions = NewType('ClassDefinitions', List[ClassDefinition])
 
 
 class LineType(Enum):
@@ -280,7 +280,7 @@ class UmlLineDefinition(LineDefinition):
     """
 
 
-UmlLineDefinitions = List[UmlLineDefinition]
+UmlLineDefinitions = NewType('UmlLineDefinitions', List[UmlLineDefinition])
 """
 Syntactic sugar to define a list of UML Lines.
 """

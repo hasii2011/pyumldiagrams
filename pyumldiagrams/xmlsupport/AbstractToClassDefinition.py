@@ -16,8 +16,8 @@ class AbstractToClassDefinition(ABC):
     def __init__(self):
         self.logger: Logger = getLogger(__name__)
 
-        self._classDefinitions:   ClassDefinitions   = []
-        self._umlLineDefinitions: UmlLineDefinitions = []
+        self._classDefinitions:   ClassDefinitions   = ClassDefinitions([])
+        self._umlLineDefinitions: UmlLineDefinitions = UmlLineDefinitions([])
 
     @abstractmethod
     def generateClassDefinitions(self):

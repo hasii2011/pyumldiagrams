@@ -80,9 +80,9 @@ class TestImageLine(TestBase):
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         north, south, east, west = self._createOrthogonalLines(LineType.Inheritance)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -97,7 +97,7 @@ class TestImageLine(TestBase):
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
 
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
 
@@ -114,9 +114,9 @@ class TestImageLine(TestBase):
 
         north, south, east, west = self._createOrthogonalLines(LineType.Composition)
 
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -130,7 +130,7 @@ class TestImageLine(TestBase):
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Composition)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()
@@ -145,9 +145,9 @@ class TestImageLine(TestBase):
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         north, south, east, west = self._createOrthogonalLines(LineType.Aggregation)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -161,7 +161,7 @@ class TestImageLine(TestBase):
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Aggregation)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()
@@ -173,9 +173,9 @@ class TestImageLine(TestBase):
         self._drawVerticalBoundaries(diagram)
 
         north, south, east, west = self._createOrthogonalLines(LineType.Association)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         for lineDefinition in lineDefinitions:
@@ -191,7 +191,7 @@ class TestImageLine(TestBase):
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Association)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
 

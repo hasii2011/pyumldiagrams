@@ -311,13 +311,13 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
 
-        classDefinitions: ClassDefinitions = [
+        classDefinitions: ClassDefinitions = ClassDefinitions([
             self._buildCar(),
             self._buildCat(),
             self._buildOpie(),
             self._buildNameTestCase(),
             self._buildElectricCar()
-        ]
+        ])
         for classDefinition in classDefinitions:
             classDefinition = cast(ClassDefinition, classDefinition)
             diagram.drawClass(classDefinition=classDefinition)

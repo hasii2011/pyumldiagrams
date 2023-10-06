@@ -60,8 +60,8 @@ class ToClassDefinition:
 
         self._xmlData:          str      = ''
 
-        self._classDefinitions: ClassDefinitions   = []
-        self._umlLineDefinitions:  UmlLineDefinitions = []
+        self._classDefinitions:   ClassDefinitions   = ClassDefinitions([])
+        self._umlLineDefinitions: UmlLineDefinitions = UmlLineDefinitions([])
 
         self._documentNode: Document = cast(Document, None)
         with open(fqFileName) as xmlFile:

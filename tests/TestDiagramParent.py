@@ -180,11 +180,9 @@ class TestDiagramParent(TestBase):
         startPosition2: Position = Position(190, 224)
         endPosition2:   Position = Position(190, 130)
 
-        eCarToCarLinePositions: LinePositions = LinePositions([startPosition2, endPosition2])
-        eCarToCar: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=eCarToCarLinePositions)
-        lineDefinitions: UmlLineDefinitions = [
-            opieToCat, eCarToCar
-        ]
+        eCarToCarLinePositions: LinePositions      = LinePositions([startPosition2, endPosition2])
+        eCarToCar:              UmlLineDefinition  = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=eCarToCarLinePositions)
+        lineDefinitions:        UmlLineDefinitions = UmlLineDefinitions([opieToCat, eCarToCar])
 
         return lineDefinitions
 
@@ -216,10 +214,9 @@ class TestDiagramParent(TestBase):
         midPosition:    Position = Position(x=604, y=209)
         endPosition2:   Position = Position(x=523, y=209)
 
-        basicBends: LinePositions = LinePositions([startPosition2, midPosition, endPosition2])
-        rightToTop: UmlLineDefinition = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=basicBends)
-
-        bentLineDefinitions: UmlLineDefinitions = [leftToTop, rightToTop]
+        basicBends:          LinePositions      = LinePositions([startPosition2, midPosition, endPosition2])
+        rightToTop:          UmlLineDefinition  = UmlLineDefinition(lineType=LineType.Inheritance, linePositions=basicBends)
+        bentLineDefinitions: UmlLineDefinitions = UmlLineDefinitions([leftToTop, rightToTop])
 
         return bentLineDefinitions
 

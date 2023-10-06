@@ -80,9 +80,9 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Inheritance)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -100,9 +100,9 @@ class TestPdfLine(TestBase):
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Composition)
 
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -117,7 +117,7 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()
@@ -130,7 +130,7 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Composition)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()
@@ -145,9 +145,9 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Aggregation)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -162,7 +162,7 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Aggregation)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
         diagram.write()
@@ -177,9 +177,9 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         north, south, east, west = self.__createOrthogonalLines(LineType.Association)
-        lineDefinitions: UmlLineDefinitions = [
+        lineDefinitions: UmlLineDefinitions = UmlLineDefinitions([
             north, south, east, west
-        ]
+        ])
         for lineDefinition in lineDefinitions:
             lineDrawer.draw(lineDefinition)
 
@@ -194,7 +194,7 @@ class TestPdfLine(TestBase):
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
         northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Association)
-        definitions: UmlLineDefinitions = [northEast, northWest, southEast, southWest]
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
 

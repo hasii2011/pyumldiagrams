@@ -317,13 +317,13 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
 
-        classDefinitions: ClassDefinitions = [
+        classDefinitions: ClassDefinitions = ClassDefinitions([
             self._buildCar(),
             self._buildCat(),
             self._buildOpie(),
             self._buildNameTestCase(),
             self._buildElectricCar()
-        ]
+        ])
         for classDefinition in classDefinitions:
             classDefinition = cast(ClassDefinition, classDefinition)
             diagram.drawClass(classDefinition=classDefinition)
