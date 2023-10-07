@@ -52,3 +52,9 @@ class AbstractToClassDefinition(ABC):
             self.logger.error(f'_stringToBoolean error: {e}')
 
         return False
+
+    def _stringToInteger(self, x: str):
+        if x is not None and x != '':
+            return int(x)
+        else:
+            return 0

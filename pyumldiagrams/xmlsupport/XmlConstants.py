@@ -31,3 +31,15 @@ ATTR_DISPLAY_PARAMETERS: str = 'displayParameters'
 
 ELEMENT_MODEL_PARAM: str = 'Param'
 ATTR_DEFAULT_VALUE:  str = 'defaultValue'
+
+
+ELEMENT_PROJECT_V11:       str = 'PyutProject'
+PROJECT_TYPE_V11:          str = 'type'
+ELEMENT_DOCUMENT_V11:      str = 'PyutDocument'
+ELEMENT_GRAPHIC_CLASS_V11: str = 'OglClass'
+
+ATTR_WIDTH_V11:  str = 'width'
+ATTR_HEIGHT_V11: str = 'height'
+ATTR_X_V11:      str = 'x'
+ATTR_Y_V11:      str = 'y'
+ATTR_NAME_V11:   str = 'name'
