@@ -8,6 +8,7 @@ from codeallybasic.UnitTestBase import UnitTestBase
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import ClassName
+from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.xmlsupport.UnTangleToClassDefinition import UnTangleToClassDefinition
 
@@ -28,9 +29,9 @@ ClassDefinitionDictionary = NewType('ClassDefinitionDictionary', Dict[ClassName,
 
 
 expectedClasses: ClassDefinitions = ClassDefinitions([
-    ClassDefinition(name='TopClass',        size=Size(width=117, height=100)),
-    ClassDefinition(name='BentAggregation', size=Size(width=100, height=100)),
-    ClassDefinition(name='RightClass',      size=Size(width=167, height=107)),
+    ClassDefinition(name='TopClass',        size=Size(width=117, height=100), position=Position(x=409, y=159)),
+    ClassDefinition(name='BentAggregation', size=Size(width=100, height=100), position=Position(x=923, y=545)),
+    ClassDefinition(name='RightClass',      size=Size(width=167, height=107), position=Position(x=522, y=354)),
 ])
 
 
@@ -74,6 +75,18 @@ class TestUnTangleToClassDefinition(TestBase):
             checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
 
             self.assertEqual(expectedSize, checkedClass.size, f"'{expectedCD.name}'.size incorrectly parsed")
+
+    def testClassPositions(self):
+        classDefinitions:          ClassDefinitions          = self._classDefinitions()
+        classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=classDefinitions)
+
+        for cd in expectedClasses:
+            expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
+
+            expectedPosition: Position = expectedCD.position
+            checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
+
+            self.assertEqual(expectedPosition, checkedClass.position, f"'{expectedCD.name}'.position incorrectly parsed")
 
     def testMultiDocumentException(self):
 

@@ -12,6 +12,7 @@ from untangle import parse
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.Definitions import createMethodsFactory
@@ -73,7 +74,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             pyutElement:     Element         = graphicElement.PyutClass
             classDefinition: ClassDefinition = ClassDefinition(name=pyutElement[XmlConstants.ATTR_NAME_V11])
 
-            classDefinition.size = self._classSize(graphicElement=graphicElement)
+            classDefinition.size     = self._classSize(graphicElement=graphicElement)
+            classDefinition.position = self._classPosition(graphicElement=graphicElement)
 
             self._classDefinitions.append(classDefinition)
 
@@ -104,3 +106,12 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         size: Size = Size(width=width, height=height)
 
         return size
+
+    def _classPosition(self, graphicElement: Element) -> Position:
+
+        x: int = self._stringToInteger(graphicElement[XmlConstants.ATTR_X_V11])
+        y: int = self._stringToInteger(graphicElement[XmlConstants.ATTR_Y_V11])
+
+        position: Position = Position(x=x, y=y)
+
+        return position
