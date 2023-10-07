@@ -218,6 +218,14 @@ class ClassDefinition(BaseDefinition):
     """
     If True display the method parameters;  If UNSPECIFIED defer to global
     """
+    fileName: str = ''
+    """
+    The file name where the original source code came from (only if reverse engineered)
+    """
+    description: str = ''
+    """
+    Text describing the rationale for this class
+    """
 
 
 ClassDefinitions = NewType('ClassDefinitions', List[ClassDefinition])

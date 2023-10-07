@@ -43,3 +43,12 @@ ATTR_HEIGHT_V11: str = 'height'
 ATTR_X_V11:      str = 'x'
 ATTR_Y_V11:      str = 'y'
 ATTR_NAME_V11:   str = 'name'
+
+
+ATTR_STEREOTYPE_V11:            str = 'stereotype'
+ATTR_DISPLAY_METHODS_V11:       str = 'displayMethods'
+ATTR_DISPLAY_PARAMETERS_V11:    str = 'displayParameters'
+ATTR_DISPLAY_FIELDS_V11:        str = 'displayFields'
+ATTR_DISPLAY_STEREOTYPE_V11:    str = 'displayStereotype'
+ATTR_FILENAME_V11:              str = 'fileName'
+ATTR_DESCRIPTION_V11:           str = 'description'

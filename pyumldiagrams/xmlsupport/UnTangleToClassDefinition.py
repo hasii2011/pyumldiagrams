@@ -11,6 +11,7 @@ from untangle import parse
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
+from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
@@ -77,6 +78,7 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             classDefinition.size     = self._classSize(graphicElement=graphicElement)
             classDefinition.position = self._classPosition(graphicElement=graphicElement)
 
+            classDefinition = self._classAttributes(pyutElement=pyutElement, classDefinition=classDefinition)
             self._classDefinitions.append(classDefinition)
 
         self.logger.info(f'Generated {len(self.classDefinitions)} class definitions')
@@ -115,3 +117,14 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         position: Position = Position(x=x, y=y)
 
         return position
+
+    def _classAttributes(self, pyutElement: Element, classDefinition: ClassDefinition) -> ClassDefinition:
+
+        classDefinition.displayMethods          = self._stringToBoolean(pyutElement[XmlConstants.ATTR_DISPLAY_METHODS_V11])
+        classDefinition.displayMethodParameters = DisplayMethodParameters(pyutElement[XmlConstants.ATTR_DISPLAY_PARAMETERS_V11])
+        classDefinition.displayFields           = self._stringToBoolean(pyutElement[XmlConstants.ATTR_DISPLAY_FIELDS_V11])
+        classDefinition.displayStereotype       = self._stringToBoolean(pyutElement[XmlConstants.ATTR_DISPLAY_STEREOTYPE_V11])
+        classDefinition.fileName                = pyutElement[XmlConstants.ATTR_FILENAME_V11]
+        classDefinition.description             = pyutElement[XmlConstants.ATTR_DESCRIPTION_V11]
+
+        return classDefinition
