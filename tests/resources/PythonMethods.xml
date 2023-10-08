@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="/Users/humberto.a.sanchez.ii/Downloads/PythonReverseEngineeringCode">
+	<PyutDocument type="CLASS_DIAGRAM" title="ShowMe" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="273" height="82" x="100" y="25">
+			<Class id="1" name="Car" filename="Car.py" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Display">
+				<Method name="__init__" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="make" type="str" defaultValue="''"/>
+					<Param name="model" type="str" defaultValue="''"/>
+					<Param name="year" type="int" defaultValue="1957"/>
+					<SourceCode/>
+				</Method>
+				<Method name="getDescriptiveName" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="readOdometer" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="updateOdometer" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="mileage" type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="incrementOdometer" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="miles" type=""/>
+					<SourceCode/>
+				</Method>
+			</Class>
+		</GraphicClass>
+		<GraphicClass width="133" height="74" x="500" y="25">
+			<Class id="2" name="Cat" filename="Dogs.py" description="I am just a gato" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+				<Method name="__init__" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type=""/>
+					<Param name="age" type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="sit" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="rollOver" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+			</Class>
+		</GraphicClass>
+		<GraphicClass width="173" height="64" x="50" y="200">
+			<Class id="3" name="ElectricCar" filename="Car.py" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+				<Method name="__init__" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="make" type=""/>
+					<Param name="model" type=""/>
+					<Param name="year" type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="describeBattery" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+			</Class>
+		</GraphicClass>
+		<GraphicClass width="184" height="65" x="400" y="350">
+			<Class id="4" name="NamesTestCase" filename="NamesTestCase.py" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+				<Method name="testFirstLastName" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="getFormattedName" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="first" type=""/>
+					<Param name="last" type=""/>
+					<SourceCode/>
+				</Method>
+			</Class>
+		</GraphicClass>
+		<GraphicClass width="216" height="87" x="450" y="200">
+			<Class id="5" name="Opie" filename="" description="I am Opie the cat" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+				<Method name="publicMethod" visibility="PUBLIC">
+					<Return type="bool"/>
+					<Param name="param1" type="float" defaultValue="23.0"/>
+					<SourceCode/>
+				</Method>
+				<Field visibility="PRIVATE">
+					<Param name="privateParts" type="List[str]" defaultValue="[]"/>
+				</Field>
+				<Field visibility="PUBLIC">
+					<Param name="publicEars" type="float" defaultValue="1.0"/>
+				</Field>
+				<Field visibility="PROTECTED">
+					<Param name="protectedTail" type="int" defaultValue="22"/>
+				</Field>
+				<Field visibility="PROTECTED">
+					<Param name="protectedNoDefaultValue" type="str"/>
+				</Field>
+			</Class>
+		</GraphicClass>
+		<GraphicLink srcX="177" srcY="200" dstX="177" dstY="106" spline="False">
+			<Link name="PyutObject_00028" type="INHERITANCE" cardSrc="" cardDestination="" bidir="False" sourceId="3" destId="1"/>
+		</GraphicLink>
+		<GraphicLink srcX="571" srcY="200" dstX="570" dstY="98" spline="False">
+			<Link name="PyutObject_00031" type="INHERITANCE" cardSrc="" cardDestination="" bidir="False" sourceId="5" destId="2"/>
+		</GraphicLink>
+		<GraphicLink srcX="516" srcY="286" dstX="516" dstY="350" spline="False">
+			<LabelCenter x="430" y="228"/>
+			<LabelSrc x="430" y="228"/>
+			<LabelDst x="430" y="228"/>
+			<Link name="is a" type="COMPOSITION" cardSrc="" cardDestination="" bidir="False" sourceId="5" destId="4"/>
+		</GraphicLink>
+		<GraphicLink srcX="222" srcY="229" dstX="450" dstY="228" spline="False">
+			<LabelCenter x="430" y="228"/>
+			<LabelSrc x="430" y="228"/>
+			<LabelDst x="430" y="228"/>
+			<Link name="has a" type="AGGREGATION" cardSrc="" cardDestination="" bidir="False" sourceId="3" destId="5"/>
+		</GraphicLink>
+	</PyutDocument>
+</PyutProject>

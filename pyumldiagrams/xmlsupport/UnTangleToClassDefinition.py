@@ -83,12 +83,6 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
 
         self.logger.info(f'Generated {len(self.classDefinitions)} class definitions')
 
-    def generateMethods(self, xmlClass: Element) -> Methods:
-
-        methods: Methods = createMethodsFactory()
-
-        return methods
-
     def generateUmlLineDefinitions(self):
         pass
 
@@ -99,6 +93,12 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
     @property
     def umlLineDefinitions(self) -> UmlLineDefinitions:
         return self._umlLineDefinitions
+
+    def _generateMethods(self, xmlClass: Element) -> Methods:
+
+        methods: Methods = createMethodsFactory()
+
+        return methods
 
     def _classSize(self, graphicElement: Element) -> Size:
 

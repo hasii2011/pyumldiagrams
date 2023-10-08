@@ -110,12 +110,12 @@ class ToClassDefinition:
             position: Position = Position(x=x, y=y)
             classDef.position = position
 
-            classDef.methods = self.generateMethods(xmlClass=xmlClass)
+            classDef.methods = self._generateMethods(xmlClass=xmlClass)
 
             self.logger.debug(f'{classDef=}')
             self._classDefinitions.append(classDef)
 
-    def generateMethods(self, xmlClass: Element) -> Methods:
+    def _generateMethods(self, xmlClass: Element) -> Methods:
 
         methods: Methods = createMethodsFactory()
 

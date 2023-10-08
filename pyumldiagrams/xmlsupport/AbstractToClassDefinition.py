@@ -24,10 +24,6 @@ class AbstractToClassDefinition(ABC):
         pass
 
     @abstractmethod
-    def generateMethods(self, xmlClass: Element) -> Methods:
-        pass
-
-    @abstractmethod
     def generateUmlLineDefinitions(self):
         pass
 
