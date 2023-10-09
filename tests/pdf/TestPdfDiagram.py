@@ -95,7 +95,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical', removeTestFile=False)
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic should be identical', removeTestFile=True)
 
     def testBasicFields(self):
 

@@ -9,6 +9,10 @@ from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import ClassName
 from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import ParameterDefinition
+from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.xmlsupport.UnTangleToClassDefinition import UnTangleToClassDefinition
@@ -29,11 +33,42 @@ CHECKED_CLASS_NAME: str = 'TopClass'
 ClassDefinitionDictionary = NewType('ClassDefinitionDictionary', Dict[ClassName, ClassDefinition])
 
 
-expectedClasses: ClassDefinitions = ClassDefinitions([
-    ClassDefinition(name='TopClass',        size=Size(width=117, height=100), position=Position(x=409, y=159),                       displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False,                           fileName='Ozzee.py'),
-    ClassDefinition(name='BentAggregation', size=Size(width=100, height=100), position=Position(x=923, y=545), displayMethods=False, displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False),
-    ClassDefinition(name='RightClass',      size=Size(width=167, height=107), position=Position(x=522, y=354),                       displayFields=False,                                                           displayStereotype=False,                     description='La guera gana'),
+# noinspection SpellCheckingInspection
+EXPECTED_CLASSES: ClassDefinitions = ClassDefinitions([
+    ClassDefinition(name='TopClass',        size=Size(width=117, height=100), position=Position(x=409, y=159),
+                    displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False, fileName='Ozzee.py'),
+    ClassDefinition(name='BentAggregation', size=Size(width=100, height=100), position=Position(x=923, y=545),
+                    displayMethods=False, displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False),
+    ClassDefinition(name='RightClass',      size=Size(width=167, height=107), position=Position(x=522, y=354),
+                    displayFields=False, displayStereotype=False, description='La guera gana'),
 ])
+
+
+EXPECTED_CLASSES_WITH_METHODS: ClassDefinitions = ClassDefinitions([
+    ClassDefinition(name='NamesTestCase', fileName='NamesTestCase.py',
+                    methods=Methods(
+                        [
+                            MethodDefinition(name='testFirstLastName'),
+                            MethodDefinition(name='getFormattedName',
+                                             parameters=Parameters([
+                                                 ParameterDefinition(name='first'),
+                                                 ParameterDefinition(name='last')
+                                             ]))
+                        ]
+                    ))
+    ])
+
+"""
+                <PyutMethod name="testFirstLastName" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <PyutMethod name="getFormattedName" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="first" type="" />
+                    <PyutParameter name="last" type="" />
+                </PyutMethod>
+
+"""
 
 
 class TestUnTangleToClassDefinition(TestBase):
@@ -69,7 +104,7 @@ class TestUnTangleToClassDefinition(TestBase):
         classDefinitions:          ClassDefinitions          = self._classDefinitions()
         classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=classDefinitions)
 
-        for cd in expectedClasses:
+        for cd in EXPECTED_CLASSES:
             expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
 
             expectedSize: Size = expectedCD.size
@@ -81,7 +116,7 @@ class TestUnTangleToClassDefinition(TestBase):
         classDefinitions:          ClassDefinitions          = self._classDefinitions()
         classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=classDefinitions)
 
-        for cd in expectedClasses:
+        for cd in EXPECTED_CLASSES:
             expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
 
             expectedPosition: Position = expectedCD.position
@@ -94,7 +129,7 @@ class TestUnTangleToClassDefinition(TestBase):
         classDefinitions:          ClassDefinitions          = self._classDefinitions()
         classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=classDefinitions)
 
-        for cd in expectedClasses:
+        for cd in EXPECTED_CLASSES:
             expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
             checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
 
@@ -114,6 +149,31 @@ class TestUnTangleToClassDefinition(TestBase):
             # noinspection PyUnusedLocal
             untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
 
+    def testBasicMethodCreation(self):
+
+        classDefinitionDictionary: ClassDefinitionDictionary = self._classesWithMethodsDictionary()
+
+        for cd in EXPECTED_CLASSES_WITH_METHODS:
+            expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
+            checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
+            expectedMethodCount: int = len(expectedCD.methods)
+            actualMethodCount:   int = len(checkedClass.methods)
+            self.assertEqual(expectedMethodCount, actualMethodCount, f'Mismatch in # of methods generated for class: {expectedCD.name}')
+
+    def testMethodParameterCreation(self):
+        pass
+    #     classDefinitionDictionary: ClassDefinitionDictionary = self._classesWithMethodsDictionary()
+    #
+    #     for cd in EXPECTED_CLASSES_WITH_METHODS:
+    #         expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
+    #         checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
+    #         if checkedClass.name == 'NamesTestCase':
+    #             methods: Methods = checkedClass.methods
+    #             for methodDefinition in methods:
+    #                 if methodDefinition.name == 'getFormattedName':
+    #                     parameters = methodDefinition.parameters
+    #                     self.assertEqual(2, len(parameters), 'Incorrect parameter generation')
+
     def testNotClassDiagramException(self):
 
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='NotSupportedUseCaseDiagram.xml')
@@ -128,6 +188,18 @@ class TestUnTangleToClassDefinition(TestBase):
         untangler.generateClassDefinitions()
 
         return untangler.classDefinitions
+
+    def _classesWithMethodsDictionary(self) -> ClassDefinitionDictionary:
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='PythonMethodsV11.xml')
+
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+        untangler.generateClassDefinitions()
+
+        classDefinitions:          ClassDefinitions          = untangler.classDefinitions
+        classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=classDefinitions)
+
+        return classDefinitionDictionary
 
     def _classDefinitionDictionary(self, classDefinitions: ClassDefinitions) -> ClassDefinitionDictionary:
 

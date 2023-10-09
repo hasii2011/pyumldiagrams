@@ -354,6 +354,7 @@ class TestPdfLine(TestBase):
         return Position(x, y)
 
 
+
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""
     import unittest

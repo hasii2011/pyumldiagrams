@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="ShowMe" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="276" height="88" x="100" y="25">
+            <PyutClass id="1" name="Car" stereotype="noStereotype" displayMethods="True" displayParameters="Display" displayFields="True" displayStereotype="True" fileName="Car.py" description="">
+                <PyutMethod name="__init__" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="make" type="str" defaultValue="''" />
+                    <PyutParameter name="model" type="str" defaultValue="''" />
+                    <PyutParameter name="year" type="int" defaultValue="1957" />
+                </PyutMethod>
+                <PyutMethod name="getDescriptiveName" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <PyutMethod name="readOdometer" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <PyutMethod name="updateOdometer" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="mileage" type="" />
+                </PyutMethod>
+                <PyutMethod name="incrementOdometer" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="miles" type="" />
+                </PyutMethod>
+            </PyutClass>
+        </OglClass>
+        <OglClass width="133" height="74" x="500" y="25">
+            <PyutClass id="2" name="Cat" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="Dogs.py" description="I am just a gato">
+                <PyutMethod name="__init__" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="name" type="" />
+                    <PyutParameter name="age" type="" />
+                </PyutMethod>
+                <PyutMethod name="sit" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <PyutMethod name="rollOver" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+            </PyutClass>
+        </OglClass>
+        <OglClass width="173" height="64" x="50" y="200">
+            <PyutClass id="3" name="ElectricCar" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="Car.py" description="">
+                <PyutMethod name="__init__" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="make" type="" />
+                    <PyutParameter name="model" type="" />
+                    <PyutParameter name="year" type="" />
+                </PyutMethod>
+                <PyutMethod name="describeBattery" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+            </PyutClass>
+        </OglClass>
+        <OglClass width="184" height="65" x="400" y="425">
+            <PyutClass id="4" name="NamesTestCase" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="NamesTestCase.py" description="">
+                <PyutMethod name="testFirstLastName" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <PyutMethod name="getFormattedName" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                    <PyutParameter name="first" type="" />
+                    <PyutParameter name="last" type="" />
+                </PyutMethod>
+            </PyutClass>
+        </OglClass>
+        <OglClass width="218" height="97" x="450" y="200">
+            <PyutClass id="5" name="Opie" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="I am Opie the cat">
+                <PyutMethod name="publicMethod" visibility="PUBLIC" returnType="bool">
+                    <SourceCode />
+                    <PyutParameter name="param1" type="float" defaultValue="23.0" />
+                </PyutMethod>
+                <PyutField name="privateParts" visibility="PRIVATE" type="List[str]" defaultValue="[]" />
+                <PyutField name="publicEars" visibility="PUBLIC" type="float" defaultValue="1.0" />
+                <PyutField name="protectedTail" visibility="PROTECTED" type="int" defaultValue="22" />
+                <PyutField name="protectedNoDefaultValue" visibility="PROTECTED" type="str" defaultValue="" />
+            </PyutClass>
+        </OglClass>
+        <OglLink sourceAnchorX="177" sourceAnchorY="200" destinationAnchorX="177" destinationAnchorY="112" spline="False">
+            <PyutLink name="PyutObject_00028" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="3" destinationId="1" />
+        </OglLink>
+        <OglLink sourceAnchorX="571" sourceAnchorY="200" destinationAnchorX="570" destinationAnchorY="98" spline="False">
+            <PyutLink name="PyutObject_00031" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="2" />
+        </OglLink>
+        <OglLink sourceAnchorX="516" sourceAnchorY="296" destinationAnchorX="516" destinationAnchorY="425" spline="False">
+            <LabelCenter x="20" y="-6" />
+            <LabelSource x="430" y="228" />
+            <LabelDestination x="430" y="228" />
+            <PyutLink name="is a" type="COMPOSITION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="4" />
+        </OglLink>
+        <OglLink sourceAnchorX="222" sourceAnchorY="229" destinationAnchorX="450" destinationAnchorY="228" spline="False">
+            <LabelCenter x="-20" y="1" />
+            <LabelSource x="-94" y="-20" />
+            <LabelDestination x="64" y="-22" />
+            <PyutLink name="has a" type="AGGREGATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="3" destinationId="5" />
+        </OglLink>
+    </PyutDocument>
+</PyutProject>

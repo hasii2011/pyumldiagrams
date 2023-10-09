@@ -52,3 +52,5 @@ ATTR_DISPLAY_FIELDS_V11:        str = 'displayFields'
 ATTR_DISPLAY_STEREOTYPE_V11:    str = 'displayStereotype'
 ATTR_FILENAME_V11:              str = 'fileName'
 ATTR_DESCRIPTION_V11:           str = 'description'
+
+ELEMENT_MODEL_METHOD_V11: str = 'PyutMethod'

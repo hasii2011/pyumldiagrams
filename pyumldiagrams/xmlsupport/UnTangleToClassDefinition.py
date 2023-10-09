@@ -12,11 +12,14 @@ from untangle import parse
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.Definitions import createMethodsFactory
+from pyumldiagrams.Definitions import createParametersFactory
 
 from pyumldiagrams.xmlsupport import XmlConstants
 
@@ -79,6 +82,10 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             classDefinition.position = self._classPosition(graphicElement=graphicElement)
 
             classDefinition = self._classAttributes(pyutElement=pyutElement, classDefinition=classDefinition)
+
+            classDefinition.methods = self._generateMethods(pyutElement=pyutElement)
+            # classDefinition.fields  = self._generateFields(pyutElement=pyutElement)
+
             self._classDefinitions.append(classDefinition)
 
         self.logger.info(f'Generated {len(self.classDefinitions)} class definitions')
@@ -94,11 +101,29 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
     def umlLineDefinitions(self) -> UmlLineDefinitions:
         return self._umlLineDefinitions
 
-    def _generateMethods(self, xmlClass: Element) -> Methods:
+    def _generateMethods(self, pyutElement: Element) -> Methods:
 
         methods: Methods = createMethodsFactory()
 
+        methodElements: Elements = pyutElement.get_elements(XmlConstants.ELEMENT_MODEL_METHOD_V11)
+        for methodElement in methodElements:
+
+            methodName: str               = methodElement[XmlConstants.ATTR_NAME_V11]
+            method:     MethodDefinition = MethodDefinition(name=methodName)
+
+            # method.visibility =
+            # method.returnType =
+            method.parameters = self._generateParameters(methodElement=methodElement)
+
+            methods.append(method)
+
         return methods
+
+    def _generateParameters(self, methodElement: Element) -> Parameters:
+
+        parameters: Parameters = createParametersFactory()
+
+        return parameters
 
     def _classSize(self, graphicElement: Element) -> Size:
 

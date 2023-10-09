@@ -6,9 +6,12 @@ from logging import getLogger
 
 from sys import path as sysPath
 
-from importlib import import_module
+from os import walk as osWalk
+from os import sep as osSep
 
-from glob import glob
+from re import search as regExSearch
+
+from importlib import import_module
 
 from unittest import TestResult
 from unittest import TextTestRunner
@@ -25,7 +28,7 @@ class TestAll:
     The class that can run our unit tests in various formats
     """
     REPORT_NAME: str = 'PDFDiagramming'
-    NOT_TESTS:   List[str] = ['TestAll', 'TestTemplate', 'TestBase', 'TestConstants', 'TestDiagramParent']
+    NOT_TESTS:   List[str] = ['TestAll', 'TestAllV2', 'TestTemplate', 'TestBase', 'TestConstants', 'TestDiagramParent']
 
     VERBOSITY_QUIET:   int = 0  # Print the total numbers of tests executed and the global result
     VERBOSITY_DEFAULT: int = 1  # VERBOSITY_QUIET plus a dot for every successful test or an 'F' for every failure
@@ -42,7 +45,7 @@ class TestAll:
 
     def runTextTestRunner(self) -> int:
 
-        status: TestResult = TextTestRunner(verbosity=TestAll.VERBOSITY_QUIET).run(self._testSuite)
+        status: TestResult = TextTestRunner(verbosity=TestAll.VERBOSITY_DEFAULT).run(self._testSuite)
         self.logger.info(f'Test Suite Status: {status}')
         if len(status.failures) != 0:
             return 1
@@ -89,29 +92,58 @@ class TestAll:
         """
         Removes modules that are not unit tests
 
-        Assumes the "tests" package is visible from the current directory
+        Returns:
+            A list of testable module names
+        """
+
+        allModules: List[str] = self.__getModuleNames()
+
+        self.logger.debug(f'{allModules=}')
+
+        for doNotTest in TestAll.NOT_TESTS:
+            try:
+                allModules.remove(f'tests/{doNotTest}')
+            except ValueError as ve:
+                self.logger.error(f'Missing non-test. {ve} did you forget to update "NOT_TESTS" with "{doNotTest}"')
+                raise ve
+
+        return allModules
+
+    def __getModuleNames(self) -> List[str]:
+        """
+        Get all likely test modules
 
         Returns:
             A list of module names that we can find in this package
         """
-        fModules = glob("tests/Test*.py")
+        testFilenames: List[str] = []
+        rootDir = 'tests'
+        for dirName, subdirList, fileList in osWalk(rootDir):
+            if '__pycache__' in dirName or 'resources' in dirName:
+                continue
+            self.logger.debug(f'directory: {dirName}')
+            for fName in fileList:
+                if self.__startsWith('Test', fName) is True:
+                    fqFileName: str = f'{dirName}{osSep}{fName}'
+                    self.logger.debug(f'{fqFileName}')
+                    testFilenames.append(fqFileName)
+
         # remove .py extension
-        baseModules = list(map(lambda x: x[:-3], fModules))
-        baseModules = self.__removeNotTests(baseModules)
+        modules = list(map(lambda x: x[:-3], testFilenames))
 
-        fModules = glob("tests/pdf/Test*.py")
-        pdfModules = list(map(lambda x: x[:-3], fModules))
-        pdfModules = self.__removeNotTests(pdfModules)
+        return modules
 
-        testModules = baseModules + pdfModules
+    def __startsWith(self, pattern: str, stringToCheck: str) -> bool:
 
-        fModules = glob("tests/image/Test*.py")
-        imgModules = list(map(lambda x: x[:-3], fModules))
-        imgModules = self.__removeNotTests(imgModules)
+        ans: bool = False
+        if pattern in stringToCheck:
+            # passes first easy test
+            regExp: str = f'^{pattern}'
+            match = regExSearch(regExp, stringToCheck)
+            if match:
+                ans = True
 
-        testModules = testModules + imgModules
-
-        return testModules
+        return ans
 
     def __removeNotTests(self, testModules):
 
