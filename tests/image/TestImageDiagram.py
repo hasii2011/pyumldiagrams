@@ -56,7 +56,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBasic(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Basic'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-Basic'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram    = ImageDiagram(fileName=f'{fileName}')
@@ -72,7 +72,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBasicFields(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicFields'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:         ImageDiagram    = ImageDiagram(fileName=fileName)
@@ -91,7 +91,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBasicHeader(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicHeader'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}', headerText=TestDiagramParent.UNIT_TEST_HEADER)
@@ -104,7 +104,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBasicMethod(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethod'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicMethod'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
@@ -127,7 +127,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBasicMethods(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethods'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicMethods'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
@@ -141,7 +141,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testBends(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Bends'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-Bends'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
@@ -167,7 +167,7 @@ class TestImageDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BendsFromXmlInput'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
@@ -189,7 +189,7 @@ class TestImageDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BigClass'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
@@ -205,7 +205,7 @@ class TestImageDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-CaptureShowMethodsFalse'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
@@ -219,7 +219,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testFillPage(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-FillPage'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-FillPage'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
@@ -246,7 +246,7 @@ class TestImageDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-MethodParametersDisplay'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
@@ -266,7 +266,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testMinimalInheritance(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-MinimalInheritance'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')
@@ -293,7 +293,7 @@ class TestImageDiagram(TestDiagramParent):
         today:      str = strftime("%d %b %Y %H:%M:%S", self.unitTestTimeStamp.timetuple())
         headerText: str = f'{TestDiagramParent.UNIT_TEST_SOPHISTICATED_HEADER} - {today}'
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-SophisticatedHeader'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}', headerText=headerText)
@@ -307,7 +307,7 @@ class TestImageDiagram(TestDiagramParent):
 
     def testSophisticatedLayout(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-SophisticatedLayout'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
         diagram: ImageDiagram = ImageDiagram(fileName=f'{fileName}')

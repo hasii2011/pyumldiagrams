@@ -54,7 +54,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testConstruction(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=TestConstants.TEST_FILE_NAME, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=TestConstants.TEST_FILE_NAME_PREFIX, dpi=TestConstants.TEST_DPI)
         self.assertIsNotNone(diagram, 'Construction failed')
 
         self.assertEqual(PdfDiagram.DEFAULT_FONT_SIZE, diagram.fontSize, 'Default font size changed')
@@ -82,7 +82,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasic(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Basic'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-Basic'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram      = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -97,7 +97,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasicFields(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicFields'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicFields'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -119,7 +119,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasicHeader(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicHeader'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicHeader'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}',
@@ -135,7 +135,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasicMethod(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethod'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicMethod'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
@@ -161,7 +161,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBasicMethods(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BasicMethods'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BasicMethods'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
@@ -176,7 +176,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testBends(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-Bends'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-Bends'
         fileName: str  = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -203,7 +203,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BendsFromXmlInput'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BendsFromXmlInput'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -226,7 +226,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildBigClassFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-BigClass'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-BigClass'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -242,7 +242,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testMethodReprRegression(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodReprRegression'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-MethodReprRegression'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
@@ -265,7 +265,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testFillPage(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-FillPage'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-FillPage'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
@@ -293,7 +293,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         today = self.unitTestTimeStamp.strftime("%d %b %Y %H:%M:%S")
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedHeader'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-SophisticatedHeader'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=fileName,
@@ -310,7 +310,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testSophisticatedLayout(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-SophisticatedLayout'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-SophisticatedLayout'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=TestConstants.TEST_DPI)
@@ -336,7 +336,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testMinimalInheritance(self):
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MinimalInheritance'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-MinimalInheritance'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=75)
@@ -360,7 +360,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildDisplayMethodParametersTest()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-MethodParametersDisplay'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-MethodParametersDisplay'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, docDisplayMethodParameters=DisplayMethodParameters.UNSPECIFIED,
@@ -385,7 +385,7 @@ class TestPdfDiagram(TestDiagramParent):
 
         toClassDefinition: ToClassDefinition = self._buildNoMethodDisplayClassFromXml()
 
-        baseName: str = f'{TestConstants.TEST_FILE_NAME}-CaptureShowMethodsFalse'
+        baseName: str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-CaptureShowMethodsFalse'
         fileName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestConstants.TEST_DPI)
