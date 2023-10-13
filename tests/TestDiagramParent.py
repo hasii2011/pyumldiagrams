@@ -31,7 +31,8 @@ from tests.TestBase import TestBase
 from tests.TestBase import BEND_TEST_XML_FILE
 from tests.TestBase import LARGE_CLASS_XML_FILE
 from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
-from tests.TestConstants import TestConstants
+
+from tests.TestDefinitions import TestDefinitions
 
 
 class TestDiagramParent(TestBase):
@@ -67,7 +68,7 @@ class TestDiagramParent(TestBase):
         #
         # Cheating !!!
         #
-        if fileSuffix == TestConstants.PDF_SUFFIX:
+        if fileSuffix == TestDefinitions.PDF_SUFFIX:
             standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestDiagramParent.STANDARD_AFFIX}{fileSuffix}')
             status: int = self._runPdfDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         else:

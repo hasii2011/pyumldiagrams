@@ -1,6 +1,4 @@
 
-from logging import Logger
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 

@@ -22,7 +22,7 @@ from pyumldiagrams.image.ImageFormat import ImageFormat
 from pyumldiagrams.image.ImageLine import ImageLine
 
 from tests.TestBase import TestBase
-from tests.TestConstants import TestConstants
+from tests.TestDefinitions import TestDefinitions
 
 #
 # Generally I do not like module variables;  But making them part of the test class
@@ -72,7 +72,7 @@ class TestImageLine(TestBase):
         pass
 
     def testOrthogonalInheritanceLines(self):
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-OrthogonalInheritanceLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalInheritanceLines.{ImageFormat.PNG.value}')
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -90,7 +90,7 @@ class TestImageLine(TestBase):
 
     def testDiagonalInheritanceLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-DiagonalInheritanceLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalInheritanceLines.{ImageFormat.PNG.value}')
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -105,7 +105,7 @@ class TestImageLine(TestBase):
 
     def testOrthogonalCompositionLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-OrthogonalCompositionLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalCompositionLines.{ImageFormat.PNG.value}')
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -124,7 +124,7 @@ class TestImageLine(TestBase):
 
     def testDiagonalCompositionLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-DiagonalCompositionLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalCompositionLines.{ImageFormat.PNG.value}')
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -137,7 +137,7 @@ class TestImageLine(TestBase):
 
     def testOrthogonalAggregationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-OrthogonalAggregationLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalAggregationLines.{ImageFormat.PNG.value}')
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -155,7 +155,7 @@ class TestImageLine(TestBase):
 
     def testDiagonalAggregationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-DiagonalAggregationLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalAggregationLines.{ImageFormat.PNG.value}')
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -167,7 +167,7 @@ class TestImageLine(TestBase):
         diagram.write()
 
     def testOrthogonalAssociationLines(self):
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-OrthogonalAssociationLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalAssociationLines.{ImageFormat.PNG.value}')
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -185,7 +185,7 @@ class TestImageLine(TestBase):
 
     def testDiagonalAssociationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestConstants.TEST_FILE_NAME_PREFIX}-DiagonalAssociationLines.{ImageFormat.PNG.value}')
+        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalAssociationLines.{ImageFormat.PNG.value}')
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)

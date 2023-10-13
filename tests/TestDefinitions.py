@@ -1,5 +1,5 @@
 
-class TestConstants:
+class TestDefinitions:
 
     TEST_DPI: int = 72
 

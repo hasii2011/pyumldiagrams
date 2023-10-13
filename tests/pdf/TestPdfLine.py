@@ -23,7 +23,7 @@ from pyumldiagrams.Definitions import Size
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 from pyumldiagrams.pdf.PdfLine import PdfLine
 
-from tests.TestConstants import TestConstants
+from tests.TestDefinitions import TestDefinitions
 from tests.TestDiagramParent import TestDiagramParent
 
 
@@ -80,7 +80,7 @@ class TestPdfLine(TestDiagramParent):
     def testOrthogonalInheritanceLines(self):
 
         names:   Names       = self._getNames(basicName='OrthogonalInheritanceLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -96,13 +96,13 @@ class TestPdfLine(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad orthogonal inheritance lines')
 
     def testOrthogonalCompositionLines(self):
 
         names:   Names       = self._getNames(basicName='OrthogonalCompositionLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -119,13 +119,13 @@ class TestPdfLine(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad orthogonal composition lines')
 
     def testDiagonalInheritanceLines(self):
 
         names:   Names      = self._getNames(basicName='DiagonalInheritanceLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -136,13 +136,13 @@ class TestPdfLine(TestDiagramParent):
             lineDrawer.draw(definition)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad diagonal inheritance lines')
 
     def testDiagonalCompositionLines(self):
 
         names:   Names      = self._getNames(basicName='DiagonalCompositionLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -153,13 +153,13 @@ class TestPdfLine(TestDiagramParent):
             lineDrawer.draw(definition)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad diagonal composition lines')
 
     def testOrthogonalAggregationLines(self):
 
         names:   Names      = self._getNames(basicName='OrthogonalAggregationLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -175,13 +175,13 @@ class TestPdfLine(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad orthogonal aggregation lines')
 
     def testDiagonalAggregationLines(self):
 
         names:   Names      = self._getNames(basicName='DiagonalAggregationLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
@@ -193,13 +193,13 @@ class TestPdfLine(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad diagonal aggregation lines')
 
     def testOrthogonalAssociationLines(self):
         names:   Names      = self._getNames(basicName='OrthogonalAssociationLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName,
-                                         dpi=TestConstants.TEST_DPI)
+                                         dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
         self.__drawVerticalBoundaries(diagram)
@@ -214,12 +214,12 @@ class TestPdfLine(TestDiagramParent):
             lineDrawer.draw(lineDefinition)
 
         diagram.write()
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad orthogonal association lines')
 
     def testDiagonalAssociationLines(self):
         names:   Names      = self._getNames(basicName='DiagonalAssociationLines')
-        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestConstants.TEST_DPI)
+        diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -232,12 +232,12 @@ class TestPdfLine(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestConstants.PDF_SUFFIX,
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad diagonal association lines')
 
     def _getNames(self, basicName: str) -> Names:
-        baseName:      str = f'{TestConstants.TEST_FILE_NAME_PREFIX}-{basicName}'
-        generatedName: str = f'{baseName}{TestConstants.PDF_SUFFIX}'
+        baseName:      str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{basicName}'
+        generatedName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
 
         return Names(baseName=baseName, generatedName=generatedName)
 
