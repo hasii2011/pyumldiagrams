@@ -2,8 +2,6 @@
 from typing import List
 from typing import cast
 
-from os import remove as osRemove
-
 from datetime import datetime
 
 from time import strftime
@@ -32,6 +30,9 @@ from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
 
 from tests.TestConstants import TestConstants
 from tests.TestDiagramParent import TestDiagramParent
+
+
+TEST_IMAGE_SUFFIX: str = f'.{ImageFormat.PNG.value}'
 
 
 class TestImageDiagram(TestDiagramParent):
@@ -67,7 +68,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDef)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Basic image file should be identical')
 
     def testBasicFields(self):
 
@@ -86,7 +87,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDefinition=fieldsTestClass)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Fields image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Basic Fields image file should be identical')
 
     def testBasicHeader(self):
 
@@ -99,7 +100,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDef)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Header image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Basic Header image file should be identical')
 
     def testBasicMethod(self):
 
@@ -122,7 +123,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(car)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Method image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Basic Method image file should be identical')
 
     def testBasicMethods(self):
 
@@ -136,7 +137,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawClass(classDef)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Basic Methods image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Basic Methods image file should be identical')
 
     def testBends(self):
 
@@ -160,7 +161,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Bends image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Bends image file should be identical')
 
     def testBendsFromXmlInput(self):
 
@@ -182,7 +183,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='BendsFromXmlInput image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='BendsFromXmlInput image file should be identical')
 
     def testBigClass(self):
 
@@ -198,7 +199,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Big Class image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Big Class image file should be identical')
 
     def testCaptureShowMethodsFalse(self):
 
@@ -214,7 +215,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='CaptureShowMethodsFalse image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='CaptureShowMethodsFalse image file should be identical')
 
     def testFillPage(self):
 
@@ -239,7 +240,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Fill Page image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Fill Page image file should be identical')
 
     def testMethodParametersDisplay(self):
 
@@ -261,7 +262,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='MethodParametersDisplay image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='MethodParametersDisplay image file should be identical')
 
     def testMinimalInheritance(self):
 
@@ -285,7 +286,7 @@ class TestImageDiagram(TestDiagramParent):
         diagram.drawUmlLine(lineDefinition=opieToCat)
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Minimal Inheritance image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Minimal Inheritance image file should be identical')
 
     def testSophisticatedHeader(self):
 
@@ -302,7 +303,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Sophisticated Header image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Sophisticated Header image file should be identical')
 
     def testSophisticatedLayout(self):
 
@@ -328,7 +329,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, failMessage='Sophisticated Layout image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Sophisticated Layout image file should be identical')
 
     UNADJUSTED_NAME: str = '/user/hasii/bogus'
     EXPECTED_SUFFIX: str = f'{ImageFormat.PNG.value}'
@@ -376,23 +377,6 @@ class TestImageDiagram(TestDiagramParent):
         # noinspection SpellCheckingInspection
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
-
-    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, failMessage: str, removeTestFile: bool = True) -> None:
-        """
-        The side effect here is that if the assertion passes then this method removes the generated file
-
-        Args:
-            baseName:           The base image file name
-            generatedFileName:  The generated image file name
-            failMessage:        The message to display if the image files fail comparison
-        """
-        standardFileName: str = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_SUFFIX}.{ImageFormat.PNG.value}')
-        status:           int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
-        self.assertTrue(status == 0, failMessage)
-
-        if removeTestFile is True:
-            self.logger.info(f'Removing: {generatedFileName}')
-            osRemove(generatedFileName)
 
 
 def suite() -> TestSuite:

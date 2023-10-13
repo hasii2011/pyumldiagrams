@@ -71,7 +71,7 @@ class TestPdfLine(TestBase):
 
     def testOrthogonalInheritanceLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalInheritanceLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -90,7 +90,7 @@ class TestPdfLine(TestBase):
 
     def testOrthogonalCompositionLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalCompositionLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -110,7 +110,7 @@ class TestPdfLine(TestBase):
 
     def testDiagonalInheritanceLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalInheritanceLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -123,7 +123,7 @@ class TestPdfLine(TestBase):
         diagram.write()
 
     def testDiagonalCompositionLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalCompositionLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -136,7 +136,7 @@ class TestPdfLine(TestBase):
         diagram.write()
 
     def testOrthogonalAggregationLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAggregationLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -155,7 +155,7 @@ class TestPdfLine(TestBase):
 
     def testDiagonalAggregationLines(self):
 
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAggregationLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -168,7 +168,7 @@ class TestPdfLine(TestBase):
         diagram.write()
 
     def testOrthogonalAssociationLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAssociationLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-OrthogonalAssociationLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -186,7 +186,7 @@ class TestPdfLine(TestBase):
         diagram.write()
 
     def testDiagonalAssociationLines(self):
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAssociationLines{TestConstants.TEST_SUFFIX}',
+        diagram: PdfDiagram = PdfDiagram(fileName=f'{TestConstants.TEST_FILE_NAME}-DiagonalAssociationLines{TestConstants.PDF_SUFFIX}',
                                          dpi=TestConstants.TEST_DPI)
 
         self.__drawEllipseForDiagonalLines(diagram)
@@ -352,7 +352,6 @@ class TestPdfLine(TestBase):
         y: int = center.y + round(arrowSize * sin(radians))
 
         return Position(x, y)
-
 
 
 def suite() -> TestSuite:

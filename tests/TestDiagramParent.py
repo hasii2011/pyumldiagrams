@@ -1,4 +1,6 @@
 
+from os import remove as osRemove
+
 from subprocess import run as subProcessRun
 from subprocess import CompletedProcess
 
@@ -7,8 +9,6 @@ from datetime import timezone
 from datetime import timedelta
 
 from codeallybasic.UnitTestBase import UnitTestBase
-
-# from pkg_resources import resource_filename
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DefinitionType
@@ -31,6 +31,7 @@ from tests.TestBase import TestBase
 from tests.TestBase import BEND_TEST_XML_FILE
 from tests.TestBase import LARGE_CLASS_XML_FILE
 from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
+from tests.TestConstants import TestConstants
 
 
 class TestDiagramParent(TestBase):
@@ -49,9 +50,35 @@ class TestDiagramParent(TestBase):
     # noinspection SpellCheckingInspection
     EXTERNAL_PDF_DIFF_SCRIPT: str = './scripts/diffpdf.sh'
 
-    STANDARD_SUFFIX: str = '-Standard'
+    STANDARD_AFFIX: str = '-Standard'
 
     KNOWABLE_DATE: datetime = datetime(2020, 3, 1, 8, 30, tzinfo=timezone(offset=timedelta(), name='America/Chicago'))
+
+    def _assertIdenticalFiles(self, baseName: str, generatedFileName: str, fileSuffix: str, failMessage: str, removeTestFile: bool = True) -> None:
+        """
+        The side effect here is that if the assertion passes then this method removes the generated file
+
+        Args:
+            baseName:           The base file name
+            generatedFileName:  The generated file name
+            fileSuffix:         May be .pdf, .png, .jpg, etc.
+            failMessage:        The message to display if the files fail comparison
+        """
+        #
+        # Cheating !!!
+        #
+        if fileSuffix == TestConstants.PDF_SUFFIX:
+            standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestDiagramParent.STANDARD_AFFIX}{fileSuffix}')
+            status: int = self._runPdfDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+        else:
+            standardFileName = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_AFFIX}{fileSuffix}')
+            status = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+
+        self.assertTrue(status == 0, failMessage)
+
+        if removeTestFile is True:
+            self.logger.debug(f'Removing: {generatedFileName}')
+            osRemove(generatedFileName)
 
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
