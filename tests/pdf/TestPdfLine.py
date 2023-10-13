@@ -1,8 +1,6 @@
 
 from typing import Tuple
 
-from dataclasses import dataclass
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
@@ -23,14 +21,9 @@ from pyumldiagrams.Definitions import Size
 from pyumldiagrams.pdf.PdfDiagram import PdfDiagram
 from pyumldiagrams.pdf.PdfLine import PdfLine
 
+from tests.TestDefinitions import Names
 from tests.TestDefinitions import TestDefinitions
 from tests.TestDiagramParent import TestDiagramParent
-
-
-@dataclass
-class Names:
-    baseName: str = ''
-    generatedName: str = ''
 
 
 class TestPdfLine(TestDiagramParent):
@@ -79,7 +72,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testOrthogonalInheritanceLines(self):
 
-        names:   Names       = self._getNames(basicName='OrthogonalInheritanceLines')
+        names: Names = self._getNames(basicName='OrthogonalInheritanceLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -101,7 +94,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testOrthogonalCompositionLines(self):
 
-        names:   Names       = self._getNames(basicName='OrthogonalCompositionLines')
+        names: Names = self._getNames(basicName='OrthogonalCompositionLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -124,7 +117,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testDiagonalInheritanceLines(self):
 
-        names:   Names      = self._getNames(basicName='DiagonalInheritanceLines')
+        names: Names = self._getNames(basicName='DiagonalInheritanceLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -141,7 +134,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testDiagonalCompositionLines(self):
 
-        names:   Names      = self._getNames(basicName='DiagonalCompositionLines')
+        names: Names = self._getNames(basicName='DiagonalCompositionLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -158,7 +151,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testOrthogonalAggregationLines(self):
 
-        names:   Names      = self._getNames(basicName='OrthogonalAggregationLines')
+        names: Names = self._getNames(basicName='OrthogonalAggregationLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawHorizontalBoundaries(diagram)
@@ -180,7 +173,7 @@ class TestPdfLine(TestDiagramParent):
 
     def testDiagonalAggregationLines(self):
 
-        names:   Names      = self._getNames(basicName='DiagonalAggregationLines')
+        names: Names = self._getNames(basicName='DiagonalAggregationLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
         self.__drawEllipseForDiagonalLines(diagram)
 
@@ -197,7 +190,7 @@ class TestPdfLine(TestDiagramParent):
                                    failMessage='Bad diagonal aggregation lines')
 
     def testOrthogonalAssociationLines(self):
-        names:   Names      = self._getNames(basicName='OrthogonalAssociationLines')
+        names: Names = self._getNames(basicName='OrthogonalAssociationLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName,
                                          dpi=TestDefinitions.TEST_DPI)
 
@@ -218,7 +211,7 @@ class TestPdfLine(TestDiagramParent):
                                    failMessage='Bad orthogonal association lines')
 
     def testDiagonalAssociationLines(self):
-        names:   Names      = self._getNames(basicName='DiagonalAssociationLines')
+        names: Names = self._getNames(basicName='DiagonalAssociationLines')
         diagram: PdfDiagram = PdfDiagram(fileName=names.generatedName, dpi=TestDefinitions.TEST_DPI)
 
         self.__drawEllipseForDiagonalLines(diagram)
