@@ -379,7 +379,7 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.write()
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName,
-                                   failMessage='MethodParametersDisplay should be identical', fileSuffix=TestDefinitions.PDF_SUFFIX, removeTestFile=False)
+                                   failMessage='MethodParametersDisplay should be identical', fileSuffix=TestDefinitions.PDF_SUFFIX)
 
     def testCaptureShowMethodsFalse(self):
 
