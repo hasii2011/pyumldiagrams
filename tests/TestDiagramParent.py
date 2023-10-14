@@ -32,6 +32,7 @@ from tests.TestBase import BEND_TEST_XML_FILE
 from tests.TestBase import LARGE_CLASS_XML_FILE
 from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
 
+from tests.TestDefinitions import Names
 from tests.TestDefinitions import TestDefinitions
 
 
@@ -110,6 +111,12 @@ class TestDiagramParent(TestBase):
                                     )
 
         return status
+
+    def _getNames(self, basicName: str, fileSuffix: str = TestDefinitions.PDF_SUFFIX) -> Names:
+        baseName:      str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{basicName}'
+        generatedName: str = f'{baseName}{fileSuffix}'
+
+        return Names(baseName=baseName, generatedName=generatedName)
 
     def _buildCar(self) -> ClassDefinition:
 

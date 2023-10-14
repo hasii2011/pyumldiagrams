@@ -21,8 +21,9 @@ from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
 from pyumldiagrams.image.ImageLine import ImageLine
 
-from tests.TestBase import TestBase
-from tests.TestDefinitions import TestDefinitions
+
+from tests.TestDefinitions import Names
+from tests.TestDiagramParent import TestDiagramParent
 
 #
 # Generally I do not like module variables;  But making them part of the test class
@@ -58,8 +59,10 @@ ELLIPSE_Y: int = V_TOP_Y
 ELLIPSE_WIDTH:  int = 300
 ELLIPSE_HEIGHT: int = 300
 
+DOTTED_PNG_SUFFIX: str = f'.{ImageFormat.PNG.value}'
 
-class TestImageLine(TestBase):
+
+class TestImageLine(TestDiagramParent):
 
     @classmethod
     def setUpClass(cls):
@@ -72,7 +75,9 @@ class TestImageLine(TestBase):
         pass
 
     def testOrthogonalInheritanceLines(self):
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalInheritanceLines.{ImageFormat.PNG.value}')
+
+        names:   Names        = self._getNames(basicName='OrthogonalInheritanceLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -88,9 +93,14 @@ class TestImageLine(TestBase):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad orthogonal inheritance lines')
+
     def testDiagonalInheritanceLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalInheritanceLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='DiagonalInheritanceLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
+
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -103,9 +113,13 @@ class TestImageLine(TestBase):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad diagonal inheritance lines')
+
     def testOrthogonalCompositionLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalCompositionLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='OrthogonalCompositionLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -122,9 +136,13 @@ class TestImageLine(TestBase):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad orthogonal composition lines')
+
     def testDiagonalCompositionLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalCompositionLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='DiagonalCompositionLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -133,11 +151,16 @@ class TestImageLine(TestBase):
         definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
+
         diagram.write()
+
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad diagonal composition lines')
 
     def testOrthogonalAggregationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalAggregationLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='OrthogonalAggregationLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -153,9 +176,13 @@ class TestImageLine(TestBase):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad orthogonal aggregation lines')
+
     def testDiagonalAggregationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalAggregationLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='DiagonalAggregationLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -164,10 +191,16 @@ class TestImageLine(TestBase):
         definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
+
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad diagonal aggregation lines')
+
     def testOrthogonalAssociationLines(self):
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-OrthogonalAssociationLines.{ImageFormat.PNG.value}')
+
+        names:   Names        = self._getNames(basicName='OrthogonalAssociationLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
 
         self._drawHorizontalBoundaries(diagram)
         self._drawVerticalBoundaries(diagram)
@@ -183,9 +216,13 @@ class TestImageLine(TestBase):
 
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad orthogonal association lines')
+
     def testDiagonalAssociationLines(self):
 
-        diagram: ImageDiagram = ImageDiagram(fileName=f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-DiagonalAssociationLines.{ImageFormat.PNG.value}')
+        names:   Names        = self._getNames(basicName='DiagonalAssociationLines', fileSuffix=DOTTED_PNG_SUFFIX)
+        diagram: ImageDiagram = ImageDiagram(fileName=names.baseName)
         self.__drawEllipseForDiagonalInheritanceLines(diagram)
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
@@ -196,6 +233,9 @@ class TestImageLine(TestBase):
             lineDrawer.draw(definition)
 
         diagram.write()
+
+        self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=DOTTED_PNG_SUFFIX,
+                                   failMessage='Bad diagonal association lines')
 
     def _drawHorizontalBoundaries(self, diagram: ImageDiagram):
 

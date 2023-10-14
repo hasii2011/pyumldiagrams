@@ -228,12 +228,6 @@ class TestPdfLine(TestDiagramParent):
         self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Bad diagonal association lines')
 
-    def _getNames(self, basicName: str) -> Names:
-        baseName:      str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{basicName}'
-        generatedName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
-
-        return Names(baseName=baseName, generatedName=generatedName)
-
     def __createOrthogonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
         northLinePositions: LinePositions = LinePositions([Position(TestPdfLine.V_RIGHT_X, TestPdfLine.V_TOP_Y),
