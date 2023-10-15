@@ -31,6 +31,11 @@ EXPECTED_LINE_COUNT:  int = 6
 
 CHECKED_CLASS_NAME: str = 'TopClass'
 
+EXPECTED_COMPLEX_PARAMETER_COUNT: int = 3
+NO_DEFAULT_VALUE:                 str = ''
+NO_TYPE:                          str = ''
+
+
 ClassDefinitionDictionary  = NewType('ClassDefinitionDictionary',  Dict[ClassName, ClassDefinition])
 MethodDefinitionDictionary = NewType('MethodDefinitionDictionary', Dict[str,       MethodDefinition])
 
@@ -160,23 +165,50 @@ class TestUnTangleToClassDefinition(TestBase):
             actualMethodCount:   int = len(checkedClass.methods)
             self.assertEqual(expectedMethodCount, actualMethodCount, f'Mismatch in # of methods generated for class: {expectedCD.name}')
 
-    def testMethodParameterCreation(self):
+    def testMethodSingleParameterCreation(self):
 
-        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='MethodParametersTestV11.xml')
-
-        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
-
-        untangler.generateClassDefinitions()
-
-        classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=untangler.classDefinitions)
-
-        classDefinition: ClassDefinition = classDefinitionDictionary[ClassName('ClassTestMethodParameters')]
-
-        methodDefinitionDictionary: MethodDefinitionDictionary = self._methodDictionary(classDefinition)
-
-        methodSingleParameter: MethodDefinition = methodDefinitionDictionary['methodSingleParameter']
+        methodDefinitionDictionary: MethodDefinitionDictionary = self._getTestMethodDictionary()
+        methodSingleParameter:      MethodDefinition           = methodDefinitionDictionary['methodSingleParameter']
 
         self.assertEqual(1, len(methodSingleParameter.parameters), 'Parameter count mismatch')
+
+    def testMethodComplexParameterCreation(self):
+
+        methodDefinitionDictionary: MethodDefinitionDictionary = self._getTestMethodDictionary()
+        methodComplexParameters: MethodDefinition = methodDefinitionDictionary['_methodComplexParameters']
+
+        self.assertEqual(EXPECTED_COMPLEX_PARAMETER_COUNT, len(methodComplexParameters.parameters), 'Parameter count mismatch')
+
+        parameters:     Parameters = methodComplexParameters.parameters
+        parameterCount: int = 0
+        for param in parameters:
+            pDef: ParameterDefinition = cast(ParameterDefinition, param)
+            if pDef.name == 'parameterNoTypeNoDefaultValue':
+                self.assertEqual(NO_DEFAULT_VALUE, pDef.defaultValue,  'Default value not correctly set')
+                self.assertEqual(NO_TYPE,          pDef.parameterType, 'Type value not correctly set')
+                parameterCount += 1
+            elif pDef.name == 'parameterTypeOnly':
+                self.assertEqual(NO_DEFAULT_VALUE, pDef.defaultValue,  'Default value not correctly set')
+                self.assertEqual('float',     pDef.parameterType, 'Type value not correctly set')
+                parameterCount += 1
+            elif pDef.name == 'parameterDefaultValueOnly':
+                self.assertEqual('42.0', pDef.defaultValue,  'Default value not correctly set')
+                self.assertEqual(NO_TYPE,          pDef.parameterType, 'Type value not correctly set')
+                parameterCount += 1
+
+        self.assertEqual(EXPECTED_COMPLEX_PARAMETER_COUNT, parameterCount, 'Did not process the correct number of parameters')
+
+    def testMethodFullParameter(self):
+
+        methodDefinitionDictionary: MethodDefinitionDictionary = self._getTestMethodDictionary()
+        methodFullParameter:    MethodDefinition           = methodDefinitionDictionary['__methodFullParameter']
+
+        self.assertEqual(1, len(methodFullParameter.parameters), 'Parameter count mismatch')
+
+        pDef: ParameterDefinition = methodFullParameter.parameters[0]
+
+        self.assertEqual('int', pDef.parameterType, 'Type attribute not correct')
+        self.assertEqual('42',  pDef.defaultValue,  'Default value not set correct')
 
     def testNotClassDiagramException(self):
 
@@ -184,6 +216,20 @@ class TestUnTangleToClassDefinition(TestBase):
         with self.assertRaises(NotClassDiagramException):
             # noinspection PyUnusedLocal
             untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+    def _getTestMethodDictionary(self) -> MethodDefinitionDictionary:
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='MethodParametersTestV11.xml')
+
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+        untangler.generateClassDefinitions()
+
+        classDefinitionDictionary:  ClassDefinitionDictionary  = self._classDefinitionDictionary(classDefinitions=untangler.classDefinitions)
+        classDefinition:            ClassDefinition            = classDefinitionDictionary[ClassName('ClassTestMethodParameters')]
+        methodDefinitionDictionary: MethodDefinitionDictionary = self._methodDictionary(classDefinition)
+
+        return methodDefinitionDictionary
 
     def _classDefinitions(self) -> ClassDefinitions:
 
@@ -221,7 +267,7 @@ class TestUnTangleToClassDefinition(TestBase):
         methods:                    Methods                    = classDefinition.methods
         for m in methods:
             method: MethodDefinition = cast(MethodDefinition, m)
-            methodDefinitionDictionary[method.name]= method
+            methodDefinitionDictionary[method.name] = method
 
         return methodDefinitionDictionary
 

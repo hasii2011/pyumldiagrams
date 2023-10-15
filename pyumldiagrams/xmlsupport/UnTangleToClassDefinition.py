@@ -131,7 +131,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             parameterName:       str                 = parameterElement[XmlConstants.ATTR_NAME_V11]
             parameterDefinition: ParameterDefinition = ParameterDefinition(name=parameterName)
 
-            parameterDefinition.defaultValue = parameterElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
+            parameterDefinition.defaultValue  = parameterElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
+            parameterDefinition.parameterType = parameterElement[XmlConstants.ATTR_TYPE_V11]
             parameters.append(parameterDefinition)
 
         return parameters
