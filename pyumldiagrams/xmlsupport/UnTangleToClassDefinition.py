@@ -14,6 +14,7 @@ from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
@@ -111,8 +112,9 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             methodName: str               = methodElement[XmlConstants.ATTR_NAME_V11]
             method:     MethodDefinition = MethodDefinition(name=methodName)
 
-            # method.visibility =
-            # method.returnType =
+            method.visibility = methodElement[XmlConstants.ATTR_VISIBILITY_V11]
+            method.returnType = methodElement[XmlConstants.ATTR_RETURN_TYPE_V11]
+
             method.parameters = self._generateParameters(methodElement=methodElement)
 
             methods.append(method)
@@ -122,6 +124,15 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
     def _generateParameters(self, methodElement: Element) -> Parameters:
 
         parameters: Parameters = createParametersFactory()
+
+        parameterElements: Elements = methodElement.get_elements(XmlConstants.ELEMENT_MODEL_PARAMETER_V11)
+        for parameterElement in parameterElements:
+
+            parameterName:       str                 = parameterElement[XmlConstants.ATTR_NAME_V11]
+            parameterDefinition: ParameterDefinition = ParameterDefinition(name=parameterName)
+
+            parameterDefinition.defaultValue = parameterElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
+            parameters.append(parameterDefinition)
 
         return parameters
 

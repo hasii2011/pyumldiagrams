@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="MethodParameters" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="656" height="147" x="125" y="100">
+            <PyutClass id="0" name="ClassTestMethodParameters" stereotype="noStereotype" displayMethods="True" displayParameters="Display" displayFields="True" displayStereotype="True" fileName="" description="">
+                <PyutMethod name="methodSingleParameter" visibility="PROTECTED" returnType="float">
+                    <SourceCode />
+                    <PyutParameter name="singleParameter" type="str" defaultValue="Ozzee" />
+                </PyutMethod>
+                <PyutMethod name="_methodComplexParameters" visibility="PROTECTED" returnType="int">
+                    <SourceCode />
+                    <PyutParameter name="parameterNoTypeNoDefaultValue" type="" defaultValue="" />
+                    <PyutParameter name="parameterTypeOnly" type="float" defaultValue="" />
+                    <PyutParameter name="parameterDefaultValueOnly" type="" defaultValue="42.0" />
+                </PyutMethod>
+                <PyutMethod name="__methodFullParameter" visibility="PRIVATE" returnType="str">
+                    <SourceCode />
+                    <PyutParameter name="fullParameter" type="int" defaultValue="42" />
+                </PyutMethod>
+            </PyutClass>
+        </OglClass>
+    </PyutDocument>
+</PyutProject>

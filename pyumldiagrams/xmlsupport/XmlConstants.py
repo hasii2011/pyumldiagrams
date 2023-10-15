@@ -54,3 +54,9 @@ ATTR_FILENAME_V11:              str = 'fileName'
 ATTR_DESCRIPTION_V11:           str = 'description'
 
 ELEMENT_MODEL_METHOD_V11: str = 'PyutMethod'
+ATTR_VISIBILITY_V11:      str = 'visibility'
+ATTR_RETURN_TYPE_V11:     str = 'returnType'
+
+ELEMENT_MODEL_PARAMETER_V11: str  = 'PyutParameter'
+ATTR_DEFAULT_VALUE_V11:      str  = 'defaultValue'
+ATTR_TYPE_V11:               str  = 'type'

@@ -15,6 +15,7 @@ from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
+
 from pyumldiagrams.xmlsupport.UnTangleToClassDefinition import UnTangleToClassDefinition
 
 from pyumldiagrams.xmlsupport.exceptions.NotClassDiagramException import NotClassDiagramException
@@ -30,8 +31,8 @@ EXPECTED_LINE_COUNT:  int = 6
 
 CHECKED_CLASS_NAME: str = 'TopClass'
 
-ClassDefinitionDictionary = NewType('ClassDefinitionDictionary', Dict[ClassName, ClassDefinition])
-
+ClassDefinitionDictionary  = NewType('ClassDefinitionDictionary',  Dict[ClassName, ClassDefinition])
+MethodDefinitionDictionary = NewType('MethodDefinitionDictionary', Dict[str,       MethodDefinition])
 
 # noinspection SpellCheckingInspection
 EXPECTED_CLASSES: ClassDefinitions = ClassDefinitions([
@@ -58,16 +59,15 @@ EXPECTED_CLASSES_WITH_METHODS: ClassDefinitions = ClassDefinitions([
                     ))
     ])
 
+EXPECTED_METHODS_WITH_PARAMETERS:   Parameters = Parameters([
+    ParameterDefinition(name='parameterNoTypeNoDefaultValue', parameterType='',      defaultValue=''),
+    ParameterDefinition(name='parameterTypeOnly',             parameterType='float', defaultValue=''),
+    ParameterDefinition(name='parameterDefaultValueOnly',     parameterType='',      defaultValue='42.0'),
+])
 """
-                <PyutMethod name="testFirstLastName" visibility="PUBLIC" returnType="">
-                    <SourceCode />
-                </PyutMethod>
-                <PyutMethod name="getFormattedName" visibility="PUBLIC" returnType="">
-                    <SourceCode />
-                    <PyutParameter name="first" type="" />
-                    <PyutParameter name="last" type="" />
-                </PyutMethod>
-
+    <PyutParameter name="parameterNoTypeNoDefaultValue" type=""      defaultValue=""/>
+    <PyutParameter name="parameterTypeOnly"             type="float" defaultValue=""/>
+    <PyutParameter name="parameterDefaultValueOnly"     type=""      defaultValue="42.0"/>
 """
 
 
@@ -161,18 +161,22 @@ class TestUnTangleToClassDefinition(TestBase):
             self.assertEqual(expectedMethodCount, actualMethodCount, f'Mismatch in # of methods generated for class: {expectedCD.name}')
 
     def testMethodParameterCreation(self):
-        pass
-    #     classDefinitionDictionary: ClassDefinitionDictionary = self._classesWithMethodsDictionary()
-    #
-    #     for cd in EXPECTED_CLASSES_WITH_METHODS:
-    #         expectedCD:   ClassDefinition = cast(ClassDefinition, cd)
-    #         checkedClass: ClassDefinition = classDefinitionDictionary[ClassName(expectedCD.name)]
-    #         if checkedClass.name == 'NamesTestCase':
-    #             methods: Methods = checkedClass.methods
-    #             for methodDefinition in methods:
-    #                 if methodDefinition.name == 'getFormattedName':
-    #                     parameters = methodDefinition.parameters
-    #                     self.assertEqual(2, len(parameters), 'Incorrect parameter generation')
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='MethodParametersTestV11.xml')
+
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+        untangler.generateClassDefinitions()
+
+        classDefinitionDictionary: ClassDefinitionDictionary = self._classDefinitionDictionary(classDefinitions=untangler.classDefinitions)
+
+        classDefinition: ClassDefinition = classDefinitionDictionary[ClassName('ClassTestMethodParameters')]
+
+        methodDefinitionDictionary: MethodDefinitionDictionary = self._methodDictionary(classDefinition)
+
+        methodSingleParameter: MethodDefinition = methodDefinitionDictionary['methodSingleParameter']
+
+        self.assertEqual(1, len(methodSingleParameter.parameters), 'Parameter count mismatch')
 
     def testNotClassDiagramException(self):
 
@@ -210,6 +214,16 @@ class TestUnTangleToClassDefinition(TestBase):
             classDefinitionDictionary[ClassName(classDef.name)] = classDef
 
         return classDefinitionDictionary
+
+    def _methodDictionary(self, classDefinition: ClassDefinition) -> MethodDefinitionDictionary:
+
+        methodDefinitionDictionary: MethodDefinitionDictionary = MethodDefinitionDictionary({})
+        methods:                    Methods                    = classDefinition.methods
+        for m in methods:
+            method: MethodDefinition = cast(MethodDefinition, m)
+            methodDefinitionDictionary[method.name]= method
+
+        return methodDefinitionDictionary
 
 
 def suite() -> TestSuite:

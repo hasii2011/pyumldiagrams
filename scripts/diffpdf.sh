@@ -4,7 +4,8 @@
 #
 function changeToProjectRoot {
 
-    export areHere=`basename ${PWD}`
+    areHere=$(basename "${PWD}")
+
     if [[ ${areHere} = "scripts" ]]; then
         cd ..
     fi
@@ -14,10 +15,10 @@ function checkStatus {
     status=$1
     procName=$2
 
-    if [ ${status} -ne 0 ]
+    if [ "${status}" -ne 0 ]
     then
         echo "checkStatus ${procName} -- ${status}"
-        exit ${status}
+        exit "${status}"
     fi
 }
 
@@ -44,8 +45,8 @@ generatedFile=${2}
 # echo "Standard File:  ${standardFile}"
 # echo "Generated File: ${generatedFile}"
 
-pdftotext ${standardFile}  standard.txt
-pdftotext ${generatedFile} generated.txt
+pdftotext "${standardFile}"  standard.txt
+pdftotext "${generatedFile}" generated.txt
 
 diff standard.txt generated.txt
 status=$?
