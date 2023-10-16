@@ -91,28 +91,24 @@ class DefinitionType(Enum):
     Private   = '-'
     Protected = '#'
 
-    # @staticmethod
-    # def toEnum(strValue: str) -> 'LineType':
-    #     """
-    #     Converts the input string to the line type enum
-    #     Args:
-    #         strValue:   The serialized string representation
-    #
-    #     Returns:  The line type enumeration
-    #     """
-    #     canonicalStr: str = strValue.lower().strip(' ')
-    #     if canonicalStr == 'aggregation':
-    #         return LineType.Aggregation
-    #     elif canonicalStr == 'composition':
-    #         return LineType.Composition
-    #     elif canonicalStr == 'inheritance':
-    #         return LineType.Inheritance
-    #     elif canonicalStr == 'association':
-    #         return LineType.Association
-    #     elif canonicalStr == 'noteAssociation':
-    #         return LineType.NoteAssociation
-    #     else:
-    #         raise UnsupportedException(f'Do not handle LineType {canonicalStr}')
+    @staticmethod
+    def toEnum(strValue: str) -> 'DefinitionType':
+        """
+        Converts the input string to the line type enum
+        Args:
+            strValue:   The serialized string representation
+
+        Returns:  The line type enumeration
+        """
+        canonicalStr: str = strValue.lower().strip(' ')
+        if canonicalStr == 'public':
+            return DefinitionType.Public
+        elif canonicalStr == 'private':
+            return DefinitionType.Private
+        elif canonicalStr == 'protected':
+            return DefinitionType.Protected
+        else:
+            raise UnsupportedException(f'Do not handle DefinitionType {canonicalStr}')
 
 
 @dataclass
