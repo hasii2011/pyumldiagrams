@@ -3,7 +3,7 @@
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.UnsupportedException import UnsupportedException
 from tests.TestBase import TestBase
 
@@ -23,40 +23,40 @@ class TestVisibilityType(TestBase):
 
     def testAllUpperCase(self):
 
-        visibilityType: DefinitionType = DefinitionType.toEnum('PUBLIC')
+        visibilityType: VisibilityType = VisibilityType.toEnum('PUBLIC')
 
-        self.assertEqual(DefinitionType.Public, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Public, visibilityType, 'Incorrect enumeration')
 
     def testMixedCase(self):
-        visibilityType: DefinitionType = DefinitionType.toEnum('pRoTeCtEd')
+        visibilityType: VisibilityType = VisibilityType.toEnum('pRoTeCtEd')
 
-        self.assertEqual(DefinitionType.Protected, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Protected, visibilityType, 'Incorrect enumeration')
 
     def testLowerCase(self):
-        visibilityType: DefinitionType = DefinitionType.toEnum('private')
+        visibilityType: VisibilityType = VisibilityType.toEnum('private')
 
-        self.assertEqual(DefinitionType.Private, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Private, visibilityType, 'Incorrect enumeration')
 
     def testLeadingSpaces(self):
-        visibilityType: DefinitionType = DefinitionType.toEnum(' private')
+        visibilityType: VisibilityType = VisibilityType.toEnum(' private')
 
-        self.assertEqual(DefinitionType.Private, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Private, visibilityType, 'Incorrect enumeration')
 
     def testTrailingSpaces(self):
-        visibilityType: DefinitionType = DefinitionType.toEnum('protected ')
+        visibilityType: VisibilityType = VisibilityType.toEnum('protected ')
 
-        self.assertEqual(DefinitionType.Protected, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Protected, visibilityType, 'Incorrect enumeration')
 
     def testLeadingAndTrailingSpaces(self):
-        visibilityType: DefinitionType = DefinitionType.toEnum('     public        ')
+        visibilityType: VisibilityType = VisibilityType.toEnum('     public        ')
 
-        self.assertEqual(DefinitionType.Public, visibilityType, 'Incorrect enumeration')
+        self.assertEqual(VisibilityType.Public, visibilityType, 'Incorrect enumeration')
 
     def testUnsupportedValue(self):
 
         with self.assertRaises(UnsupportedException):
             # noinspection PyUnusedLocal
-            visibilityType: DefinitionType = DefinitionType.toEnum('IHaveNoAthleticSupporter')
+            visibilityType: VisibilityType = VisibilityType.toEnum('IHaveNoAthleticSupporter')
 
 
 def suite() -> TestSuite:

@@ -83,7 +83,7 @@ def createSizeFactory() -> Size:
     return Size()
 
 
-class DefinitionType(Enum):
+class VisibilityType(Enum):
     """
     Defines the visibility of either methods or fields
     """
@@ -92,7 +92,7 @@ class DefinitionType(Enum):
     Protected = '#'
 
     @staticmethod
-    def toEnum(strValue: str) -> 'DefinitionType':
+    def toEnum(strValue: str) -> 'VisibilityType':
         """
         Converts the input string to the line type enum
         Args:
@@ -102,13 +102,13 @@ class DefinitionType(Enum):
         """
         canonicalStr: str = strValue.lower().strip(' ')
         if canonicalStr == 'public':
-            return DefinitionType.Public
+            return VisibilityType.Public
         elif canonicalStr == 'private':
-            return DefinitionType.Private
+            return VisibilityType.Private
         elif canonicalStr == 'protected':
-            return DefinitionType.Protected
+            return VisibilityType.Protected
         else:
-            raise UnsupportedException(f'Do not handle DefinitionType {canonicalStr}')
+            raise UnsupportedException(f'Do not handle VisibilityType {canonicalStr}')
 
 
 @dataclass
@@ -159,9 +159,9 @@ class MethodDefinition(BaseDefinition):
     """
     Defines a single method in a UML class
     """
-    visibility: DefinitionType = DefinitionType.Public
+    visibility: VisibilityType = VisibilityType.Public
     """
-    Defines the method visibility.  See `DefinitionType`
+    Defines the method visibility.  See `VisibilityType`
     """
     returnType: str = ''
     """
@@ -189,9 +189,9 @@ class FieldDefinition(ParameterDefinition):
     Defines a single instance variable;  Seems funny to inherit from a
     parameter definition.
     """
-    visibility: DefinitionType = DefinitionType.Public
+    visibility: VisibilityType = VisibilityType.Public
     """
-    Defines the field visibility.  See `DefinitionType`
+    Defines the field visibility.  See `VisibilityType`
     """
 
 

@@ -11,7 +11,7 @@ from datetime import timedelta
 from codeallybasic.UnitTestBase import UnitTestBase
 
 from pyumldiagrams.Definitions import ClassDefinition
-from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import LinePositions
@@ -123,10 +123,10 @@ class TestDiagramParent(TestBase):
         car: ClassDefinition = ClassDefinition(name='Car', position=Position(107, 30), size=Size(width=266, height=100))
 
         initMethodDef:      MethodDefinition = self._buildInitMethod()
-        descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=DefinitionType.Public)
-        odometerMethodDef:  MethodDefinition = MethodDefinition(name='readOdometer',       visibility=DefinitionType.Public)
-        updateOdoMethodDef: MethodDefinition = MethodDefinition(name='updateOdometer',     visibility=DefinitionType.Public)
-        incrementMethodDef: MethodDefinition = MethodDefinition(name='incrementOdometer',  visibility=DefinitionType.Protected)
+        descMethodDef:      MethodDefinition = MethodDefinition(name='getDescriptiveName', visibility=VisibilityType.Public)
+        odometerMethodDef:  MethodDefinition = MethodDefinition(name='readOdometer', visibility=VisibilityType.Public)
+        updateOdoMethodDef: MethodDefinition = MethodDefinition(name='updateOdometer', visibility=VisibilityType.Public)
+        incrementMethodDef: MethodDefinition = MethodDefinition(name='incrementOdometer', visibility=VisibilityType.Protected)
 
         mileageParam: ParameterDefinition = ParameterDefinition(name='mileage', defaultValue='1')
         updateOdoMethodDef.parameters = Parameters([mileageParam])
@@ -140,7 +140,7 @@ class TestDiagramParent(TestBase):
 
     def _buildInitMethod(self) -> MethodDefinition:
 
-        initMethodDef:  MethodDefinition    = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+        initMethodDef:  MethodDefinition    = MethodDefinition(name='__init__', visibility=VisibilityType.Public)
 
         initParam:  ParameterDefinition = ParameterDefinition(name='make',  parameterType='str', defaultValue='')
         modelParam: ParameterDefinition = ParameterDefinition(name='model', parameterType='str', defaultValue='')
@@ -166,7 +166,7 @@ class TestDiagramParent(TestBase):
 
         opie: ClassDefinition = ClassDefinition(name='Opie', position=Position(495, 208), size=Size(width=216, height=87))
 
-        publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=DefinitionType.Public, returnType='bool')
+        publicMethod: MethodDefinition = MethodDefinition(name='publicMethod', visibility=VisibilityType.Public, returnType='bool')
         paramDef: ParameterDefinition  = ParameterDefinition(name='param', parameterType='float', defaultValue='23.0')
 
         publicMethod.parameters = Parameters([paramDef])
@@ -263,9 +263,9 @@ class TestDiagramParent(TestBase):
         fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
         fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', parameterType='',      defaultValue='23')
 
-        fieldFull.visibility     = DefinitionType.Public
-        fieldTypeOnly.visibility = DefinitionType.Private
-        fieldDefaultValueOnly.visibility = DefinitionType.Protected
+        fieldFull.visibility     = VisibilityType.Public
+        fieldTypeOnly.visibility = VisibilityType.Private
+        fieldDefaultValueOnly.visibility = VisibilityType.Protected
 
         fields.append(fieldFull)
         fields.append(fieldTypeOnly)

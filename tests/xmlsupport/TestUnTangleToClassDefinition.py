@@ -8,7 +8,7 @@ from codeallybasic.UnitTestBase import UnitTestBase
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import ClassName
-from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import Fields
@@ -222,7 +222,7 @@ class TestUnTangleToClassDefinition(TestBase):
         # TODO:
         # Fix this after issue https://github.com/hasii2011/pyumldiagrams/issues/62
         # is fixed
-        # self.assertEqual(DefinitionType.Public, publicField.visibility, 'Incorrect field visibility')
+        # self.assertEqual(VisibilityType.Public, publicField.visibility, 'Incorrect field visibility')
 
     def testNotClassDiagramException(self):
 

@@ -11,7 +11,7 @@ from unittest import main as unitTestMain
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
-from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import VisibilityType
 
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import LineType
@@ -80,7 +80,7 @@ class TestImageDiagram(TestDiagramParent):
 
         fieldsTestClass.fields = self._buildFields()
 
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=VisibilityType.Public)
 
         fieldsTestClass.methods = Methods([initMethodDef])
 
@@ -114,7 +114,7 @@ class TestImageDiagram(TestDiagramParent):
 
         car: ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
 
-        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+        initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=VisibilityType.Public)
 
         initParam: ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
         initMethodDef.parameters = Parameters([initParam])

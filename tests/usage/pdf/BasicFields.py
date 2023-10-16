@@ -1,6 +1,6 @@
 
 from pyumldiagrams.Definitions import ClassDefinition
-from pyumldiagrams.Definitions import DefinitionType
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import MethodDefinition
@@ -19,9 +19,9 @@ def buildFields() -> Fields:
     fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
     fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', parameterType='',      defaultValue='23')
 
-    fieldFull.visibility = DefinitionType.Public
-    fieldTypeOnly.visibility = DefinitionType.Private
-    fieldDefaultValueOnly.visibility = DefinitionType.Protected
+    fieldFull.visibility = VisibilityType.Public
+    fieldTypeOnly.visibility = VisibilityType.Private
+    fieldDefaultValueOnly.visibility = VisibilityType.Protected
 
     fields.append(fieldFull)
     fields.append(fieldTypeOnly)
@@ -37,7 +37,7 @@ fieldsTestClass: ClassDefinition = ClassDefinition(name='FieldsTestClass', posit
 
 fieldsTestClass.fields = buildFields()
 
-initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+initMethodDef: MethodDefinition = MethodDefinition(name='__init__', visibility=VisibilityType.Public)
 
 fieldsTestClass.methods = Methods([initMethodDef])
 
