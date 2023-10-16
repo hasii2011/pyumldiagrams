@@ -124,7 +124,9 @@ class ToClassDefinition:
             self.logger.debug(f'{methodName=}')
 
             method: MethodDefinition = MethodDefinition(name=methodName)
-
+            #
+            # TODO:  Get visibility and return type from XML
+            #
             method = self._generateMethodParameters(xmlMethod=xmlMethod, methodDef=method)
 
             methods.append(method)

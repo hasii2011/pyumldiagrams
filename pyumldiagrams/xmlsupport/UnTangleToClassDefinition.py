@@ -12,6 +12,8 @@ from untangle import parse
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import FieldDefinition
+from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
@@ -19,6 +21,7 @@ from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import createFieldsFactory
 from pyumldiagrams.Definitions import createMethodsFactory
 from pyumldiagrams.Definitions import createParametersFactory
 
@@ -76,16 +79,16 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
 
             self.logger.debug(f'{graphicElement=}')
 
-            pyutElement:     Element         = graphicElement.PyutClass
-            classDefinition: ClassDefinition = ClassDefinition(name=pyutElement[XmlConstants.ATTR_NAME_V11])
+            pyutClassElement: Element         = graphicElement.PyutClass
+            classDefinition:  ClassDefinition = ClassDefinition(name=pyutClassElement[XmlConstants.ATTR_NAME_V11])
 
             classDefinition.size     = self._classSize(graphicElement=graphicElement)
             classDefinition.position = self._classPosition(graphicElement=graphicElement)
 
-            classDefinition = self._classAttributes(pyutElement=pyutElement, classDefinition=classDefinition)
+            classDefinition = self._classAttributes(pyutElement=pyutClassElement, classDefinition=classDefinition)
 
-            classDefinition.methods = self._generateMethods(pyutElement=pyutElement)
-            # classDefinition.fields  = self._generateFields(pyutElement=pyutElement)
+            classDefinition.methods = self._generateMethods(pyutElement=pyutClassElement)
+            classDefinition.fields  = self._generateFields(pyutClassElement=pyutClassElement)
 
             self._classDefinitions.append(classDefinition)
 
@@ -112,7 +115,7 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             methodName: str               = methodElement[XmlConstants.ATTR_NAME_V11]
             method:     MethodDefinition = MethodDefinition(name=methodName)
 
-            method.visibility = methodElement[XmlConstants.ATTR_VISIBILITY_V11]
+            method.visibility = methodElement[XmlConstants.ATTR_VISIBILITY_V11]     # TODO Convert to enum
             method.returnType = methodElement[XmlConstants.ATTR_RETURN_TYPE_V11]
 
             method.parameters = self._generateParameters(methodElement=methodElement)
@@ -136,6 +139,23 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             parameters.append(parameterDefinition)
 
         return parameters
+
+    def _generateFields(self, pyutClassElement: Element) -> Fields:
+
+        fields: Fields = createFieldsFactory()
+
+        fieldElements: Elements = pyutClassElement.get_elements(XmlConstants.ELEMENT_MODEL_FIELD_V11)
+        for fieldElement in fieldElements:
+
+            fieldName:       str             = fieldElement[XmlConstants.ATTR_NAME_V11]
+            fieldDefinition: FieldDefinition = FieldDefinition(name=fieldName)
+
+            fieldDefinition.visibility    = fieldElement[XmlConstants.ATTR_VISIBILITY_V11]
+            fieldDefinition.parameterType = fieldElement[XmlConstants.ATTR_TYPE_V11]
+            fieldDefinition.defaultValue  = fieldElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
+
+            fields.append(fieldDefinition)
+        return fields
 
     def _classSize(self, graphicElement: Element) -> Size:
 

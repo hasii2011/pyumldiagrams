@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Fields" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="215" height="133" x="150" y="100">
+            <PyutClass id="0" name="ClassTestFields" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+                <PyutField name="publicField" visibility="PUBLIC" type="" defaultValue="" />
+                <PyutField name="protectedField" visibility="PROTECTED" type="" defaultValue="" />
+                <PyutField name="privateField" visibility="PRIVATE" type="" defaultValue="" />
+                <PyutField name="fullField" visibility="PRIVATE" type="float" defaultValue="42.0" />
+                <PyutField name="fieldOnlyType" visibility="PRIVATE" type="str" defaultValue="" />
+                <PyutField name="fieldOnlyDefaultValue" visibility="PRIVATE" type="" defaultValue="666" />
+            </PyutClass>
+        </OglClass>
+    </PyutDocument>
+</PyutProject>

@@ -8,7 +8,10 @@ from codeallybasic.UnitTestBase import UnitTestBase
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import ClassName
+from pyumldiagrams.Definitions import DefinitionType
 from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import FieldDefinition
+from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import ParameterDefinition
@@ -38,6 +41,7 @@ NO_TYPE:                          str = ''
 
 ClassDefinitionDictionary  = NewType('ClassDefinitionDictionary',  Dict[ClassName, ClassDefinition])
 MethodDefinitionDictionary = NewType('MethodDefinitionDictionary', Dict[str,       MethodDefinition])
+FieldDefinitionDictionary  = NewType('FieldDefinitionDictionary',  Dict[str,       FieldDefinition])
 
 # noinspection SpellCheckingInspection
 EXPECTED_CLASSES: ClassDefinitions = ClassDefinitions([
@@ -201,7 +205,7 @@ class TestUnTangleToClassDefinition(TestBase):
     def testMethodFullParameter(self):
 
         methodDefinitionDictionary: MethodDefinitionDictionary = self._getTestMethodDictionary()
-        methodFullParameter:    MethodDefinition           = methodDefinitionDictionary['__methodFullParameter']
+        methodFullParameter:        MethodDefinition           = methodDefinitionDictionary['__methodFullParameter']
 
         self.assertEqual(1, len(methodFullParameter.parameters), 'Parameter count mismatch')
 
@@ -209,6 +213,16 @@ class TestUnTangleToClassDefinition(TestBase):
 
         self.assertEqual('int', pDef.parameterType, 'Type attribute not correct')
         self.assertEqual('42',  pDef.defaultValue,  'Default value not set correct')
+
+    def testPublicField(self):
+
+        fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        publicField:     FieldDefinition           = fieldDictionary['publicField']
+
+        # TODO:
+        # Fix this after issue https://github.com/hasii2011/pyumldiagrams/issues/62
+        # is fixed
+        # self.assertEqual(DefinitionType.Public, publicField.visibility, 'Incorrect field visibility')
 
     def testNotClassDiagramException(self):
 
@@ -230,6 +244,19 @@ class TestUnTangleToClassDefinition(TestBase):
         methodDefinitionDictionary: MethodDefinitionDictionary = self._methodDictionary(classDefinition)
 
         return methodDefinitionDictionary
+
+    def _getTestFieldsDictionary(self) -> FieldDefinitionDictionary:
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='FieldsTestV11.xml')
+
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+        untangler.generateClassDefinitions()
+        classDefinitionDictionary:  ClassDefinitionDictionary  = self._classDefinitionDictionary(classDefinitions=untangler.classDefinitions)
+        classDefinition:            ClassDefinition            = classDefinitionDictionary[ClassName('ClassTestFields')]
+        fieldDictionary:            FieldDefinitionDictionary  = self._fieldsDictionary(classDefinition=classDefinition)
+
+        return fieldDictionary
 
     def _classDefinitions(self) -> ClassDefinitions:
 
@@ -270,6 +297,17 @@ class TestUnTangleToClassDefinition(TestBase):
             methodDefinitionDictionary[method.name] = method
 
         return methodDefinitionDictionary
+
+    def _fieldsDictionary(self, classDefinition: ClassDefinition) -> FieldDefinitionDictionary:
+
+        fieldDictionary: FieldDefinitionDictionary = FieldDefinitionDictionary({})
+        fields:          Fields                    = classDefinition.fields
+
+        for f in fields:
+            field: FieldDefinition = cast(FieldDefinition, f)
+            fieldDictionary[field.name] = field
+
+        return fieldDictionary
 
 
 def suite() -> TestSuite:
