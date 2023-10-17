@@ -29,9 +29,10 @@ ATTR_SHOW_STEREOTYPE:   str = 'showStereotype'
 
 ATTR_DISPLAY_PARAMETERS: str = 'displayParameters'
 
-ELEMENT_MODEL_PARAM: str = 'Param'
+ELEMENT_MODEL_PARAM:       str = 'Param'
+ELEMENT_MODEL_RETURN_TYPE: str = 'Return'
 ATTR_DEFAULT_VALUE:  str = 'defaultValue'
-
+ATTR_VISIBILITY:     str = 'visibility'
 
 ELEMENT_PROJECT_V11:       str = 'PyutProject'
 PROJECT_TYPE_V11:          str = 'type'

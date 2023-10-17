@@ -219,10 +219,7 @@ class TestUnTangleToClassDefinition(TestBase):
         fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
         publicField:     FieldDefinition           = fieldDictionary['publicField']
 
-        # TODO:
-        # Fix this after issue https://github.com/hasii2011/pyumldiagrams/issues/62
-        # is fixed
-        # self.assertEqual(VisibilityType.Public, publicField.visibility, 'Incorrect field visibility')
+        self.assertEqual(VisibilityType.Public, publicField.visibility, 'Incorrect field visibility')
 
     def testNotClassDiagramException(self):
 

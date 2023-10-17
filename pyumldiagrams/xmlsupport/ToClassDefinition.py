@@ -24,6 +24,7 @@ from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import createMethodsFactory
 
 from pyumldiagrams.UnsupportedException import UnsupportedException
@@ -43,6 +44,7 @@ from pyumldiagrams.xmlsupport.XmlConstants import ATTR_TYPE
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_WIDTH
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_X
 from pyumldiagrams.xmlsupport.XmlConstants import ATTR_Y
+from pyumldiagrams.xmlsupport.XmlConstants import ATTR_VISIBILITY
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_CONTROL_POINT
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_GRAPHIC_LINK
@@ -50,6 +52,7 @@ from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_CLASS
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_LINK
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_METHOD
 from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_PARAM
+from pyumldiagrams.xmlsupport.XmlConstants import ELEMENT_MODEL_RETURN_TYPE
 
 
 class ToClassDefinition:
@@ -124,9 +127,14 @@ class ToClassDefinition:
             self.logger.debug(f'{methodName=}')
 
             method: MethodDefinition = MethodDefinition(name=methodName)
-            #
-            # TODO:  Get visibility and return type from XML
-            #
+
+            visibilityStr: str = xmlMethod.getAttribute(ATTR_VISIBILITY)
+            method.visibility = VisibilityType.toEnum(visibilityStr)
+
+            xmlReturnTypeNodeList: NodeList = xmlMethod.getElementsByTagName(ELEMENT_MODEL_RETURN_TYPE)
+            returnNode:            Element  = xmlReturnTypeNodeList[0]
+            retType:               str      = returnNode.getAttribute(ATTR_TYPE)
+            method.returnType = retType
             method = self._generateMethodParameters(xmlMethod=xmlMethod, methodDef=method)
 
             methods.append(method)

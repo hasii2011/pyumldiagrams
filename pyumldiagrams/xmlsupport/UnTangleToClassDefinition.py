@@ -21,6 +21,7 @@ from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import createFieldsFactory
 from pyumldiagrams.Definitions import createMethodsFactory
 from pyumldiagrams.Definitions import createParametersFactory
@@ -115,8 +116,9 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             methodName: str               = methodElement[XmlConstants.ATTR_NAME_V11]
             method:     MethodDefinition = MethodDefinition(name=methodName)
 
-            method.visibility = methodElement[XmlConstants.ATTR_VISIBILITY_V11]     # TODO Convert to enum
-            method.returnType = methodElement[XmlConstants.ATTR_RETURN_TYPE_V11]
+            visibilityStr: str = methodElement[XmlConstants.ATTR_VISIBILITY_V11]
+            method.visibility  = VisibilityType.toEnum(visibilityStr)
+            method.returnType  = methodElement[XmlConstants.ATTR_RETURN_TYPE_V11]
 
             method.parameters = self._generateParameters(methodElement=methodElement)
 
@@ -150,7 +152,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             fieldName:       str             = fieldElement[XmlConstants.ATTR_NAME_V11]
             fieldDefinition: FieldDefinition = FieldDefinition(name=fieldName)
 
-            fieldDefinition.visibility    = fieldElement[XmlConstants.ATTR_VISIBILITY_V11]
+            visibilityStr: str = fieldElement[XmlConstants.ATTR_VISIBILITY_V11]
+            fieldDefinition.visibility    = VisibilityType.toEnum(visibilityStr)
             fieldDefinition.parameterType = fieldElement[XmlConstants.ATTR_TYPE_V11]
             fieldDefinition.defaultValue  = fieldElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
 
