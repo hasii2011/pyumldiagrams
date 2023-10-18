@@ -154,6 +154,7 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
 
             visibilityStr: str = fieldElement[XmlConstants.ATTR_VISIBILITY_V11]
             fieldDefinition.visibility    = VisibilityType.toEnum(visibilityStr)
+
             fieldDefinition.parameterType = fieldElement[XmlConstants.ATTR_TYPE_V11]
             fieldDefinition.defaultValue  = fieldElement[XmlConstants.ATTR_DEFAULT_VALUE_V11]
 

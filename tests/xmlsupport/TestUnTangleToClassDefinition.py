@@ -221,6 +221,39 @@ class TestUnTangleToClassDefinition(TestBase):
 
         self.assertEqual(VisibilityType.Public, publicField.visibility, 'Incorrect field visibility')
 
+    def testPrivateField(self):
+        fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        privateField:    FieldDefinition           = fieldDictionary['privateField']
+
+        self.assertEqual(VisibilityType.Private, privateField.visibility, 'Incorrect field visibility')
+
+    def testProtectedField(self):
+        fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        protectedField:  FieldDefinition           = fieldDictionary['protectedField']
+
+        self.assertEqual(VisibilityType.Protected, protectedField.visibility, 'Incorrect field visibility')
+
+    def testFullField(self):
+        fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        fullField:       FieldDefinition           = fieldDictionary['fullField']
+
+        self.assertEqual('float', fullField.parameterType, 'Incorrect field type')
+        self.assertEqual('42.0', fullField.defaultValue, 'Incorrect default value')
+
+    def testFieldOnlyType(self):
+        fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        onlyTypeField:   FieldDefinition           = fieldDictionary['fieldOnlyType']
+
+        self.assertEqual('str', onlyTypeField.parameterType, 'Incorrect field type')
+        self.assertEqual('',    onlyTypeField.defaultValue,  'Incorrect default value')
+
+    def testFieldOnlyDefaultValue(self):
+        fieldDictionary:       FieldDefinitionDictionary = self._getTestFieldsDictionary()
+        onlyDefaultValueField: FieldDefinition           = fieldDictionary['fieldOnlyDefaultValue']
+
+        self.assertEqual('',    onlyDefaultValueField.parameterType, 'Incorrect field type')
+        self.assertEqual('666', onlyDefaultValueField.defaultValue,  'Incorrect default value')
+
     def testNotClassDiagramException(self):
 
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName='NotSupportedUseCaseDiagram.xml')
