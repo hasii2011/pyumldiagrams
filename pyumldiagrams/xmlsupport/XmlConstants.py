@@ -38,6 +38,7 @@ ELEMENT_PROJECT_V11:       str = 'PyutProject'
 PROJECT_TYPE_V11:          str = 'type'
 ELEMENT_DOCUMENT_V11:      str = 'PyutDocument'
 ELEMENT_GRAPHIC_CLASS_V11: str = 'OglClass'
+ELEMENT_GRAPHIC_LINK_V11:  str = 'OglLink'
 
 ATTR_WIDTH_V11:  str = 'width'
 ATTR_HEIGHT_V11: str = 'height'

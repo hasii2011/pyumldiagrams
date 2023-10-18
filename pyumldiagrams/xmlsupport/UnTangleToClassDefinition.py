@@ -96,6 +96,15 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self.logger.info(f'Generated {len(self.classDefinitions)} class definitions')
 
     def generateUmlLineDefinitions(self):
+        # pyutDocument = self._document
+
+        # linkElements: Elements = pyutDocument.get_elements(XmlConstants.ELEMENT_GRAPHIC_CLASS_V11)
+
+        # for linkElement in linkElements:
+        # pyutLinkElement:   Element           = linkElement.PyutLink
+        # umlLineDefinition: UmlLineDefinition = UmlLineDefinition()
+        #
+        # self._umlLineDefinitions.append(umlLineDefinition)
         pass
 
     @property
