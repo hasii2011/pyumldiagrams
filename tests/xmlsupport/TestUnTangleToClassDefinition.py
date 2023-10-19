@@ -237,21 +237,21 @@ class TestUnTangleToClassDefinition(TestBase):
         fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
         fullField:       FieldDefinition           = fieldDictionary['fullField']
 
-        self.assertEqual('float', fullField.parameterType, 'Incorrect field type')
+        self.assertEqual('float', fullField.fieldType, 'Incorrect field type')
         self.assertEqual('42.0', fullField.defaultValue, 'Incorrect default value')
 
     def testFieldOnlyType(self):
         fieldDictionary: FieldDefinitionDictionary = self._getTestFieldsDictionary()
         onlyTypeField:   FieldDefinition           = fieldDictionary['fieldOnlyType']
 
-        self.assertEqual('str', onlyTypeField.parameterType, 'Incorrect field type')
+        self.assertEqual('str', onlyTypeField.fieldType, 'Incorrect field type')
         self.assertEqual('',    onlyTypeField.defaultValue,  'Incorrect default value')
 
     def testFieldOnlyDefaultValue(self):
         fieldDictionary:       FieldDefinitionDictionary = self._getTestFieldsDictionary()
         onlyDefaultValueField: FieldDefinition           = fieldDictionary['fieldOnlyDefaultValue']
 
-        self.assertEqual('',    onlyDefaultValueField.parameterType, 'Incorrect field type')
+        self.assertEqual('',    onlyDefaultValueField.fieldType, 'Incorrect field type')
         self.assertEqual('666', onlyDefaultValueField.defaultValue,  'Incorrect default value')
 
     def testNotClassDiagramException(self):

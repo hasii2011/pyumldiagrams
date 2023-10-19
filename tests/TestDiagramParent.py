@@ -259,9 +259,9 @@ class TestDiagramParent(TestBase):
 
         fields: Fields = Fields([])
 
-        fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             parameterType='int',   defaultValue='1')
-        fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         parameterType='float', defaultValue='')
-        fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', parameterType='',      defaultValue='23')
+        fieldFull:             FieldDefinition = FieldDefinition(name='FullField',             fieldType='int',   defaultValue='1')
+        fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         fieldType='float', defaultValue='')
+        fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', fieldType='',      defaultValue='23')
 
         fieldFull.visibility     = VisibilityType.Public
         fieldTypeOnly.visibility = VisibilityType.Private

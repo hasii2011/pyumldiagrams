@@ -255,8 +255,8 @@ class BaseDiagram:
 
         fieldRepr: str = f'{fieldDef.name}'
 
-        if fieldDef.parameterType != '' and fieldDef.parameterType is not None:
-            fieldRepr = f'{fieldRepr}: {fieldDef.parameterType}'
+        if fieldDef.fieldType != '' and fieldDef.fieldType is not None:
+            fieldRepr = f'{fieldRepr}: {fieldDef.fieldType}'
 
         if fieldDef.defaultValue != '' and fieldDef.defaultValue is not None:
             fieldRepr = f'{fieldRepr} = {fieldDef.defaultValue}'

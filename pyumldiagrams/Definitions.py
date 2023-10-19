@@ -122,18 +122,21 @@ class BaseDefinition:
 
 
 @dataclass
-class ParameterDefinition(BaseDefinition):
+class DefaultValueDefinition(BaseDefinition):
+    defaultValue:  str = ''
+    """
+    A string that describes a parameter default value
+    """
+
+
+@dataclass
+class ParameterDefinition(DefaultValueDefinition):
     """
     Defines a single parameter for a method
     """
     parameterType: str = ''
     """
     A string that describes the parameter type
-    TODO:  Change this name to just .type
-    """
-    defaultValue:  str = ''
-    """
-    A string that describes a parameter default value
     """
 
 
@@ -184,10 +187,13 @@ def createMethodsFactory() -> Methods:
 
 
 @dataclass
-class FieldDefinition(ParameterDefinition):
+class FieldDefinition(DefaultValueDefinition):
     """
-    Defines a single instance variable;  Seems funny to inherit from a
-    parameter definition.
+    Defines a single instance variable
+    """
+    fieldType: str = ''
+    """
+    A string that describes the field type
     """
     visibility: VisibilityType = VisibilityType.Public
     """
