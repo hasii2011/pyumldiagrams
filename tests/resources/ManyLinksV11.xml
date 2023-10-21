@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Class Diagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="150" height="75" x="750" y="25">
+            <PyutClass id="0" name="BaseClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="50">
+            <PyutClass id="1" name="Interface" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="450" y="50">
+            <PyutClass id="2" name="InterfaceImplementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="225" y="150">
+            <PyutClass id="3" name="Composer" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="1025" y="175">
+            <PyutClass id="4" name="SubClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="225" y="375">
+            <PyutClass id="7" name="ComposedClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="125" y="500">
+            <PyutClass id="10" name="Aggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="575" y="500">
+            <PyutClass id="11" name="Aggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglLink sourceAnchorX="1025" sourceAnchorY="212" destinationAnchorX="847" destinationAnchorY="99" spline="False">
+            <ControlPoint x="849" y="211" />
+            <PyutLink name="" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="4" destinationId="0" />
+        </OglLink>
+        <OglLink sourceAnchorX="450" sourceAnchorY="87" destinationAnchorX="199" destinationAnchorY="87" spline="False">
+            <PyutLink name="Interface-6" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="2" destinationId="1" />
+        </OglLink>
+        <OglLink sourceAnchorX="274" sourceAnchorY="537" destinationAnchorX="575" destinationAnchorY="537" spline="False">
+            <LabelCenter x="-37" y="5" />
+            <LabelSource x="-114" y="11" />
+            <LabelDestination x="105" y="9" />
+            <PyutLink name="Aggregation-12" type="AGGREGATION" cardinalitySource="0" cardinalityDestination="*" bidirectional="False" sourceId="10" destinationId="11" />
+        </OglLink>
+        <OglLink sourceAnchorX="303" sourceAnchorY="224" destinationAnchorX="302" destinationAnchorY="375" spline="False">
+            <LabelCenter x="0" y="0" />
+            <LabelSource x="20" y="-63" />
+            <LabelDestination x="26" y="38" />
+            <PyutLink name="Composition-13" type="COMPOSITION" cardinalitySource="1" cardinalityDestination="1..*" bidirectional="False" sourceId="3" destinationId="7" />
+        </OglLink>
+        <OglLink sourceAnchorX="1017" sourceAnchorY="650" destinationAnchorX="724" destinationAnchorY="537" spline="False">
+            <ControlPoint x="1013" y="536" />
+            <PyutLink name="Notelink-36" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="35" destinationId="11" />
+        </OglLink>
+        <OglLink sourceAnchorX="1225" sourceAnchorY="425" destinationAnchorX="1174" destinationAnchorY="179" spline="True">
+            <ControlPoint x="1073" y="376" />
+            <ControlPoint x="1333" y="180" />
+            <PyutLink name="Notelink-38" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="37" destinationId="4" />
+        </OglLink>
+        <OglNote width="100" height="50" x="975" y="650">
+            <PyutNote id="35" content="What the heck is this" fileName="" />
+        </OglNote>
+        <OglNote width="100" height="50" x="1175" y="425">
+            <PyutNote id="37" content="Spline Note" fileName="" />
+        </OglNote>
+        <OglText width="171" height="68" x="750" y="350">
+            <PyutText id="9" content="I am some random text" />
+        </OglText>
+    </PyutDocument>
+</PyutProject>

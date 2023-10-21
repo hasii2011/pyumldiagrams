@@ -39,6 +39,7 @@ PROJECT_TYPE_V11:          str = 'type'
 ELEMENT_DOCUMENT_V11:      str = 'PyutDocument'
 ELEMENT_GRAPHIC_CLASS_V11: str = 'OglClass'
 ELEMENT_GRAPHIC_LINK_V11:  str = 'OglLink'
+ELEMENT_CONTROL_POINT_V11: str = 'ControlPoint'
 
 ATTR_WIDTH_V11:  str = 'width'
 ATTR_HEIGHT_V11: str = 'height'
@@ -64,3 +65,12 @@ ATTR_DEFAULT_VALUE_V11:      str  = 'defaultValue'
 ATTR_TYPE_V11:               str  = 'type'
 
 ELEMENT_MODEL_FIELD_V11:    str = 'PyutField'
+
+ATTR_LINK_SOURCE_ANCHOR_X_V11: str = 'sourceAnchorX'
+ATTR_LINK_SOURCE_ANCHOR_Y_V11: str = 'sourceAnchorY'
+
+ATTR_LINK_DESTINATION_ANCHOR_X_V11: str = 'destinationAnchorX'
+ATTR_LINK_DESTINATION_ANCHOR_Y_V11: str = 'destinationAnchorY'
+
+ATTR_CARDINALITY_SOURCE_V11:      str = 'cardinalitySource'
+ATTR_CARDINALITY_DESTINATION_V11: str = 'cardinalityDestination'

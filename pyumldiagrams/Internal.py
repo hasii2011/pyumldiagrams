@@ -1,9 +1,12 @@
 
 from typing import List
+from typing import NewType
 from typing import Union
 
 from dataclasses import dataclass
 from dataclasses import field
+
+from untangle import Element
 
 
 @dataclass(eq=True)
@@ -40,3 +43,6 @@ class ScanPoints:
     """
     startScan: InternalPosition = field(default_factory=createInternalPositionFactory)
     endScan:   InternalPosition = field(default_factory=createInternalPositionFactory)
+
+
+Elements = NewType('Elements', List[Element])

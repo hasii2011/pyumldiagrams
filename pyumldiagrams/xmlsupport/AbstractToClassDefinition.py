@@ -2,18 +2,27 @@
 from logging import Logger
 from logging import getLogger
 
-from abc import ABC
 from abc import abstractmethod
-
-from untangle import Element
+from abc import ABCMeta
 
 from pyumldiagrams.Definitions import ClassDefinitions
-from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.xmlsupport.SafeConversions import SafeConversions
 
 
-class AbstractToClassDefinition(ABC):
+class MyMetaAbstractToClassDefinition(ABCMeta, type(SafeConversions)):        # type: ignore
+    """
+    I have know idea why this works:
+    https://stackoverflow.com/questions/66591752/metaclass-conflict-when-trying-to-create-a-python-abstract-class-that-also-subcl
+    """
+    pass
+
+
+class AbstractToClassDefinition(SafeConversions):
+    __metaclass__ = MyMetaAbstractToClassDefinition
+
     def __init__(self):
+        super().__init__()
         self.logger: Logger = getLogger(__name__)
 
         self._classDefinitions:   ClassDefinitions   = ClassDefinitions([])
@@ -36,21 +45,3 @@ class AbstractToClassDefinition(ABC):
     @abstractmethod
     def umlLineDefinitions(self) -> UmlLineDefinitions:
         pass
-
-    def _stringToBoolean(self, strBoolValue: str) -> bool:
-
-        self.logger.debug(f'{strBoolValue=}')
-        try:
-            if strBoolValue is not None:
-                if strBoolValue in [True, "True", "true", 1, "1"]:
-                    return True
-        except (ValueError, Exception) as e:
-            self.logger.error(f'_stringToBoolean error: {e}')
-
-        return False
-
-    def _stringToInteger(self, x: str):
-        if x is not None and x != '':
-            return int(x)
-        else:
-            return 0
