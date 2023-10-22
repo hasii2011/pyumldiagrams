@@ -25,7 +25,16 @@
         <OglClass width="150" height="75" x="575" y="500">
             <PyutClass id="11" name="Aggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
-        <OglLink sourceAnchorX="1025" sourceAnchorY="212" destinationAnchorX="847" destinationAnchorY="99" spline="False">
+        <OglClass width="150" height="75" x="125" y="750">
+            <PyutClass id="27" name="SourceAssociationClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="525" y="750">
+            <PyutClass id="28" name="DestinationAssociationClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="575" y="275">
+            <PyutClass id="34" name="LollipoppedClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglLink sourceAnchorX="1025" sourceAnchorY="212" destinationAnchorX="848" destinationAnchorY="99" spline="False">
             <ControlPoint x="849" y="211" />
             <PyutLink name="" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="4" destinationId="0" />
         </OglLink>
@@ -45,7 +54,7 @@
             <PyutLink name="Composition-13" type="COMPOSITION" cardinalitySource="1" cardinalityDestination="1..*" bidirectional="False" sourceId="3" destinationId="7" />
         </OglLink>
         <OglLink sourceAnchorX="1017" sourceAnchorY="650" destinationAnchorX="724" destinationAnchorY="537" spline="False">
-            <ControlPoint x="1013" y="536" />
+            <ControlPoint x="1014" y="538" />
             <PyutLink name="Notelink-36" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="35" destinationId="11" />
         </OglLink>
         <OglLink sourceAnchorX="1225" sourceAnchorY="425" destinationAnchorX="1174" destinationAnchorY="179" spline="True">
@@ -53,6 +62,20 @@
             <ControlPoint x="1333" y="180" />
             <PyutLink name="Notelink-38" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="37" destinationId="4" />
         </OglLink>
+        <OglLink sourceAnchorX="274" sourceAnchorY="787" destinationAnchorX="525" destinationAnchorY="787" spline="False">
+            <LabelCenter x="-29" y="3" />
+            <LabelSource x="-125" y="0" />
+            <LabelDestination x="110" y="0" />
+            <PyutLink name="Association-30" type="ASSOCIATION" cardinalitySource="1" cardinalityDestination="1" bidirectional="False" sourceId="27" destinationId="28" />
+        </OglLink>
+        <OglInterface2 attachmentPoint="SOUTH" x="650" y="350">
+            <PyutInterface id="35" name="LollipopInterface" description="">
+                <PyutMethod name="MethodName1" visibility="PUBLIC" returnType="">
+                    <SourceCode />
+                </PyutMethod>
+                <Implementor implementingClassName="LollipopClass" />
+            </PyutInterface>
+        </OglInterface2>
         <OglNote width="100" height="50" x="975" y="650">
             <PyutNote id="35" content="What the heck is this" fileName="" />
         </OglNote>

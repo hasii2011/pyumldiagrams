@@ -39,6 +39,9 @@ class UnTangleLineDefinition(SafeConversions):
 
             umlLineDefinition.cardinalitySource      = pyutLinkElement[XmlConstants.ATTR_CARDINALITY_SOURCE_V11]
             umlLineDefinition.cardinalityDestination = pyutLinkElement[XmlConstants.ATTR_CARDINALITY_DESTINATION_V11]
+        elif lineType == LineType.NoteLink or lineType == LineType.Interface:
+            nameStr = pyutLinkElement[XmlConstants.ATTR_NAME_V11]
+            umlLineDefinition.name = nameStr
 
         return umlLineDefinition
 
