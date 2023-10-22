@@ -327,6 +327,9 @@ class UmlLineDefinition(LineDefinition):
     """
     Cardinality values used for composition, aggregation, and association links
     """
+    namePosition:                   Position = field(default_factory=createPositionFactory)
+    sourceCardinalityPosition:      Position = field(default_factory=createPositionFactory)
+    destinationCardinalityPosition: Position = field(default_factory=createPositionFactory)
 
 
 UmlLineDefinitions = NewType('UmlLineDefinitions', List[UmlLineDefinition])

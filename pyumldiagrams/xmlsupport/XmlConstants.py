@@ -41,6 +41,10 @@ ELEMENT_GRAPHIC_CLASS_V11: str = 'OglClass'
 ELEMENT_GRAPHIC_LINK_V11:  str = 'OglLink'
 ELEMENT_CONTROL_POINT_V11: str = 'ControlPoint'
 
+ELEMENT_LABEL_CENTER_V11:      str = 'LabelCenter'
+ELEMENT_LABEL_SOURCE_V11:      str = 'LabelSource'
+ELEMENT_LABEL_DESTINATION_V11: str = 'LabelDestination'
+
 ATTR_WIDTH_V11:  str = 'width'
 ATTR_HEIGHT_V11: str = 'height'
 ATTR_X_V11:      str = 'x'

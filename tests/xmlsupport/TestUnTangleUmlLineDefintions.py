@@ -93,11 +93,23 @@ class TestUnTangleUmlLineDefinitions(TestBase):
         self.assertEqual(LineType.Composition, lineDef.lineType, 'Incorrect line type')
         self.assertEqual('1',    lineDef.cardinalitySource,      'Incorrect source cardinality')
         self.assertEqual('1..*', lineDef.cardinalityDestination, 'Incorrect destination cardinality')
+
+    def testNoControlPoints(self):
+
+        lineDef: UmlLineDefinition = self._getLink(linkName='Composition-13')
         #
         # Test no control points here
         #
         self.assertEqual(Position(303, 224), lineDef.linePositions[0], 'Line start position is incorrect')
         self.assertEqual(Position(302, 375), lineDef.linePositions[1], 'Line end position is incorrect')
+
+    def testLabelPositions(self):
+
+        lineDef: UmlLineDefinition = self._getLink(linkName='Composition-13')
+
+        self.assertEqual(Position(0, 0),    lineDef.namePosition, '')
+        self.assertEqual(Position(20, -63), lineDef.sourceCardinalityPosition, '')
+        self.assertEqual(Position(26, 38),  lineDef.destinationCardinalityPosition, '')
 
     def testAggregation(self):
 
@@ -122,11 +134,16 @@ class TestUnTangleUmlLineDefinitions(TestBase):
         self.assertEqual(LineType.Interface, lineDef.lineType, 'Incorrect line type')
 
     def testNoteLinks(self):
+
         lineDef: UmlLineDefinition = self._getLink(linkName='Notelink-36')
         self.assertEqual(LineType.NoteLink, lineDef.lineType, 'Incorrect line type')
 
         lineDef = self._getLink(linkName='Notelink-38')
         self.assertEqual(LineType.NoteLink, lineDef.lineType, 'Incorrect line type')
+
+    def testMultipleControlPoints(self):
+
+        lineDef: UmlLineDefinition = self._getLink(linkName='Notelink-38')
         #
         # This will test multiple control points
         # Start, end and 2 intermediate bends

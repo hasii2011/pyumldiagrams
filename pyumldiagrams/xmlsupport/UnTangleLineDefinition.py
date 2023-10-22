@@ -39,6 +39,11 @@ class UnTangleLineDefinition(SafeConversions):
 
             umlLineDefinition.cardinalitySource      = pyutLinkElement[XmlConstants.ATTR_CARDINALITY_SOURCE_V11]
             umlLineDefinition.cardinalityDestination = pyutLinkElement[XmlConstants.ATTR_CARDINALITY_DESTINATION_V11]
+
+            umlLineDefinition.namePosition                   = self._getNamePosition(linkElement=linkElement)
+            umlLineDefinition.sourceCardinalityPosition      = self._getSourcePosition(linkElement=linkElement)
+            umlLineDefinition.destinationCardinalityPosition = self._getDestinationPosition(linkElement=linkElement)
+
         elif lineType == LineType.NoteLink or lineType == LineType.Interface:
             nameStr = pyutLinkElement[XmlConstants.ATTR_NAME_V11]
             umlLineDefinition.name = nameStr
@@ -80,3 +85,27 @@ class UnTangleLineDefinition(SafeConversions):
         srcPosition: Position = Position(x=srcX, y=srcY)
 
         return srcPosition
+
+    def _getNamePosition(self, linkElement: Element) -> Position:
+        return self._getLabelPosition(linkElement=linkElement, elementName=XmlConstants.ELEMENT_LABEL_CENTER_V11)
+
+    def _getSourcePosition(self, linkElement: Element) -> Position:
+        return self._getLabelPosition(linkElement=linkElement, elementName=XmlConstants.ELEMENT_LABEL_SOURCE_V11)
+
+    def _getDestinationPosition(self, linkElement: Element) -> Position:
+        return self._getLabelPosition(linkElement=linkElement, elementName=XmlConstants.ELEMENT_LABEL_DESTINATION_V11)
+
+    def _getLabelPosition(self, linkElement: Element, elementName: str) -> Position:
+
+        positionElements: Elements = linkElement.get_elements(elementName)
+
+        assert len(positionElements) == 1, f'There can only be one ....  position element -- {elementName}'
+
+        positionElement: Element = positionElements[0]
+
+        x: int = self._stringToInteger(positionElement[XmlConstants.ATTR_X_V11])
+        y: int = self._stringToInteger(positionElement[XmlConstants.ATTR_Y_V11])
+
+        position: Position = Position(x=x, y=y)
+
+        return position
