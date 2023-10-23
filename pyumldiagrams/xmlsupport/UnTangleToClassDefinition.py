@@ -18,6 +18,7 @@ from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Parameters
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import Size
+from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import createFieldsFactory
@@ -29,6 +30,7 @@ from pyumldiagrams.Internal import Elements
 from pyumldiagrams.xmlsupport import XmlConstants
 
 from pyumldiagrams.xmlsupport.AbstractToClassDefinition import AbstractToClassDefinition
+from pyumldiagrams.xmlsupport.UnTangleLineDefinition import UnTangleLineDefinition
 
 from pyumldiagrams.xmlsupport.exceptions.MultiDocumentException import MultiDocumentException
 from pyumldiagrams.xmlsupport.exceptions.NotClassDiagramException import NotClassDiagramException
@@ -94,44 +96,15 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self.logger.info(f'Generated {len(self.classDefinitions)} class definitions')
 
     def generateUmlLineDefinitions(self):
-        pass
-        # pyutDocument = self._document
-        #
-        # linkElements: Elements = pyutDocument.get_elements(XmlConstants.ELEMENT_GRAPHIC_LINK_V11)
-        #
-        # for linkElement in linkElements:
-        #     srcX: int = self._stringToInteger(linkElement[XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X_V11])
-        #     srcY: int = self._stringToInteger(linkElement[XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y_V11])
-        #
-        #     srcPosition: Position = Position(x=srcX, y=srcY)
-        #
-        #     pyutLinkElement: Element = linkElement.PyutLink
-        #
-        #     strType:  str      = pyutLinkElement[XmlConstants.ATTR_TYPE_V11]
-        #     lineType: LineType = LineType.toEnum(strType)
-        #
-        #     linePositions:     LinePositions     = LinePositions([srcPosition])
-        #     umlLineDefinition: UmlLineDefinition = UmlLineDefinition(linePositions=linePositions, lineType=lineType)
-        #
-        #     controlPoints: Elements = linkElement.get_elements(XmlConstants.ELEMENT_CONTROL_POINT_V11)
-        #     for point in controlPoints:
-        #
-        #         controlPointElement: Element = cast(Element, point)
-        #
-        #         self.logger.debug(f'{controlPointElement=}')
-        #         x: int = self._stringToInteger(controlPointElement[XmlConstants.ATTR_X_V11])
-        #         y: int = self._stringToInteger(controlPointElement[XmlConstants.ATTR_Y_V11])
-        #         bendPosition: Position = Position(x=x, y=y)
-        #         linePositions.append(bendPosition)
-        #
-        #     destX: int = self._stringToInteger(linkElement[XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X_V11])
-        #     destY: int = self._stringToInteger(linkElement[XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y_V11])
-        #
-        #     destPosition: Position = Position(x=destX, y=destY)
-        #
-        #     linePositions.append(destPosition)
-        #
-        #     self._umlLineDefinitions.append(umlLineDefinition)
+
+        pyutDocument = self._document
+
+        linkElements:           Elements               = pyutDocument.get_elements(XmlConstants.ELEMENT_GRAPHIC_LINK_V11)
+        untangleLineDefinition: UnTangleLineDefinition = UnTangleLineDefinition()
+
+        for linkElement in linkElements:
+            umlLineDefinition: UmlLineDefinition = untangleLineDefinition.untangle(linkElement=linkElement)
+            self._umlLineDefinitions.append(umlLineDefinition)
 
     @property
     def classDefinitions(self) -> ClassDefinitions:

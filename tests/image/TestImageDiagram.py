@@ -9,6 +9,8 @@ from time import strftime
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
+from codeallybasic.UnitTestBase import UnitTestBase
+
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import VisibilityType
@@ -27,6 +29,7 @@ from pyumldiagrams.Definitions import UmlLineDefinitions
 from pyumldiagrams.image.ImageDiagram import ImageDiagram
 from pyumldiagrams.image.ImageFormat import ImageFormat
 from pyumldiagrams.xmlsupport.ToClassDefinition import ToClassDefinition
+from pyumldiagrams.xmlsupport.UnTangleToClassDefinition import UnTangleToClassDefinition
 
 from tests.TestDefinitions import TestDefinitions
 from tests.TestDiagramParent import TestDiagramParent
@@ -377,6 +380,32 @@ class TestImageDiagram(TestDiagramParent):
         # noinspection SpellCheckingInspection
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
+
+    def testAssociationLabels(self):
+        """
+        Only the new untangler supports filling in the name labels and positions
+        in the UmlLineDefinition class
+        """
+        fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
+                                                                                  fileName='ComposerRelativePositions.xml')
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+        untangler.generateClassDefinitions()
+        untangler.generateUmlLineDefinitions()
+
+        classDefinitions: ClassDefinitions = untangler.classDefinitions
+        diagram:    ImageDiagram = ImageDiagram(fileName=f'Test-ComposerRelativePositions.{ImageFormat.PNG.value}')
+        for classDef in classDefinitions:
+            classDefinition: ClassDefinition = cast(ClassDefinition, classDef)
+            diagram.drawClass(classDefinition)
+
+        lineDefinitions: UmlLineDefinitions = untangler.umlLineDefinitions
+
+        for lineDef in lineDefinitions:
+            lineDefinition: UmlLineDefinition = cast(UmlLineDefinition, lineDef)
+            diagram.drawUmlLine(lineDefinition)
+
+        diagram.write()
 
 
 def suite() -> TestSuite:

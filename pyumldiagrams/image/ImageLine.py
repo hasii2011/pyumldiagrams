@@ -55,11 +55,15 @@ class ImageLine(IDiagramLine):
         if lineType == LineType.Inheritance:
             self._drawInheritanceArrow(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositionSolidDiamond(linePositions=linePositions)
+            self._drawComposition(lineDefinition=lineDefinition)
         elif lineType == LineType.Aggregation:
             self._drawAggregationDiamond(linePositions=linePositions)
         elif lineType == LineType.Association:
             self._drawAssociation(linePositions=linePositions)
+        elif lineType == LineType.Interface:
+            pass        # TODO
+        elif lineType == LineType.NoteLink:
+            pass        # TODO
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
@@ -89,7 +93,15 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
-    def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
+    def _drawComposition(self, lineDefinition: UmlLineDefinition):
+        """
+        Draws both the line and the solid diamond
+
+        Args:
+            lineDefinition:   The line definition
+        """
+
+        linePositions: LinePositions = lineDefinition.linePositions
 
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
@@ -130,6 +142,9 @@ class ImageLine(IDiagramLine):
         xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=internalDst)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+    def _drawAssociationName(self):
+        pass
 
     def __toInternal(self, position: Position) -> InternalPosition:
 
