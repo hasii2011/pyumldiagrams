@@ -393,8 +393,13 @@ class TestImageDiagram(TestDiagramParent):
         untangler.generateClassDefinitions()
         untangler.generateUmlLineDefinitions()
 
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:    ImageDiagram = ImageDiagram(fileName=f'{fileName}')
+
         classDefinitions: ClassDefinitions = untangler.classDefinitions
-        diagram:    ImageDiagram = ImageDiagram(fileName=f'Test-ComposerRelativePositions.{ImageFormat.PNG.value}')
+
         for classDef in classDefinitions:
             classDefinition: ClassDefinition = cast(ClassDefinition, classDef)
             diagram.drawClass(classDefinition)
@@ -406,6 +411,9 @@ class TestImageDiagram(TestDiagramParent):
             diagram.drawUmlLine(lineDefinition)
 
         diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX,
+                                   failMessage='Sophisticated Layout image file should be identical')
 
 
 def suite() -> TestSuite:

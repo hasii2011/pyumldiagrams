@@ -2,14 +2,23 @@
 from typing import Any
 from typing import List
 from typing import NewType
+from typing import Tuple
 from typing import Union
 from typing import Final
 
 from logging import Logger
 from logging import getLogger
 
-from PIL.ImageDraw import ImageDraw
+from os import sep as osSep
 
+from enum import Enum
+
+from PIL import ImageDraw
+from PIL import ImageFont
+
+from codeallybasic.ResourceManager import ResourceManager
+
+from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.image.ImageCommon import ImageCommon
 
 from pyumldiagrams.IDiagramLine import IDiagramLine
@@ -25,14 +34,32 @@ from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
 from pyumldiagrams.Internal import InternalPosition
 
-PILPoints     = NewType('PILPoints', List[int])
+PILPoints     = NewType('PILPoints',     List[int])
 PolygonPoints = NewType('PolygonPoints', List[int])
+
+X_FUDGE_FACTOR: int = 9
+Y_FUDGE_FACTOR: int = 9
+
+
+class AttachmentSide(Enum):
+    """
+    Cardinal points, taken to correspond to the attachment points of the OglClass
+    """
+    NORTH = 0
+    EAST  = 1
+    SOUTH = 2
+    WEST  = 3
 
 
 class ImageLine(IDiagramLine):
 
     DEFAULT_LINE_COLOR: Final = 'Black'
+    DEFAULT_TEXT_COLOR: Final = 'Black'
+
     LINE_WIDTH:         Final = 1
+
+    RESOURCES_PACKAGE_NAME: Final = 'pyumldiagrams.image.resources'
+    RESOURCES_PATH:         Final = f'pyumldiagrams{osSep}image{osSep}resources'
 
     def __init__(self, docWriter: Any, diagramPadding: DiagramPadding):
 
@@ -41,6 +68,10 @@ class ImageLine(IDiagramLine):
         self.logger: Logger = getLogger(__name__)
 
         self._imgDraw: ImageDraw = docWriter
+
+        # noinspection SpellCheckingInspection
+        fqPath:     str       = self._retrieveResourcePath('MonoFonto.ttf')
+        self._font: ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
 
     def draw(self, lineDefinition: UmlLineDefinition):
         """
@@ -111,12 +142,16 @@ class ImageLine(IDiagramLine):
         points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: PolygonPoints = self.__toPolygonPoints(points)
 
-        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
+        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
 
         newEndPoint: InternalPosition = points[3]
         xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
     def _drawAggregationDiamond(self, linePositions: LinePositions):
 
@@ -128,7 +163,7 @@ class ImageLine(IDiagramLine):
         points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: PolygonPoints = self.__toPolygonPoints(points)
 
-        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
+        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newEndPoint: InternalPosition = points[3]
         xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
@@ -143,8 +178,108 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
-    def _drawAssociationName(self):
-        pass
+    def _drawAssociationName(self, lineDefinition: UmlLineDefinition):
+
+        imgDraw: ImageDraw = self._imgDraw
+
+        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
+                                               dstPosition=lineDefinition.linePositions[-1],
+                                               labelPosition=lineDefinition.namePosition)
+
+        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.name)
+
+    def _drawSourceCardinality(self, lineDefinition: UmlLineDefinition):
+        imgDraw: ImageDraw = self._imgDraw
+
+        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
+                                               dstPosition=lineDefinition.linePositions[-1],
+                                               labelPosition=lineDefinition.sourceCardinalityPosition)
+
+        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalitySource)
+
+    def _drawDestinationCardinality(self, lineDefinition: UmlLineDefinition):
+        imgDraw: ImageDraw = self._imgDraw
+
+        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
+                                               dstPosition=lineDefinition.linePositions[-1],
+                                               labelPosition=lineDefinition.destinationCardinalityPosition)
+
+        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalityDestination)
+
+    def _toAbsolute(self, srcPosition: Position, dstPosition: Position, labelPosition: Position) -> Tuple[int, int]:
+
+        xLength: int = abs(srcPosition.x - dstPosition.x)
+        yLength: int = abs(srcPosition.y - dstPosition.y)
+
+        if srcPosition.x < dstPosition.x:
+            x: int = srcPosition.x + (xLength // 2) + labelPosition.x
+            if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
+                x += X_FUDGE_FACTOR
+        else:
+            x = srcPosition.x - (xLength // 2) - labelPosition.x
+            if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
+                x -= X_FUDGE_FACTOR
+
+        if srcPosition.y < dstPosition.y:
+            y: int = srcPosition.y + (yLength // 2) + labelPosition.y
+        else:
+            y = srcPosition.y - (yLength // 2) - labelPosition.y
+
+        y += Y_FUDGE_FACTOR
+
+        iPos: InternalPosition = self.__toInternal(position=Position(x, y))
+
+        return iPos.x, iPos.y
+
+    def doXAdjustment(self, srcPosition: Position, dstPosition: Position) -> bool:
+
+        ans: bool = True
+
+        placement: AttachmentSide = ImageLine.placement(srcX=srcPosition.x, srcY=srcPosition.y, dstX=dstPosition.x, dstY=dstPosition.y)
+
+        if placement == AttachmentSide.NORTH or placement == AttachmentSide.SOUTH:
+            ans = False
+
+        return ans
+
+    @classmethod
+    def placement(cls, srcX: int, srcY: int, dstX: int, dstY: int) -> AttachmentSide:
+        """
+        Given a source and destination, returns where the destination
+        is located according to the source.
+
+        Args:
+            srcX:   X pos of src point
+            srcY:   Y pos of src point
+            dstX:  X pos of dest point
+            dstY:  Y pos of dest point
+
+        Returns:  The attachment side
+        """
+        deltaX = srcX - dstX
+        deltaY = srcY - dstY
+        if deltaX > 0:  # dest is not east
+            if deltaX > abs(deltaY):  # dest is west
+                return AttachmentSide.WEST
+            elif deltaY > 0:
+                return AttachmentSide.NORTH
+            else:
+                return AttachmentSide.SOUTH
+        else:  # dest is not west
+            if -deltaX > abs(deltaY):  # dest is east
+                return AttachmentSide.EAST
+            elif deltaY > 0:
+                return AttachmentSide.NORTH
+            else:
+                return AttachmentSide.SOUTH
+
+    def _retrieveResourcePath(self, bareFileName: str) -> str:
+
+        fqFileName: str = ResourceManager.retrieveResourcePath(bareFileName=bareFileName,
+                                                               resourcePath=ImageLine.RESOURCES_PATH,
+                                                               packageName=ImageLine.RESOURCES_PACKAGE_NAME)
+
+        return fqFileName
 
     def __toInternal(self, position: Position) -> InternalPosition:
 
