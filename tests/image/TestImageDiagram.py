@@ -381,23 +381,62 @@ class TestImageDiagram(TestDiagramParent):
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
-    def testAssociationLabels(self):
+    def testCompositionLabels(self):
+
+        self._createAndTestAssociationImage(baseXmlFileName='ComposerRelativePositions.xml',
+                                            baseImageFileName='ComposerRelativePositions',
+                                            failMessage='Composition image file should be identical')
+
+        # fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
+        #                                                                           fileName='ComposerRelativePositions.xml')
+        # untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+        #
+        # untangler.generateClassDefinitions()
+        # untangler.generateUmlLineDefinitions()
+        #
+        # baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
+        # fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+        #
+        # diagram:    ImageDiagram = ImageDiagram(fileName=f'{fileName}')
+        #
+        # classDefinitions: ClassDefinitions = untangler.classDefinitions
+        #
+        # for classDef in classDefinitions:
+        #     classDefinition: ClassDefinition = cast(ClassDefinition, classDef)
+        #     diagram.drawClass(classDefinition)
+        #
+        # lineDefinitions: UmlLineDefinitions = untangler.umlLineDefinitions
+        #
+        # for lineDef in lineDefinitions:
+        #     lineDefinition: UmlLineDefinition = cast(UmlLineDefinition, lineDef)
+        #     diagram.drawUmlLine(lineDefinition)
+        #
+        # diagram.write()
+        #
+        # self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX,
+        #                            failMessage='Composition image file should be identical')
+
+    def testAggregationLabels(self):
+        self._createAndTestAssociationImage(baseXmlFileName='AggregatorRelativePositions.xml',
+                                            baseImageFileName='AggregatorRelativePositions',
+                                            failMessage='Aggregation image file should be identical')
+
+    def _createAndTestAssociationImage(self, baseXmlFileName: str, baseImageFileName: str, failMessage: str):
         """
         Only the new untangler supports filling in the name labels and positions
         in the UmlLineDefinition class
         """
-        fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
-                                                                                  fileName='ComposerRelativePositions.xml')
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName=baseXmlFileName)
         untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
 
         untangler.generateClassDefinitions()
         untangler.generateUmlLineDefinitions()
 
-        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{baseImageFileName}'
         fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
 
-        diagram:    ImageDiagram = ImageDiagram(fileName=f'{fileName}')
-
+        diagram:          ImageDiagram     = ImageDiagram(fileName=f'{fileName}')
         classDefinitions: ClassDefinitions = untangler.classDefinitions
 
         for classDef in classDefinitions:
@@ -412,8 +451,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX,
-                                   failMessage='Sophisticated Layout image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage=failMessage)
 
 
 def suite() -> TestSuite:

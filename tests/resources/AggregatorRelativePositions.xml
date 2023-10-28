@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="Aggregator" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="150" height="75" x="50" y="25">
+            <PyutClass id="0" name="NorthSourceAggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="250">
+            <PyutClass id="1" name="SouthDestinationAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="350" y="25">
+            <PyutClass id="3" name="NorthDestinationAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="350" y="250">
+            <PyutClass id="4" name="SouthSourceAggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="375">
+            <PyutClass id="10" name="WestAggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="525" y="375">
+            <PyutClass id="11" name="EastAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="500">
+            <PyutClass id="13" name="WestAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="525" y="500">
+            <PyutClass id="14" name="EastAggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="75" y="600">
+            <PyutClass id="16" name="BentAggregator" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="425" y="725">
+            <PyutClass id="17" name="BentAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglLink sourceAnchorX="125" sourceAnchorY="99" destinationAnchorX="125" destinationAnchorY="250" spline="False">
+            <LabelCenter x="0" y="0" />
+            <LabelSource x="11" y="-69" />
+            <LabelDestination x="0" y="50" />
+            <PyutLink name="Aggregation-2" type="AGGREGATION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="0" destinationId="1" />
+        </OglLink>
+        <OglLink sourceAnchorX="425" sourceAnchorY="250" destinationAnchorX="425" destinationAnchorY="99" spline="False">
+            <LabelCenter x="0" y="0" />
+            <LabelSource x="10" y="51" />
+            <LabelDestination x="5" y="-55" />
+            <PyutLink name="Aggregation-5" type="AGGREGATION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="4" destinationId="3" />
+        </OglLink>
+        <OglLink sourceAnchorX="200" sourceAnchorY="412" destinationAnchorX="525" destinationAnchorY="412" spline="False">
+            <LabelCenter x="-52" y="6" />
+            <LabelSource x="-151" y="-32" />
+            <LabelDestination x="80" y="-38" />
+            <PyutLink name="Aggregation-12" type="AGGREGATION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="10" destinationId="11" />
+        </OglLink>
+        <OglLink sourceAnchorX="525" sourceAnchorY="537" destinationAnchorX="200" destinationAnchorY="537" spline="False">
+            <LabelCenter x="-39" y="-29" />
+            <LabelSource x="97" y="6" />
+            <LabelDestination x="-147" y="1" />
+            <PyutLink name="Aggregation-15" type="AGGREGATION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="14" destinationId="13" />
+        </OglLink>
+        <OglLink sourceAnchorX="225" sourceAnchorY="637" destinationAnchorX="488" destinationAnchorY="725" spline="False">
+            <LabelCenter x="0" y="0" />
+            <LabelSource x="-239" y="-30" />
+            <LabelDestination x="25" y="54" />
+            <ControlPoint x="488" y="636" />
+            <PyutLink name="Aggregation-18" type="AGGREGATION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="16" destinationId="17" />
+        </OglLink>
+    </PyutDocument>
+</PyutProject>

@@ -88,7 +88,7 @@ class ImageLine(IDiagramLine):
         elif lineType == LineType.Composition:
             self._drawComposition(lineDefinition=lineDefinition)
         elif lineType == LineType.Aggregation:
-            self._drawAggregationDiamond(linePositions=linePositions)
+            self._drawAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Association:
             self._drawAssociation(linePositions=linePositions)
         elif lineType == LineType.Interface:
@@ -134,10 +134,8 @@ class ImageLine(IDiagramLine):
 
         linePositions: LinePositions = lineDefinition.linePositions
 
-        lastIdx:       int = len(linePositions) - 1
-        beforeLastIdx: int = lastIdx - 1
-        internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
+        internalSrc:  InternalPosition = self.__toInternal(linePositions[-2])
+        internalDst:  InternalPosition = self.__toInternal(linePositions[-1])
 
         points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: PolygonPoints = self.__toPolygonPoints(points)
@@ -153,12 +151,12 @@ class ImageLine(IDiagramLine):
         self._drawSourceCardinality(lineDefinition=lineDefinition)
         self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
-    def _drawAggregationDiamond(self, linePositions: LinePositions):
+    def _drawAggregation(self, lineDefinition: UmlLineDefinition):
 
-        lastIdx:       int = len(linePositions) - 1
-        beforeLastIdx: int = lastIdx - 1
-        internalSrc:  InternalPosition = self.__toInternal(linePositions[beforeLastIdx])
-        internalDst:  InternalPosition = self.__toInternal(linePositions[lastIdx])
+        linePositions: LinePositions = lineDefinition.linePositions
+
+        internalSrc:  InternalPosition = self.__toInternal(linePositions[-2])   # next to last
+        internalDst:  InternalPosition = self.__toInternal(linePositions[-1])   # last
 
         points:  DiamondPoints = ImageCommon.computeDiamondVertices(internalSrc, internalDst)
         polygon: PolygonPoints = self.__toPolygonPoints(points)
@@ -169,6 +167,10 @@ class ImageLine(IDiagramLine):
         xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
