@@ -24,7 +24,6 @@
         },
         "__main__": {
             "level": "WARNING",
-            "handlers": ["consoleHandler"],
             "propagate": "False"
         },
         "pyumldiagrams": {
@@ -37,7 +36,11 @@
         },
         "TestXmlInput": {
             "level": "WARNING",
-            "handlers": ["consoleHandler"],
+            "propagate": "False"
+        },
+        "pyumldiagrams.image.ImageLine": {
+            "level": "INFO",
+
             "propagate": "False"
         }
     }
