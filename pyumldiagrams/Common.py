@@ -18,13 +18,13 @@ class Common:
     DIAMOND_HEIGHT:           Final = 8
 
     @classmethod
-    def computeTheArrowVertices(cls, src: InternalPosition, dest: InternalPosition)  -> ArrowPoints:
+    def computeTheArrowVertices(cls, position1: InternalPosition, position0: InternalPosition)  -> ArrowPoints:
         """
         Draw an arrow at the end of the line source-dest.
 
         Args:
-            src:  points of the segment
-            dest:  points of the segment
+            position1:  points of the segment
+            position0:  points of the segment
 
         Returns:
             A list of positions that describes a diamond to draw
@@ -36,7 +36,7 @@ class Common:
         #
         # deltaX: float = x2 - x1
         # deltaY: float = y2 - y1
-        deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
+        deltaX, deltaY = Common.computeDeltaXDeltaY(position1, position0)
         if abs(deltaX) < 0.01:   # vertical segment
             if deltaY > 0:
                 alpha = -pi/2
@@ -55,8 +55,8 @@ class Common:
         alpha1: float = alpha + pi_6
         alpha2: float = alpha - pi_6
         size:   float = Common.INHERITANCE_ARROW_HEIGHT
-        x2: int = dest.x
-        y2: int = dest.y
+        x2: int = position0.x
+        y2: int = position0.y
         #
         # The names for the left and right points are correct for upward facing arrows
         # They are inverted for downward facing arrows
@@ -70,17 +70,17 @@ class Common:
         return points
 
     @classmethod
-    def computeDiamondVertices(cls, src: InternalPosition, dest: InternalPosition) -> DiamondPoints:
+    def computeDiamondVertices(cls, position1: InternalPosition, position0: InternalPosition) -> DiamondPoints:
         """
         Args:
-            src:    The source point
-            dest:   The destination point
+            position1:   The 1st position in the line segment
+            position0:   The 0th position in the line segment
         """
         pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   int   = dest.x
-        y2:   int   = dest.y
+        x2:   int   = position0.x
+        y2:   int   = position0.y
 
-        deltaX, deltaY = Common.computeDeltaXDeltaY(src, dest)
+        deltaX, deltaY = Common.computeDeltaXDeltaY(position1, position0)
 
         if abs(deltaX) < 0.01:  # vertical segment
             if deltaY > 0:
@@ -113,12 +113,12 @@ class Common:
         return points
 
     @classmethod
-    def computeDeltaXDeltaY(cls, src: InternalPosition, dest: InternalPosition) -> Tuple[int, int]:
+    def computeDeltaXDeltaY(cls, position1: InternalPosition, position0: InternalPosition) -> Tuple[int, int]:
 
-        x1: int = src.x
-        y1: int = src.y
-        x2: int = dest.x
-        y2: int = dest.y
+        x1: int = position1.x
+        y1: int = position1.y
+        x2: int = position0.x
+        y2: int = position0.y
 
         deltaX: int = x2 - x1
         deltaY: int = y2 - y1

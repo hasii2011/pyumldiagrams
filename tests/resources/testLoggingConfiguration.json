@@ -40,7 +40,10 @@
         },
         "pyumldiagrams.image.ImageLine": {
             "level": "INFO",
-
+            "propagate": "False"
+        },
+        "codeallybasic.UnitTestBase": {
+            "level": "INFO",
             "propagate": "False"
         }
     }

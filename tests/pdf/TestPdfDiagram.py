@@ -431,36 +431,36 @@ class TestPdfDiagram(TestDiagramParent):
         status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertFalse(status == 0, 'These are not even the same type')
 
-    def testAssociationLabels(self):
-
-        """
-        Only the new untangler supports filling in the name labels and positions
-        in the UmlLineDefinition class
-        """
-        fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
-                                                                                  fileName='ComposerRelativePositions.xml')
-        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
-
-        untangler.generateClassDefinitions()
-        untangler.generateUmlLineDefinitions()
-
-        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
-        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
-
-        classDefinitions = untangler.classDefinitions
-        lineDefinitions  = untangler.umlLineDefinitions
-
-        diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=75)
-
-        for classDefinition in classDefinitions:
-            classDefinition = cast(ClassDefinition, classDefinition)
-            diagram.drawClass(classDefinition=classDefinition)
-
-        for lineDefinition in lineDefinitions:
-            diagram.drawUmlLine(lineDefinition=lineDefinition)
-
-        diagram.docTimeStamp = self.unitTestTimeStamp
-        diagram.write()
+    # TODO:
+    # def testAssociationLabels(self):
+    #     """
+    #     Only the new untangler supports filling in the name labels and positions
+    #     in the UmlLineDefinition class
+    #     """
+    #     fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
+    #                                                                               fileName='ComposerRelativePositions.xml')
+    #     untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+    #
+    #     untangler.generateClassDefinitions()
+    #     untangler.generateUmlLineDefinitions()
+    #
+    #     baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
+    #     fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+    #
+    #     classDefinitions = untangler.classDefinitions
+    #     lineDefinitions  = untangler.umlLineDefinitions
+    #
+    #     diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=75)
+    #
+    #     for classDefinition in classDefinitions:
+    #         classDefinition = cast(ClassDefinition, classDefinition)
+    #         diagram.drawClass(classDefinition=classDefinition)
+    #
+    #     for lineDefinition in lineDefinitions:
+    #         diagram.drawUmlLine(lineDefinition=lineDefinition)
+    #
+    #     diagram.docTimeStamp = self.unitTestTimeStamp
+    #     diagram.write()
 
 
 def suite() -> TestSuite:

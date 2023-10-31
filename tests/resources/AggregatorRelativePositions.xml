@@ -31,7 +31,7 @@
         <OglClass width="150" height="75" x="425" y="725">
             <PyutClass id="17" name="BentAggregated" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
-        <OglLink sourceAnchorX="125" sourceAnchorY="99" destinationAnchorX="125" destinationAnchorY="250" spline="False">
+        <OglLink sourceAnchorX="125" sourceAnchorY="100" destinationAnchorX="125" destinationAnchorY="250" spline="False">
             <LabelCenter x="0" y="0" />
             <LabelSource x="11" y="-69" />
             <LabelDestination x="0" y="50" />

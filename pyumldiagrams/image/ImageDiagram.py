@@ -141,7 +141,7 @@ class ImageDiagram(BaseDiagram):
 
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
-        Draw the inheritance, aggregation, or composition lines that describe the relationships
+        Draw the inheritance, association, aggregation, or composition lines that describe the relationships
         between the UML classes
 
         Overrides the empty base definition
