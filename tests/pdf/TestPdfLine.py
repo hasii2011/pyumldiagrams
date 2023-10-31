@@ -256,15 +256,15 @@ class TestPdfLine(TestDiagramParent):
         arrowSize: float = TestPdfLine.ELLIPSE_WIDTH / 2
 
         center: Position = self.__computeEllipseCenter(pos)
-        neDst:  Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
-        seDst:  Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
-        nwDst:  Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
-        swDst:  Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
+        neSrc:  Position = self.__computeNorthEastDestination(center=center, arrowSize=arrowSize)
+        seSrc:  Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
+        nwSrc:  Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
+        swSrc:  Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = LinePositions([center, neDst])
-        nwPositions: LinePositions = LinePositions([center, nwDst])
-        sePositions: LinePositions = LinePositions([center, seDst])
-        swPositions: LinePositions = LinePositions([center, swDst])
+        nePositions: LinePositions = LinePositions([neSrc, center])
+        nwPositions: LinePositions = LinePositions([nwSrc, center])
+        sePositions: LinePositions = LinePositions([seSrc, center])
+        swPositions: LinePositions = LinePositions([swSrc, center])
 
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
