@@ -431,6 +431,40 @@ class TestPdfDiagram(TestDiagramParent):
         status: int = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         self.assertFalse(status == 0, 'These are not even the same type')
 
+    def testAggregationLabels(self):
+
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName='AggregatorRelativePositions.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-AggregatorRelativePositions'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestDefinitions.TEST_DPI)
+
+        classDefinitions: ClassDefinitions = untangler.classDefinitions
+
+        for bigClass in classDefinitions:
+            diagram.drawClass(classDefinition=bigClass)
+
+        lineDefinitions: UmlLineDefinitions = untangler.umlLineDefinitions
+
+        for bentLine in lineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.docTimeStamp = self.unitTestTimeStamp
+        diagram.write()
+
+    def _unTangleXmlFile(self, baseXmlFileName: str) -> UnTangleToClassDefinition:
+
+        # baseXmlFileName = 'AggregatorRelativePositions.xml'
+
+        fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName=baseXmlFileName)
+        untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
+
+        untangler.generateClassDefinitions()
+        untangler.generateUmlLineDefinitions()
+
+        return untangler
+
     # TODO:
     # def testAssociationLabels(self):
     #     """
