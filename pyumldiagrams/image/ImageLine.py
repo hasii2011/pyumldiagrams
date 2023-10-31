@@ -151,8 +151,8 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
 
-        newEndPoint: InternalPosition = points[3]
-        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        newStartPoint: InternalPosition = points[3]
+        xy:            PILPoints        = self.__toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -179,8 +179,8 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
-        newEndPoint: InternalPosition = points[3]
-        xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
+        newStartPoint: InternalPosition = points[3]
+        xy:            PILPoints        = self.__toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -321,17 +321,17 @@ class ImageLine(IDiagramLine):
 
         return polygon
 
-    def __toPILPoints(self, linePositions: LinePositions, newEndPoint: InternalPosition) -> PILPoints:
+    def __toPILPoints(self, linePositions: LinePositions, newStartPoint: InternalPosition) -> PILPoints:
 
-        linePositionsCopy: LinePositions = LinePositions(linePositions[1:])  # Makes a copy; with new start point
+        linePositionsCopy: LinePositions = LinePositions(linePositions[1:])  # Makes a copy; remove old start point
 
         xy: PILPoints = PILPoints([])
+
+        xy.append(newStartPoint.x)
+        xy.append(newStartPoint.y)
         for externalPosition in linePositionsCopy:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)
             xy.append(internalPosition.y)
-
-        xy.append(newEndPoint.x)
-        xy.append(newEndPoint.y)
 
         return xy

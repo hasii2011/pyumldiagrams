@@ -166,28 +166,27 @@ class TestImageDiagram(TestDiagramParent):
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Bends image file should be identical')
 
-    # TODO
-    # def testBendsFromXmlInput(self):
-    #
-    #     toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
-    #
-    #     baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-BendsFromXmlInput'
-    #     fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
-    #
-    #     diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
-    #
-    #     classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
-    #     for bentClass in classDefinitions:
-    #         diagram.drawClass(classDefinition=bentClass)
-    #
-    #     bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
-    #
-    #     for bentLine in bentLineDefinitions:
-    #         diagram.drawUmlLine(bentLine)
-    #
-    #     diagram.write()
-    #
-    #     self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='BendsFromXmlInput image file should be identical')
+    def testBendsFromXmlInput(self):
+
+        toClassDefinition: ToClassDefinition = self._buildBendTestFromXml()
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-BendsFromXmlInput'
+        fileName: str = f'{baseName}.{ImageFormat.PNG.value}'
+
+        diagram:  ImageDiagram = ImageDiagram(fileName=fileName)
+
+        classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
+        for bentClass in classDefinitions:
+            diagram.drawClass(classDefinition=bentClass)
+
+        bentLineDefinitions: UmlLineDefinitions = toClassDefinition.umlLineDefinitions
+
+        for bentLine in bentLineDefinitions:
+            diagram.drawUmlLine(bentLine)
+
+        diagram.write()
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='BendsFromXmlInput image file should be identical')
 
     def testBigClass(self):
 
