@@ -99,9 +99,7 @@ class PdfLine(IDiagramLine):
 
     def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
-        lastIdx:       int = len(linePositions) - 1
-        beforeLastIdx: int = lastIdx - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[0], linePositions[1])
 
         convertedSrc: InternalPosition = endPoints[0]
         convertedDst: InternalPosition = endPoints[1]

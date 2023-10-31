@@ -432,11 +432,37 @@ class TestPdfDiagram(TestDiagramParent):
         self.assertFalse(status == 0, 'These are not even the same type')
 
     def testAggregationLabels(self):
+        """
+        TODO:  Labels not being generated, yet
+        """
 
-        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName='AggregatorRelativePositions.xml')
+        nameStub:  str = 'AggregatorRelativePositions'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
 
         baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-AggregatorRelativePositions'
         fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Aggregation labels should be identical')
+
+    def testCompositionLabels(self):
+        """
+        TODO:  Labels not being generated, yet
+        """
+        nameStub: str = 'ComposerRelativePositions'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Composition labels should be identical')
+
+    def _generatePDF(self, untangler: UnTangleToClassDefinition, fileName: str):
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestDefinitions.TEST_DPI)
 
@@ -452,9 +478,6 @@ class TestPdfDiagram(TestDiagramParent):
 
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
-
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
-                                   failMessage='Aggregation labels should be identical')
 
     def _unTangleXmlFile(self, baseXmlFileName: str) -> UnTangleToClassDefinition:
 
