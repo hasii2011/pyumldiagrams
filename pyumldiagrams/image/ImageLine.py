@@ -110,10 +110,10 @@ class ImageLine(IDiagramLine):
         Args:
             linePositions  The points that describe the line
         """
-        internalPosition0:  InternalPosition = self.__toInternal(linePositions[0])
-        internalPosition1:  InternalPosition = self.__toInternal(linePositions[1])
+        internalPosition0:  InternalPosition = self.__toInternal(linePositions[-1])
+        internalPosition1:  InternalPosition = self.__toInternal(linePositions[-2])
 
-        points:  ArrowPoints   = Common.computeTheArrowVertices(internalPosition0, internalPosition1)
+        points:  ArrowPoints   = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
         polygon: PolygonPoints = self.__toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)

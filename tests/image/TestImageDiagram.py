@@ -164,7 +164,7 @@ class TestImageDiagram(TestDiagramParent):
 
         diagram.write()
 
-        # self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Bends image file should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TEST_IMAGE_SUFFIX, failMessage='Bends image file should be identical')
 
     # TODO
     # def testBendsFromXmlInput(self):
