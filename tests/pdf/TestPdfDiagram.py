@@ -453,6 +453,9 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Aggregation labels should be identical')
+
     def _unTangleXmlFile(self, baseXmlFileName: str) -> UnTangleToClassDefinition:
 
         # baseXmlFileName = 'AggregatorRelativePositions.xml'

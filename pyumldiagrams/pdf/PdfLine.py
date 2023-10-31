@@ -13,6 +13,7 @@ from typing import Tuple
 # noinspection PyPackageRequirements
 from fpdf import FPDF
 
+from pyumldiagrams.Common import Common
 from pyumldiagrams.IDiagramLine import IDiagramLine
 from pyumldiagrams.UnsupportedException import UnsupportedException
 
@@ -84,7 +85,7 @@ class PdfLine(IDiagramLine):
         """
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
 
         convertedSrc:  InternalPosition = endPoints[0]
         convertedDst:  InternalPosition = endPoints[1]
@@ -94,41 +95,38 @@ class PdfLine(IDiagramLine):
 
         newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
 
-        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
+        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPoint)
 
     def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
         lastIdx:       int = len(linePositions) - 1
         beforeLastIdx: int = lastIdx - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
 
         convertedSrc: InternalPosition = endPoints[0]
         convertedDst: InternalPosition = endPoints[1]
 
-        points: DiamondPoints = self.__computeDiamondVertices(convertedSrc, convertedDst)
+        points: DiamondPoints = Common.computeDiamondVertices(position0=convertedSrc, position1=convertedDst)
         self.__drawPolygon(points)
         self.__fillInDiamond(points)
 
         newEndPoint: InternalPosition = points[3]
 
-        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
+        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPoint)
 
     def _drawAggregationDiamond(self, linePositions: LinePositions):
 
-        lastIdx:   int = len(linePositions) - 1
-        beforeLastIdx: int = lastIdx - 1
+        startPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[0], linePositions[1])
 
-        endPoints: Tuple[InternalPosition, InternalPosition] = self.__convertEndPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+        position0: InternalPosition = startPoints[0]
+        position1: InternalPosition = startPoints[1]
 
-        convertedSrc: InternalPosition = endPoints[0]
-        convertedDst: InternalPosition = endPoints[1]
-
-        points: ArrowPoints = self.__computeDiamondVertices(convertedSrc, convertedDst)
+        points: ArrowPoints = Common.computeDiamondVertices(position0=position0, position1=position1)
         self.__drawPolygon(points)
 
-        newEndPoint: InternalPosition = points[3]
+        newStartPoint: InternalPosition = points[3]
 
-        self.__finishDrawingLine(linePositions=linePositions, newEndPoint=newEndPoint)
+        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newStartPoint)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
@@ -150,19 +148,6 @@ class PdfLine(IDiagramLine):
             nextCoordinates:    Coordinates = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
-
-    def __convertEndPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
-
-        verticalGap:   int = self._diagramPadding.verticalGap
-        horizontalGap: int = self._diagramPadding.horizontalGap
-
-        sourceCoordinates:      Coordinates = PdfCommon.convertPosition(pos=src, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-        destinationCoordinates: Coordinates = PdfCommon.convertPosition(pos=dst, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-
-        convertedSrc: InternalPosition = InternalPosition(sourceCoordinates.x, sourceCoordinates.y)
-        convertedDst: InternalPosition = InternalPosition(destinationCoordinates.x, destinationCoordinates.y)
-
-        return convertedSrc, convertedDst
 
     def __computeTheArrowVertices(self, src: InternalPosition, dst: InternalPosition)  -> ArrowPoints:
         """
@@ -338,19 +323,19 @@ class PdfLine(IDiagramLine):
                 y += 1
             x += 1
 
-    def __finishDrawingLine(self, linePositions: LinePositions, newEndPoint: InternalPosition):
+    def _finishDrawingLine(self, linePositions: LinePositions, newStartPoint: InternalPosition):
 
-        linePositionsCopy: LinePositions = LinePositions(linePositions[:-1])    # Makes a copy; remove last one
+        linePositionsCopy: LinePositions = LinePositions(linePositions[1:])    # Makes a copy; remove first one
+        docMaker:          FPDF          = self._docMaker
 
-        verticalGap:   int  = self._diagramPadding.verticalGap
-        horizontalGap: int  = self._diagramPadding.horizontalGap
-        dpi:           int  = self._dpi
-        docMaker:      FPDF = self._docMaker
+        currentPos:          Position         = linePositionsCopy[0]
+        convertedCurrentPos: InternalPosition = self._convertPosition(position=currentPos)
+        docMaker.line(x1=newStartPoint.x, y1=newStartPoint.y, x2=convertedCurrentPos.x, y2=convertedCurrentPos.y)
+
         #
         # Ok, ok, I get it.  This is not a Pythonic 'for' loop.  But, I am not a purist
         #
         numPositions: int      = len(linePositionsCopy)
-        currentPos:   Position = linePositionsCopy[0]
         for idx in range(numPositions):
 
             nextIdx: int = idx + 1
@@ -359,11 +344,25 @@ class PdfLine(IDiagramLine):
                 break
             nextPos: Position = linePositionsCopy[nextIdx]
 
-            currentCoordinates: Coordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-            nextCoordinates:    Coordinates = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            currentCoordinates: InternalPosition = self._convertPosition(position=currentPos)
+            nextCoordinates:    InternalPosition = self._convertPosition(position=nextPos)
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
-        currentCoordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+    def _convertPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
 
-        docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=newEndPoint.x, y2=newEndPoint.y)
+        convertedSrc: InternalPosition = self._convertPosition(position=src)
+        convertedDst: InternalPosition = self._convertPosition(position=dst)
+
+        return convertedSrc, convertedDst
+
+    def _convertPosition(self, position: Position) -> InternalPosition:
+
+        verticalGap:   int = self._diagramPadding.verticalGap
+        horizontalGap: int = self._diagramPadding.horizontalGap
+
+        coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+        internalPosition: InternalPosition = InternalPosition(coordinates.x, coordinates.y)
+
+        return internalPosition
