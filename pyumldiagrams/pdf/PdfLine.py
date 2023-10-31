@@ -1,5 +1,8 @@
 
 from typing import Final
+from typing import List
+from typing import NewType
+from typing import Tuple
 
 from logging import Logger
 from logging import getLogger
@@ -8,13 +11,14 @@ from math import pi
 from math import sin
 from math import atan
 from math import cos
-from typing import Tuple
 
 # noinspection PyPackageRequirements
 from fpdf import FPDF
 
 from pyumldiagrams.Common import Common
+
 from pyumldiagrams.IDiagramLine import IDiagramLine
+
 from pyumldiagrams.UnsupportedException import UnsupportedException
 
 from pyumldiagrams.Internal import ArrowPoints
@@ -28,9 +32,13 @@ from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
-from pyumldiagrams.pdf.PdfCommon import Coordinates
 
+from pyumldiagrams.pdf.PdfCommon import Coordinates
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
+
+
+PositionPair  = NewType('PositionPair',  List[Position])
+PositionPairs = NewType('PositionPairs', List[PositionPair])
 
 
 class PdfLine(IDiagramLine):
@@ -128,22 +136,14 @@ class PdfLine(IDiagramLine):
 
     def _drawAssociation(self, linePositions: LinePositions):
 
-        verticalGap:   int  = self._diagramPadding.verticalGap
-        horizontalGap: int  = self._diagramPadding.horizontalGap
-        dpi:           int  = self._dpi
         docMaker:      FPDF = self._docMaker
 
-        numPositions: int      = len(linePositions)
-        for idx in range(numPositions):
+        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
 
-            nextIdx:    int      = idx + 1
-            currentPos: Position = linePositions[idx]
-            if nextIdx == numPositions:
-                break
-            nextPos: Position = linePositions[nextIdx]
+        for [currentPos, nextPos] in pairs:
 
-            currentCoordinates: Coordinates = PdfCommon.convertPosition(pos=currentPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
-            nextCoordinates:    Coordinates = PdfCommon.convertPosition(pos=nextPos, dpi=dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+            currentCoordinates: InternalPosition = self._convertPosition(position=currentPos)
+            nextCoordinates:    InternalPosition = self._convertPosition(position=nextPos)
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
@@ -330,22 +330,13 @@ class PdfLine(IDiagramLine):
         convertedCurrentPos: InternalPosition = self._convertPosition(position=currentPos)
         docMaker.line(x1=newStartPoint.x, y1=newStartPoint.y, x2=convertedCurrentPos.x, y2=convertedCurrentPos.y)
 
-        #
-        # Ok, ok, I get it.  This is not a Pythonic 'for' loop.  But, I am not a purist
-        #
-        numPositions: int      = len(linePositionsCopy)
-        for idx in range(numPositions):
+        pairs: PositionPairs = PositionPairs([PositionPair([linePositionsCopy[i], linePositionsCopy[i + 1]]) for i in range(len(linePositionsCopy) - 1)])
 
-            nextIdx: int = idx + 1
-            currentPos = linePositionsCopy[idx]
-            if nextIdx == numPositions:
-                break
-            nextPos: Position = linePositionsCopy[nextIdx]
+        for [currentPos, nextPos] in pairs:
+            currentPosition: InternalPosition = self._convertPosition(position=currentPos)
+            nextPosition:    InternalPosition = self._convertPosition(position=nextPos)
 
-            currentCoordinates: InternalPosition = self._convertPosition(position=currentPos)
-            nextCoordinates:    InternalPosition = self._convertPosition(position=nextPos)
-
-            docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
+            docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
 
     def _convertPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
 
