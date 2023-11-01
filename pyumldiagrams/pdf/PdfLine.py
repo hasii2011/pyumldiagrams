@@ -70,7 +70,7 @@ class PdfLine(IDiagramLine):
         lineType:      LineType      = lineDefinition.lineType
 
         if lineType == LineType.Inheritance:
-            self._drawInheritanceArrow(linePositions=linePositions)
+            self._drawInheritance(linePositions=linePositions)
         elif lineType == LineType.Composition:
             self._drawCompositionSolidDiamond(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
@@ -80,7 +80,7 @@ class PdfLine(IDiagramLine):
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
-    def _drawInheritanceArrow(self, linePositions: LinePositions):
+    def _drawInheritance(self, linePositions: LinePositions):
         """
         Must account for the margins and gaps between drawn shapes
         Must convert to from screen coordinates to point coordinates
@@ -91,19 +91,34 @@ class PdfLine(IDiagramLine):
         Args:
             linePositions - The points that describe the line
         """
-        lastIdx:       int = len(linePositions) - 1
-        beforeLastIdx: int = lastIdx - 1
-        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[beforeLastIdx], linePositions[lastIdx])
+        internalPosition0:  InternalPosition = self._convertPosition(linePositions[-1])
+        internalPosition1:  InternalPosition = self._convertPosition(linePositions[-2])
 
-        convertedSrc:  InternalPosition = endPoints[0]
-        convertedDst:  InternalPosition = endPoints[1]
+        points: ArrowPoints = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
 
-        points: ArrowPoints = self.__computeTheArrowVertices(convertedSrc, convertedDst)
         self.__drawPolygon(points)
 
-        newEndPoint: InternalPosition = self.__computeMidPointOfBottomLine(points[0], points[2])
+        newEndPosition: InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
 
-        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPoint)
+        adjustedPositions: LinePositions = linePositions[:-1]
+        pairs:             PositionPairs = PositionPairs([PositionPair([adjustedPositions[i], adjustedPositions[i + 1]]) for i in range(len(adjustedPositions) - 1)])
+        docMaker:          FPDF          = self._docMaker
+
+        if len(pairs) == 0:
+            sourceInternal: InternalPosition = self._convertPosition(linePositions[0])
+            docMaker.line(x1=sourceInternal.x, y1=sourceInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
+        else:
+            for [currentPos, nextPos] in pairs:
+                currentPosition: InternalPosition = self._convertPosition(position=currentPos)
+                nextPosition:    InternalPosition = self._convertPosition(position=nextPos)
+                docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
+
+            lastPair:     PositionPair     = pairs[-1]
+            lastPos:      Position         = lastPair[1]
+            lastInternal: InternalPosition = self._convertPosition(lastPos)
+
+            docMaker.line(x1=lastInternal.x, y1=lastInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
+        # self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPosition)
 
     def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
 
@@ -147,102 +162,10 @@ class PdfLine(IDiagramLine):
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
-    def __computeTheArrowVertices(self, src: InternalPosition, dst: InternalPosition)  -> ArrowPoints:
-        """
-        Draw an arrow at the end of the line source-destination.
-
-        Args:
-            src:  points of the segment
-            dst:  points of the segment
-
-        Returns:
-            A list of positions that describes a diamond to draw
-        """
-        # x1: float = src.x
-        # y1: float = src.y
-        # x2: float = dst.x
-        # y2: float = dst.y
-        #
-        # deltaX: float = x2 - x1
-        # deltaY: float = y2 - y1
-        deltaX, deltaY = self.__computeDeltaXDeltaY(src, dst)
-        if abs(deltaX) < 0.01:   # vertical segment
-            if deltaY > 0:
-                alpha = -pi/2
-            else:
-                alpha = pi/2
-        else:
-            if deltaX == 0:
-                alpha = pi/2
-            else:
-                alpha = atan(deltaY/deltaX)
-        if deltaX > 0:
-            alpha += pi
-
-        pi_6: float = pi/6      # radians for 30 degree angle
-
-        alpha1: float = alpha + pi_6
-        alpha2: float = alpha - pi_6
-        size:   float = PdfLine.INHERITANCE_ARROW_HEIGHT
-        x2: int = dst.x
-        y2: int = dst.y
-        #
-        # The names for the left and right points are correct for upward facing arrows
-        # They are inverted for downward facing arrows
-        #
-        arrowTip:   InternalPosition = InternalPosition(x2, y2)
-        rightPoint: InternalPosition = InternalPosition(x2 + round(size * cos(alpha1)), y2 + round(size * sin(alpha1)))
-        leftPoint:  InternalPosition = InternalPosition(x2 + round(size * cos(alpha2)), y2 + round(size * sin(alpha2)))
-
-        points: ArrowPoints = [rightPoint, arrowTip, leftPoint]
-
-        return points
-
-    def __computeDiamondVertices(self, src: InternalPosition, dst: InternalPosition) -> DiamondPoints:
-        """
-        Args:
-            src:
-            dst:
-        """
-        pi_6: float = pi/6     # radians for 30 degree angle
-        x2:   int = dst.x
-        y2:   int = dst.y
-
-        deltaX, deltaY = self.__computeDeltaXDeltaY(src, dst)
-
-        if abs(deltaX) < 0.01:  # vertical segment
-            if deltaY > 0:
-                alpha = -pi/2
-            else:
-                alpha = pi/2
-        else:
-            if deltaX == 0:
-                if deltaY > 0:
-                    alpha = pi/2
-                else:
-                    alpha = 3 * pi / 2
-            else:
-                alpha = atan(deltaY/deltaX)
-        if deltaX > 0:
-            alpha += pi
-
-        alpha1: float = alpha + pi_6
-        alpha2: float = alpha - pi_6
-        size:   int   = PdfLine.DIAMOND_HEIGHT
-
-        # noinspection PyListCreation
-        points: DiamondPoints = []
-
-        points.append((InternalPosition(x2 + round(size * cos(alpha1)), y2 + round(size * sin(alpha1)))))
-        points.append(InternalPosition(x2, y2))
-        points.append(InternalPosition(x2 + round(size * cos(alpha2)), y2 + round(size * sin(alpha2))))
-        points.append(InternalPosition(x2 + 2 * round(size * cos(alpha)), y2 + 2 * round(size * sin(alpha))))
-
-        return points
-
     def __drawPolygon(self, points: PolygonPoints):
 
         pdf: FPDF = self._docMaker
+        # pdf.polygon(points)
         ptNumber: int = 0
         for point in points:
 
@@ -262,40 +185,6 @@ class PdfLine(IDiagramLine):
                 pdf.line(x1, y1, x2, y2)
 
             ptNumber += 1
-
-    def __computeMidPointOfBottomLine(self, startPos: InternalPosition, endPos: InternalPosition) -> InternalPosition:
-        """
-        These two coordinates are the two end-points of the bottom leg of the inheritance arrow
-        midPoint = (x1+x2/2, y1+y2/2)
-
-        Args:
-            startPos: start of line
-            endPos:   end of line
-
-        Returns:  Midpoint between startPos - endPos
-
-        """
-        x1: int = startPos.x
-        y1: int = startPos.y
-        x2: int = endPos.x
-        y2: int = endPos.y
-
-        midX: int = (x1 + x2) // 2
-        midY: int = (y1 + y2) // 2
-
-        return InternalPosition(midX, midY)
-
-    def __computeDeltaXDeltaY(self, src: InternalPosition, dst: InternalPosition) -> Tuple[float, float]:
-
-        x1: float = src.x
-        y1: float = src.y
-        x2: float = dst.x
-        y2: float = dst.y
-
-        deltaX: float = x2 - x1
-        deltaY: float = y2 - y1
-
-        return deltaX, deltaY
 
     def __fillInDiamond(self, points: DiamondPoints):
         """
@@ -322,6 +211,14 @@ class PdfLine(IDiagramLine):
             x += 1
 
     def _finishDrawingLine(self, linePositions: LinePositions, newStartPoint: InternalPosition):
+        """
+        Finishes drawing the line for aggregation/composition where the diamond is at the source;  Thus,
+        the new start position at a diamond tip
+
+        Args:
+            linePositions:
+            newStartPoint:
+        """
 
         linePositionsCopy: LinePositions = LinePositions(linePositions[1:])    # Makes a copy; remove first one
         docMaker:          FPDF          = self._docMaker

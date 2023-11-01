@@ -118,12 +118,11 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
-        newEndPoint: InternalPosition = ImageCommon.computeMidPointOfBottomLine(points[0], points[2])
+        newEndPoint: InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
 
-        # xy:          PILPoints        = self.__toPILPoints(linePositions=linePositions, newEndPoint=newEndPoint)
         xy: PILPoints = PILPoints([])
 
-        adjustedPositions = linePositions[:-1]
+        adjustedPositions: LinePositions = linePositions[:-1]
         for externalPosition in adjustedPositions:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)
