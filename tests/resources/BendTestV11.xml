@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='iso-8859-1'?>
 <PyutProject version="11" CodePath="">
-    <PyutDocument type="CLASS_DIAGRAM" title="Class Diagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+    <PyutDocument type="CLASS_DIAGRAM" title="SimpleDgrm" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
         <OglClass width="127" height="99" x="266" y="359">
-            <PyutClass id="1" name="LeftClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description=""/>
+            <PyutClass id="1" name="LeftClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="167" height="107" x="522" y="354">
-            <PyutClass id="2" name="RightClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="False" displayStereotype="False" fileName="" description="La guera gana"/>
+            <PyutClass id="2" name="RightClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="La guera gana" />
         </OglClass>
         <OglClass width="117" height="100" x="409" y="159">
-            <PyutClass id="3" name="TopClass" stereotype="noStereotype" displayMethods="True" displayParameters="Display" displayFields="False" displayStereotype="True" fileName="Ozzee.py" description=""/>
+            <PyutClass id="3" name="TopClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="Ozzee.py" description="" />
         </OglClass>
         <OglClass width="100" height="100" x="418" y="545">
-            <PyutClass id="4" name="StraightClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description=""/>
+            <PyutClass id="4" name="StraightClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="100" height="100" x="791" y="358">
-            <PyutClass id="5" name="AggregatedClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description=""/>
+            <PyutClass id="5" name="AggregatedClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="100" height="100" x="923" y="545">
-            <PyutClass id="6" name="BentAggregation" stereotype="noStereotype" displayMethods="False" displayParameters="Display" displayFields="False" displayStereotype="True" fileName="" description=""/>
+            <PyutClass id="6" name="BentAggregation" stereotype="noStereotype" displayMethods="False" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="100" height="100" x="130" y="546">
             <PyutClass id="7" name="BentComposition" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
@@ -32,29 +32,29 @@
             <ControlPoint x="179" y="207" />
             <PyutLink name="PyutObject_00005" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="3" />
         </OglLink>
-        <OglLink sourceAnchorX="468" sourceAnchorY="258" destinationAnchorX="467" destinationAnchorY="545" spline="False">
-            <LabelCenter x="414" y="352" />
-            <LabelSource x="468" y="279" />
-            <LabelDestination x="468" y="525" />
+        <OglLink sourceAnchorX="467" sourceAnchorY="258" destinationAnchorX="468" destinationAnchorY="545" spline="False">
+            <LabelCenter x="195" y="525" />
+            <LabelSource x="195" y="525" />
+            <LabelDestination x="195" y="525" />
             <PyutLink name="" type="COMPOSITION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="3" destinationId="4" />
         </OglLink>
-        <OglLink sourceAnchorX="688" sourceAnchorY="408" destinationAnchorX="791" destinationAnchorY="408" spline="False">
-            <LabelCenter x="657" y="356" />
-            <LabelSource x="709" y="408" />
-            <LabelDestination x="772" y="405" />
-            <PyutLink name="PyutObject_00011" type="AGGREGATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="2" destinationId="5" />
+        <OglLink sourceAnchorX="688" sourceAnchorY="407" destinationAnchorX="791" destinationAnchorY="408" spline="False">
+            <LabelCenter x="195" y="525" />
+            <LabelSource x="195" y="525" />
+            <LabelDestination x="195" y="525" />
+            <PyutLink name="" type="AGGREGATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="2" destinationId="5" />
         </OglLink>
-        <OglLink sourceAnchorX="890" sourceAnchorY="457" destinationAnchorX="923" destinationAnchorY="545" spline="False">
-            <LabelCenter x="857" y="452" />
-            <LabelSource x="852" y="475" />
-            <LabelDestination x="959" y="539" />
+        <OglLink sourceAnchorX="890" sourceAnchorY="408" destinationAnchorX="973" destinationAnchorY="545" spline="False">
+            <LabelCenter x="195" y="525" />
+            <LabelSource x="195" y="525" />
+            <LabelDestination x="195" y="525" />
             <ControlPoint x="972" y="408" />
-            <PyutLink name="PyutObject_00013" type="AGGREGATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="6" />
+            <PyutLink name="" type="AGGREGATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="6" />
         </OglLink>
-        <OglLink sourceAnchorX="266" sourceAnchorY="457" destinationAnchorX="229" destinationAnchorY="546" spline="False">
-            <LabelCenter x="198" y="453" />
-            <LabelSource x="318" y="474" />
-            <LabelDestination x="193" y="531" />
+        <OglLink sourceAnchorX="266" sourceAnchorY="408" destinationAnchorX="180" destinationAnchorY="546" spline="False">
+            <LabelCenter x="195" y="525" />
+            <LabelSource x="195" y="525" />
+            <LabelDestination x="195" y="525" />
             <ControlPoint x="179" y="408" />
             <PyutLink name="" type="COMPOSITION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="7" />
         </OglLink>

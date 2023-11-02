@@ -46,11 +46,11 @@ FieldDefinitionDictionary  = NewType('FieldDefinitionDictionary',  Dict[str,    
 # noinspection SpellCheckingInspection
 EXPECTED_CLASSES: ClassDefinitions = ClassDefinitions([
     ClassDefinition(name='TopClass',        size=Size(width=117, height=100), position=Position(x=409, y=159),
-                    displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False, fileName='Ozzee.py'),
+                    displayMethodParameters=DisplayMethodParameters.UNSPECIFIED, displayFields=True, fileName='Ozzee.py'),
     ClassDefinition(name='BentAggregation', size=Size(width=100, height=100), position=Position(x=923, y=545),
-                    displayMethods=False, displayMethodParameters=DisplayMethodParameters.DISPLAY, displayFields=False),
+                    displayMethods=False, displayMethodParameters=DisplayMethodParameters.UNSPECIFIED, displayFields=True),
     ClassDefinition(name='RightClass',      size=Size(width=167, height=107), position=Position(x=522, y=354),
-                    displayFields=False, displayStereotype=False, description='La guera gana'),
+                    displayFields=True, displayStereotype=True, description='La guera gana'),
 ])
 
 

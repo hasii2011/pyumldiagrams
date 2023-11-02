@@ -6,11 +6,7 @@ from typing import Tuple
 
 from logging import Logger
 from logging import getLogger
-
-from math import pi
-from math import sin
-from math import atan
-from math import cos
+from typing import cast
 
 # noinspection PyPackageRequirements
 from fpdf import FPDF
@@ -25,7 +21,6 @@ from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
 from pyumldiagrams.Internal import PolygonPoints
 from pyumldiagrams.Internal import InternalPosition
-from pyumldiagrams.Internal import ScanPoints
 
 from pyumldiagrams.Definitions import LinePositions
 from pyumldiagrams.Definitions import DiagramPadding
@@ -39,6 +34,9 @@ from pyumldiagrams.pdf.PdfCommon import PdfCommon
 
 PositionPair  = NewType('PositionPair',  List[Position])
 PositionPairs = NewType('PositionPairs', List[PositionPair])
+
+PDFCoordinate  = NewType('PDFCoordinate',  Tuple[int, int])
+PDFCoordinates = NewType('PDFCoordinates', List[PDFCoordinate])
 
 
 class PdfLine(IDiagramLine):
@@ -55,10 +53,6 @@ class PdfLine(IDiagramLine):
         super().__init__(docMaker=pdf, diagramPadding=diagramPadding, dpi=dpi)
         self.logger: Logger = getLogger(__name__)
 
-        # self._pdf: FPDF = pdf
-        # self._dpi: int  = dpi
-        # self._diagramPadding: diagramPadding  = diagramPadding
-
     def draw(self, lineDefinition: UmlLineDefinition):
         """
         Draw the line described by the input parameter
@@ -72,9 +66,9 @@ class PdfLine(IDiagramLine):
         if lineType == LineType.Inheritance:
             self._drawInheritance(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositionSolidDiamond(linePositions=linePositions)
+            self._drawCompositeAggregation(linePositions=linePositions)
         elif lineType == LineType.Aggregation:
-            self._drawAggregationDiamond(linePositions=linePositions)
+            self._drawSharedAggregation(linePositions=linePositions)
         elif lineType == LineType.Association:
             self._drawAssociation(linePositions=linePositions)
         else:
@@ -96,11 +90,12 @@ class PdfLine(IDiagramLine):
 
         points: ArrowPoints = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
 
-        self.__drawPolygon(points)
+        # self._drawPolygon(points)
+        self._drawInheritanceArrow(points=points)
 
         newEndPosition: InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
 
-        adjustedPositions: LinePositions = linePositions[:-1]
+        adjustedPositions: LinePositions = LinePositions(linePositions[:-1])
         pairs:             PositionPairs = PositionPairs([PositionPair([adjustedPositions[i], adjustedPositions[i + 1]]) for i in range(len(adjustedPositions) - 1)])
         docMaker:          FPDF          = self._docMaker
 
@@ -118,36 +113,38 @@ class PdfLine(IDiagramLine):
             lastInternal: InternalPosition = self._convertPosition(lastPos)
 
             docMaker.line(x1=lastInternal.x, y1=lastInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
-        # self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPosition)
 
-    def _drawCompositionSolidDiamond(self, linePositions: LinePositions):
+    def _drawCompositeAggregation(self, linePositions: LinePositions):
+        """
+        Composition
 
-        endPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[0], linePositions[1])
+        Args:
+            linePositions:
+        """
+        self._drawAggregation(linePositions=linePositions, isComposite=True)
 
-        convertedSrc: InternalPosition = endPoints[0]
-        convertedDst: InternalPosition = endPoints[1]
+    def _drawSharedAggregation(self, linePositions: LinePositions):
+        """
+        Aggregation
 
-        points: DiamondPoints = Common.computeDiamondVertices(position0=convertedSrc, position1=convertedDst)
-        self.__drawPolygon(points)
-        self.__fillInDiamond(points)
+        Args:
+            linePositions:
+        """
+        self._drawAggregation(linePositions=linePositions, isComposite=False)
 
-        newEndPoint: InternalPosition = points[3]
-
-        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndPoint)
-
-    def _drawAggregationDiamond(self, linePositions: LinePositions):
+    def _drawAggregation(self, linePositions: LinePositions, isComposite: bool):
 
         startPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[0], linePositions[1])
 
-        position0: InternalPosition = startPoints[0]
-        position1: InternalPosition = startPoints[1]
+        convertedSrc: InternalPosition = startPoints[0]
+        convertedDst: InternalPosition = startPoints[1]
 
-        points: ArrowPoints = Common.computeDiamondVertices(position0=position0, position1=position1)
-        self.__drawPolygon(points)
+        points: DiamondPoints = Common.computeDiamondVertices(position0=convertedSrc, position1=convertedDst)
+        self._drawDiamond(diamondPoints=points, isComposite=isComposite)
 
-        newStartPoint: InternalPosition = points[3]
+        newEndStartPoint: InternalPosition = points[3]
 
-        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newStartPoint)
+        self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndStartPoint)
 
     def _drawAssociation(self, linePositions: LinePositions):
 
@@ -162,53 +159,33 @@ class PdfLine(IDiagramLine):
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
-    def __drawPolygon(self, points: PolygonPoints):
+    def _drawDiamond(self, diamondPoints: DiamondPoints, isComposite: bool):
 
-        pdf: FPDF = self._docMaker
-        # pdf.polygon(points)
-        ptNumber: int = 0
-        for point in points:
+        pdfCoordinates: PDFCoordinates = self._toPDFCoordinates(polygonPoints=diamondPoints)
+        pdf:            FPDF           = self._docMaker
 
-            x1: int = point.x
-            y1: int = point.y
+        if isComposite is True:
+            pdf.polygon(pdfCoordinates, style='DF')
+        else:
+            pdf.polygon(pdfCoordinates, style='D')
 
-            if ptNumber == len(points) - 1:
-                nextPoint = points[0]
-                x2: int = nextPoint.x
-                y2: int = nextPoint.y
-                pdf.line(x1, y1, x2, y2)
-                break
-            else:
-                nextPoint = points[ptNumber + 1]
-                x2 = nextPoint.x
-                y2 = nextPoint.y
-                pdf.line(x1, y1, x2, y2)
+    def _drawInheritanceArrow(self, points: PolygonPoints):
 
-            ptNumber += 1
+        pdfCoordinates: PDFCoordinates = self._toPDFCoordinates(polygonPoints=points)
+        pdf:            FPDF           = self._docMaker
 
-    def __fillInDiamond(self, points: DiamondPoints):
-        """
+        pdf.polygon(pdfCoordinates, style='D')
 
-        Args:
-            points:  The polygon that defines the composition diamond
+    def _toPDFCoordinates(self, polygonPoints: PolygonPoints) -> PDFCoordinates:
 
-        """
-        scanPoints: ScanPoints = PdfCommon.buildScanPoints(points)
+        pdfCoordinates: PDFCoordinates = PDFCoordinates([])
 
-        startX: int = scanPoints.startScan.x
-        startY: int = scanPoints.startScan.y
+        for dPoint in polygonPoints:
+            diamondPoint: InternalPosition = cast(InternalPosition, dPoint)
+            pdfTuple:     PDFCoordinate    = PDFCoordinate((diamondPoint.x, diamondPoint.y))
+            pdfCoordinates.append(pdfTuple)
 
-        endX: int = scanPoints.endScan.x
-        endY: int = scanPoints.endScan.y
-
-        x = startX
-        while x <= endX:
-            y = startY
-            while y <= endY:
-                if PdfCommon.pointInsidePolygon(pos=InternalPosition(x, y), polygon=points):
-                    self._docMaker.line(x1=x, y1=y, x2=x, y2=y)
-                y += 1
-            x += 1
+        return pdfCoordinates
 
     def _finishDrawingLine(self, linePositions: LinePositions, newStartPoint: InternalPosition):
         """

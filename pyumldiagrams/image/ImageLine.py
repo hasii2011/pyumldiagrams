@@ -122,7 +122,7 @@ class ImageLine(IDiagramLine):
 
         xy: PILPoints = PILPoints([])
 
-        adjustedPositions: LinePositions = linePositions[:-1]
+        adjustedPositions: LinePositions = LinePositions(linePositions[:-1])
         for externalPosition in adjustedPositions:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
             xy.append(internalPosition.x)
