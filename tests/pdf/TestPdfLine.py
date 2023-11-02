@@ -123,7 +123,7 @@ class TestPdfLine(TestDiagramParent):
 
         lineDrawer: PdfLine = PdfLine(pdf=diagram._pdf, diagramPadding=diagram._diagramPadding, dpi=diagram._dpi)
 
-        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance, isInheritance=True)
         definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
@@ -249,7 +249,7 @@ class TestPdfLine(TestDiagramParent):
 
         return north, south, east, west
 
-    def __createDiagonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
+    def __createDiagonalLines(self, lineType: LineType, isInheritance: bool = False) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
         pos:  Position          = Position(TestPdfLine.ELLIPSE_X, TestPdfLine.ELLIPSE_Y)
 
@@ -261,10 +261,16 @@ class TestPdfLine(TestDiagramParent):
         nwDst:  Position = self.__computeNorthWestDestination(center=center, arrowSize=arrowSize)
         swDst:  Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = LinePositions([center, neDst])     # source is start;  destination is arrow head (base Class)
-        nwPositions: LinePositions = LinePositions([center, nwDst])
-        sePositions: LinePositions = LinePositions([center, seDst])
-        swPositions: LinePositions = LinePositions([center, swDst])
+        if isInheritance is True:
+            nePositions: LinePositions = LinePositions([center, neDst])     # source is start;  destination is arrow head (base Class)
+            nwPositions: LinePositions = LinePositions([center, nwDst])
+            sePositions: LinePositions = LinePositions([center, seDst])
+            swPositions: LinePositions = LinePositions([center, swDst])
+        else:
+            nePositions = LinePositions([neDst, center])     # source is diamond for aggregation and composition
+            nwPositions = LinePositions([nwDst, center])
+            sePositions = LinePositions([seDst, center])
+            swPositions = LinePositions([swDst, center])
 
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
