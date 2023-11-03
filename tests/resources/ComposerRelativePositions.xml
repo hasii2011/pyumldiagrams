@@ -32,6 +32,13 @@
             <PyutClass id="133" name="SouthComposedBent" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
 
+         <OglLink sourceAnchorX="500" sourceAnchorY="62" destinationAnchorX="199" destinationAnchorY="62" spline="False">
+            <LabelCenter x="-22" y="8" />
+            <LabelSource x="88" y="7" />
+            <LabelDestination x="-127" y="6" />
+            <PyutLink name="Comp1" type="COMPOSITION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="104" destinationId="103" />
+        </OglLink>
+
         <OglLink sourceAnchorX="199" sourceAnchorY="162" destinationAnchorX="500" destinationAnchorY="162" spline="False">
             <LabelCenter x="-16" y="3" />
             <LabelSource x="-155" y="6" />
@@ -43,12 +50,6 @@
             <LabelSource x="9" y="-77" />
             <LabelDestination x="6" y="58" />
             <PyutLink name="Comp-2" type="COMPOSITION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="100" destinationId="101" />
-        </OglLink>
-        <OglLink sourceAnchorX="500" sourceAnchorY="62" destinationAnchorX="199" destinationAnchorY="62" spline="False">
-            <LabelCenter x="-22" y="8" />
-            <LabelSource x="88" y="7" />
-            <LabelDestination x="-127" y="6" />
-            <PyutLink name="Comp1" type="COMPOSITION" cardinalitySource="srcCard" cardinalityDestination="dstCard" bidirectional="False" sourceId="104" destinationId="103" />
         </OglLink>
 
         <OglLink sourceAnchorX="325" sourceAnchorY="700" destinationAnchorX="325" destinationAnchorY="474" spline="False">

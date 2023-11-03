@@ -109,14 +109,9 @@ class TestImageLine(TestDiagramParent):
 
         lineDrawer: ImageLine = ImageLine(docWriter=diagram._imgDraw, diagramPadding=diagram._diagramPadding)
 
-        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance)
+        northEast, northWest, southEast, southWest = self.__createDiagonalLines(LineType.Inheritance, isInheritance=True)
 
-        flippedNorthEast: UmlLineDefinition = self._flipInheritanceLine(lineDefinition=northEast)
-        flippedNorthWest: UmlLineDefinition = self._flipInheritanceLine(lineDefinition=northWest)
-        flippedSouthEast: UmlLineDefinition = self._flipInheritanceLine(lineDefinition=southEast)
-        flippedSouthWest: UmlLineDefinition = self._flipInheritanceLine(lineDefinition=southWest)
-
-        definitions: UmlLineDefinitions = UmlLineDefinitions([flippedNorthEast, flippedNorthWest, flippedSouthEast, flippedSouthWest])
+        definitions: UmlLineDefinitions = UmlLineDefinitions([northEast, northWest, southEast, southWest])
         for definition in definitions:
             lineDrawer.draw(definition)
 
@@ -311,7 +306,7 @@ class TestImageLine(TestDiagramParent):
         #
         # diagram.drawText(center, text=f'({int(center.x)},{int(center.y)})')
 
-    def __createDiagonalLines(self, lineType: LineType) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
+    def __createDiagonalLines(self, lineType: LineType, isInheritance: bool = False) -> Tuple[UmlLineDefinition, UmlLineDefinition, UmlLineDefinition, UmlLineDefinition]:
 
         pos:       Position = Position(ELLIPSE_X, ELLIPSE_Y)
         arrowSize: float    = ELLIPSE_WIDTH / 2
@@ -322,16 +317,20 @@ class TestImageLine(TestDiagramParent):
         seDst: Position = self.__computeSouthEastDestination(center=center, arrowSize=arrowSize)
         swDst: Position = self.__computeSouthWestDestination(center=center, arrowSize=arrowSize)
 
-        nePositions: LinePositions = LinePositions([neDst, center])
+        if isInheritance is True:
+            nePositions: LinePositions = LinePositions([center, neDst])
+            nwPositions: LinePositions = LinePositions([center, nwDst])
+            swPositions: LinePositions = LinePositions([center, swDst])
+            sePositions: LinePositions = LinePositions([center, seDst])
+        else:
+            nePositions: LinePositions = LinePositions([neDst, center])
+            nwPositions: LinePositions = LinePositions([nwDst, center])
+            swPositions: LinePositions = LinePositions([swDst, center])
+            sePositions: LinePositions = LinePositions([seDst, center])
+
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
-
-        nwPositions: LinePositions = LinePositions([nwDst, center])
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
-
-        swPositions: LinePositions = LinePositions([swDst, center])
         southWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=swPositions)
-
-        sePositions: LinePositions = LinePositions([seDst, center])
         southEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=sePositions)
 
         return northEast, northWest, southEast, southWest
@@ -384,15 +383,6 @@ class TestImageLine(TestDiagramParent):
         iPos: InternalPosition = ImageCommon.toInternal(position, verticalGap=verticalGap, horizontalGap=horizontalGap)
 
         return iPos
-
-    def _flipInheritanceLine(self, lineDefinition: UmlLineDefinition) -> UmlLineDefinition:
-
-        oldLinePositions: LinePositions = lineDefinition.linePositions
-        newLinePositions: LinePositions = LinePositions([oldLinePositions[1], oldLinePositions[0]])
-
-        lineDefinition.linePositions = newLinePositions
-
-        return lineDefinition
 
 
 def suite() -> TestSuite:

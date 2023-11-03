@@ -155,9 +155,9 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
-        # self._drawAssociationName(lineDefinition=lineDefinition)
-        # self._drawSourceCardinality(lineDefinition=lineDefinition)
-        # self._drawDestinationCardinality(lineDefinition=lineDefinition)
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
     def _drawAggregation(self, lineDefinition: UmlLineDefinition):
         """
@@ -227,6 +227,16 @@ class ImageLine(IDiagramLine):
         imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalityDestination)
 
     def _toAbsolute(self, srcPosition: Position, dstPosition: Position, labelPosition: Position) -> Tuple[int, int]:
+        """
+        Labels are positions are relative to the line they are attached to;  Compute that then
+        convert to the line internal position
+
+        Args:
+            srcPosition:
+            dstPosition:
+            labelPosition:
+
+        """
 
         xLength: int = abs(srcPosition.x - dstPosition.x)
         yLength: int = abs(srcPosition.y - dstPosition.y)
@@ -236,14 +246,14 @@ class ImageLine(IDiagramLine):
             if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
                 x += X_FUDGE_FACTOR
         else:
-            x = srcPosition.x - (xLength // 2) - labelPosition.x
+            x = dstPosition.x + (xLength // 2) + labelPosition.x
             if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
                 x -= X_FUDGE_FACTOR
 
         if srcPosition.y < dstPosition.y:
             y: int = srcPosition.y + (yLength // 2) + labelPosition.y
         else:
-            y = srcPosition.y - (yLength // 2) - labelPosition.y
+            y = dstPosition.y + (yLength // 2) + labelPosition.y
 
         y += Y_FUDGE_FACTOR
 

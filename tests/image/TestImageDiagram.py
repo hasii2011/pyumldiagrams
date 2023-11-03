@@ -381,13 +381,12 @@ class TestImageDiagram(TestDiagramParent):
         partialPath: str = '/tests/resources/basefiles/image/'    # needs to match resource package name
         self.assertTrue(partialPath in actualName, 'Name does not match')
 
-    # TODO:
-    # def testCompositionLabels(self):
-    #
-    #     self._createAndTestAssociationImage(baseXmlFileName='ComposerRelativePositions.xml',
-    #                                         baseImageFileName='ComposerRelativePositions',
-    #                                         failMessage='Composition image file should be identical')
-    #
+    def testCompositionLabels(self):
+
+        self._createAndTestAssociationImage(baseXmlFileName='ComposerRelativePositions.xml',
+                                            baseImageFileName='ComposerRelativePositions',
+                                            failMessage='Composition image file should be identical')
+
     def testAggregationLabels(self):
         self._createAndTestAssociationImage(baseXmlFileName='AggregatorRelativePositions.xml',
                                             baseImageFileName='AggregatorRelativePositions',
