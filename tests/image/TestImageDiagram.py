@@ -392,6 +392,11 @@ class TestImageDiagram(TestDiagramParent):
                                             baseImageFileName='AggregatorRelativePositions',
                                             failMessage='Aggregation image file should be identical')
 
+    def testAssociationLabels(self):
+        self._createAndTestAssociationImage(baseXmlFileName='AssociatorRelativePositions.xml',
+                                            baseImageFileName='AssociatorRelativePositions',
+                                            failMessage='Associator image file should be identical')
+
     def _createAndTestAssociationImage(self, baseXmlFileName: str, baseImageFileName: str, failMessage: str):
         """
         Only the new untangler supports filling in the name labels and positions

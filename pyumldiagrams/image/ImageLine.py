@@ -91,7 +91,7 @@ class ImageLine(IDiagramLine):
         elif lineType == LineType.Aggregation:
             self._drawAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Association:
-            self._drawAssociation(linePositions=linePositions)
+            self._drawAssociation(lineDefinition=lineDefinition)
         elif lineType == LineType.Interface:
             pass        # TODO
         elif lineType == LineType.NoteLink:
@@ -187,9 +187,10 @@ class ImageLine(IDiagramLine):
         self._drawSourceCardinality(lineDefinition=lineDefinition)
         self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
-    def _drawAssociation(self, linePositions: LinePositions):
+    def _drawAssociation(self, lineDefinition: UmlLineDefinition):
 
-        xy: PILPoints = PILPoints([])
+        linePositions: LinePositions = lineDefinition.linePositions
+        xy:            PILPoints     = PILPoints([])
 
         for externalPosition in linePositions:
             internalPosition: InternalPosition = self.__toInternal(externalPosition)
@@ -197,6 +198,10 @@ class ImageLine(IDiagramLine):
             xy.append(internalPosition.y)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
+
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
     def _drawAssociationName(self, lineDefinition: UmlLineDefinition):
 
