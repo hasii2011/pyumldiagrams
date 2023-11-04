@@ -183,9 +183,9 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
-        # self._drawAssociationName(lineDefinition=lineDefinition)
-        # self._drawSourceCardinality(lineDefinition=lineDefinition)
-        # self._drawDestinationCardinality(lineDefinition=lineDefinition)
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
 
     def _drawAssociation(self, linePositions: LinePositions):
 

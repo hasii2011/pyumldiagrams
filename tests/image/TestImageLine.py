@@ -323,10 +323,10 @@ class TestImageLine(TestDiagramParent):
             swPositions: LinePositions = LinePositions([center, swDst])
             sePositions: LinePositions = LinePositions([center, seDst])
         else:
-            nePositions: LinePositions = LinePositions([neDst, center])
-            nwPositions: LinePositions = LinePositions([nwDst, center])
-            swPositions: LinePositions = LinePositions([swDst, center])
-            sePositions: LinePositions = LinePositions([seDst, center])
+            nePositions = LinePositions([neDst, center])
+            nwPositions = LinePositions([nwDst, center])
+            swPositions = LinePositions([swDst, center])
+            sePositions = LinePositions([seDst, center])
 
         northEast: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nePositions)
         northWest: UmlLineDefinition = UmlLineDefinition(lineType=lineType, linePositions=nwPositions)
