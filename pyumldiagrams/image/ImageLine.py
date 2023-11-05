@@ -73,9 +73,9 @@ class ImageLine(IDiagramLine):
         if lineType == LineType.Inheritance:
             self._drawInheritance(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawComposition(lineDefinition=lineDefinition)
+            self._drawCompositeAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Aggregation:
-            self._drawAggregation(lineDefinition=lineDefinition)
+            self._drawSharedAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Association:
             self._drawAssociation(lineDefinition=lineDefinition)
         elif lineType == LineType.Interface:
@@ -118,42 +118,33 @@ class ImageLine(IDiagramLine):
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
-    def _drawComposition(self, lineDefinition: UmlLineDefinition):
+    def _drawCompositeAggregation(self, lineDefinition: UmlLineDefinition):
         """
+        Composition
         Draws both the line and the solid diamond
 
         Args:
             lineDefinition:   The line definition
         """
+        self._drawAggregation(lineDefinition=lineDefinition, isComposite=True)
 
-        linePositions: LinePositions = lineDefinition.linePositions
-
-        internalPosition0:  InternalPosition = self._toInternal(linePositions[0])
-        internalPosition1:  InternalPosition = self._toInternal(linePositions[1])
-
-        points:  DiamondPoints = Common.computeDiamondVertices(position0=internalPosition0, position1=internalPosition1)
-        polygon: PolygonPoints = self._toPolygonPoints(points)
-
-        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
-
-        newStartPoint: InternalPosition = points[3]
-        xy:            PILPoints        = self._toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
-
-        self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
-
-        self._drawAssociationName(lineDefinition=lineDefinition)
-        self._drawSourceCardinality(lineDefinition=lineDefinition)
-        self._drawDestinationCardinality(lineDefinition=lineDefinition)
-
-    def _drawAggregation(self, lineDefinition: UmlLineDefinition):
+    def _drawSharedAggregation(self, lineDefinition: UmlLineDefinition):
         """
+        Aggregation
         Draws both the line and the hollow diamond
 
         Args:
             lineDefinition:   The line definition
+        """
+        self._drawAggregation(lineDefinition=lineDefinition, isComposite=False)
 
+    def _drawAggregation(self, lineDefinition: UmlLineDefinition, isComposite: bool):
         """
 
+        Args:
+            lineDefinition: The UML line definitions
+            isComposite:    'True' draws solid composition diamond;  'False' draws hollow aggregation diamond
+        """
         linePositions: LinePositions = lineDefinition.linePositions
 
         internalPosition0:  InternalPosition = self._toInternal(linePositions[0])
@@ -162,7 +153,10 @@ class ImageLine(IDiagramLine):
         points:  DiamondPoints = Common.computeDiamondVertices(position1=internalPosition1, position0=internalPosition0)
         polygon: PolygonPoints = self._toPolygonPoints(points)
 
-        self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
+        if isComposite is True:
+            self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
+        else:
+            self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newStartPoint: InternalPosition = points[3]
         xy:            PILPoints        = self._toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)

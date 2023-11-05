@@ -71,6 +71,10 @@ class PdfLine(IDiagramLine):
             self._drawSharedAggregation(linePositions=linePositions)
         elif lineType == LineType.Association:
             self._drawAssociation(linePositions=linePositions)
+        elif lineType == LineType.Interface:
+            pass  # TODO
+        elif lineType == LineType.NoteLink:
+            pass  # TODO
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
