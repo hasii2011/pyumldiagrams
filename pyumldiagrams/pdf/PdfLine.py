@@ -71,7 +71,7 @@ class PdfLine(IDiagramLine):
         elif lineType == LineType.Aggregation:
             self._drawSharedAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Association:
-            self._drawAssociation(linePositions=linePositions)
+            self._drawAssociation(lineDefinition=lineDefinition)
         elif lineType == LineType.Interface:
             pass  # TODO
         elif lineType == LineType.NoteLink:
@@ -137,6 +137,24 @@ class PdfLine(IDiagramLine):
         """
         self._drawAggregation(lineDefinition=lineDefinition, isComposite=False)
 
+    def _drawAssociation(self, lineDefinition: UmlLineDefinition):
+
+        pdf:           FPDF          = self._docMaker
+        linePositions: LinePositions = lineDefinition.linePositions
+
+        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
+
+        for [currentPos, nextPos] in pairs:
+
+            currentCoordinates: InternalPosition = self._toInternal(position=currentPos)
+            nextCoordinates:    InternalPosition = self._toInternal(position=nextPos)
+
+            pdf.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
+
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
+
     def _drawAggregation(self, lineDefinition: UmlLineDefinition, isComposite: bool):
 
         linePositions: LinePositions = lineDefinition.linePositions
@@ -156,19 +174,6 @@ class PdfLine(IDiagramLine):
         self._drawAssociationName(lineDefinition=lineDefinition)
         self._drawSourceCardinality(lineDefinition=lineDefinition)
         self._drawDestinationCardinality(lineDefinition=lineDefinition)
-
-    def _drawAssociation(self, linePositions: LinePositions):
-
-        docMaker:      FPDF = self._docMaker
-
-        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
-
-        for [currentPos, nextPos] in pairs:
-
-            currentCoordinates: InternalPosition = self._toInternal(position=currentPos)
-            nextCoordinates:    InternalPosition = self._toInternal(position=nextPos)
-
-            docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
     def _drawDiamond(self, diamondPoints: DiamondPoints, isComposite: bool):
 

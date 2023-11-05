@@ -433,9 +433,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testAggregationLabels(self):
         """
-        TODO:  Labels not being generated, yet
         """
-
         nameStub:  str = 'AggregatorRelativePositions'
         untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
 
@@ -448,9 +446,7 @@ class TestPdfDiagram(TestDiagramParent):
                                    failMessage='Aggregation labels should be identical')
 
     def testCompositionLabels(self):
-        """
-        TODO:  Labels not being generated, yet
-        """
+
         nameStub: str = 'ComposerRelativePositions'
         untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
 
@@ -461,6 +457,22 @@ class TestPdfDiagram(TestDiagramParent):
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Composition labels should be identical')
+
+    def testAssociationLabels(self):
+        """
+        Only the new untangler supports filling in the name labels and positions
+        in the UmlLineDefinition class
+        """
+        nameStub:   str = 'AssociatorRelativePositions'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Association labels should be identical')
 
     def _generatePDF(self, untangler: UnTangleToClassDefinition, fileName: str):
 
@@ -490,37 +502,6 @@ class TestPdfDiagram(TestDiagramParent):
         untangler.generateUmlLineDefinitions()
 
         return untangler
-
-    # TODO:
-    # def testAssociationLabels(self):
-    #     """
-    #     Only the new untangler supports filling in the name labels and positions
-    #     in the UmlLineDefinition class
-    #     """
-    #     fqFileName: str          = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME,
-    #                                                                               fileName='ComposerRelativePositions.xml')
-    #     untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
-    #
-    #     untangler.generateClassDefinitions()
-    #     untangler.generateUmlLineDefinitions()
-    #
-    #     baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-ComposerRelativePositions'
-    #     fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
-    #
-    #     classDefinitions = untangler.classDefinitions
-    #     lineDefinitions  = untangler.umlLineDefinitions
-    #
-    #     diagram: PdfDiagram = PdfDiagram(fileName=f'{fileName}', dpi=75)
-    #
-    #     for classDefinition in classDefinitions:
-    #         classDefinition = cast(ClassDefinition, classDefinition)
-    #         diagram.drawClass(classDefinition=classDefinition)
-    #
-    #     for lineDefinition in lineDefinitions:
-    #         diagram.drawUmlLine(lineDefinition=lineDefinition)
-    #
-    #     diagram.docTimeStamp = self.unitTestTimeStamp
-    #     diagram.write()
 
 
 def suite() -> TestSuite:
