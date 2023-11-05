@@ -12,6 +12,7 @@ from typing import cast
 from fpdf import FPDF
 
 from pyumldiagrams.Common import Common
+from pyumldiagrams.CommonAbsolute import CommonAbsolute
 
 from pyumldiagrams.IDiagramLine import IDiagramLine
 
@@ -66,9 +67,9 @@ class PdfLine(IDiagramLine):
         if lineType == LineType.Inheritance:
             self._drawInheritance(linePositions=linePositions)
         elif lineType == LineType.Composition:
-            self._drawCompositeAggregation(linePositions=linePositions)
+            self._drawCompositeAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Aggregation:
-            self._drawSharedAggregation(linePositions=linePositions)
+            self._drawSharedAggregation(lineDefinition=lineDefinition)
         elif lineType == LineType.Association:
             self._drawAssociation(linePositions=linePositions)
         elif lineType == LineType.Interface:
@@ -89,8 +90,8 @@ class PdfLine(IDiagramLine):
         Args:
             linePositions - The points that describe the line
         """
-        internalPosition0:  InternalPosition = self._convertPosition(linePositions[-1])
-        internalPosition1:  InternalPosition = self._convertPosition(linePositions[-2])
+        internalPosition0:  InternalPosition = self._toInternal(linePositions[-1])
+        internalPosition1:  InternalPosition = self._toInternal(linePositions[-2])
 
         points: ArrowPoints = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
 
@@ -104,39 +105,41 @@ class PdfLine(IDiagramLine):
         docMaker:          FPDF          = self._docMaker
 
         if len(pairs) == 0:
-            sourceInternal: InternalPosition = self._convertPosition(linePositions[0])
+            sourceInternal: InternalPosition = self._toInternal(linePositions[0])
             docMaker.line(x1=sourceInternal.x, y1=sourceInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
         else:
             for [currentPos, nextPos] in pairs:
-                currentPosition: InternalPosition = self._convertPosition(position=currentPos)
-                nextPosition:    InternalPosition = self._convertPosition(position=nextPos)
+                currentPosition: InternalPosition = self._toInternal(position=currentPos)
+                nextPosition:    InternalPosition = self._toInternal(position=nextPos)
                 docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
 
             lastPair:     PositionPair     = pairs[-1]
             lastPos:      Position         = lastPair[1]
-            lastInternal: InternalPosition = self._convertPosition(lastPos)
+            lastInternal: InternalPosition = self._toInternal(lastPos)
 
             docMaker.line(x1=lastInternal.x, y1=lastInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
 
-    def _drawCompositeAggregation(self, linePositions: LinePositions):
+    def _drawCompositeAggregation(self, lineDefinition: UmlLineDefinition):
         """
         Composition
 
         Args:
-            linePositions:
+            lineDefinition:
         """
-        self._drawAggregation(linePositions=linePositions, isComposite=True)
+        self._drawAggregation(lineDefinition=lineDefinition, isComposite=True)
 
-    def _drawSharedAggregation(self, linePositions: LinePositions):
+    def _drawSharedAggregation(self, lineDefinition: UmlLineDefinition):
         """
         Aggregation
 
         Args:
-            linePositions:
+            lineDefinition:
         """
-        self._drawAggregation(linePositions=linePositions, isComposite=False)
+        self._drawAggregation(lineDefinition=lineDefinition, isComposite=False)
 
-    def _drawAggregation(self, linePositions: LinePositions, isComposite: bool):
+    def _drawAggregation(self, lineDefinition: UmlLineDefinition, isComposite: bool):
+
+        linePositions: LinePositions = lineDefinition.linePositions
 
         startPoints: Tuple[InternalPosition, InternalPosition] = self._convertPoints(linePositions[0], linePositions[1])
 
@@ -150,6 +153,10 @@ class PdfLine(IDiagramLine):
 
         self._finishDrawingLine(linePositions=linePositions, newStartPoint=newEndStartPoint)
 
+        self._drawAssociationName(lineDefinition=lineDefinition)
+        self._drawSourceCardinality(lineDefinition=lineDefinition)
+        self._drawDestinationCardinality(lineDefinition=lineDefinition)
+
     def _drawAssociation(self, linePositions: LinePositions):
 
         docMaker:      FPDF = self._docMaker
@@ -158,8 +165,8 @@ class PdfLine(IDiagramLine):
 
         for [currentPos, nextPos] in pairs:
 
-            currentCoordinates: InternalPosition = self._convertPosition(position=currentPos)
-            nextCoordinates:    InternalPosition = self._convertPosition(position=nextPos)
+            currentCoordinates: InternalPosition = self._toInternal(position=currentPos)
+            nextCoordinates:    InternalPosition = self._toInternal(position=nextPos)
 
             docMaker.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
@@ -179,6 +186,39 @@ class PdfLine(IDiagramLine):
         pdf:            FPDF           = self._docMaker
 
         pdf.polygon(pdfCoordinates, style='D')
+
+    def _drawAssociationName(self, lineDefinition: UmlLineDefinition):
+
+        pdf: FPDF = self._docMaker
+
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.namePosition)
+        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.name)
+
+    def _drawSourceCardinality(self, lineDefinition: UmlLineDefinition):
+
+        pdf: FPDF = self._docMaker
+
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.sourceCardinalityPosition)
+
+        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.cardinalitySource)
+
+    def _drawDestinationCardinality(self, lineDefinition: UmlLineDefinition):
+
+        pdf: FPDF = self._docMaker
+
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.destinationCardinalityPosition)
+
+        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.cardinalityDestination)
+
+    def _computeTextPosition(self, lineDefinition: UmlLineDefinition, labelPosition: Position) -> InternalPosition:
+
+        xy: Tuple[int, int] = CommonAbsolute.computeAbsoluteLabelPosition(srcPosition=lineDefinition.linePositions[0],
+                                                                          dstPosition=lineDefinition.linePositions[-1],
+                                                                          labelPosition=labelPosition)
+
+        iPos: InternalPosition = self._toInternal(position=Position(x=xy[0], y=xy[1]))
+
+        return iPos
 
     def _toPDFCoordinates(self, polygonPoints: PolygonPoints) -> PDFCoordinates:
 
@@ -205,25 +245,25 @@ class PdfLine(IDiagramLine):
         docMaker:          FPDF          = self._docMaker
 
         currentPos:          Position         = linePositionsCopy[0]
-        convertedCurrentPos: InternalPosition = self._convertPosition(position=currentPos)
+        convertedCurrentPos: InternalPosition = self._toInternal(position=currentPos)
         docMaker.line(x1=newStartPoint.x, y1=newStartPoint.y, x2=convertedCurrentPos.x, y2=convertedCurrentPos.y)
 
         pairs: PositionPairs = PositionPairs([PositionPair([linePositionsCopy[i], linePositionsCopy[i + 1]]) for i in range(len(linePositionsCopy) - 1)])
 
         for [currentPos, nextPos] in pairs:
-            currentPosition: InternalPosition = self._convertPosition(position=currentPos)
-            nextPosition:    InternalPosition = self._convertPosition(position=nextPos)
+            currentPosition: InternalPosition = self._toInternal(position=currentPos)
+            nextPosition:    InternalPosition = self._toInternal(position=nextPos)
 
             docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
 
     def _convertPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
 
-        convertedSrc: InternalPosition = self._convertPosition(position=src)
-        convertedDst: InternalPosition = self._convertPosition(position=dst)
+        convertedSrc: InternalPosition = self._toInternal(position=src)
+        convertedDst: InternalPosition = self._toInternal(position=dst)
 
         return convertedSrc, convertedDst
 
-    def _convertPosition(self, position: Position) -> InternalPosition:
+    def _toInternal(self, position: Position) -> InternalPosition:
 
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
