@@ -11,8 +11,6 @@ from logging import getLogger
 
 from os import sep as osSep
 
-from enum import Enum
-
 from PIL import ImageDraw
 from PIL import ImageFont
 
@@ -20,10 +18,11 @@ from codeallybasic.ResourceManager import ResourceManager
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 from pyumldiagrams.Common import Common
-from pyumldiagrams.image.ImageCommon import ImageCommon
-
+from pyumldiagrams.CommonAbsolute import CommonAbsolute
 from pyumldiagrams.IDiagramLine import IDiagramLine
 from pyumldiagrams.UnsupportedException import UnsupportedException
+
+from pyumldiagrams.image.ImageCommon import ImageCommon
 
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import LineType
@@ -35,21 +34,8 @@ from pyumldiagrams.Internal import ArrowPoints
 from pyumldiagrams.Internal import DiamondPoints
 from pyumldiagrams.Internal import InternalPosition
 
-PILPoints     = NewType('PILPoints',     List[int])
-PolygonPoints = NewType('PolygonPoints', List[int])
-
-X_FUDGE_FACTOR: int = 9
-Y_FUDGE_FACTOR: int = 9
-
-
-class AttachmentSide(Enum):
-    """
-    Cardinal points, taken to correspond to the attachment points of the OglClass
-    """
-    NORTH = 0
-    EAST  = 1
-    SOUTH = 2
-    WEST  = 3
+PILPoints     = NewType('PILPoints',     List[int])         # Maybe these go
+PolygonPoints = NewType('PolygonPoints', List[int])         # in Internal
 
 
 class ImageLine(IDiagramLine):
@@ -110,11 +96,11 @@ class ImageLine(IDiagramLine):
         Args:
             linePositions  The points that describe the line
         """
-        internalPosition0:  InternalPosition = self.__toInternal(linePositions[-1])
-        internalPosition1:  InternalPosition = self.__toInternal(linePositions[-2])
+        internalPosition0:  InternalPosition = self._toInternal(linePositions[-1])
+        internalPosition1:  InternalPosition = self._toInternal(linePositions[-2])
 
         points:  ArrowPoints   = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
-        polygon: PolygonPoints = self.__toPolygonPoints(points)
+        polygon: PolygonPoints = self._toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
@@ -124,7 +110,7 @@ class ImageLine(IDiagramLine):
 
         adjustedPositions: LinePositions = LinePositions(linePositions[:-1])
         for externalPosition in adjustedPositions:
-            internalPosition: InternalPosition = self.__toInternal(externalPosition)
+            internalPosition: InternalPosition = self._toInternal(externalPosition)
             xy.append(internalPosition.x)
             xy.append(internalPosition.y)
         xy.append(newEndPoint.x)
@@ -142,16 +128,16 @@ class ImageLine(IDiagramLine):
 
         linePositions: LinePositions = lineDefinition.linePositions
 
-        internalPosition0:  InternalPosition = self.__toInternal(linePositions[0])
-        internalPosition1:  InternalPosition = self.__toInternal(linePositions[1])
+        internalPosition0:  InternalPosition = self._toInternal(linePositions[0])
+        internalPosition1:  InternalPosition = self._toInternal(linePositions[1])
 
         points:  DiamondPoints = Common.computeDiamondVertices(position0=internalPosition0, position1=internalPosition1)
-        polygon: PolygonPoints = self.__toPolygonPoints(points)
+        polygon: PolygonPoints = self._toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR, fill='black')
 
         newStartPoint: InternalPosition = points[3]
-        xy:            PILPoints        = self.__toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
+        xy:            PILPoints        = self._toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -170,16 +156,16 @@ class ImageLine(IDiagramLine):
 
         linePositions: LinePositions = lineDefinition.linePositions
 
-        internalPosition0:  InternalPosition = self.__toInternal(linePositions[0])
-        internalPosition1:  InternalPosition = self.__toInternal(linePositions[1])
+        internalPosition0:  InternalPosition = self._toInternal(linePositions[0])
+        internalPosition1:  InternalPosition = self._toInternal(linePositions[1])
 
         points:  DiamondPoints = Common.computeDiamondVertices(position1=internalPosition1, position0=internalPosition0)
-        polygon: PolygonPoints = self.__toPolygonPoints(points)
+        polygon: PolygonPoints = self._toPolygonPoints(points)
 
         self._imgDraw.polygon(xy=polygon, outline=ImageLine.DEFAULT_LINE_COLOR)
 
         newStartPoint: InternalPosition = points[3]
-        xy:            PILPoints        = self.__toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
+        xy:            PILPoints        = self._toPILPoints(linePositions=linePositions, newStartPoint=newStartPoint)
 
         self._imgDraw.line(xy=xy, fill=ImageLine.DEFAULT_LINE_COLOR, width=ImageLine.LINE_WIDTH)
 
@@ -193,7 +179,7 @@ class ImageLine(IDiagramLine):
         xy:            PILPoints     = PILPoints([])
 
         for externalPosition in linePositions:
-            internalPosition: InternalPosition = self.__toInternal(externalPosition)
+            internalPosition: InternalPosition = self._toInternal(externalPosition)
             xy.append(internalPosition.x)
             xy.append(internalPosition.y)
 
@@ -205,108 +191,31 @@ class ImageLine(IDiagramLine):
 
     def _drawAssociationName(self, lineDefinition: UmlLineDefinition):
 
-        imgDraw: ImageDraw = self._imgDraw
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.namePosition)
 
-        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
-                                               dstPosition=lineDefinition.linePositions[-1],
-                                               labelPosition=lineDefinition.namePosition)
-
-        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.name)
+        self._imgDraw.text(xy=(iPos.x, iPos.y), fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.name)
 
     def _drawSourceCardinality(self, lineDefinition: UmlLineDefinition):
-        imgDraw: ImageDraw = self._imgDraw
 
-        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
-                                               dstPosition=lineDefinition.linePositions[-1],
-                                               labelPosition=lineDefinition.sourceCardinalityPosition)
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.sourceCardinalityPosition)
 
-        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalitySource)
+        self._imgDraw.text(xy=(iPos.x, iPos.y), fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalitySource)
 
     def _drawDestinationCardinality(self, lineDefinition: UmlLineDefinition):
-        imgDraw: ImageDraw = self._imgDraw
 
-        xy: Tuple[int, int] = self._toAbsolute(srcPosition=lineDefinition.linePositions[0],
-                                               dstPosition=lineDefinition.linePositions[-1],
-                                               labelPosition=lineDefinition.destinationCardinalityPosition)
+        iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.destinationCardinalityPosition)
 
-        imgDraw.text(xy=xy, fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalityDestination)
+        self._imgDraw.text(xy=(iPos.x, iPos.y), fill=ImageLine.DEFAULT_TEXT_COLOR, font=self._font, text=lineDefinition.cardinalityDestination)
 
-    def _toAbsolute(self, srcPosition: Position, dstPosition: Position, labelPosition: Position) -> Tuple[int, int]:
-        """
-        Labels are positions are relative to the line they are attached to;  Compute that then
-        convert to the line internal position
+    def _computeTextPosition(self, lineDefinition: UmlLineDefinition, labelPosition: Position) -> InternalPosition:
 
-        Args:
-            srcPosition:
-            dstPosition:
-            labelPosition:
+        xy: Tuple[int, int] = CommonAbsolute.computeAbsoluteLabelPosition(srcPosition=lineDefinition.linePositions[0],
+                                                                          dstPosition=lineDefinition.linePositions[-1],
+                                                                          labelPosition=labelPosition)
 
-        """
+        iPos: InternalPosition = self._toInternal(position=Position(x=xy[0], y=xy[1]))
 
-        xLength: int = abs(srcPosition.x - dstPosition.x)
-        yLength: int = abs(srcPosition.y - dstPosition.y)
-
-        if srcPosition.x < dstPosition.x:
-            x: int = srcPosition.x + (xLength // 2) + labelPosition.x
-            if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
-                x += X_FUDGE_FACTOR
-        else:
-            x = dstPosition.x + (xLength // 2) + labelPosition.x
-            if self.doXAdjustment(srcPosition=srcPosition, dstPosition=dstPosition) is True:
-                x -= X_FUDGE_FACTOR
-
-        if srcPosition.y < dstPosition.y:
-            y: int = srcPosition.y + (yLength // 2) + labelPosition.y
-        else:
-            y = dstPosition.y + (yLength // 2) + labelPosition.y
-
-        y += Y_FUDGE_FACTOR
-
-        iPos: InternalPosition = self.__toInternal(position=Position(x, y))
-
-        return iPos.x, iPos.y
-
-    def doXAdjustment(self, srcPosition: Position, dstPosition: Position) -> bool:
-
-        ans: bool = True
-
-        placement: AttachmentSide = ImageLine.placement(srcX=srcPosition.x, srcY=srcPosition.y, dstX=dstPosition.x, dstY=dstPosition.y)
-
-        if placement == AttachmentSide.NORTH or placement == AttachmentSide.SOUTH:
-            ans = False
-
-        return ans
-
-    @classmethod
-    def placement(cls, srcX: int, srcY: int, dstX: int, dstY: int) -> AttachmentSide:
-        """
-        Given a source and destination, returns where the destination
-        is located according to the source.
-
-        Args:
-            srcX:   X pos of src point
-            srcY:   Y pos of src point
-            dstX:  X pos of dest point
-            dstY:  Y pos of dest point
-
-        Returns:  The attachment side
-        """
-        deltaX = srcX - dstX
-        deltaY = srcY - dstY
-        if deltaX > 0:  # dest is not east
-            if deltaX > abs(deltaY):  # dest is west
-                return AttachmentSide.WEST
-            elif deltaY > 0:
-                return AttachmentSide.NORTH
-            else:
-                return AttachmentSide.SOUTH
-        else:  # dest is not west
-            if -deltaX > abs(deltaY):  # dest is east
-                return AttachmentSide.EAST
-            elif deltaY > 0:
-                return AttachmentSide.NORTH
-            else:
-                return AttachmentSide.SOUTH
+        return iPos
 
     def _retrieveResourcePath(self, bareFileName: str) -> str:
 
@@ -316,7 +225,7 @@ class ImageLine(IDiagramLine):
 
         return fqFileName
 
-    def __toInternal(self, position: Position) -> InternalPosition:
+    def _toInternal(self, position: Position) -> InternalPosition:
 
         verticalGap:   int = self._diagramPadding.verticalGap
         horizontalGap: int = self._diagramPadding.horizontalGap
@@ -325,7 +234,7 @@ class ImageLine(IDiagramLine):
 
         return iPos
 
-    def __toPolygonPoints(self, points: Union[ArrowPoints, DiamondPoints]) -> PolygonPoints:
+    def _toPolygonPoints(self, points: Union[ArrowPoints, DiamondPoints]) -> PolygonPoints:
 
         polygon: PolygonPoints = PolygonPoints([])
 
@@ -335,7 +244,7 @@ class ImageLine(IDiagramLine):
 
         return polygon
 
-    def __toPILPoints(self, linePositions: LinePositions, newStartPoint: InternalPosition) -> PILPoints:
+    def _toPILPoints(self, linePositions: LinePositions, newStartPoint: InternalPosition) -> PILPoints:
 
         linePositionsCopy: LinePositions = LinePositions(linePositions[1:])  # Makes a copy; remove old start point
 
@@ -344,7 +253,7 @@ class ImageLine(IDiagramLine):
         xy.append(newStartPoint.x)
         xy.append(newStartPoint.y)
         for externalPosition in linePositionsCopy:
-            internalPosition: InternalPosition = self.__toInternal(externalPosition)
+            internalPosition: InternalPosition = self._toInternal(externalPosition)
             xy.append(internalPosition.x)
             xy.append(internalPosition.y)
 
