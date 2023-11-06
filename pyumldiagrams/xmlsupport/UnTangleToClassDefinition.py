@@ -14,12 +14,12 @@ from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import MethodDefinition
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import NoteDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Parameters
-from pyumldiagrams.Definitions import Position
-from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import UmlNoteDefinitions
 from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import createFieldsFactory
 from pyumldiagrams.Definitions import createMethodsFactory
@@ -31,6 +31,7 @@ from pyumldiagrams.xmlsupport import XmlConstants
 
 from pyumldiagrams.xmlsupport.AbstractToClassDefinition import AbstractToClassDefinition
 from pyumldiagrams.xmlsupport.UnTangleLineDefinition import UnTangleLineDefinition
+from pyumldiagrams.xmlsupport.UnTangleNoteDefinition import UnTangleNoteDefinition
 
 from pyumldiagrams.xmlsupport.exceptions.MultiDocumentException import MultiDocumentException
 from pyumldiagrams.xmlsupport.exceptions.NotClassDiagramException import NotClassDiagramException
@@ -52,6 +53,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self._project:  Element = cast(Element, None)
         self._document: Element = cast(Element, None)
 
+        self._umlNoteDefinitions:   UmlNoteDefinitions   = UmlNoteDefinitions([])
+
         with open(fqFileName) as xmlFile:
             self._xmlString = xmlFile.read()
             self._root      = parse(self._xmlString)
@@ -70,6 +73,14 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self.logger.debug(f'{self._project=}')
         self.logger.debug(f'{self._document=}')
 
+    def generateDefinitions(self):
+        """
+        Convenience method
+        """
+        self.generateClassDefinitions()
+        self.generateUmlLineDefinitions()
+        self.generateUmlNoteDefinitions()
+
     def generateClassDefinitions(self):
 
         pyutDocument = self._document
@@ -83,8 +94,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             pyutClassElement: Element         = graphicElement.PyutClass
             classDefinition:  ClassDefinition = ClassDefinition(name=pyutClassElement[XmlConstants.ATTR_NAME_V11])
 
-            classDefinition.size     = self._classSize(graphicElement=graphicElement)
-            classDefinition.position = self._classPosition(graphicElement=graphicElement)
+            classDefinition.size     = self._shapeSize(graphicElement=graphicElement)
+            classDefinition.position = self._shapePosition(graphicElement=graphicElement)
 
             classDefinition = self._classAttributes(pyutElement=pyutClassElement, classDefinition=classDefinition)
 
@@ -106,6 +117,16 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             umlLineDefinition: UmlLineDefinition = untangleLineDefinition.untangle(linkElement=linkElement)
             self._umlLineDefinitions.append(umlLineDefinition)
 
+    def generateUmlNoteDefinitions(self):
+        pyutDocument = self._document
+
+        noteElements: Elements = pyutDocument.get_elements(XmlConstants.ELEMENT_GRAPHIC_NOTE_V11)
+        untangleNoteDefinition: UnTangleNoteDefinition = UnTangleNoteDefinition()
+        for noteElement in noteElements:
+            noteDefinition: NoteDefinition = untangleNoteDefinition.untangle(linkElement=noteElement)
+
+            self._umlNoteDefinitions.append(noteDefinition)
+
     @property
     def classDefinitions(self) -> ClassDefinitions:
         return self._classDefinitions
@@ -113,6 +134,10 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
     @property
     def umlLineDefinitions(self) -> UmlLineDefinitions:
         return self._umlLineDefinitions
+
+    @property
+    def umlNoteDefinitions(self) -> UmlNoteDefinitions:
+        return self._umlNoteDefinitions
 
     def _generateMethods(self, pyutElement: Element) -> Methods:
 
@@ -168,24 +193,6 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
 
             fields.append(fieldDefinition)
         return fields
-
-    def _classSize(self, graphicElement: Element) -> Size:
-
-        width:  int = self._stringToInteger(graphicElement[XmlConstants.ATTR_WIDTH_V11])
-        height: int = self._stringToInteger(graphicElement[XmlConstants.ATTR_HEIGHT_V11])
-
-        size: Size = Size(width=width, height=height)
-
-        return size
-
-    def _classPosition(self, graphicElement: Element) -> Position:
-
-        x: int = self._stringToInteger(graphicElement[XmlConstants.ATTR_X_V11])
-        y: int = self._stringToInteger(graphicElement[XmlConstants.ATTR_Y_V11])
-
-        position: Position = Position(x=x, y=y)
-
-        return position
 
     def _classAttributes(self, pyutElement: Element, classDefinition: ClassDefinition) -> ClassDefinition:
 

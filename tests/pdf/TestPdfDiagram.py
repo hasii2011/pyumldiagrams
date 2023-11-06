@@ -11,6 +11,8 @@ from codeallybasic.UnitTestBase import UnitTestBase
 
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
+from pyumldiagrams.Definitions import NoteDefinition
+from pyumldiagrams.Definitions import UmlNoteDefinitions
 from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import LinePositions
@@ -474,6 +476,19 @@ class TestPdfDiagram(TestDiagramParent):
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Association labels should be identical')
 
+    def testLinkedNote(self):
+
+        nameStub:   str = 'LinkedNotes'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Association labels should be identical')
+
     def _generatePDF(self, untangler: UnTangleToClassDefinition, fileName: str):
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestDefinitions.TEST_DPI)
@@ -488,6 +503,12 @@ class TestPdfDiagram(TestDiagramParent):
         for bentLine in lineDefinitions:
             diagram.drawUmlLine(bentLine)
 
+        noteDefinitions: UmlNoteDefinitions = untangler.umlNoteDefinitions
+
+        for noteDef in noteDefinitions:
+            noteDefinition: NoteDefinition = cast(NoteDefinition, noteDef)
+            diagram.drawNote(noteDefinition)
+
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
@@ -498,9 +519,7 @@ class TestPdfDiagram(TestDiagramParent):
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName=baseXmlFileName)
         untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)
 
-        untangler.generateClassDefinitions()
-        untangler.generateUmlLineDefinitions()
-
+        untangler.generateDefinitions()
         return untangler
 
 

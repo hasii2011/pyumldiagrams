@@ -20,7 +20,7 @@ ClassName = NewType('ClassName', str)
 @dataclass
 class Position:
     """
-    The x and y coordinates are in screen/display resolution.  Diagramming modules may
+    The x and y noteCoordinates are in screen/display resolution.  Diagramming modules may
     convert these to appropriate positions based on the rendering technology.
     """
     x: int = 0
@@ -209,9 +209,7 @@ def createFieldsFactory() -> Fields:
 
 
 @dataclass
-class ClassDefinition(BaseDefinition):
-    """ The class definition.  Currently, does not support instance properties.
-    """
+class ShapeDefinition(BaseDefinition):
     size:     Size     = field(default_factory=createSizeFactory)
     """
     The size of UML class symbol.  See `Size`
@@ -219,6 +217,12 @@ class ClassDefinition(BaseDefinition):
     position: Position = field(default_factory=createPositionFactory)
     """
     The position of the UML class symbol.  See `Position`
+    """
+
+
+@dataclass
+class ClassDefinition(ShapeDefinition):
+    """ The class definition.  Currently, does not support instance properties.
     """
     methods: Methods   = field(default_factory=createMethodsFactory)
     """
@@ -255,6 +259,24 @@ class ClassDefinition(BaseDefinition):
 
 
 ClassDefinitions = NewType('ClassDefinitions', List[ClassDefinition])
+
+Content  = NewType('Content', str)
+Contents = NewType('Contents', List[Content])
+
+
+def createContentsFactory() -> Contents:
+    return Contents([])
+
+
+@dataclass
+class NoteDefinition(ShapeDefinition):
+    content: Contents = field(default_factory=createContentsFactory)
+    """
+    The note content
+    """
+
+
+UmlNoteDefinitions = NewType('UmlNoteDefinitions', List[NoteDefinition])
 
 
 class LineType(Enum):

@@ -128,7 +128,7 @@ class Common:
     @classmethod
     def computeMidPointOfBottomLine(cls, startPos: InternalPosition, endPos: InternalPosition) -> InternalPosition:
         """
-        These two coordinates are the two end-points of the bottom leg of the inheritance arrow
+        These two noteCoordinates are the two end-points of the bottom leg of the inheritance arrow
         midPoint = (x1+x2/2, y1+y2/2)
 
         Args:

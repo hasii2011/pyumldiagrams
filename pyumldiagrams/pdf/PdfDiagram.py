@@ -8,18 +8,24 @@ from os import sep as osSep
 
 from datetime import datetime
 
+from fpdf.drawing import color_from_rgb_string
+from fpdf.drawing import DeviceRGB
+
 from codeallybasic.ResourceManager import ResourceManager
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
+
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
-from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import NoteDefinition
+
 from pyumldiagrams.Internal import SeparatorPosition
 
+from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import Contents
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition
-
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
@@ -31,6 +37,10 @@ from pyumldiagrams.pdf.PdfCommon import PdfShapeDefinition
 
 from pyumldiagrams.pdf.PdfLine import PdfLine
 from pyumldiagrams.pdf.FPDFExtended import FPDFExtended
+
+NOTE_NOTCH_SIDE_Y_PERCENTAGE_LENGTH = 0.16
+
+NOTE_NOTCH_TOPX_PERCENTAGE_LENGTH = 0.90
 
 
 class PdfDiagram(BaseDiagram):
@@ -51,6 +61,7 @@ class PdfDiagram(BaseDiagram):
     Y_NUDGE_FACTOR: Final = 4
 
     FIRST_METHOD_Y_OFFSET: Final = 7
+    NOTE_X_OFFSET:         Final = 10.0
 
     def __init__(self, fileName: str, dpi: int, docDisplayMethodParameters: DisplayMethodParameters = DisplayMethodParameters.DISPLAY, headerText: str = ''):
         """
@@ -62,8 +73,7 @@ class PdfDiagram(BaseDiagram):
             headerText:  The header to place on the page
         """
         super().__init__(fileName=fileName, docDisplayMethodParameters=docDisplayMethodParameters, dpi=dpi, headerText=headerText)
-        # self._fileName: str = fileName
-        # self._dpi:      int = dpi
+
         self.logger: Logger = getLogger(__name__)
 
         pdf = FPDFExtended(headerText=headerText)
@@ -75,6 +85,11 @@ class PdfDiagram(BaseDiagram):
 
         pdf.set_creator('Humberto A. Sanchez II - The Great')
         pdf.set_author('Humberto A. Sanchez II - The Great')
+
+        self._noteYellow: DeviceRGB = color_from_rgb_string('rgb(255,255,230)')
+
+        # pdf.set_fill_color(noteYellow)
+        # currentColor = pdf.fill_color
 
         pdf.set_font('Arial', size=BaseDiagram.DEFAULT_FONT_SIZE)
         pdf.headerText = headerText
@@ -138,7 +153,7 @@ class PdfDiagram(BaseDiagram):
 
         symbolWidth: int = self._drawClassSymbol(classDefinition, rectX=x, rectY=y)
 
-        separatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
+        separatorPosition:      SeparatorPosition = self._drawSeparator(rectX=x, rectY=y, shapeWidth=symbolWidth)
         fieldSeparatorPosition: SeparatorPosition = self._drawFields(fieldReprs=fieldReprs, separatorPosition=separatorPosition)
 
         methodSeparatorPosition: SeparatorPosition = self._drawSeparator(rectX=x, rectY=fieldSeparatorPosition.y, shapeWidth=symbolWidth)
@@ -155,6 +170,23 @@ class PdfDiagram(BaseDiagram):
             lineDefinition:   A UML Line definition
         """
         self._lineDrawer.draw(lineDefinition=lineDefinition)
+
+    def drawNote(self, noteDefinition: NoteDefinition):
+
+        position:      Position = noteDefinition.position
+        size:          Size     = noteDefinition.size
+        verticalGap:   int      = self._diagramPadding.verticalGap
+        horizontalGap: int      = self._diagramPadding.horizontalGap
+
+        coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+        dimensions:  Dimensions  = self.__convertSize(size=size)
+
+        with self._pdf.local_context(fill_color=self._noteYellow):
+            self._pdf.rect(x=coordinates.x, y=coordinates.y, w=dimensions.width, h=dimensions.height, style='DF')
+
+        self._drawNoteNotch(coordinates, dimensions)
+
+        self._drawNoteContents(noteContents=noteDefinition.content, noteX=coordinates.x, noteY=coordinates.y)
 
     def drawEllipse(self, definition: EllipseDefinition):
         """
@@ -275,6 +307,37 @@ class PdfDiagram(BaseDiagram):
             self._pdf.text(x=x, y=y, txt=methodRepr)
 
             y = y + self._fontSize
+
+    def _drawNoteNotch(self, noteCoordinates: Coordinates, noteDimensions: Dimensions):
+        """
+        Draws the funky UML note notch
+        Args:
+            noteCoordinates:
+            noteDimensions:
+        """
+        # Use float for better positioning accuracy
+        #
+        notchTopX:  float = noteCoordinates.x + (noteDimensions.width * NOTE_NOTCH_TOPX_PERCENTAGE_LENGTH)
+        notchTopY:  float = noteCoordinates.y
+        notchSideX: float = noteCoordinates.x + noteDimensions.width
+        notchSideY: float = noteCoordinates.y + (noteDimensions.height * NOTE_NOTCH_SIDE_Y_PERCENTAGE_LENGTH)
+
+        self._pdf.line(x1=notchTopX, y1=notchTopY, x2=notchSideX, y2=notchSideY)
+
+    def _drawNoteContents(self, noteContents: Contents, noteX: int, noteY: int):
+        """
+
+        Args:
+            noteX:      X coordinate of the note shape
+            noteY:      Y coordinate of the note shape
+        """
+        contentX: float = noteX + PdfDiagram.NOTE_X_OFFSET
+        contentY: float = noteY + (1.5 * self._fontSize)
+
+        for noteContent in noteContents:
+            self._pdf.text(x=contentX, y=contentY, txt=noteContent)
+
+            contentY = contentY + self._fontSize
 
     def _drawFields(self, fieldReprs: BaseDiagram.FieldsRepr, separatorPosition: SeparatorPosition) -> SeparatorPosition:
 

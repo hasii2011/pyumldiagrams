@@ -7,10 +7,11 @@ from abc import ABCMeta
 
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import UmlLineDefinitions
-from pyumldiagrams.xmlsupport.SafeConversions import SafeConversions
+
+from pyumldiagrams.xmlsupport.ShapeAttributes import ShapeAttributes
 
 
-class MyMetaAbstractToClassDefinition(ABCMeta, type(SafeConversions)):        # type: ignore
+class MyMetaAbstractToClassDefinition(ABCMeta, type(ShapeAttributes)):        # type: ignore
     """
     I have know idea why this works:
     https://stackoverflow.com/questions/66591752/metaclass-conflict-when-trying-to-create-a-python-abstract-class-that-also-subcl
@@ -18,7 +19,7 @@ class MyMetaAbstractToClassDefinition(ABCMeta, type(SafeConversions)):        # 
     pass
 
 
-class AbstractToClassDefinition(SafeConversions):
+class AbstractToClassDefinition(ShapeAttributes):
     __metaclass__ = MyMetaAbstractToClassDefinition
 
     def __init__(self):

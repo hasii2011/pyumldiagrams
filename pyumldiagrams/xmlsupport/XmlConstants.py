@@ -40,6 +40,7 @@ ELEMENT_DOCUMENT_V11:      str = 'PyutDocument'
 ELEMENT_GRAPHIC_CLASS_V11: str = 'OglClass'
 ELEMENT_GRAPHIC_LINK_V11:  str = 'OglLink'
 ELEMENT_CONTROL_POINT_V11: str = 'ControlPoint'
+ELEMENT_GRAPHIC_NOTE_V11:  str = 'OglNote'
 
 ELEMENT_LABEL_CENTER_V11:      str = 'LabelCenter'
 ELEMENT_LABEL_SOURCE_V11:      str = 'LabelSource'
@@ -78,3 +79,5 @@ ATTR_LINK_DESTINATION_ANCHOR_Y_V11: str = 'destinationAnchorY'
 
 ATTR_CARDINALITY_SOURCE_V11:      str = 'cardinalitySource'
 ATTR_CARDINALITY_DESTINATION_V11: str = 'cardinalityDestination'
+
+ATTR_CONTENT_V11: str = 'content'

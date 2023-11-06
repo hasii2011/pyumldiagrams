@@ -75,14 +75,14 @@ class PdfLine(IDiagramLine):
         elif lineType == LineType.Interface:
             pass  # TODO
         elif lineType == LineType.NoteLink:
-            pass  # TODO
+            self._drawNoteLink(lineDefinition=lineDefinition)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
 
     def _drawInheritance(self, linePositions: LinePositions):
         """
         Must account for the margins and gaps between drawn shapes
-        Must convert to from screen coordinates to point coordinates
+        Must convert to from screen noteCoordinates to point noteCoordinates
         Draw the arrow first
         Compute the mid-point of the bottom line of the arrow
         That is where the line ends
@@ -154,6 +154,20 @@ class PdfLine(IDiagramLine):
         self._drawAssociationName(lineDefinition=lineDefinition)
         self._drawSourceCardinality(lineDefinition=lineDefinition)
         self._drawDestinationCardinality(lineDefinition=lineDefinition)
+
+    def _drawNoteLink(self, lineDefinition: UmlLineDefinition):
+
+        pdf:           FPDF          = self._docMaker
+        linePositions: LinePositions = lineDefinition.linePositions
+
+        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
+        with pdf.local_context():
+            pdf.set_dash_pattern(dash=5, gap=7)
+            for [currentPos, nextPos] in pairs:
+                currentCoordinates: InternalPosition = self._toInternal(position=currentPos)
+                nextCoordinates: InternalPosition = self._toInternal(position=nextPos)
+
+                pdf.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
 
     def _drawAggregation(self, lineDefinition: UmlLineDefinition, isComposite: bool):
 
