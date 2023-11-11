@@ -8,10 +8,10 @@ from logging import Logger
 from logging import getLogger
 from typing import cast
 
-# noinspection PyPackageRequirements
 from fpdf import FPDF
 
 from pyumldiagrams.Common import Common
+
 from pyumldiagrams.CommonAbsolute import CommonAbsolute
 
 from pyumldiagrams.IDiagramLine import IDiagramLine
@@ -28,6 +28,10 @@ from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import LineType
 from pyumldiagrams.Definitions import Position
+from pyumldiagrams.Definitions import AttachmentSide
+from pyumldiagrams.Definitions import RenderStyle
+from pyumldiagrams.Definitions import UmlLollipopDefinition
+
 
 from pyumldiagrams.pdf.PdfCommon import Coordinates
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
@@ -48,6 +52,14 @@ class PdfLine(IDiagramLine):
     """
     INHERITANCE_ARROW_HEIGHT: Final = 10
     DIAMOND_HEIGHT:           Final = 8
+    LOLLIPOP_CIRCLE_HEIGHT:   Final = 8
+    LOLLIPOP_CIRCLE_WIDTH:    Final = 8
+    LOLLIPOP_LINE_LENGTH:     Final = 60
+
+    LOLLIPOP_WIDTH_SQUARED:   float = (LOLLIPOP_CIRCLE_WIDTH * LOLLIPOP_CIRCLE_WIDTH)
+    LOLLIPOP_CIRCLE_RADIUS:   float = (LOLLIPOP_CIRCLE_HEIGHT / 2) + (LOLLIPOP_WIDTH_SQUARED / (8 * LOLLIPOP_CIRCLE_HEIGHT))
+
+    ADJUST_AWAY_FROM_IMPLEMENTOR: Final = 10
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -78,6 +90,45 @@ class PdfLine(IDiagramLine):
             self._drawNoteLink(lineDefinition=lineDefinition)
         else:
             raise UnsupportedException(f'Line definition type not supported: `{lineType}`')
+
+    def drawLollipopInterface(self, umlLollipopDefinition: UmlLollipopDefinition):
+
+        pdf:      FPDF     = self._docMaker
+        position: Position = umlLollipopDefinition.position
+        xSrc:     int      = position.x
+        ySrc:     int      = position.y
+
+        attachmentSide: AttachmentSide = umlLollipopDefinition.attachmentSide
+
+        circleX, circleY, xDest, yDest = self._calculateWhereToDrawLollipop(attachmentSide, xSrc, ySrc)
+        #
+        # Draw interface line
+        #
+        internalDest: InternalPosition = self._toInternal(position=Position(x=xDest, y=yDest))
+        internalSrc:  InternalPosition = self._toInternal(position=position)
+        pdf.line(x1=internalSrc.x, y1=internalSrc.y, x2=internalDest.x, y2=internalDest.y)
+        #
+        # Draw the Tootsie Pop circle
+        #
+        adjustedX, adjustedY = self._adjustXYForCircle(attachmentSide=attachmentSide, x=circleX, y=circleY)
+
+        internalAdjusted: InternalPosition = self._toInternal(Position(x=adjustedX, y=adjustedY))
+        pdf.ellipse(x=internalAdjusted.x, y=internalAdjusted.y,
+                    w=PdfLine.LOLLIPOP_CIRCLE_WIDTH, h=PdfLine.LOLLIPOP_CIRCLE_HEIGHT,
+                    style=RenderStyle.Draw.value)
+        #
+        #
+        #
+        textWidth = pdf.get_string_width(s=umlLollipopDefinition.name)
+        pixelSize = pdf.font_size_pt
+
+        position = self._determineInterfaceNamePosition(xSrc=xSrc, ySrc=ySrc,
+                                                        attachmentSide=attachmentSide,
+                                                        pixelSize=(pixelSize, pixelSize),
+                                                        textSize=(textWidth, pixelSize))
+
+        textPosition: InternalPosition = self._toInternal(position=position)
+        pdf.text(x=textPosition.x, y=textPosition.y, txt=umlLollipopDefinition.name)
 
     def _drawInheritance(self, linePositions: LinePositions):
         """
@@ -292,3 +343,106 @@ class PdfLine(IDiagramLine):
         internalPosition: InternalPosition = InternalPosition(coordinates.x, coordinates.y)
 
         return internalPosition
+
+    def _calculateWhereToDrawLollipop(self, attachmentSide: AttachmentSide, xSrc, ySrc):
+        """
+
+        Args:
+            attachmentSide:
+            xSrc:
+            ySrc:
+
+        Returns:  A tuple that is the x,y position of the circle and the end
+        of the line
+        """
+        lollipopLength: int = PdfLine.LOLLIPOP_LINE_LENGTH
+        self.logger.debug(f'({xSrc},{ySrc}) {lollipopLength=}')
+
+        if attachmentSide == AttachmentSide.EAST:
+            xDest:   int = int(xSrc + lollipopLength)
+            yDest:   int = int(ySrc)
+            circleX: int = int(xSrc + lollipopLength)
+            circleY: int = int(ySrc)
+        elif attachmentSide == AttachmentSide.WEST:
+            xDest   = int(xSrc - lollipopLength)
+            yDest   = int(ySrc)
+            circleX = int(xSrc - lollipopLength)
+            circleY = int(ySrc)
+        elif attachmentSide == AttachmentSide.NORTH:
+            xDest   = int(xSrc)
+            yDest   = int(ySrc - lollipopLength)
+            circleX = int(xSrc)
+            circleY = int(ySrc - lollipopLength)
+        else:  # it is South
+            xDest   = int(xSrc)
+            yDest   = int(ySrc + lollipopLength)
+            circleX = int(xSrc)
+            circleY = int(ySrc + lollipopLength)
+
+        return circleX, circleY, xDest, yDest
+
+    def _adjustXYForCircle(self, attachmentSide: AttachmentSide, x: int, y: int) -> Tuple[int, int]:
+
+        adjustedX: int = 0
+        adjustedY: int = 0
+
+        if attachmentSide == AttachmentSide.EAST:
+            adjustedX = x
+            adjustedY = y - (PdfLine.LOLLIPOP_CIRCLE_HEIGHT // 2)
+        elif attachmentSide == AttachmentSide.WEST:
+            adjustedX = x - PdfLine.LOLLIPOP_CIRCLE_WIDTH
+            adjustedY = y - (PdfLine.LOLLIPOP_CIRCLE_HEIGHT // 2)
+        elif attachmentSide == AttachmentSide.NORTH:
+            adjustedX = x - (PdfLine.LOLLIPOP_CIRCLE_WIDTH // 2)
+            adjustedY = y - PdfLine.LOLLIPOP_CIRCLE_HEIGHT
+        elif attachmentSide == AttachmentSide.SOUTH:
+            adjustedX = x - (PdfLine.LOLLIPOP_CIRCLE_WIDTH // 2)
+            adjustedY = y
+
+        return adjustedX, adjustedY
+
+    def _determineInterfaceNamePosition(self, xSrc, ySrc,
+                                        attachmentSide: AttachmentSide,
+                                        pixelSize: Tuple[int, int],
+                                        textSize: Tuple[int, int]) -> Position:
+
+        position:     Position     = Position()
+        # attachmentSide: AttachmentSide = destinationAnchor.attachmentPoint
+
+        x = xSrc
+        y = ySrc
+
+        fWidth, fHeight = pixelSize
+        tWidth, tHeight = textSize
+
+        if attachmentSide == AttachmentSide.NORTH:
+            y -= (PdfLine.LOLLIPOP_LINE_LENGTH + (PdfLine.LOLLIPOP_CIRCLE_RADIUS * 2) + PdfLine.ADJUST_AWAY_FROM_IMPLEMENTOR)
+            x -= (tWidth // 2)
+            position.x = x
+            position.y = y
+
+        elif attachmentSide == AttachmentSide.SOUTH:
+            y += (PdfLine.LOLLIPOP_LINE_LENGTH + PdfLine.LOLLIPOP_CIRCLE_RADIUS + PdfLine.ADJUST_AWAY_FROM_IMPLEMENTOR)
+            x -= (tWidth // 2)
+            position.x = x
+            position.y = y
+
+        elif attachmentSide == AttachmentSide.WEST:
+            y = y - (fHeight * 2)
+            originalX: int = x
+            x = x - PdfLine.LOLLIPOP_LINE_LENGTH - (tWidth // 2)
+            while x + tWidth > originalX:
+                x -= PdfLine.ADJUST_AWAY_FROM_IMPLEMENTOR
+            position.x = x
+            position.y = y
+
+        elif attachmentSide == AttachmentSide.EAST:
+            y = y - (fHeight * 2)
+            x = x + round(PdfLine.LOLLIPOP_LINE_LENGTH * 0.8)
+            position.x = x
+            position.y = y
+        else:
+            self.logger.warning(f'Unknown attachment point: {attachmentSide}')
+            assert False, 'Unknown attachment point'
+
+        return position

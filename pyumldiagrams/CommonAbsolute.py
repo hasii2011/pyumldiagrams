@@ -1,19 +1,10 @@
-from dataclasses import dataclass
+
 from typing import Tuple
 
-from enum import Enum
+from dataclasses import dataclass
 
 from pyumldiagrams.Definitions import Position
-
-
-class AttachmentSide(Enum):
-    """
-    Cardinal points, taken to correspond to the attachment points of the destination shape
-    """
-    NORTH = 0
-    EAST  = 1
-    SOUTH = 2
-    WEST  = 3
+from pyumldiagrams.Definitions import AttachmentSide
 
 
 @dataclass(eq=True)

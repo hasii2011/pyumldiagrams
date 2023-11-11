@@ -12,6 +12,7 @@ from codeallybasic.UnitTestBase import UnitTestBase
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import NoteDefinition
+from pyumldiagrams.Definitions import UmlLollipopDefinitions
 from pyumldiagrams.Definitions import UmlNoteDefinitions
 from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import DisplayMethodParameters
@@ -478,7 +479,7 @@ class TestPdfDiagram(TestDiagramParent):
 
     def testLinkedNote(self):
 
-        nameStub:   str = 'LinkedNotes'
+        nameStub:  str = 'LinkedNotes'
         untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
 
         baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
@@ -488,6 +489,18 @@ class TestPdfDiagram(TestDiagramParent):
 
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Association labels should be identical')
+
+    def testLollipopInterfaces(self):
+        nameStub:  str = 'ClassesWithLollipop'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Lollipop interfaces should be identical')
 
     def _generatePDF(self, untangler: UnTangleToClassDefinition, fileName: str):
 
@@ -509,12 +522,14 @@ class TestPdfDiagram(TestDiagramParent):
             noteDefinition: NoteDefinition = cast(NoteDefinition, noteDef)
             diagram.drawNote(noteDefinition)
 
+        lollipopDefinitions: UmlLollipopDefinitions = untangler.umlLollipopDefinitions
+        for lollipopDefinition in lollipopDefinitions:
+            diagram.drawUmlLollipop(umlLollipopDefinition=lollipopDefinition)
+
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
     def _unTangleXmlFile(self, baseXmlFileName: str) -> UnTangleToClassDefinition:
-
-        # baseXmlFileName = 'AggregatorRelativePositions.xml'
 
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(package=UnitTestBase.RESOURCES_PACKAGE_NAME, fileName=baseXmlFileName)
         untangler: UnTangleToClassDefinition = UnTangleToClassDefinition(fqFileName=fqFileName)

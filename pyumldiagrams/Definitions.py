@@ -6,6 +6,7 @@ from enum import Enum
 
 from dataclasses import dataclass
 from dataclasses import field
+from typing import cast
 
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -15,6 +16,39 @@ from pyumldiagrams.UnsupportedException import UnsupportedException
 
 
 ClassName = NewType('ClassName', str)
+
+
+class AttachmentSide(Enum):
+    """
+    Cardinal points, taken to correspond to the attachment points of the destination shape
+    """
+    NORTH = 0
+    EAST  = 1
+    SOUTH = 2
+    WEST  = 3
+
+    @staticmethod
+    def toEnum(strValue: str) -> 'AttachmentSide':
+        """
+        Converts the input string to the attachment location
+        Args:
+            strValue:   A serialized string value
+
+        Returns:  The attachment side enumeration
+        """
+        canonicalStr: str = strValue.strip(' ')
+
+        if canonicalStr == 'NORTH':
+            return AttachmentSide.NORTH
+        elif canonicalStr == 'EAST':
+            return AttachmentSide.EAST
+        elif canonicalStr == 'WEST':
+            return AttachmentSide.WEST
+        elif canonicalStr == 'SOUTH':
+            return AttachmentSide.SOUTH
+        else:
+            print(f'Warning: did not recognize this attachment point: {canonicalStr}')
+            return AttachmentSide.NORTH
 
 
 @dataclass
@@ -289,6 +323,7 @@ class LineType(Enum):
     Composition     = 7
     Association     = 9
     NoteLink        = 11
+    Lollipop        = 13
 
     @staticmethod
     def toEnum(strValue: str) -> 'LineType':
@@ -312,6 +347,8 @@ class LineType(Enum):
             return LineType.Association
         elif canonicalStr == 'notelink':
             return LineType.NoteLink
+        elif canonicalStr == 'lollipop':
+            return LineType.Lollipop
         else:
             raise UnsupportedException(f'Do not handle LineType {canonicalStr}')
 
@@ -358,6 +395,19 @@ UmlLineDefinitions = NewType('UmlLineDefinitions', List[UmlLineDefinition])
 """
 Syntactic sugar to define a list of UML Lines.
 """
+
+
+@dataclass
+class UmlLollipopDefinition:
+    name: str = ''
+    """
+    Interface Name 
+    """
+    attachmentSide: AttachmentSide = cast(AttachmentSide, None)
+    position:       Position       = field(default_factory=createPositionFactory)
+
+
+UmlLollipopDefinitions = NewType('UmlLollipopDefinitions', List[UmlLollipopDefinition])
 
 
 class RenderStyle(Enum):

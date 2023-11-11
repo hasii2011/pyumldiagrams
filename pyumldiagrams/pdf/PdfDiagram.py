@@ -16,7 +16,6 @@ from codeallybasic.ResourceManager import ResourceManager
 from pyumldiagrams.BaseDiagram import BaseDiagram
 
 from pyumldiagrams.Defaults import DEFAULT_LINE_WIDTH
-from pyumldiagrams.Definitions import NoteDefinition
 
 from pyumldiagrams.Internal import SeparatorPosition
 
@@ -29,6 +28,8 @@ from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
+from pyumldiagrams.Definitions import NoteDefinition
+from pyumldiagrams.Definitions import UmlLollipopDefinition
 
 from pyumldiagrams.pdf.PdfCommon import Coordinates
 from pyumldiagrams.pdf.PdfCommon import Dimensions
@@ -79,7 +80,7 @@ class PdfDiagram(BaseDiagram):
         pdf = FPDFExtended(headerText=headerText)
         pdf.add_page()
 
-        pdf.set_display_mode(zoom='default', layout='single')
+        pdf.set_display_mode(zoom='fullwidth', layout='single')
 
         pdf.set_line_width(DEFAULT_LINE_WIDTH)
 
@@ -87,9 +88,6 @@ class PdfDiagram(BaseDiagram):
         pdf.set_author('Humberto A. Sanchez II - The Great')
 
         self._noteYellow: DeviceRGB = color_from_rgb_string('rgb(255,255,230)')
-
-        # pdf.set_fill_color(noteYellow)
-        # currentColor = pdf.fill_color
 
         pdf.set_font('Arial', size=BaseDiagram.DEFAULT_FONT_SIZE)
         pdf.headerText = headerText
@@ -187,6 +185,9 @@ class PdfDiagram(BaseDiagram):
         self._drawNoteNotch(coordinates, dimensions)
 
         self._drawNoteContents(noteContents=noteDefinition.content, noteX=coordinates.x, noteY=coordinates.y)
+
+    def drawUmlLollipop(self, umlLollipopDefinition: UmlLollipopDefinition):
+        self._lineDrawer.drawLollipopInterface(umlLollipopDefinition=umlLollipopDefinition)
 
     def drawEllipse(self, definition: EllipseDefinition):
         """

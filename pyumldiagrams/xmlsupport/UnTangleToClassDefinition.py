@@ -7,6 +7,7 @@ from logging import getLogger
 from untangle import Element
 from untangle import parse
 
+from pyumldiagrams.Definitions import AttachmentSide
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
@@ -17,8 +18,11 @@ from pyumldiagrams.Definitions import Methods
 from pyumldiagrams.Definitions import NoteDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import Parameters
+from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import UmlLineDefinitions
+from pyumldiagrams.Definitions import UmlLollipopDefinition
+from pyumldiagrams.Definitions import UmlLollipopDefinitions
 from pyumldiagrams.Definitions import UmlNoteDefinitions
 from pyumldiagrams.Definitions import VisibilityType
 from pyumldiagrams.Definitions import createFieldsFactory
@@ -53,7 +57,8 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self._project:  Element = cast(Element, None)
         self._document: Element = cast(Element, None)
 
-        self._umlNoteDefinitions:   UmlNoteDefinitions   = UmlNoteDefinitions([])
+        self._umlNoteDefinitions:     UmlNoteDefinitions     = UmlNoteDefinitions([])
+        self._umlLollipopDefinitions: UmlLollipopDefinitions = UmlLollipopDefinitions([])
 
         with open(fqFileName) as xmlFile:
             self._xmlString = xmlFile.read()
@@ -80,6 +85,7 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
         self.generateClassDefinitions()
         self.generateUmlLineDefinitions()
         self.generateUmlNoteDefinitions()
+        self.generateLollipopDefinitions()
 
     def generateClassDefinitions(self):
 
@@ -117,6 +123,27 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
             umlLineDefinition: UmlLineDefinition = untangleLineDefinition.untangle(linkElement=linkElement)
             self._umlLineDefinitions.append(umlLineDefinition)
 
+    def generateLollipopDefinitions(self):
+        pyutDocument = self._document
+
+        lollipopElements: Elements = pyutDocument.get_elements(XmlConstants.ELEMENT_GRAPHIC_LOLLIPOP_V11)
+        for lollipopElement in lollipopElements:
+            umlLollipopDefinition: UmlLollipopDefinition = UmlLollipopDefinition()
+
+            x:              int = self._stringToInteger(lollipopElement[XmlConstants.ATTR_X_V11])
+            y:              int = self._stringToInteger(lollipopElement[XmlConstants.ATTR_Y_V11])
+
+            attachmentSide: str = lollipopElement[XmlConstants.ATTR_ATTACHMENT_SIDE_V11]
+
+            pyutLollipopElement: Element = lollipopElement.PyutInterface
+            name:                str     = pyutLollipopElement[XmlConstants.ATTR_NAME_V11]
+
+            umlLollipopDefinition.name           = name
+            umlLollipopDefinition.position       = Position(x=x, y=y)
+            umlLollipopDefinition.attachmentSide = AttachmentSide.toEnum(attachmentSide)
+
+            self._umlLollipopDefinitions.append(umlLollipopDefinition)
+
     def generateUmlNoteDefinitions(self):
         pyutDocument = self._document
 
@@ -138,6 +165,10 @@ class UnTangleToClassDefinition(AbstractToClassDefinition):
     @property
     def umlNoteDefinitions(self) -> UmlNoteDefinitions:
         return self._umlNoteDefinitions
+
+    @property
+    def umlLollipopDefinitions(self) -> UmlLollipopDefinitions:
+        return self._umlLollipopDefinitions
 
     def _generateMethods(self, pyutElement: Element) -> Methods:
 
