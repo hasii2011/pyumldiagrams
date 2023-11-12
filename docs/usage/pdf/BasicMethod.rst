@@ -6,7 +6,7 @@ Basic Method
     :linenos:
 
     from pyumldiagrams.Definitions import ClassDefinition
-    from pyumldiagrams.Definitions import DefinitionType
+    from pyumldiagrams.Definitions import VisibilityType
     from pyumldiagrams.Definitions import MethodDefinition
     from pyumldiagrams.Definitions import Methods
     from pyumldiagrams.Definitions import ParameterDefinition
@@ -22,7 +22,7 @@ Basic Method
     size:     Size            = Size(width=266, height=100)
     car:      ClassDefinition = ClassDefinition(name='Car', position=position, size=size)
 
-    initMethodDef: MethodDefinition   = MethodDefinition(name='__init__', visibility=DefinitionType.Public)
+    initMethodDef: MethodDefinition   = MethodDefinition(name='__init__', visibility=VisibilityType.Public)
     initParam:    ParameterDefinition = ParameterDefinition(name='make', parameterType='str', defaultValue='')
 
     initMethodDef.parameters = Parameters([initParam])

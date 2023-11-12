@@ -19,8 +19,8 @@ def buildFields() -> Fields:
     fieldTypeOnly:         FieldDefinition = FieldDefinition(name='FieldTypeOnly',         fieldType='float', defaultValue='')
     fieldDefaultValueOnly: FieldDefinition = FieldDefinition(name='FieldDefaultValueOnly', fieldType='',      defaultValue='23')
 
-    fieldFull.visibility = VisibilityType.Public
-    fieldTypeOnly.visibility = VisibilityType.Private
+    fieldFull.visibility             = VisibilityType.Public
+    fieldTypeOnly.visibility         = VisibilityType.Private
     fieldDefaultValueOnly.visibility = VisibilityType.Protected
 
     fields.append(fieldFull)
