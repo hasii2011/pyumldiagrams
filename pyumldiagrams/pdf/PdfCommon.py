@@ -3,10 +3,12 @@ from dataclasses import dataclass
 from dataclasses import field
 
 from pyumldiagrams.Common import Common
+from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import Position
 
 from pyumldiagrams.Defaults import LEFT_MARGIN
 from pyumldiagrams.Defaults import TOP_MARGIN
+from pyumldiagrams.Internal import InternalPosition
 
 
 @dataclass
@@ -37,6 +39,11 @@ class PdfShapeDefinition:
 
 class PdfCommon(Common):
 
+    def __init__(self, diagramPadding: DiagramPadding, dpi: int):
+
+        self._diagramPadding: DiagramPadding = diagramPadding
+        self._dpi:            int            = dpi
+
     @classmethod
     def toPdfPoints(cls, pixelNumber: float, dpi: int) -> int:
         """
@@ -61,3 +68,14 @@ class PdfCommon(Common):
         y: int = PdfCommon.toPdfPoints(pos.y, dpi) + TOP_MARGIN  + horizontalGap
 
         return Coordinates(x=x, y=y)
+
+    def toInternal(self, position: Position) -> InternalPosition:
+
+        verticalGap:   int = self._diagramPadding.verticalGap
+        horizontalGap: int = self._diagramPadding.horizontalGap
+
+        coordinates: Coordinates = PdfCommon.convertPosition(pos=position, dpi=self._dpi, verticalGap=verticalGap, horizontalGap=horizontalGap)
+
+        internalPosition: InternalPosition = InternalPosition(coordinates.x, coordinates.y)
+
+        return internalPosition
