@@ -15,19 +15,21 @@ from PIL import ImageColor
 from PIL import ImageDraw
 from PIL import ImageFont
 
-
 from pyumldiagrams.BaseDiagram import BaseDiagram
-from pyumldiagrams.Definitions import DisplayMethodParameters
 
 from pyumldiagrams.Definitions import TOP_MARGIN
 from pyumldiagrams.Definitions import LEFT_MARGIN
 
+from pyumldiagrams.Definitions import DisplayMethodParameters
+from pyumldiagrams.Definitions import NoteDefinition
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import Position
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import Size
 from pyumldiagrams.Definitions import UmlLineDefinition
+from pyumldiagrams.Definitions import UmlLollipopDefinition
+from pyumldiagrams.UnsupportedException import UnsupportedException
 
 from pyumldiagrams.image.ImageCommon import ImageCommon
 
@@ -36,6 +38,7 @@ from pyumldiagrams.Internal import SeparatorPosition
 
 from pyumldiagrams.image.ImageFormat import ImageFormat
 from pyumldiagrams.image.ImageLine import ImageLine
+
 
 ShapeDefinition = Union[EllipseDefinition, RectangleDefinition]
 
@@ -150,6 +153,24 @@ class ImageDiagram(BaseDiagram):
             lineDefinition:   A UML Line definition
         """
         self._lineDrawer.draw(lineDefinition=lineDefinition)
+
+    def drawNote(self, noteDefinition: NoteDefinition):
+        """
+        TODO:
+        Args:
+            noteDefinition:
+
+        """
+        raise UnsupportedException(f'drawNote is an unsupported method')
+
+    def drawUmlLollipop(self, umlLollipopDefinition: UmlLollipopDefinition):
+        """
+        TODO:
+        Args:
+            umlLollipopDefinition:
+
+        """
+        raise UnsupportedException(f'drawUmlLollipop is an unsupported method')
 
     def drawEllipse(self, definition: EllipseDefinition):
         """

@@ -3,6 +3,9 @@ from typing import List
 from typing import cast
 from typing import Final
 
+from abc import ABC
+from abc import abstractmethod
+
 from logging import Logger
 from logging import getLogger
 
@@ -14,14 +17,16 @@ from pyumldiagrams.Definitions import DisplayMethodParameters
 from pyumldiagrams.Definitions import EllipseDefinition
 from pyumldiagrams.Definitions import FieldDefinition
 from pyumldiagrams.Definitions import MethodDefinition
+from pyumldiagrams.Definitions import NoteDefinition
 from pyumldiagrams.Definitions import ParameterDefinition
 from pyumldiagrams.Definitions import RectangleDefinition
 from pyumldiagrams.Definitions import UmlLineDefinition
 from pyumldiagrams.Definitions import Fields
 from pyumldiagrams.Definitions import Methods
+from pyumldiagrams.Definitions import UmlLollipopDefinition
 
 
-class BaseDiagram:
+class BaseDiagram(ABC):
     """
     Always lays out in portrait mode.  Currently only supports UML classes with methods.  Only supports
     inheritance, composition, and aggregation lines.
@@ -163,6 +168,7 @@ class BaseDiagram:
         """
         pass
 
+    @abstractmethod
     def drawUmlLine(self, lineDefinition: UmlLineDefinition):
         """
         Draw the inheritance, aggregation, or composition lines that describe the relationships
@@ -175,6 +181,31 @@ class BaseDiagram:
         """
         pass
 
+    @abstractmethod
+    def drawNote(self, noteDefinition: NoteDefinition):
+        """
+        Draw a UML Note
+
+        Must be overridden by implementors
+
+        Args:
+            noteDefinition:   A UML Note definition
+        """
+        pass
+
+    @abstractmethod
+    def drawUmlLollipop(self, umlLollipopDefinition: UmlLollipopDefinition):
+        """
+        Draw a UML Lollipop interface
+
+        Must be overridden by implementors
+
+        Args:
+            umlLollipopDefinition:   A UML Lollipop Interface definition
+        """
+        pass
+
+    @abstractmethod
     def drawEllipse(self, definition: EllipseDefinition):
         """
         Draw a general purpose ellipse
@@ -184,6 +215,7 @@ class BaseDiagram:
         """
         pass
 
+    @abstractmethod
     def drawRectangle(self, definition: RectangleDefinition):
         """
         Draw a general purpose rectangle
@@ -193,6 +225,7 @@ class BaseDiagram:
         """
         pass
 
+    @abstractmethod
     def write(self):
         """
         Call this method when you are done with placing the diagram onto a document.
