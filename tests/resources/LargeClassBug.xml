@@ -1,236 +1,609 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PyutProject version="10" CodePath="">
-    <PyutDocument type="CLASS_DIAGRAM" title="Core UI" scrollPositionX="1" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
-
-        <GraphicClass width="197" height="750" x="486" y="65">
-            <Class id="24" name="Widget" filename="" description="" showMethods="True" showFields="True" showStereotype="True">
-                <Method name="__init__" visibility="PRIVATE">
-                    <Return type=""/>
-                    <Param name="rect" type="Rect=None,**kwds"/>
-                </Method>
-                <Method name="set" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="add_anchor" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="mode" type="str"/>
-                </Method>
-                <Method name="remove_anchor" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="mode" type="str"/>
-                </Method>
-                <Method name="set_resizing" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="add" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="arg" type="'Widget'"/>
-                </Method>
-                <Method name="add_centered" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="remove" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="set_parent" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="_add" visibility="PROTECTED">
-                    <Return type=""/>
-                </Method>
-                <Method name="_remove" visibility="PROTECTED">
-                    <Return type=""/>
-                </Method>
-                <Method name="draw_all" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="debugSubWidgetDraws" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="diagnose_subsurface_problem" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="find_widget" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="pos" type="tuple"/>
-                </Method>
-                <Method name="handle_mouse" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="augment_mouse_event" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="setup_cursor" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="dispatch_key" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="handle_event" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_focus" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="notify_attention_loss" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="dispatch_attention_loss" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="handle_command" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="next_handler" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="call_handler" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="call_parent_handler" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="is_inside" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="present" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="centered" type="bool=True"/>
-                </Method>
-                <Method name="dismiss" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_root" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_top_widget" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="focus" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="focus_on" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="has_focus" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="focused_on" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="focus_chain" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="shrink_wrap" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="invalidate" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="predict" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="predict_attr" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="init_attr" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="predict_font" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_margin_rect" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="set_size_for_text" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="tab_to_first" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="tab_to_next" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_tab_order" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="collect_tab_order" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="inherited" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="attributeName" type="str"/>
-                </Method>
-                <Method name="get_mouse" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_menu_bar" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="set_menu_bar" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_is_gl_container" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="set_is_gl_container" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="gl_draw_all" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="gl_draw_self" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="defer_drawing" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="relative_mode" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="__contains__" visibility="PRIVATE">
-                    <Return type=""/>
-                    <Param name="event" type="Event"/>
-                </Method>
-                <Method name="draw" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="surface" type="Surface"/>
-                </Method>
-                <Method name="draw_over" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="surface" type="Surface"/>
-                </Method>
-                <Method name="key_down" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="theKeyEvent" type="Event"/>
-                </Method>
-                <Method name="key_up" visibility="PUBLIC">
-                    <Return type=""/>
-                    <Param name="theKeyEvent" type="Event"/>
-                </Method>
-                <Method name="get_cursor" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="attention_lost" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="get_visible" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Method name="set_visible" visibility="PUBLIC">
-                    <Return type=""/>
-                </Method>
-                <Field visibility="PRIVATE">
-                    <Param name="logger" type="" defaultValue="logging.getLogger(__name__)"/>
-                </Field>
-                <Field visibility="PRIVATE">
-                    <Param name="is_modal" type="" defaultValue="False"/>
-                </Field>
-                <Field visibility="PRIVATE">
-                    <Param name="modal_result" type="" defaultValue="None"/>
-                </Field>
-            </Class>
-        </GraphicClass>
-
-    </PyutDocument>
+	<PyutDocument type="CLASS_DIAGRAM" title="Class Diagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="275" height="818" x="100" y="25">
+			<Class id="1" name="Widget" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
+				<Method name="__init__" visibility="PRIVATE">
+					<Return type=""/>
+					<Param name="rect" type="Rect" defaultValue="None"/>
+					<Param name="**kwds" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Creates a new widget, initially without any parent. If a rect is given, it specifies the new widget's initial</Code>
+						<Code>        size and position relative to its parent.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            rect:   A PyGame rectangle defining the portion of the parent widget's coordinate system occupied by the</Code>
+						<Code>             widget. Modifying this rectangle changes the widget's size and position.</Code>
+						<Code></Code>
+						<Code>            **kwds: Additional attributes specified as key-value pairs</Code>
+						<Code>        &quot;&quot;&quot; super().__init__(rect) self.logger=logging.getLogger(__name__) self.is_modal=False self.modal_result=None self.set(**kwds)  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="set" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="**kwds" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="add_anchor" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="mode" type="str" defaultValue=""/>
+					<SourceCode>
+						<Code>        Adds the options specified by mode to the anchor property.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            mode:  The new anchor mode to add</Code>
+						<Code></Code>
+						<Code>        Returns:</Code>
+						<Code>        &quot;&quot;&quot; self.anchor=&quot;&quot;.join(set(self.anchor)|set(mode))  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="remove_anchor" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="mode" type="str" defaultValue=""/>
+					<SourceCode>
+						<Code>         Remove the options specified by mode from anchor property.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            mode: The anchor mode to remove</Code>
+						<Code>        Returns:</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; self.anchor=&quot;&quot;.join(set(self.anchor)-set(mode))  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="set_resizing" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="axis" type="" defaultValue=""/>
+					<Param name="value" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="add" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="arg" type="'Widget'" defaultValue=""/>
+					<SourceCode>
+						<Code>        Adds the given widget or sequence of widgets as a subwidget of this widget.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            arg:  May be a single widget or multiple</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; ifarg:             self.logger.debug(f&quot;arg: '{arg.__str__()}' is Widget {isinstance(arg, Widget)}&quot;) ifisinstance(arg,Widget)ornothasattr(arg,'__iter__'):                 arg.set_parent(self)  else:                 self.logger.debug(f&quot;arg is container: {arg.__str__}&quot;) foriteminarg:                     self.add(item)     </Code>
+					</SourceCode>
+				</Method>
+				<Method name="add_centered" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Adds the given widget and positions it in the center of this widget.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            widget: The widget to center</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; w,h=self.size widget.center=w//2,h//2 self.add(widget)  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="remove" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode>
+						<Code></Code>
+						<Code>        If the given widget is a subwidget of this widget, it is removed and its parent attribute is set to None.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            widget:  The widget to act on</Code>
+						<Code>        &quot;&quot;&quot; ifwidgetinself.subwidgets:             widget.set_parent(None)   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="set_parent" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="parent" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Changes the parent of this widget to the given widget. This is an alternative to using the add and remove</Code>
+						<Code>        methods of the parent widget. Setting the parent to None removes the widget from any parent.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            parent:</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; ifparentisnotself.parent:             ifself.parent:                 self.parent._remove(self)  self.parent=parent ifparent:                 parent._add(self)    </Code>
+					</SourceCode>
+				</Method>
+				<Method name="_add" visibility="PROTECTED">
+					<Return type=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="_remove" visibility="PROTECTED">
+					<Return type=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="draw_all" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="surface" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="debugSubWidgetDraws" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="sub_rect" type="" defaultValue=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="diagnose_subsurface_problem" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="surface" type="" defaultValue=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="find_widget" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="pos" type="tuple" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="handle_mouse" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="augment_mouse_event" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Args:</Code>
+						<Code>            event:   The event to augment</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; posMap=self.global_to_local(event.pos) event.dict['local']=list(posMap)  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="setup_cursor" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="dispatch_key" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="handle_event" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="get_focus" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        If this widget or one of its subwidgets has the keyboard focus, returns that widget. Otherwise it returns</Code>
+						<Code>        the widget that would have the keyboard focus if this widget were on the focus path.</Code>
+						<Code></Code>
+						<Code>        Returns:  A widget with the focus</Code>
+						<Code>        &quot;&quot;&quot; widget=self while1:             focus=widget.focus_switch ifnotfocus:                 break  widget=focus  returnwidget  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="notify_attention_loss" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="dispatch_attention_loss" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="handle_command" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="*args" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="next_handler" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="call_handler" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="*args" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        If the widget has a method with the given name, it is called with the given arguments, and its return value is</Code>
+						<Code>        is returned. Otherwise, nothing is done and 'pass' is returned.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            name:  The method name</Code>
+						<Code>            *args: The arguments to use</Code>
+						<Code></Code>
+						<Code>        Returns:  The value of the 'called' method</Code>
+						<Code>        &quot;&quot;&quot; method=getattr(self,name,None) ifmethod:             returnmethod(*args)  else:             return'pass'   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="call_parent_handler" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<Param name="*args" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Invokes call_handler on the parent of this widget, if any. This can be used to pass an event on to a</Code>
+						<Code>        parent widget if you don't want to handle it.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            name:   The method name</Code>
+						<Code>            *args:  Its arguments</Code>
+						<Code></Code>
+						<Code>        Returns:  The value of the 'called' methood</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; parent=self.next_handler() ifparent:             parent.call_handler(name,*args)   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="is_inside" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="container" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="present" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="centered" type="bool" defaultValue="True"/>
+					<SourceCode>
+						<Code>        Presents the widget as a modal dialog. The widget is added as a subwidget of the root widget, centered</Code>
+						<Code>        within it if centered is true. A nested event loop is entered in which any events for widgets other</Code>
+						<Code>        than this widget and its subwidgets are ignored. Control is retained until this widget's dismiss</Code>
+						<Code>        method is called. The argument to dismiss is returned from the present call.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            centered:  Indicates whether or not to center;  default is True</Code>
+						<Code></Code>
+						<Code>        Returns:  The value returned from the modal widget</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; root=self.get_root() ifcentered:             self.center=root.center  root.add(self) root.run_modal(self) self.dispatch_attention_loss() root.remove(self) self.logger.debug(&quot;Widget.present: returning.  Result: %s&quot;,self.modal_result) returnself.modal_result  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="dismiss" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="value" type="" defaultValue="True"/>
+					<SourceCode>
+						<Code>        When the presented widget presented is modal using present() causes the modal event loop to exit and</Code>
+						<Code>        the present() call to return with the given result.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            value:  The value to set in modal_result</Code>
+						<Code></Code>
+						<Code>        Returns:</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; self.modal_result=value  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="get_root" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Returns the root widget (whether this widget is contained within it or not).</Code>
+						<Code></Code>
+						<Code>            Deprecated, use RootWidget.getRoot()</Code>
+						<Code></Code>
+						<Code>        Returns:  The root widget</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; returnWidget.root_widget  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="get_top_widget" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Returns the highest widget in the containment hierarchy currently receiving input events. If a modal</Code>
+						<Code>        dialog is in progress, the modal dialog widget is the top widget, otherwise it is the root widget.</Code>
+						<Code></Code>
+						<Code>        Returns:  The top level widget in a containment hierarchy</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; top=self whiletop.parentandnottop.is_modal:             top=top.parent  returntop  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="focus" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Gives this widget the keyboard focus. The widget must be visible (i.e. contained within the root</Code>
+						<Code>        widget) for this to have any affect.</Code>
+						<Code>        &quot;&quot;&quot; parent=self.next_handler() ifparent:             parent.focus_on(self)   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="focus_on" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="subwidget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="has_focus" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code></Code>
+						<Code>        Returns:    True if the widget is on the focus path, i.e. this widget or one of its subwidgets currently\</Code>
+						<Code>        has the keyboard focus.</Code>
+						<Code>        &quot;&quot;&quot; returnself.is_modalor(self.parentandself.parent.focused_on(self))  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="focused_on" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="widget" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="focus_chain" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="shrink_wrap" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="invalidate" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Marks the widget as needing to be redrawn. You will need to call this from the begin_frame() method of your</Code>
+						<Code>        Shell or Screen if you have the redraw_every_frame attribute of the root widget set to False.</Code>
+						<Code></Code>
+						<Code>        NOTE: Currently, calling this method on any widget will cause all widgets to be redrawn on the next return</Code>
+						<Code>        to the event loop. Future versions may be more selective.</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; root=self.get_root() ifroot:             root.do_draw=True   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="predict" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="kwds" type="" defaultValue=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="predict_attr" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="kwds" type="" defaultValue=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="init_attr" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="kwds" type="" defaultValue=""/>
+					<Param name="name" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="predict_font" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="kwds" type="" defaultValue=""/>
+					<Param name="name" type="" defaultValue="'font'"/>
+					<SourceCode/>
+				</Method>
+				<Method name="get_margin_rect" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Returns a Rect in local coordinates representing the content area of the widget, as determined</Code>
+						<Code>        by its margin property.</Code>
+						<Code></Code>
+						<Code>        Returns: The rect of the content area</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; r=Rect((0,0),self.size) d=-2*self.margin r.inflate_ip(d,d) returnr  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="set_size_for_text" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="width" type="" defaultValue=""/>
+					<Param name="nLines" type="" defaultValue="1"/>
+					<SourceCode>
+						<Code>        Sets the widget's Rect to a suitable size for displaying text of the specified width and number of lines in</Code>
+						<Code>        its current font, as determined by the font property. The width can be either a number of pixels or a</Code>
+						<Code>        piece of sample text.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            width:  The number of pixels or some sample text</Code>
+						<Code></Code>
+						<Code>            nLines: The number of lines in the text;  Defaults to 1</Code>
+						<Code>        &quot;&quot;&quot; ifwidthisnotNone:             font=self.font d=2*self.margin ifisinstance(width,str):                 width,height=font.size(width) width+=d+2  else:                 height=font.size(&quot;X&quot;)[1]  self.size=(width,height*nLines+d)   </Code>
+					</SourceCode>
+				</Method>
+				<Method name="tab_to_first" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="tab_to_next" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="get_tab_order" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="collect_tab_order" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="result" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="inherited" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="attributeName" type="str" defaultValue=""/>
+					<SourceCode>
+						<Code>        Looks up the parent hierarchy to find the first widget that has an attribute with the given name, and</Code>
+						<Code>        returns its value. If not found, returns None.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            attributeName:  The name of the attribute</Code>
+						<Code></Code>
+						<Code>        Returns: The attribute's value or None if not found</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; value=getattr(self,attributeName) ifvalueisnotNone:             returnvalue  else:             parent=self.next_handler() ifparent:                 returnparent.inherited(attributeName)    </Code>
+					</SourceCode>
+				</Method>
+				<Method name="get_mouse" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="get_menu_bar" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="set_menu_bar" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="menubar" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="get_is_gl_container" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="set_is_gl_container" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="x" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="gl_draw_all" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="gl_surface" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="gl_draw_self" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="gl_surface" type="" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="defer_drawing" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Called every time around the event loop on the root widget or a</Code>
+						<Code>        widget that is modal. If it returns true, the frame timer runs,</Code>
+						<Code>        scheduled calls are made, and screen updates are performed once per</Code>
+						<Code>        frame. Otherwise the screen is updated after each mouse down, mouser</Code>
+						<Code>        up or keyboard event and scheduled calls are not made.</Code>
+						<Code>        &quot;&quot;&quot; returnFalse  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="relative_mode" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Return true if relative input mode should be used. Called each</Code>
+						<Code>        time around the event loop on the root widget or a widget that is</Code>
+						<Code>        modal.</Code>
+						<Code></Code>
+						<Code>        In relative input mode, the mouse cursor is hidden and mouse</Code>
+						<Code>        movements are not constrained to the edges of the window. In this</Code>
+						<Code>        mode, mouse movement events are delivered to the widget having the</Code>
+						<Code>        keyboard focus by calling the 'mouse_delta' method. The 'rel'</Code>
+						<Code>        attribute of the event should be used to obtain the movement since</Code>
+						<Code>        the last mouse event. Mouse down and mouse up events are also</Code>
+						<Code>        delivered to the focus widget, using the usual methods.</Code>
+						<Code></Code>
+						<Code>        The user can always escape from relative mode temporarily by</Code>
+						<Code>        pressing Ctrl-Shift-Escape. Normal mouse functionality is restored</Code>
+						<Code>        and further input events are ignored until a mouse click or key</Code>
+						<Code>        press occurs.</Code>
+						<Code>        &quot;&quot;&quot; returnFalse  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="__contains__" visibility="PRIVATE">
+					<Return type=""/>
+					<Param name="event" type="Event" defaultValue=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="draw" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="surface" type="Surface" defaultValue=""/>
+					<SourceCode>
+						<Code>        Called whenever the widget's contents need to be drawn. The surface is a subsurface the same size as the</Code>
+						<Code>        widget's rect with the drawing origin at its top left corner.</Code>
+						<Code></Code>
+						<Code>        The widget is filled with its background colour, if any, before this method is called. The border and</Code>
+						<Code>        subwidgets, if any, are drawn after this method returns.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            surface:  The pygame surface to draw on</Code>
+						<Code>        &quot;&quot;&quot; pass  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="draw_over" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="surface" type="Surface" defaultValue=""/>
+					<SourceCode>
+						<Code>        Called after drawing all the subwidgets of this widget. This method can be used to draw content that is</Code>
+						<Code>        to appear on top of any subwidgets.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            surface:  The pygame surface to draw on</Code>
+						<Code>        &quot;&quot;&quot; pass  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="key_down" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="theKeyEvent" type="Event" defaultValue=""/>
+					<SourceCode>
+						<Code>        Called when a key press event occurs and this widget has the keyboard focus, or a subwidget has the</Code>
+						<Code>        focus but did not handle the event.</Code>
+						<Code></Code>
+						<Code>        NOTE: If you override this method and don't want to handle a key_down event, be sure to call the inherited</Code>
+						<Code>        key_down() method to pass the event to the parent widget.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            theKeyEvent: The key event</Code>
+						<Code>        &quot;&quot;&quot; k=theKeyEvent.key self.logger.debug(&quot;Widget.key_down: %s&quot;,k) ifk==K_RETURNork==K_KP_ENTER:             ifself.enter_responseisnotNone:                 self.dismiss(self.enter_response) return   elifk==K_ESCAPE:             ifself.cancel_responseisnotNone:                 self.dismiss(self.cancel_response) return   elifk==K_TAB:             self.tab_to_next() return  self.call_parent_handler('key_down',theKeyEvent)  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="key_up" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="theKeyEvent" type="Event" defaultValue=""/>
+					<SourceCode>
+						<Code>        Called when a key release event occurs and this widget has the keyboard focus.</Code>
+						<Code></Code>
+						<Code>        NOTE:</Code>
+						<Code>            - If you override this method and don't want to handle a key_up event</Code>
+						<Code>            - be sure to call the inherited key_up() method to pass the event to the parent widget.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            theKeyEvent:  The key event</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; self.call_parent_handler('key_up',theKeyEvent)  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="get_cursor" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="event" type="" defaultValue=""/>
+					<SourceCode>
+						<Code>        Called to determine the appropriate cursor to display over the widget.</Code>
+						<Code>        The ResourceUtility.get_cursor() function returns a suitable tuple.</Code>
+						<Code></Code>
+						<Code>        Args:</Code>
+						<Code>            event:  An event object containing the mouse coordinates to be used in determining the cursor.</Code>
+						<Code></Code>
+						<Code>        Returns: A cursor in the form of a tuple of arguments to the PyGame set_cursor() function</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; self.logger.debug(f&quot;event {event}&quot;) returnarrow_cursor  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="attention_lost" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Called when the widget is on the focus path, and a mouse-down event occurs in any widget which is not on</Code>
+						<Code>        the focus path. The focus path is defined as the widget having the keyboard focus, plus any widgets on the</Code>
+						<Code>        path from there up the parent hierarchy to the root widget. This method can be useful to ensure that changes</Code>
+						<Code>        to a data structure being edited are committed before performing some other action.</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; pass  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="get_visible" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>        Called to determine the value of the visible property. By overriding this, you can make the visibility of the</Code>
+						<Code>        widget dependent on some external condition.</Code>
+						<Code></Code>
+						<Code>        Returns: The widget visibility state</Code>
+						<Code></Code>
+						<Code>        &quot;&quot;&quot; returnself._visible  </Code>
+					</SourceCode>
+				</Method>
+				<Method name="set_visible" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="x" type="" defaultValue=""/>
+					<SourceCode>
+						<Code></Code>
+						<Code></Code>
+					</SourceCode>
+				</Method>
+				<Field visibility="PRIVATE">
+					<Param name="logger" type="" defaultValue="logging.getLogger(__name__)"/>
+				</Field>
+				<Field visibility="PRIVATE">
+					<Param name="is_modal" type="" defaultValue="False"/>
+				</Field>
+				<Field visibility="PRIVATE">
+					<Param name="modal_result" type="" defaultValue="None"/>
+				</Field>
+			</Class>
+		</GraphicClass>
+	</PyutDocument>
 </PyutProject>

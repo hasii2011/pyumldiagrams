@@ -234,7 +234,7 @@ class TestPdfDiagram(TestDiagramParent):
         baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-BigClass'
         fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
 
-        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestDefinitions.TEST_DPI)
+        diagram:  PdfDiagram = PdfDiagram(fileName=fileName, docDisplayMethodParameters=DisplayMethodParameters.DISPLAY, dpi=TestDefinitions.TEST_DPI)
 
         classDefinitions: ClassDefinitions = toClassDefinition.classDefinitions
         for bigClass in classDefinitions:
@@ -243,7 +243,8 @@ class TestPdfDiagram(TestDiagramParent):
         diagram.docTimeStamp = self.unitTestTimeStamp
         diagram.write()
 
-        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX, failMessage='Bends from XML Input should be identical')
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='The big class should be idential')
 
     def testMethodReprRegression(self):
 
