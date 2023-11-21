@@ -35,8 +35,6 @@ from pyumldiagrams.Definitions import UmlLollipopDefinition
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
 from pyumldiagrams.pdf.PdfLollipopInterface import PdfLollipopInterface
 
-PositionPair  = NewType('PositionPair',  List[Position])
-PositionPairs = NewType('PositionPairs', List[PositionPair])
 
 PDFCoordinate  = NewType('PDFCoordinate',  Tuple[int, int])
 PDFCoordinates = NewType('PDFCoordinates', List[PDFCoordinate])
@@ -139,14 +137,9 @@ class PdfLine(IDiagramLine):
         pdf:           FPDF          = self._docMaker
         linePositions: LinePositions = lineDefinition.linePositions
 
-        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
+        polyPoints: PolyPoints = self._toPolyPoints(linePositions=linePositions)
 
-        for [currentPos, nextPos] in pairs:
-
-            currentCoordinates: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
-            nextCoordinates:    InternalPosition = self._pdfCommon.toInternal(position=nextPos)
-
-            pdf.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
+        pdf.polyline(polyPoints, style='D')
 
         self._drawAssociationName(lineDefinition=lineDefinition)
         self._drawSourceCardinality(lineDefinition=lineDefinition)
@@ -156,15 +149,11 @@ class PdfLine(IDiagramLine):
 
         pdf:           FPDF          = self._docMaker
         linePositions: LinePositions = lineDefinition.linePositions
+        polyPoints:    PolyPoints = self._toPolyPoints(linePositions=linePositions)
 
-        pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
         with pdf.local_context():
             pdf.set_dash_pattern(dash=PdfLine.DASH_LENGTH, gap=PdfLine.DASH_GAP_LENGTH)
-            for [currentPos, nextPos] in pairs:
-                currentCoordinates: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
-                nextCoordinates:    InternalPosition = self._pdfCommon.toInternal(position=nextPos)
-
-                pdf.line(x1=currentCoordinates.x, y1=currentCoordinates.y, x2=nextCoordinates.x, y2=nextCoordinates.y)
+            pdf.polyline(polyPoints, style='D')
 
     def _drawAggregation(self, lineDefinition: UmlLineDefinition, isComposite: bool):
 
@@ -226,13 +215,15 @@ class PdfLine(IDiagramLine):
         newEndPosition:    InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
         adjustedPositions: LinePositions    = LinePositions(linePositions[:-1])
 
-        # pairs: PositionPairs = PositionPairs([PositionPair([adjustedPositions[i], adjustedPositions[i + 1]]) for i in range(len(adjustedPositions) - 1)])
-
         with pdf.local_context():
             if dashedLine is True:
                 pdf.set_dash_pattern(dash=PdfLine.DASH_LENGTH, gap=PdfLine.DASH_GAP_LENGTH)
 
-            polyPoints: PolyPoints = self._toPolyPoints(adjustedPositions=adjustedPositions, newEndPosition=newEndPosition)
+            polyPoints:   PolyPoints = self._toPolyPoints(linePositions=adjustedPositions)
+            endPolyPoint: PolyPoint  = PolyPoint((newEndPosition.x, newEndPosition.y))
+
+            polyPoints.append(endPolyPoint)
+
             pdf.polyline(polyPoints, style='D')
 
     def _drawArrowAtDestination(self, linePositions: LinePositions) -> ArrowPoints:
@@ -286,19 +277,14 @@ class PdfLine(IDiagramLine):
         """
 
         linePositionsCopy: LinePositions = LinePositions(linePositions[1:])    # Makes a copy; remove first one
-        docMaker:          FPDF          = self._docMaker
+        pdf:               FPDF          = self._docMaker
 
         currentPos:          Position         = linePositionsCopy[0]
         convertedCurrentPos: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
-        docMaker.line(x1=newStartPoint.x, y1=newStartPoint.y, x2=convertedCurrentPos.x, y2=convertedCurrentPos.y)
+        pdf.line(x1=newStartPoint.x, y1=newStartPoint.y, x2=convertedCurrentPos.x, y2=convertedCurrentPos.y)
 
-        pairs: PositionPairs = PositionPairs([PositionPair([linePositionsCopy[i], linePositionsCopy[i + 1]]) for i in range(len(linePositionsCopy) - 1)])
-
-        for [currentPos, nextPos] in pairs:
-            currentPosition: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
-            nextPosition:    InternalPosition = self._pdfCommon.toInternal(position=nextPos)
-
-            docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
+        polyPoints: PolyPoints = self._toPolyPoints(linePositions=linePositionsCopy)
+        pdf.polyline(polyPoints, style='D')
 
     def _convertPoints(self, src: Position, dst: Position) -> Tuple[InternalPosition, InternalPosition]:
 
@@ -307,26 +293,21 @@ class PdfLine(IDiagramLine):
 
         return convertedSrc, convertedDst
 
-    def _toPolyPoints(self, adjustedPositions: LinePositions, newEndPosition: InternalPosition) -> PolyPoints:
+    def _toPolyPoints(self, linePositions: LinePositions) -> PolyPoints:
         """
         Takes the raw positions and creates the poly points associated with our adjusted internal positions.
         Args:
-            adjustedPositions:   Adjusted because we trimmed off the end position where the
-            arrow head was
+            linePositions:
 
         Returns:  PDF style internal points
         """
 
         polyPoints: PolyPoints = PolyPoints([])
 
-        for position in adjustedPositions:
+        for position in linePositions:
             lastInternal: InternalPosition = self._pdfCommon.toInternal(position)
 
             polyPoint: PolyPoint = PolyPoint((lastInternal.x, lastInternal.y))
             polyPoints.append(polyPoint)
-
-        endPolyPoint: PolyPoint = PolyPoint((newEndPosition.x, newEndPosition.y))
-
-        polyPoints.append(endPolyPoint)
 
         return polyPoints
