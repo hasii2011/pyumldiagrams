@@ -130,7 +130,7 @@ class TestPdfLine(TestDiagramParent):
         diagram.write()
 
         self._assertIdenticalFiles(baseName=names.baseName, generatedFileName=names.generatedName, fileSuffix=TestDefinitions.PDF_SUFFIX,
-                                   failMessage='Bad diagonal inheritance lines')
+                                   failMessage='Bad diagonal inheritance lines', removeTestFile=True)
 
     def testDiagonalCompositionLines(self):
 

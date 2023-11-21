@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="ClassicInterface" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="150" height="75" x="50" y="25">
+            <PyutClass id="0" name="IClassNorth" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="325">
+            <PyutClass id="1" name="RealClassNorth" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="325" y="325">
+            <PyutClass id="4" name="IClassSouth" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="325" y="25">
+            <PyutClass id="5" name="RealClassSouth" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="475">
+            <PyutClass id="7" name="IClassWest" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="350" y="475">
+            <PyutClass id="8" name="RealClassWest" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="350" y="575">
+            <PyutClass id="10" name="IClassEast" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="50" y="575">
+            <PyutClass id="11" name="RealClassEast" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="525" y="150">
+            <PyutClass id="13" name="IBent" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglClass width="150" height="75" x="625" y="450">
+            <PyutClass id="14" name="BenImplementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+        </OglClass>
+        <OglLink sourceAnchorX="125" sourceAnchorY="325" destinationAnchorX="125" destinationAnchorY="100" spline="False">
+            <PyutLink name="Interface-3" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="0" />
+        </OglLink>
+        <OglLink sourceAnchorX="400" sourceAnchorY="100" destinationAnchorX="400" destinationAnchorY="325" spline="False">
+            <PyutLink name="Interface-6" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="4" />
+        </OglLink>
+        <OglLink sourceAnchorX="350" sourceAnchorY="512" destinationAnchorX="200" destinationAnchorY="512" spline="False">
+            <PyutLink name="Interface-9" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="8" destinationId="7" />
+        </OglLink>
+        <OglLink sourceAnchorX="200" sourceAnchorY="612" destinationAnchorX="350" destinationAnchorY="612" spline="False">
+            <PyutLink name="Interface-12" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="11" destinationId="10" />
+        </OglLink>
+        <OglLink sourceAnchorX="774" sourceAnchorY="489" destinationAnchorX="674" destinationAnchorY="190" spline="False">
+            <ControlPoint x="925" y="489" />
+            <ControlPoint x="924" y="301" />
+            <ControlPoint x="801" y="299" />
+            <ControlPoint x="801" y="190" />
+            <PyutLink name="Interface-15" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="14" destinationId="13" />
+        </OglLink>
+    </PyutDocument>
+</PyutProject>

@@ -503,6 +503,19 @@ class TestPdfDiagram(TestDiagramParent):
         self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
                                    failMessage='Lollipop interfaces should be identical')
 
+    def testClassicInterface(self):
+
+        nameStub:  str = 'ClassicInterface'
+        untangler: UnTangleToClassDefinition = self._unTangleXmlFile(baseXmlFileName=f'{nameStub}.xml')
+
+        baseName: str = f'{TestDefinitions.TEST_FILE_NAME_PREFIX}-{nameStub}'
+        fileName: str = f'{baseName}{TestDefinitions.PDF_SUFFIX}'
+
+        self._generatePDF(untangler=untangler, fileName=fileName)
+
+        self._assertIdenticalFiles(baseName=baseName, generatedFileName=fileName, fileSuffix=TestDefinitions.PDF_SUFFIX,
+                                   failMessage='Classic interfaces should be identical')
+
     def _generatePDF(self, untangler: UnTangleToClassDefinition, fileName: str):
 
         diagram:  PdfDiagram = PdfDiagram(fileName=fileName, dpi=TestDefinitions.TEST_DPI)

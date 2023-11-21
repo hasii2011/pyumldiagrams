@@ -42,6 +42,10 @@ PDFCoordinate  = NewType('PDFCoordinate',  Tuple[int, int])
 PDFCoordinates = NewType('PDFCoordinates', List[PDFCoordinate])
 
 
+PolyPoint  = NewType('PolyPoint',  Tuple[int, int])
+PolyPoints = NewType('PolyPoints', List[PolyPoint])
+
+
 class PdfLine(IDiagramLine):
     """
     This class takes responsibility for drawing the various types of lines within the
@@ -50,6 +54,9 @@ class PdfLine(IDiagramLine):
     """
     INHERITANCE_ARROW_HEIGHT: Final = 10
     DIAMOND_HEIGHT:           Final = 8
+
+    DASH_LENGTH:     Final = 5.0
+    DASH_GAP_LENGTH: Final = 7.0
 
     def __init__(self, pdf: FPDF, diagramPadding: DiagramPadding, dpi: int):
 
@@ -78,7 +85,7 @@ class PdfLine(IDiagramLine):
         elif lineType == LineType.Association:
             self._drawAssociation(lineDefinition=lineDefinition)
         elif lineType == LineType.Interface:
-            pass  # TODO
+            self._drawInterface(lineDefinition=lineDefinition)
         elif lineType == LineType.NoteLink:
             self._drawNoteLink(lineDefinition=lineDefinition)
         else:
@@ -99,33 +106,15 @@ class PdfLine(IDiagramLine):
         Args:
             linePositions - The points that describe the line
         """
-        internalPosition0:  InternalPosition = self._pdfCommon.toInternal(linePositions[-1])
-        internalPosition1:  InternalPosition = self._pdfCommon.toInternal(linePositions[-2])
+        points:  ArrowPoints = self._drawArrowAtDestination(linePositions)
 
-        points: ArrowPoints = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
+        self._drawLineSourceToDestination(linePositions, points)
 
-        self._drawInheritanceArrow(points=points)
+    def _drawInterface(self, lineDefinition: UmlLineDefinition):
 
-        newEndPosition: InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
+        points:  ArrowPoints = self._drawArrowAtDestination(lineDefinition.linePositions)
 
-        adjustedPositions: LinePositions = LinePositions(linePositions[:-1])
-        pairs:             PositionPairs = PositionPairs([PositionPair([adjustedPositions[i], adjustedPositions[i + 1]]) for i in range(len(adjustedPositions) - 1)])
-        docMaker:          FPDF          = self._docMaker
-
-        if len(pairs) == 0:
-            sourceInternal: InternalPosition = self._pdfCommon.toInternal(linePositions[0])
-            docMaker.line(x1=sourceInternal.x, y1=sourceInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
-        else:
-            for [currentPos, nextPos] in pairs:
-                currentPosition: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
-                nextPosition:    InternalPosition = self._pdfCommon.toInternal(position=nextPos)
-                docMaker.line(x1=currentPosition.x, y1=currentPosition.y, x2=nextPosition.x, y2=nextPosition.y)
-
-            lastPair:     PositionPair     = pairs[-1]
-            lastPos:      Position         = lastPair[1]
-            lastInternal: InternalPosition = self._pdfCommon.toInternal(lastPos)
-
-            docMaker.line(x1=lastInternal.x, y1=lastInternal.y, x2=newEndPosition.x, y2=newEndPosition.y)
+        self._drawLineSourceToDestination(lineDefinition.linePositions, points, dashedLine=True)
 
     def _drawCompositeAggregation(self, lineDefinition: UmlLineDefinition):
         """
@@ -170,7 +159,7 @@ class PdfLine(IDiagramLine):
 
         pairs: PositionPairs = PositionPairs([PositionPair([linePositions[i], linePositions[i + 1]]) for i in range(len(linePositions) - 1)])
         with pdf.local_context():
-            pdf.set_dash_pattern(dash=5, gap=7)
+            pdf.set_dash_pattern(dash=PdfLine.DASH_LENGTH, gap=PdfLine.DASH_GAP_LENGTH)
             for [currentPos, nextPos] in pairs:
                 currentCoordinates: InternalPosition = self._pdfCommon.toInternal(position=currentPos)
                 nextCoordinates:    InternalPosition = self._pdfCommon.toInternal(position=nextPos)
@@ -207,13 +196,6 @@ class PdfLine(IDiagramLine):
         else:
             pdf.polygon(pdfCoordinates, style='D')
 
-    def _drawInheritanceArrow(self, points: PolygonPoints):
-
-        pdfCoordinates: PDFCoordinates = self._toPDFCoordinates(polygonPoints=points)
-        pdf:            FPDF           = self._docMaker
-
-        pdf.polygon(pdfCoordinates, style='D')
-
     def _drawAssociationName(self, lineDefinition: UmlLineDefinition):
 
         pdf: FPDF = self._docMaker
@@ -236,6 +218,41 @@ class PdfLine(IDiagramLine):
         iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.destinationCardinalityPosition)
 
         pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.cardinalityDestination)
+
+    def _drawLineSourceToDestination(self, linePositions: LinePositions, points: ArrowPoints, dashedLine: bool = False):
+
+        pdf: FPDF = self._docMaker
+
+        newEndPosition:    InternalPosition = Common.computeMidPointOfBottomLine(points[0], points[2])
+        adjustedPositions: LinePositions    = LinePositions(linePositions[:-1])
+
+        # pairs: PositionPairs = PositionPairs([PositionPair([adjustedPositions[i], adjustedPositions[i + 1]]) for i in range(len(adjustedPositions) - 1)])
+
+        with pdf.local_context():
+            if dashedLine is True:
+                pdf.set_dash_pattern(dash=PdfLine.DASH_LENGTH, gap=PdfLine.DASH_GAP_LENGTH)
+
+            polyPoints: PolyPoints = self._toPolyPoints(adjustedPositions=adjustedPositions, newEndPosition=newEndPosition)
+            pdf.polyline(polyPoints, style='D')
+
+    def _drawArrowAtDestination(self, linePositions: LinePositions) -> ArrowPoints:
+        """
+
+        Args:
+            linePositions:  The line positions
+
+        Returns:    The points used to draw the arrow
+        """
+
+        internalPosition0: InternalPosition = self._pdfCommon.toInternal(linePositions[-1])  # last position
+        internalPosition1: InternalPosition = self._pdfCommon.toInternal(linePositions[-2])  # next to last position
+
+        points:         ArrowPoints    = Common.computeTheArrowVertices(position0=internalPosition0, position1=internalPosition1)
+        pdfCoordinates: PDFCoordinates = self._toPDFCoordinates(polygonPoints=points)
+
+        self._docMaker.polygon(pdfCoordinates, style='D')
+
+        return points
 
     def _computeTextPosition(self, lineDefinition: UmlLineDefinition, labelPosition: Position) -> InternalPosition:
 
@@ -289,3 +306,27 @@ class PdfLine(IDiagramLine):
         convertedDst: InternalPosition = self._pdfCommon.toInternal(position=dst)
 
         return convertedSrc, convertedDst
+
+    def _toPolyPoints(self, adjustedPositions: LinePositions, newEndPosition: InternalPosition) -> PolyPoints:
+        """
+        Takes the raw positions and creates the poly points associated with our adjusted internal positions.
+        Args:
+            adjustedPositions:   Adjusted because we trimmed off the end position where the
+            arrow head was
+
+        Returns:  PDF style internal points
+        """
+
+        polyPoints: PolyPoints = PolyPoints([])
+
+        for position in adjustedPositions:
+            lastInternal: InternalPosition = self._pdfCommon.toInternal(position)
+
+            polyPoint: PolyPoint = PolyPoint((lastInternal.x, lastInternal.y))
+            polyPoints.append(polyPoint)
+
+        endPolyPoint: PolyPoint = PolyPoint((newEndPosition.x, newEndPosition.y))
+
+        polyPoints.append(endPolyPoint)
+
+        return polyPoints
