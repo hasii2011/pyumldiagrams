@@ -1,12 +1,15 @@
 
 from typing import List
 from typing import NewType
-
-from enum import Enum
+from typing import cast
 
 from dataclasses import dataclass
 from dataclasses import field
-from typing import cast
+
+from enum import Enum
+
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
+from codeallybasic.Position import Position
 
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -16,55 +19,6 @@ from pyumldiagrams.UnsupportedException import UnsupportedException
 
 
 ClassName = NewType('ClassName', str)
-
-
-class AttachmentSide(Enum):
-    """
-    Cardinal points, taken to correspond to the attachment points of the destination shape
-    """
-    NORTH = 0
-    EAST  = 1
-    SOUTH = 2
-    WEST  = 3
-
-    @staticmethod
-    def toEnum(strValue: str) -> 'AttachmentSide':
-        """
-        Converts the input string to the attachment location
-        Args:
-            strValue:   A serialized string value
-
-        Returns:  The attachment side enumeration
-        """
-        canonicalStr: str = strValue.strip(' ')
-
-        if canonicalStr == 'NORTH':
-            return AttachmentSide.NORTH
-        elif canonicalStr == 'EAST':
-            return AttachmentSide.EAST
-        elif canonicalStr == 'WEST':
-            return AttachmentSide.WEST
-        elif canonicalStr == 'SOUTH':
-            return AttachmentSide.SOUTH
-        else:
-            print(f'Warning: did not recognize this attachment point: {canonicalStr}')
-            return AttachmentSide.NORTH
-
-
-@dataclass
-class Position:
-    """
-    The x and y noteCoordinates are in screen/display resolution.  Diagramming modules may
-    convert these to appropriate positions based on the rendering technology.
-    """
-    x: int = 0
-    """
-    The x-axis (horizontal) abscissa
-    """
-    y: int = 0
-    """
-    The y-axis (vertical) ordinate
-    """
 
 
 def createPositionFactory() -> Position:
@@ -194,7 +148,7 @@ def createParametersFactory() -> Parameters:
 @dataclass
 class MethodDefinition(BaseDefinition):
     """
-    Defines a single method in a UML class
+    This class represents a single method in a single UML class
     """
     visibility: VisibilityType = VisibilityType.Public
     """

@@ -3,8 +3,10 @@ from typing import Tuple
 
 from dataclasses import dataclass
 
-from pyumldiagrams.Definitions import Position
-from pyumldiagrams.Definitions import AttachmentSide
+from codeallybasic.Position import Position
+
+from codeallyadvanced.ui.Common import Common
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
 
 
 @dataclass(eq=True)
@@ -60,40 +62,9 @@ class CommonAbsolute:
 
         ans: bool = True
 
-        placement: AttachmentSide = cls.attachmentSide(srcX=srcPosition.x, srcY=srcPosition.y, dstX=dstPosition.x, dstY=dstPosition.y)
+        placement: AttachmentSide = Common.whereIsDestination(sourcePosition=srcPosition, destinationPosition=dstPosition)
 
         if placement == AttachmentSide.NORTH or placement == AttachmentSide.SOUTH:
             ans = False
 
         return ans
-
-    @classmethod
-    def attachmentSide(cls, srcX: int, srcY: int, dstX: int, dstY: int) -> AttachmentSide:
-        """
-        Given a source and destination, returns where the destination
-        is located according to the source.
-
-        Args:
-            srcX:   X pos of src point
-            srcY:   Y pos of src point
-            dstX:  X pos of dest point
-            dstY:  Y pos of dest point
-
-        Returns:  The attachment side
-        """
-        deltaX = srcX - dstX
-        deltaY = srcY - dstY
-        if deltaX > 0:  # dest is not east
-            if deltaX > abs(deltaY):  # dest is west
-                return AttachmentSide.WEST
-            elif deltaY > 0:
-                return AttachmentSide.NORTH
-            else:
-                return AttachmentSide.SOUTH
-        else:  # dest is not west
-            if -deltaX > abs(deltaY):  # dest is east
-                return AttachmentSide.EAST
-            elif deltaY > 0:
-                return AttachmentSide.NORTH
-            else:
-                return AttachmentSide.SOUTH
