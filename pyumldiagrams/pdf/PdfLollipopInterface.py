@@ -7,11 +7,14 @@ from logging import getLogger
 
 from fpdf import FPDF
 
+from codeallybasic.Position import Position
+
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
+
 from pyumldiagrams.Definitions import DiagramPadding
 from pyumldiagrams.Definitions import RenderStyle
 from pyumldiagrams.Definitions import UmlLollipopDefinition
-from pyumldiagrams.Definitions import AttachmentSide
-from pyumldiagrams.Definitions import Position
+
 from pyumldiagrams.Internal import InternalPosition
 from pyumldiagrams.pdf.PdfCommon import PdfCommon
 

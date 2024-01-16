@@ -8,8 +8,9 @@ from dataclasses import field
 
 from enum import Enum
 
-from codeallyadvanced.ui.AttachmentSide import AttachmentSide
 from codeallybasic.Position import Position
+
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
 
 from pyumldiagrams.Defaults import TOP_MARGIN
 from pyumldiagrams.Defaults import LEFT_MARGIN
@@ -148,7 +149,7 @@ def createParametersFactory() -> Parameters:
 @dataclass
 class MethodDefinition(BaseDefinition):
     """
-    This class represents a single method in a single UML class
+    Defines a single method in a single UML class
     """
     visibility: VisibilityType = VisibilityType.Public
     """

@@ -7,7 +7,8 @@ from logging import getLogger
 from untangle import Element
 from untangle import parse
 
-from pyumldiagrams.Definitions import AttachmentSide
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
+
 from pyumldiagrams.Definitions import ClassDefinition
 from pyumldiagrams.Definitions import ClassDefinitions
 from pyumldiagrams.Definitions import DisplayMethodParameters
