@@ -42,6 +42,7 @@ jobs:
                 pip install fpdf2==2.7.5
                 pip install Pillow==10.0.1
                 pip install untangle==1.2.1
+                pip instlal buildlackey==1.6.3
       - run:
             name: run tests
             command: | 
