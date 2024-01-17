@@ -8,6 +8,8 @@ from os import linesep as osLineSep
 
 from untangle import Element
 
+from codeallybasic.Common import XML_END_OF_LINE_MARKER
+
 from pyumldiagrams.Definitions import Contents
 from pyumldiagrams.Definitions import NoteDefinition
 from pyumldiagrams.xmlsupport import XmlConstants
@@ -15,9 +17,6 @@ from pyumldiagrams.xmlsupport.ShapeAttributes import ShapeAttributes
 
 
 class UnTangleNoteDefinition(ShapeAttributes):
-
-    # https://www.codetable.net/hex/a
-    END_OF_LINE_MARKER: str = '&#xA;'
 
     def __init__(self):
         super().__init__()
@@ -34,10 +33,9 @@ class UnTangleNoteDefinition(ShapeAttributes):
 
         # TODO:  Update when code-ally-basic has common code
         rawContent:   str      = pyutNoteElement[XmlConstants.ATTR_CONTENT_V11]
-        cleanContent: str      = rawContent.replace(UnTangleNoteDefinition.END_OF_LINE_MARKER, osLineSep)
+        cleanContent: str      = rawContent.replace(XML_END_OF_LINE_MARKER, osLineSep)
         lineList:     Contents = cast(Contents, cleanContent.split(osLineSep))      # I am coercive
 
         noteDefinition.content  = Contents(lineList)
 
         return noteDefinition
-    

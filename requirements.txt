@@ -9,8 +9,8 @@ mypy==1.8.0
 
 types-setuptools==69.0.0.20240115
 
-codeallybasic==1.0.0
-codeallyadvanced==1.0.0
+codeallybasic==1.1.0
+codeallyadvanced==1.1.0
 
 fpdf2==2.7.5
 Pillow==10.0.1
