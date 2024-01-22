@@ -13,7 +13,7 @@ codeallybasic==1.1.0
 codeallyadvanced==1.1.0
 
 fpdf2==2.7.5
-Pillow==10.0.1
+Pillow==10.2.0
 untangle==1.2.1
 
 # pdftotext~=2.2.2  # Install manually for unit tests
