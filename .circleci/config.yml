@@ -39,8 +39,8 @@ jobs:
                 pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04  wxPython
                 pip install codeallybasic==1.1.0
                 pip install codeallyadvanced==1.1.0
-                pip install fpdf2==2.7.5
-                pip install Pillow==10.0.1
+                pip install fpdf2==2.7.7
+                pip install Pillow==10.2.0
                 pip install untangle==1.2.1
                 pip install buildlackey==1.6.3
       - run:
