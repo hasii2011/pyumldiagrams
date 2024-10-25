@@ -1,0 +1,40 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = "setuptools.build_meta"
+
+[project]
+name='pyumldiagrams'
+dynamic     = ["version"]
+description = 'Draw UML diagrams in various formats'
+readme      = "README.md"
+license     = {text = 'GNU AFFERO GENERAL PUBLIC LICENSE'}
+authors     = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+keywords    = ['pyut', 'UML', 'Diagrams', 'Python',]
+
+dependencies = [
+  'fpdf2==2.7.7',
+  'Pillow==10.3.0',
+  'untangle==1.2.1',
+  'codeallybasic>=1.1.0',
+  'codeallyadvanced>=1.1.0',
+]
+
+[project.urls]
+Repository = 'https://github.com/hasii2011/pyumldiagrams'
+
+
+[tool.setuptools.packages.find]
+where = ['src']
+
+[tool.setuptools.package-data]
+pyumldiagrams                 = ['py.typed']
+#pyumldiagrams.image           = ['py.typed']
+#pyumldiagrams.image.resources = ['py.typed']
+#pyumldiagrams.pdf             = ['py.typed']
+#pyumldiagrams.pdf.resources   = ['py.typed']
+#pyumldiagrams.xmlsupport      = ['py.typed']
+
+
+[tool.setuptools.dynamic]
+version = {attr = 'pyumldiagrams.__version__'}

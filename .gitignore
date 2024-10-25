@@ -11,6 +11,6 @@ __pycache__/
 /docs/generated/
 /docs/build/
 /docs/_autosummary
-/pyumldiagrams.egg-info/
+src/pyumldiagrams.egg-info/
 .envrc
 .python-version
