@@ -17,8 +17,18 @@ jobs:
     docker:
       - image: cimg/python:3.12
     executor: python/default
+    dependencies:
     steps:
+      - save_cache:
+          key: pip-cache
+          paths:
+            /home/ubuntu/.cache/pip
       - checkout
+      - run: pwd
+      - restore_cache:
+          keys:
+            - pip-cache
+
       - run:
             name: Install library dependencies
             command: | 
