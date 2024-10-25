@@ -19,16 +19,11 @@ jobs:
     executor: python/default
     dependencies:
     steps:
-      - save_cache:
-          key: pip-cache
-          paths:
-            /home/ubuntu/.cache/pip
       - checkout
       - run: pwd
       - restore_cache:
           keys:
             - pip-cache
-
       - run:
             name: Install library dependencies
             command: | 
@@ -53,6 +48,10 @@ jobs:
                 pip install Pillow==10.3.0
                 pip install untangle==1.2.1
                 pip install buildlackey==1.7.0
+      - save_cache:
+          key: pip-cache
+          paths:
+            /home/ubuntu/.cache/pip
       - run:
             name: run tests
             command: | 
