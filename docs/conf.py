@@ -13,7 +13,7 @@ import sys
 project   = 'PyUmlDiagrams'
 copyright = '2023, Humberto A. Sanchez II'
 author    = 'Humberto A. Sanchez II'
-version   = '2.60.2'
+version   = '3.1.20'
 
 sys.path.insert(0, os.path.abspath('../'))
 
@@ -35,7 +35,7 @@ extensions = [
     'autoapi.extension',
 ]
 
-autoapi_dirs                 = ['../pyumldiagrams']
+autoapi_dirs                 = ['../src/pyumldiagrams']
 autoapi_options              = ['members', 'undoc-members', 'show-inheritance', 'show-module-summary', 'imported-members', 'show-inheritance-diagram', ]
 autoapi_python_class_content = 'both'
 autoapi_member_order         = 'bysource'
