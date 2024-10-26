@@ -10,10 +10,13 @@ from unittest import main as unitTestMain
 
 from os import remove as osRemove
 
-from PIL import Image
 from PIL import ImageColor
-from PIL import ImageDraw
 
+from PIL.ImageDraw import ImageDraw
+from PIL.ImageDraw import Draw
+
+from PIL.Image import Image
+from PIL.Image import new
 
 from pyumldiagrams.Common import Common
 from pyumldiagrams.Definitions import DiagramPadding
@@ -52,11 +55,11 @@ class TestCommon(TestBase):
     def setUp(self):
         super().setUp()
         self._diagramPadding: DiagramPadding  = DiagramPadding()
-        self._img:   Image  = Image.new(mode='RGB',
-                                        size=(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT),
-                                        color=ImageColor.getrgb(DEFAULT_BACKGROUND_COLOR))
+        self._img:   Image  = new(mode='RGB',
+                                  size=(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT),
+                                  color=ImageColor.getrgb(DEFAULT_BACKGROUND_COLOR))
 
-        self._imgDraw:    ImageDraw = ImageDraw.Draw(self._img)
+        self._imgDraw:    ImageDraw = Draw(self._img)
 
     def tearDown(self):
         super().tearDown()

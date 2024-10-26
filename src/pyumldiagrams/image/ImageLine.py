@@ -11,8 +11,9 @@ from logging import getLogger
 
 from os import sep as osSep
 
-from PIL import ImageDraw
-from PIL import ImageFont
+from PIL.ImageDraw import ImageDraw
+from PIL.ImageFont import ImageFont
+from PIL.ImageFont import truetype
 
 from codeallybasic.ResourceManager import ResourceManager
 
@@ -58,7 +59,7 @@ class ImageLine(IDiagramLine):
 
         # noinspection SpellCheckingInspection
         fqPath:     str       = self._retrieveResourcePath('MonoFonto.ttf')
-        self._font: ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
+        self._font: ImageFont = truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
 
     def draw(self, lineDefinition: UmlLineDefinition):
         """

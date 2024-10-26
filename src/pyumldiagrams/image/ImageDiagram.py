@@ -10,10 +10,16 @@ from os import sep as osSep
 
 from codeallybasic.ResourceManager import ResourceManager
 
-from PIL import Image
 from PIL import ImageColor
-from PIL import ImageDraw
-from PIL import ImageFont
+
+from PIL.Image import Image
+from PIL.Image import new
+
+from PIL.ImageDraw import Draw
+from PIL.ImageDraw import ImageDraw
+
+from PIL.ImageFont import truetype
+from PIL.ImageFont import FreeTypeFont
 
 from pyumldiagrams.BaseDiagram import BaseDiagram
 
@@ -81,17 +87,17 @@ class ImageDiagram(BaseDiagram):
 
         self.logger: Logger = getLogger(__name__)
 
-        self._img:   Image  = Image.new(mode='RGB',
-                                        size=(imageSize.width, imageSize.height),
-                                        color=ImageColor.getrgb(ImageDiagram.DEFAULT_BACKGROUND_COLOR))
+        self._img:   Image  = new(mode='RGB',
+                                  size=(imageSize.width, imageSize.height),
+                                  color=ImageColor.getrgb(ImageDiagram.DEFAULT_BACKGROUND_COLOR))
 
-        self._imgDraw:    ImageDraw = ImageDraw.Draw(self._img)
+        self._imgDraw:    ImageDraw = Draw(self._img)
         self._lineDrawer: ImageLine = ImageLine(docWriter=self._imgDraw, diagramPadding=self._diagramPadding)
 
         # noinspection SpellCheckingInspection
         fqPath:     str       = self.retrieveResourcePath('MonoFonto.ttf')
-        self._font:       ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
-        self._headerFont: ImageFont = ImageFont.truetype(font=fqPath, size=BaseDiagram.HEADER_FONT_SIZE)
+        self._font:       FreeTypeFont = truetype(font=fqPath, size=BaseDiagram.DEFAULT_FONT_SIZE)
+        self._headerFont: FreeTypeFont = truetype(font=fqPath, size=BaseDiagram.HEADER_FONT_SIZE)
         #
         # https://www.exiv2.org/tags.html
         #
