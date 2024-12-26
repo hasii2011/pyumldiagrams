@@ -190,7 +190,7 @@ class PdfLine(IDiagramLine):
         pdf: FPDF = self._docMaker
 
         iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.namePosition)
-        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.name)
+        pdf.text(x=iPos.x, y=iPos.y, text=lineDefinition.name)
 
     def _drawSourceCardinality(self, lineDefinition: UmlLineDefinition):
 
@@ -198,7 +198,7 @@ class PdfLine(IDiagramLine):
 
         iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.sourceCardinalityPosition)
 
-        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.cardinalitySource)
+        pdf.text(x=iPos.x, y=iPos.y, text=lineDefinition.cardinalitySource)
 
     def _drawDestinationCardinality(self, lineDefinition: UmlLineDefinition):
 
@@ -206,7 +206,7 @@ class PdfLine(IDiagramLine):
 
         iPos: InternalPosition = self._computeTextPosition(lineDefinition=lineDefinition, labelPosition=lineDefinition.destinationCardinalityPosition)
 
-        pdf.text(x=iPos.x, y=iPos.y, txt=lineDefinition.cardinalityDestination)
+        pdf.text(x=iPos.x, y=iPos.y, text=lineDefinition.cardinalityDestination)
 
     def _drawLineSourceToDestination(self, linePositions: LinePositions, points: ArrowPoints, dashedLine: bool = False):
 

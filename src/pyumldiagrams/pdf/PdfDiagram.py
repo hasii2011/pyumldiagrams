@@ -80,6 +80,7 @@ class PdfDiagram(BaseDiagram):
         pdf = FPDFExtended(headerText=headerText)
         pdf.add_page()
 
+        # noinspection SpellCheckingInspection
         pdf.set_display_mode(zoom='fullwidth', layout='single')
 
         pdf.set_line_width(DEFAULT_LINE_WIDTH)
@@ -89,7 +90,7 @@ class PdfDiagram(BaseDiagram):
 
         self._noteYellow: DeviceRGB = color_from_rgb_string('rgb(255,255,230)')
 
-        pdf.set_font('Arial', size=BaseDiagram.DEFAULT_FONT_SIZE)
+        pdf.set_font('Helvetica', size=BaseDiagram.DEFAULT_FONT_SIZE)
         pdf.headerText = headerText
 
         self._pdf:      FPDFExtended = pdf
@@ -234,7 +235,7 @@ class PdfDiagram(BaseDiagram):
         """
 
         coordinates: Coordinates = PdfCommon.convertPosition(position, dpi=self._dpi, verticalGap=self.verticalGap, horizontalGap=self.horizontalGap)
-        self._pdf.text(x=coordinates.x, y=coordinates.y, txt=text)
+        self._pdf.text(x=coordinates.x, y=coordinates.y, text=text)
 
     def write(self):
         """
@@ -267,11 +268,11 @@ class PdfDiagram(BaseDiagram):
         # noinspection PyTypeChecker
         self._pdf.rect(x=rectX, y=rectY, w=convertedWidth, h=convertedHeight, style=PdfDiagram.FPDF_DRAW)
 
-        nameWidth: int = self._pdf.get_string_width(classDefinition.name)
+        nameWidth: int = int(self._pdf.get_string_width(classDefinition.name))
         textX: int = rectX + ((symbolWidth // 2) - (nameWidth // 2))
         textY: int = rectY + self._fontSize
 
-        self._pdf.text(x=textX, y=textY, txt=classDefinition.name)
+        self._pdf.text(x=textX, y=textY, text=classDefinition.name)
 
         return convertedWidth
 
@@ -305,7 +306,7 @@ class PdfDiagram(BaseDiagram):
 
         for methodRepr in methodReprs:
 
-            self._pdf.text(x=x, y=y, txt=methodRepr)
+            self._pdf.text(x=x, y=y, text=methodRepr)
 
             y = y + self._fontSize
 
@@ -336,7 +337,7 @@ class PdfDiagram(BaseDiagram):
         contentY: float = noteY + (1.5 * self._fontSize)
 
         for noteContent in noteContents:
-            self._pdf.text(x=contentX, y=contentY, txt=noteContent)
+            self._pdf.text(x=contentX, y=contentY, text=noteContent)
 
             contentY = contentY + self._fontSize
 
@@ -346,7 +347,7 @@ class PdfDiagram(BaseDiagram):
         y: int = separatorPosition.y + PdfDiagram.Y_NUDGE_FACTOR + 8
 
         for fieldRepr in fieldReprs:
-            self._pdf.text(x=x, y=y, txt=fieldRepr)
+            self._pdf.text(x=x, y=y, text=fieldRepr)
             y = y + self._fontSize + 2
 
         y = y - self._fontSize - 2  # adjust for last addition

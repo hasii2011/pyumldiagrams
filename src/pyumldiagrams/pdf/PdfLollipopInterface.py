@@ -115,7 +115,7 @@ class PdfLollipopInterface:
 
         textPosition: InternalPosition = self._pdfCommon.toInternal(position=position)
 
-        self._pdf.text(x=textPosition.x, y=textPosition.y, txt=interfaceName)
+        self._pdf.text(x=textPosition.x, y=textPosition.y, text=interfaceName)
 
     def _adjustXYForCircle(self, attachmentSide: AttachmentSide, x: int, y: int) -> Tuple[int, int]:
 
