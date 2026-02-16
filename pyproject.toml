@@ -7,10 +7,19 @@ name='pyumldiagrams'
 dynamic     = ["version"]
 description = 'Draw UML diagrams in various formats'
 readme      = "README.md"
-license     = {text = 'GNU AFFERO GENERAL PUBLIC LICENSE'}
 authors     = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
 maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
 keywords    = ['pyut', 'UML', 'Diagrams', 'Python',]
+license  = 'AGPL-1.0-or-later'
+
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Topic :: Multimedia :: Graphics",
+]
 
 dependencies = [
   'fpdf2==2.8.2',
