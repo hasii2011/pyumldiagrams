@@ -19,7 +19,8 @@ jobs:
     executor: python/default
     dependencies:
     steps:
-      - checkout
+      - checkout:
+          method: full
       - run: pwd
       - restore_cache:
           keys:
