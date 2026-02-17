@@ -84,14 +84,11 @@ class TestDiagramParent(TestBase):
 
     def _getFullyQualifiedImagePath(self, imageFileName: str) -> str:
 
-        # fqFileName: str = resource_filename(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(TestDiagramParent.BASE_IMAGE_RESOURCE_PACKAGE_NAME, imageFileName)
-
         return fqFileName
 
     def _getFullyQualifiedPdfPath(self, pdfFileName: str) -> str:
 
-        # fqFileName: str = resource_filename(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         return fqFileName
 
