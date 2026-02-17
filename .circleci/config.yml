@@ -48,7 +48,6 @@ jobs:
                 pip install fpdf2==2.8.2
                 pip install Pillow==12.1.1
                 pip install untangle==1.2.1
-                pip install buildlackey==1.7.0
       - save_cache:
           key: pip-cache
           paths:
