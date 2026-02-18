@@ -35,6 +35,8 @@ from tests.TestBase import DISPLAY_METHOD_PARAMETERS_TEST_FILE
 from tests.TestDefinitions import Names
 from tests.TestDefinitions import TestDefinitions
 
+DEBUG_FAILURE: bool = True
+
 
 class TestDiagramParent(TestBase):
 
@@ -71,10 +73,10 @@ class TestDiagramParent(TestBase):
         #
         if fileSuffix == TestDefinitions.PDF_SUFFIX:
             standardFileName: str = self._getFullyQualifiedPdfPath(f'{baseName}{TestDiagramParent.STANDARD_AFFIX}{fileSuffix}')
-            status: int = self._runPdfDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+            status:           int = self._runPdfDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
         else:
             standardFileName = self._getFullyQualifiedImagePath(f'{baseName}{TestDiagramParent.STANDARD_AFFIX}{fileSuffix}')
-            status = self._runDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
+            status = self._runBinaryDiff(baseFileName=generatedFileName, standardFileName=standardFileName)
 
         self.assertTrue(status == 0, failMessage)
 
@@ -91,6 +93,18 @@ class TestDiagramParent(TestBase):
 
         fqFileName: str = UnitTestBase.getFullyQualifiedResourceFileName(TestDiagramParent.BASE_PDF_RESOURCE_PACKAGE_NAME, pdfFileName)
         return fqFileName
+
+    def _runBinaryDiff(self, baseFileName: str, standardFileName: str, diffProgram: str = EXTERNAL_DIFF_PROGRAM) -> int:
+
+        binaryDiffProgram: str = 'cmp '
+        command: str = f'{binaryDiffProgram} {baseFileName} {standardFileName}'
+        completedProcess: CompletedProcess = subProcessRun([command], shell=True, capture_output=True, text=True, check=False)
+
+        if DEBUG_FAILURE is True and completedProcess.returncode != 0:
+            self.logger.error(f'{completedProcess.stderr=}')
+            self.logger.error(f'{completedProcess.stdout=}')
+
+        return completedProcess.returncode
 
     def _runDiff(self, baseFileName: str, standardFileName: str, diffProgram: str = EXTERNAL_DIFF_PROGRAM) -> int:
 

@@ -10,7 +10,7 @@ readme      = "README.md"
 authors     = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
 maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
 keywords    = ['pyut', 'UML', 'Diagrams', 'Python',]
-license  = 'AGPL-1.0-or-later'
+license     = 'AGPL-1.0-or-later'
 
 classifiers = [
     "Intended Audience :: Developers",
@@ -39,22 +39,21 @@ test = [
 ]
 
 deploy = [
-    "wheel==0.46.2",
-    "setuptools==80.9.0",
-    "twine==6.1.0",
-    "build==1.4.0",
-    "pkginfo==1.12.1.2"
+    'wheel==0.46.2',
+    'setuptools==80.9.0',
+    'twine==6.1.0',
+    'build==1.4.0',
+    'pkginfo==1.12.1.2'
 ]
 
 [project.urls]
 Repository = 'https://github.com/hasii2011/pyumldiagrams'
 
-
 [tool.setuptools.packages.find]
 where = ['src']
 
 [tool.setuptools.package-data]
-pyumldiagrams                 = ['py.typed']
+pyumldiagrams = ['py.typed']
 
 [tool.setuptools.dynamic]
 version = {attr = 'pyumldiagrams.__version__'}
