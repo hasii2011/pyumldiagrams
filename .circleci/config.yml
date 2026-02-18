@@ -40,6 +40,7 @@ jobs:
                 pip install wheel
                 pip install setuptools
                 pip install six==1.16.0
+                pip install mypy==1.18.2
                 pip install mypy-extensions==1.1.0
                 pip install types-Deprecated==1.2.9.20240311
                 pip install html-testRunner
